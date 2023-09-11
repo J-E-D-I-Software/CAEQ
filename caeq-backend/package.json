@@ -1,0 +1,21 @@
+{
+    "name": "caeq-backend",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "test": "cross-env NODE_ENV=test && jest --forceExit --runInBand",
+        "start": "cross-env NODE_ENV=production node index.js",
+        "build": "cross-env NODE_ENV=production node index.js",
+        "start:dev": "nodemon index.js",
+        "start:prod": "cross-env NODE_ENV=production nodemon index.js"
+    },
+    "dependencies": {
+        "cookie-parser": "~1.4.4",
+        "debug": "~2.6.9",
+        "dotenv": "^16.3.1",
+        "express": "~4.16.1",
+        "http-errors": "~1.6.3",
+        "jade": "~1.11.0",
+        "morgan": "~1.9.1"
+    }
+}

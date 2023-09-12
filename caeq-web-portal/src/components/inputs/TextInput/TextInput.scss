@@ -1,0 +1,20 @@
+.label-input {
+    color: var(--Gray-CAEQ, #4d585e);
+    font-feature-settings: 'clig' off, 'liga' off;
+
+    /* text Input CAEQ */
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: 1.68px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.box-input {
+    border-radius: 20px;
+    border: 4px solid var(--Gray-CAEQ, #4d585e);
+    height: 30px;
+}

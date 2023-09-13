@@ -45,12 +45,12 @@ const CaeqUsuarioSchema = new mongoose.Schema({
 });
 
 // Indexing admin properties for optimized search
-CaeqUsuario.index({ correoElectronico: 1 });
+CaeqUsuarioSchema.index({ correoElectronico: 1 });
 
 // MIDDLEWARES
 /* This is a middleware that runs before the save() or create() method. It hashes the password and sets
 the passwordConfirm to undefined. */
-CaeqUsuario.pre('save', async function (next) {
+CaeqUsuarioSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         this.contrasena = await bcrypt.hash(this.contrasena, 12);
         // Mongoose wont save a field if it has been set to undefined.
@@ -61,7 +61,7 @@ CaeqUsuario.pre('save', async function (next) {
 
 /* This is a middleware that runs before the save() or create() method. Checks if the password has changed
 and updates the passwordChangedAt attribute. */
-CaeqUsuario.pre('save', async function (next) {
+CaeqUsuarioSchema.pre('save', async function (next) {
     if (!this.isModified('contrasena') || this.isNew) return next();
     else {
         this.contrasenaCambiada = Date.now() - 1000;
@@ -73,13 +73,16 @@ CaeqUsuario.pre('save', async function (next) {
 // Instance methods will be available in all document instances.
 
 /* This is a method that compares the candidate password with the user password. */
-CaeqUsuario.methods.correctPassword = async function (candidatePassword, userPassword) {
+CaeqUsuarioSchema.methods.correctPassword = async function (
+    candidatePassword,
+    userPassword
+) {
     // This refers to the document. Since select is false we dont have access to password.
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 /* Creating a password reset token and saving it in the database. */
-CaeqUsuario.methods.createPasswordResetToken = function () {
+CaeqUsuarioSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
 
     // We save the password reset token in the database.
@@ -96,7 +99,7 @@ CaeqUsuario.methods.createPasswordResetToken = function () {
 };
 
 /* This method checks if the password has been changed after the token was issued. */
-CaeqUsuario.methods.changedPasswordAfter = function (JWTTimestamp) {
+CaeqUsuarioSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt(this.contrasenaCambiada.getTime() / 1000, 10);
         return JWTTimestamp < changedTimestamp;
@@ -106,6 +109,6 @@ CaeqUsuario.methods.changedPasswordAfter = function (JWTTimestamp) {
     return false;
 };
 
-const CaeqUsuario = mongoose.model('caeq.usuario', admin);
+const CaeqUsuario = mongoose.model('caeq.usuario', CaeqUsuarioSchema);
 
 module.exports = CaeqUsuario;

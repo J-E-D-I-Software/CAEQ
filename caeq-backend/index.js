@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const { setUpDbWithMuckData } = require('./models/testdata.setup');
 const { connectDB, dropCollections, dropDB } = require('./tests/config/databaseTest');
 
 // Read env variables and save them
@@ -21,7 +22,9 @@ const DB = process.env.DATABASE.replace(
 
 // Connection to muckdb
 if (process.env.NODE_ENV === 'development') {
-    connectDB();
+    connectDB()
+        .then(() => setUpDbWithMuckData())
+        .then('Muck data loaded into db');
 } else {
     // Connection to real database
     mongoose

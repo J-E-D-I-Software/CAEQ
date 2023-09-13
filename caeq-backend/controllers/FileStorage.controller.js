@@ -1,17 +1,27 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require()
+const AppError = require('../utils/appError');
 const { format } = require('util');
 
-const firebase = require('../config/db');
-require('firebase/storage');
-const storage = firebase.storage().ref();
+const firebase = require('../config/db'); // reference to database
+require('firebase/storage'); // must be required for this to work
+const storage = firebase.storage().ref(); // create a reference to storage
 global.XMLHttpRequest = require('xhr2');
 const limits = {
-    files: 1,
-    fileSize: 10000 * 10000,
+    files: 1, //allow onlyy 1 file per request
+    fileSize: 10000 * 10000, // 10 MB (max file size)
 };
+
+
+/**
+ * 
+ * @param {File} object file object that will be uploaded
+ * @param {resource} string name of the type of resource 
+ * @description - this function does the following 
+ * - It uploads a file to storage as an argument with the 
+ *  "originalname" and "buffer" as keys
+ */
 
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;

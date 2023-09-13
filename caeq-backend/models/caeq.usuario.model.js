@@ -45,12 +45,12 @@ const CaeqUsuarioSchema = new mongoose.Schema({
 });
 
 // Indexing admin properties for optimized search
-adminSchema.index({ correoElectronico: 1 });
+CaeqUsuario.index({ correoElectronico: 1 });
 
 // MIDDLEWARES
 /* This is a middleware that runs before the save() or create() method. It hashes the password and sets
 the passwordConfirm to undefined. */
-adminSchema.pre('save', async function (next) {
+CaeqUsuario.pre('save', async function (next) {
     if (this.isModified('password')) {
         this.contrasena = await bcrypt.hash(this.contrasena, 12);
         // Mongoose wont save a field if it has been set to undefined.
@@ -61,7 +61,7 @@ adminSchema.pre('save', async function (next) {
 
 /* This is a middleware that runs before the save() or create() method. Checks if the password has changed
 and updates the passwordChangedAt attribute. */
-adminSchema.pre('save', async function (next) {
+CaeqUsuario.pre('save', async function (next) {
     if (!this.isModified('contrasena') || this.isNew) return next();
     else {
         this.contrasenaCambiada = Date.now() - 1000;
@@ -73,13 +73,13 @@ adminSchema.pre('save', async function (next) {
 // Instance methods will be available in all document instances.
 
 /* This is a method that compares the candidate password with the user password. */
-adminSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+CaeqUsuario.methods.correctPassword = async function (candidatePassword, userPassword) {
     // This refers to the document. Since select is false we dont have access to password.
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 /* Creating a password reset token and saving it in the database. */
-adminSchema.methods.createPasswordResetToken = function () {
+CaeqUsuario.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
 
     // We save the password reset token in the database.
@@ -96,7 +96,7 @@ adminSchema.methods.createPasswordResetToken = function () {
 };
 
 /* This method checks if the password has been changed after the token was issued. */
-adminSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+CaeqUsuario.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt(this.contrasenaCambiada.getTime() / 1000, 10);
         return JWTTimestamp < changedTimestamp;

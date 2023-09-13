@@ -19,7 +19,7 @@ const DB = process.env.DATABASE.replace(
     process.env.DATABASE_PASSWORD
 ).replace('<user>', process.env.DATABASE_USER);
 
-// Muck-DataBase
+// Connection to muckdb
 if (process.env.NODE_ENV === 'development') {
     connectDB();
 } else {
@@ -39,7 +39,6 @@ const app = require(`${__dirname}/app.js`);
 
 const port = 5000;
 
-// app.listen nos regresa un objeto de
 const server = app.listen(port, () => {
     console.log(`Server running on ${port}...`);
 });

@@ -14,18 +14,25 @@ process.on('unhandledException', (err) => {
     process.exit(1);
 });
 
-// Connect using mongoose
-const DB = process.env.DATABASE.replace(
-    '<password>',
-    process.env.DATABASE_PASSWORD
-).replace('<user>', process.env.DATABASE_USER);
-
 // Connection to muckdb
 if (process.env.NODE_ENV === 'development') {
     connectDB()
         .then(() => setUpDbWithMuckData())
         .then('Muck data loaded into db');
+
+    // Connect using mongoose
 } else {
+    let DB = process.env.DATABASE_PROD.replace(
+        '<password>',
+        process.env.DATABASE_PASSWORD
+    ).replace('<user>', process.env.DATABASE_USER);
+
+    if (process.env.NODE_ENV === 'production') {
+        DB = DB.replace('<database>', process.env.DATABASE_NAME_PROD);
+    } else {
+        DB = DB.replace('<database>', process.env.DATABASE_NAME_TEST);
+    }
+
     // Connection to real database
     mongoose
         .connect(DB, {
@@ -33,7 +40,11 @@ if (process.env.NODE_ENV === 'development') {
             useUnifiedTopology: true,
         })
         .then((con) => {
-            console.log('Connection to DB successful');
+            console.log(`Connection to ${process.env.NODE_ENV} DB successful`);
+
+            if (process.env.NODE_ENV === 'testing') {
+                return setUpDbWithMuckData();
+            }
         })
         .catch((err) => console.log('Connection to DB rejected', err));
 }

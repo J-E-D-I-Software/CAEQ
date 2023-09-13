@@ -4,6 +4,11 @@ import TextInput from './components/inputs/TextInput/TextInput';
 import LargeTextInput from './components/inputs/TextInput/LargeTextInput';
 import DateInput from './components/inputs/DateInput/DateInput';
 import HiddenTextInput from './components/inputs/TextInput/HiddenTextInput';
+import InfoBox from './components/cards/InfoBox';
+import Table from './components/table/Table';
+import InteractiveTable from './components/table/InteractiveTable';
+
+
 import { useState } from 'react';
 
 function App() {
@@ -39,6 +44,10 @@ function App() {
                 label='Password'
                 placeholder='Contraseña de 8 a 16 caracteres'
             />
+
+            <InfoBox />
+            <Table/>
+            <InteractiveTable/>
 
         </div>
     );

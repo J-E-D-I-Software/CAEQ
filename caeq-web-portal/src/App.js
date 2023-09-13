@@ -4,11 +4,15 @@ import TextInput from './components/inputs/TextInput/TextInput';
 import LargeTextInput from './components/inputs/TextInput/LargeTextInput';
 import DateInput from './components/inputs/DateInput/DateInput';
 import HiddenTextInput from './components/inputs/TextInput/HiddenTextInput';
+import DropdownInput from './components/inputs/DropdownInput/DropdownInput';
+import FileInput from './components/inputs/FileInput/FileInput';
 import { useState } from 'react';
 
 function App() {
     const [inputVal, setVal] = useState('');
     const [inputVal1, setVal2] = useState('');
+    const [inputVal2, setVal3] = useState('');
+    const options = ['Hombre', 'Mujer','Prefiero no decirlo'];
 
     return (
         <div className='App'>
@@ -17,6 +21,7 @@ function App() {
                 <h1>Componentes</h1>
                 <p>{inputVal}</p>
                 <p>{inputVal1}</p>
+                <p>{inputVal2}</p>
             </WhiteContainer>
             <TextInput
                 label='Text'
@@ -39,7 +44,15 @@ function App() {
                 label='Password'
                 placeholder='Contraseña de 8 a 16 caracteres'
             />
-
+            <DropdownInput
+                label='Select an option:'
+                options={options}
+            />
+            <FileInput
+                label='File'
+                getVal={inputVal2}
+                setVal={setVal3}
+            />
         </div>
     );
 }

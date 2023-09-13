@@ -8,7 +8,7 @@ const HiddenTextInput = ({ label, placeholder, ...props }) => {
         <label>
             <div className='label-input'>{label}</div>
             <input
-                className='box-input'
+                className='fused-box-input'
                 type={isToggled ? 'text' : 'password'}
                 placeholder={placeholder}
                 {...props}

@@ -37,20 +37,25 @@
     resize: none;
 }
 
-.button {
-    font-family: Montserrat;
-    font-size: 18px;
-    border-radius: 20px;
-    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+.fused-box-input {
     width: auto;
-    height: auto;
-    margin-left:10px;
+    padding: 10px;
     border: none;
-    transition-duration: 0.4s;
-    cursor:pointer;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+.button {
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    border: none;
+    border-radius: 20px;
+    padding: 13px 20px;
+    margin-left: 0px;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
 }
 
 .button:hover {
-    background-color: #c6c6c6;
-    color: white;
+    background-color: #bebebe;
 }

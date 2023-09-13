@@ -3,6 +3,9 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongo = null;
 
+/**
+ * Establishes a connection to a local in-memory MongoDB server.
+ */
 const connectDB = async () => {
     mongo = await MongoMemoryServer.create();
     const uri = mongo.getUri();
@@ -13,6 +16,9 @@ const connectDB = async () => {
     console.log('Connection to local MongoDB successful');
 };
 
+/**
+ * Drops the database and closes the connection to the local in-memory MongoDB server.
+ */
 const dropDB = async () => {
     if (mongo) {
         await mongoose.connection.dropDatabase();
@@ -22,6 +28,9 @@ const dropDB = async () => {
     }
 };
 
+/**
+ * Drops all collections in the database.
+ */
 const dropCollections = async () => {
     if (mongo) {
         const collections = await mongoose.connection.db.collections();

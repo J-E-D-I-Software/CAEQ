@@ -1,0 +1,67 @@
+@import "../../styles/styles.scss";
+
+.button {
+  width: 245px;
+  height: 43px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 4px solid #000;
+  border-left: 1px solid #000;
+  background: #eff9f0;
+  padding: 10px;
+  /* Text Button CAEQ */
+  font-family: Montserrat;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 1.615px;
+}
+
+.button:hover {
+  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+  transform: translateY(-3px); /* Elevación al pasar el ratón */
+}
+
+.button-primary {
+  color: #eff9f0;
+  background-color: #eea300;
+}
+
+.button-primary:hover {
+  background-color: #fab82b; /* Cambio de color al pasar el ratón */
+}
+
+.button-success {
+  color: #eff9f0;
+  background-color: #136f63;
+}
+
+.button-success:hover {
+  background-color: #0f9c89; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}
+
+.button-fail {
+  color: #eff9f0;
+  background-color: #ab3428;
+}
+
+.button-fail {
+  color: #eff9f0;
+  background-color: #ab3428;
+}
+
+.button-fail:hover {
+  background-color: #c73c2f; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}
+
+.button-disabled {
+  color: #eff9f0;
+  background-color: #4d585e;
+}
+
+.button-disabled:hover {
+  background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}

@@ -4,6 +4,11 @@ import TextInput from './components/inputs/TextInput/TextInput';
 import LargeTextInput from './components/inputs/TextInput/LargeTextInput';
 import DateInput from './components/inputs/DateInput/DateInput';
 import HiddenTextInput from './components/inputs/TextInput/HiddenTextInput';
+import InfoBox from './components/cards/InfoBox';
+import Table from './components/table/Table';
+import InteractiveTable from './components/table/InteractiveTable';
+
+
 import DropdownInput from './components/inputs/DropdownInput/DropdownInput';
 import FileInput from './components/inputs/FileInput/FileInput';
 import { useState } from 'react';
@@ -53,6 +58,10 @@ function App() {
                 getVal={inputVal2}
                 setVal={setVal3}
             />
+            <InfoBox />
+            <Table/>
+            <InteractiveTable/>
+
         </div>
     );
 }

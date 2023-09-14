@@ -1,0 +1,38 @@
+.tabla-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Espacio vertical entre filas */
+}
+
+.tabla th,
+.tabla td {
+  padding: 8px;
+  text-align: left;
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.tabla th {
+  background-color: #062E52;
+  color: #fff;
+}
+
+.fila-sombrada:nth-child(even) {
+  background: rgba(6, 46, 82, 0.15);/* Color de fondo para filas pares */
+}
+
+.fila-sombrada {
+  background-color: #fff; /* Color de fondo para filas impares */
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2); /* Sombra entre filas */
+  transition: background-color 0.5s, transform 0.3s; /* Transición al pasar el ratón */
+}
+
+.fila-sombrada:hover {
+  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+  transform: translateY(-3px); /* Elevación al pasar el ratón */
+}
+

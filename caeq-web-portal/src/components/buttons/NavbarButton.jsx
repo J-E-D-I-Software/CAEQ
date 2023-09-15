@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./BaseButton";
-import HomeIcon from "../icons/home.png"; // Asegúrate de que la ruta sea correcta
 
-const NavbarButton = ({ label, type, action }) => {
+const NavbarButton = ({ label, type, action, icon }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = (e) => {
@@ -17,8 +16,7 @@ const NavbarButton = ({ label, type, action }) => {
     <button onClick={handleClick} className={buttonClassName}>
       <div className="button-content">
         <div className="icon">
-          <img src={HomeIcon} alt="Home Icon" />
-          {/* Utiliza el archivo como fuente */}
+          <img src={icon} alt={`${label} Icon`} /> {/* Utiliza el icono proporcionado como prop */}
         </div>
         <div className="label">{label}</div>
       </div>

@@ -1,9 +1,11 @@
 const dotenv = require('dotenv');
+const functions = require('firebase-functions');
 const mongoose = require('mongoose');
+const { setUpDbWithMuckData } = require('./models/testdata.setup');
 const { connectDB, dropCollections, dropDB } = require('./tests/config/databaseTest');
 
 // Read env variables and save them
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './.env' });
 
 // Error catching
 process.on('unhandledException', (err) => {
@@ -13,16 +15,25 @@ process.on('unhandledException', (err) => {
     process.exit(1);
 });
 
-// Connect using mongoose
-const DB = process.env.DATABASE.replace(
-    '<password>',
-    process.env.DATABASE_PASSWORD
-).replace('<user>', process.env.DATABASE_USER);
-
 // Connection to muckdb
 if (process.env.NODE_ENV === 'development') {
-    connectDB();
+    connectDB()
+        .then(() => setUpDbWithMuckData())
+        .then('Muck data loaded into db');
+
+    // Connect using mongoose
 } else {
+    let DB = process.env.DATABASE_CONNECTION.replace(
+        '<password>',
+        process.env.DATABASE_PASSWORD
+    ).replace('<user>', process.env.DATABASE_USER);
+
+    if (process.env.NODE_ENV === 'production') {
+        DB = DB.replace('<database>', process.env.DATABASE_NAME_PROD);
+    } else {
+        DB = DB.replace('<database>', process.env.DATABASE_NAME_TEST);
+    }
+
     // Connection to real database
     mongoose
         .connect(DB, {
@@ -30,14 +41,18 @@ if (process.env.NODE_ENV === 'development') {
             useUnifiedTopology: true,
         })
         .then((con) => {
-            console.log('Connection to DB successful');
+            console.log(`Connection to ${process.env.NODE_ENV} DB successful`);
+
+            if (process.env.NODE_ENV === 'testing') {
+                return setUpDbWithMuckData();
+            }
         })
         .catch((err) => console.log('Connection to DB rejected', err));
 }
 
 const app = require(`${__dirname}/app.js`);
 
-const port = 5000;
+const port = process.env.SERVER_PORT || 5000;
 
 const server = app.listen(port, () => {
     console.log(`Server running on ${port}...`);
@@ -68,3 +83,9 @@ process.on('SIGTERM', () => {
         });
     }
 });
+
+if (process.env.NODE_ENV === 'production') {
+    exports.prod = functions.https.onRequest(app);
+} else {
+    exports.test = functions.https.onRequest(app);
+}

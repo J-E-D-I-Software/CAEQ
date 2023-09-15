@@ -3,19 +3,24 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
+        "update-env": "node ./utils/updateEnv.js",
         "test": "cross-env NODE_ENV=test && jest --forceExit --runInBand",
-        "start": "cross-env NODE_ENV=production node index.js",
-        "start:test": "cross-env NODE_ENV=testing node index.js",
+        "start": "cross-env node index.js",
         "start:dev": "cross-env NODE_ENV=development nodemon index.js",
-        "start:prod": "cross-env NODE_ENV=production nodemon index.js"
+        "start:test": "cross-env NODE_ENV=testing nodemon index.js",
+        "start:prod": "cross-env NODE_ENV=production nodemon index.js",
+        "deploy-prod": "npm run update-env production && firebase deploy --only functions:prod",
+        "deploy-test": "npm run update-env testing && firebase deploy --only functions:test"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "cookie-parser": "~1.4.4",
         "cross-env": "^7.0.3",
         "debug": "~2.6.9",
         "dotenv": "^16.3.1",
         "express": "~4.16.1",
         "express-mongo-sanitize": "^2.2.0",
+        "firebase-functions": "^4.4.1",
         "http-errors": "~1.6.3",
         "jade": "~1.11.0",
         "mongodb": "^6.0.0",
@@ -29,6 +34,7 @@
         "firebase-admin": "^9.10.0",
         "multer": "^1.4.2",
         "xhr2": "^0.2.1",
-        "@google-cloud/storage": "^5.8.5"
+        "@google-cloud/storage": "^5.8.5",
+        "validator": "^13.11.0"
     }
 }

@@ -1,5 +1,3 @@
-@import "../../styles/styles.scss";
-
 .button {
   width: 200px;
   height: 45px;
@@ -8,7 +6,6 @@
   background: #eff9f0;
   padding: 15px;
   /* Text Button CAEQ */
-  font-family: Montserrat;
   font-size: 17px;
   font-style: normal;
   font-weight: 800;
@@ -21,6 +18,11 @@
   justify-content: center; 
   cursor: pointer;
   transition: background-color 0.3s ease; 
+}
+
+.active {
+  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+  transform: translateY(-3px);
 }
 
 .button:hover {

@@ -19,12 +19,18 @@ function App() {
 
     return (
         <div className='App'>
-            {admins.map((admin) => (
+            {admins.length === 0 ? (
                 <WhiteContainer>
-                    <h1>{admin.fullName}</h1>
-                    <h1>{admin.email}</h1>
+                    <h1>Sin admins</h1>
                 </WhiteContainer>
-            ))}
+            ) : (
+                admins.map((admin) => (
+                    <WhiteContainer>
+                        <h1>{admin.fullName}</h1>
+                        <h1>{admin.email}</h1>
+                    </WhiteContainer>
+                ))
+            )}
         </div>
     );
 }

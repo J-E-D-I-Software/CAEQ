@@ -76,3 +76,12 @@ const createUpload = () => {
     return multer({ storage: multerStorage, filter: multerFilter, limits: limits});
 };
 
+exports.formatCourseImage = catchAsync(async (req, res, next) => {
+    if(!req.file) return next();
+
+    req.body.imageUrl = await uploadImage(req.file, 'image');
+
+    next();
+});
+
+exports.uploadCourseImage = createUpload().single('courseImage');

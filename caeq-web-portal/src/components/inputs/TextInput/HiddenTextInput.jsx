@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./TextInput.scss";
 
-const HiddenTextInput = ({ label, placeholder, ...props }) => {
+const HiddenTextInput = ({ label, getVal, setVal, placeholder, ...props }) => {
   const [isToggled, setIsToggled] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ const HiddenTextInput = ({ label, placeholder, ...props }) => {
         type={isToggled ? "text" : "password"}
         placeholder={placeholder}
         {...props}
+        value={getVal}
       />
       <button className="button" onClick={() => setIsToggled(!isToggled)}>
         <img

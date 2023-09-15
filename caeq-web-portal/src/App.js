@@ -12,6 +12,8 @@ import DropdownInput from "./components/inputs/DropdownInput/DropdownInput";
 import FileInput from "./components/inputs/FileInput/FileInput";
 import { useState } from "react";
 import BaseButton from "./components/buttons/BaseButton";
+import NavbarButton from "./components/buttons/NavbarButton";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   const [inputVal, setVal] = useState("");
@@ -55,6 +57,9 @@ function App() {
       <BaseButton label="Botón" type="success" />
       <BaseButton label="Botón" type="fail" />
       <BaseButton label="Botón" type="disabled" />
+      <NavbarButton label="Botón" type="navbar" />
+      <Navbar/>
+
     </div>
   );
 }

@@ -1,16 +1,12 @@
 @import "../../styles/styles.scss";
 
 .button {
-  width: 245px;
-  height: 43px;
+  width: 200px;
+  height: 45px;
   flex-shrink: 0;
   border-radius: 18px;
-  border-top: 1px solid #000;
-  border-right: 1px solid #000;
-  border-bottom: 4px solid #000;
-  border-left: 1px solid #000;
   background: #eff9f0;
-  padding: 10px;
+  padding: 15px;
   /* Text Button CAEQ */
   font-family: Montserrat;
   font-size: 17px;
@@ -18,6 +14,13 @@
   font-weight: 800;
   line-height: normal;
   letter-spacing: 1.615px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
 }
 
 .button:hover {
@@ -25,11 +28,18 @@
   transform: translateY(-3px); /* Elevación al pasar el ratón */
 }
 
-.button-primary {
-  color: #eff9f0;
-  background-color: #eea300;
+.button-navbar:active {
+  color: #e0e0e0; 
 }
 
+.button-.button-navbar:not(:active) {
+  color: #000000; 
+}
+
+.button-primary {
+  background-color: #eea300;
+  color: #ffffff; 
+}
 .button-primary:hover {
   background-color: #fab82b; /* Cambio de color al pasar el ratón */
 }
@@ -64,4 +74,25 @@
 
 .button-disabled:hover {
   background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}
+
+.button-navbar {
+  background-color: #eff9f0;
+  width: 200px;
+  height: 45px;
+  border-radius: 10px; /* Reducir la redondez del borde */
+}
+
+.button-navbar:hover {
+  background-color: #fab82b; /* Cambio de color al pasar el ratón */
+}
+
+/* Estilos para icono y etiqueta */
+.button-content {
+  text-align: center; 
+  flex-grow: 2;
+}
+
+.icon img {
+  max-width: 24px; 
 }

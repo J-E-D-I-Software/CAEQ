@@ -5,7 +5,7 @@ const router = express.Router();
 
 const {
     testFile,
-} = require(`${__dirname}/../controllers/files.controller.js`);
+} = require(`${__dirname}/../controllers/course.controller.js`);
 const fileParser = require('/utils/multipartParser');
 
 

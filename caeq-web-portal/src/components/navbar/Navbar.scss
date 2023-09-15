@@ -1,14 +1,17 @@
-.navbar-horizontal {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    //background-color: #333; 
-    padding: 10px; /* Espacio alrededor de los botones */
-    
-  }
-  
-  .navbar-horizontal .button {
-    margin-right: 20px; /* Espacio entre los botones */
-  }
-  
-  
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-center {
+  display: flex;
+  flex-direction: row;
+  gap: 50px; 
+  justify-content: center;
+}
+
+.navbar-button {
+  align-self: flex-end; /* Alinea el botón de "Cerrar sesión" a la derecha */
+  margin-bottom: 20px; /* Aumenta el espacio vertical entre el botón de "Cerrar sesión" y los botones del centro */
+}

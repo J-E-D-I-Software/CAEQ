@@ -57,7 +57,7 @@ function App() {
       <BaseButton label="Botón" type="success" />
       <BaseButton label="Botón" type="fail" />
       <BaseButton label="Botón" type="disabled" />
-      <NavbarButton label="Botón" type="navbar" />
+      {/* <NavbarButton label="Botón" type="navbar" /> */}
       <Navbar/>
 
     </div>

@@ -5,8 +5,8 @@ const BaseButton = ({ label, type, action }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = (e) => {
-    e.preventDefault();
-    action(e);
+    // e.preventDefault();
+    // action(e);
     setIsActive(!isActive); // Toggle the active state
   };
 

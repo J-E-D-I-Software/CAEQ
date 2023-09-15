@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const app = require(`${__dirname}/app.js`);
 
-const port = 5000;
+const port = process.env.SERVER_PORT || 5000;
 
 const server = app.listen(port, () => {
     console.log(`Server running on ${port}...`);

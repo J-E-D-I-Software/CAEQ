@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 // Routers
+const fileTestRouter = require('./routes/files.route');
 const userRouter = require('./routes/caeq.user.route');
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/caequsers', userRouter);
+app.use('/filetest', fileTestRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

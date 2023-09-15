@@ -1,4 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
+const sharp = require('sharp');
 const AppError = require('../utils/appError');
 const { format } = require('util');
 
@@ -26,7 +27,7 @@ const uploadImage = async (file, resource) => {
 
     const timestamp = Date.now();
     const name = originalname.split('.')[0];
-    const type = originalname.split('.')[1];
+    const type = file.mimetype.split('/')[1];
     const fileName = `${name}_${resource}_${timestamp}.${type}`;
 
     const imageRef = storage.child(fileName);
@@ -37,35 +38,6 @@ const uploadImage = async (file, resource) => {
 
     return downloadURL;
 };
-
-/**
- * This function creates a multer object that will be used to upload images to the server.
- * @returns an object with two properties: storage and filter.
- */
-// const createUpload = () => {
-//     const multerStorage = multer.memoryStorage();
-
-//     const multerFilter = (req, file, cb) => {
-//         if (file.mimetype.startsWith('image')) {
-//             cb(null, true);
-//         } else {
-//             cb(
-//                 new AppError('El archivo no es una imagen. Intenta de nuevo.', 404),
-//                 false
-//             );
-//         }
-//         if (file.size <= limits.fileSize) {
-//             cb(null, true);
-//         } else {
-//             cb(
-//                 new AppError('La imagen pesa más de 10 MB. Intenta de nuevo.', 404),
-//                 false
-//             );
-//         }
-//     };
-
-//     return multer({ storage: multerStorage, filter: multerFilter, limits: limits });
-// };
 
 exports.formatCourseImage = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
@@ -80,5 +52,3 @@ exports.formatCourseImage = catchAsync(async (req, res, next) => {
     // Use next when you need the url in the next controllers. Delete the response from above.
     // next();
 });
-
-// exports.uploadCourseImage = createUpload().single('courseImage');

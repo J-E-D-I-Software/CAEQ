@@ -66,24 +66,21 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 } else req.body[fieldname] = value;
             });
 
-            busboy.on(
-                'file',
-                (fieldname, file, filename, encodign, mimetype) => {
-                    let fileBuffer = Buffer.from('');
-                    file.on('data', (data) => {
-                        fileBuffer = Buffer.concat([fileBuffer, data]);
-                    });
-                    file.on('end', () =>
-                        req.files.push({
-                            fieldname,
-                            originalname: filename,
-                            encodign,
-                            mimetype,
-                            buffer: fileBuffer,
-                        })
-                    );
-                }
-            );
+            busboy.on('file', (fieldname, file, filename, encodign, mimetype) => {
+                let fileBuffer = Buffer.from('');
+                file.on('data', (data) => {
+                    fileBuffer = Buffer.concat([fileBuffer, data]);
+                });
+                file.on('end', () =>
+                    req.files.push({
+                        fieldname,
+                        originalname: filename,
+                        encodign,
+                        mimetype,
+                        buffer: fileBuffer,
+                    })
+                );
+            });
 
             busboy.on('finish', () => {
                 if (req.files.length > 0) {

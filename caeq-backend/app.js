@@ -26,8 +26,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/caequsers', userRouter);
 app.use('/filetest', fileTestRouter);
+app.use('/caequsers', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -36,7 +36,8 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-    res.status(201).json({
+    console.log(err);
+    res.status(500).json({
         status: 'success',
         data: {
             documents: ['hola', 'soy', 'el', 'back'],

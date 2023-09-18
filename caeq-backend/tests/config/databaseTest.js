@@ -32,10 +32,10 @@ const dropDB = async () => {
  * Drops all collections in the database.
  */
 const dropCollections = async () => {
-    if (mongo) {
+    if (mongo || mongoose.connection.readyState === 1) {
         const collections = await mongoose.connection.db.collections();
         for (let collection of collections) {
-            await collection.remove();
+            await collection.deleteMany({});
         }
         console.log('Collections dropped');
     }

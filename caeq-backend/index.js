@@ -40,11 +40,15 @@ if (process.env.NODE_ENV === 'development') {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
-        .then((con) => {
+        .then(async (con) => {
             console.log(`Connection to ${process.env.NODE_ENV} DB successful`);
 
             if (process.env.NODE_ENV === 'testing') {
-                return setUpDbWithMuckData();
+                try {
+                    await setUpDbWithMuckData();
+                } catch (error) {
+                    console.log(error);
+                }
             }
         })
         .catch((err) => console.log('Connection to DB rejected', err));

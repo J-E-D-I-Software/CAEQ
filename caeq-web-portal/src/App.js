@@ -1,24 +1,40 @@
 import { useState, useEffect } from 'react';
 import { getCaeqUsers } from './client/CaeqUser/CaeqUser.GET';
 import WhiteContainer from './components/containers/WhiteCard/WhiteCard';
+import { FireError, FireQuestion, FireSucess } from './utils/alertHandler';
 
 function App() {
     const [admins, setAdmins] = useState([]);
+    const [response, setResponse] = useState(true);
 
     useEffect(() => {
         (async () => {
             try {
-                const caeqUsers = await getCaeqUsers();
+                const confirmation = await FireQuestion(
+                    '¿Está seguro de que desea obtener a los administradores?',
+                    'Podrás ver todos los datos.'
+                );
+                setResponse(confirmation.isConfirmed);
 
-                setAdmins(caeqUsers);
+                if (confirmation.isConfirmed) {
+                    const caeqUsers = await getCaeqUsers();
+                    setAdmins(caeqUsers);
+
+                    FireSucess('Los administradores fueorn obtenidos con éxito.');
+                }
             } catch (error) {
-                console.log(error);
+                FireError(error.response.data.message);
             }
         })();
     }, []);
 
     return (
         <div className='App'>
+            <p>
+                {response
+                    ? 'Se quieren ver a los admins'
+                    : 'No se quiere evr a los admins'}
+            </p>
             {admins.length === 0 ? (
                 <WhiteContainer>
                     <h1>Sin admins</h1>

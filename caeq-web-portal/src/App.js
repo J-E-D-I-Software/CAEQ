@@ -12,6 +12,7 @@ import DropdownInput from "./components/inputs/DropdownInput/DropdownInput";
 import FileInput from "./components/inputs/FileInput/FileInput";
 import { useState } from "react";
 import BaseButton from "./components/buttons/BaseButton";
+import ToggleSlider from "./components/ToggleSlider/ToggleSlider";
 
 function App() {
   const [inputVal, setVal] = useState("");
@@ -55,6 +56,7 @@ function App() {
       <BaseButton label="Botón" type="success" />
       <BaseButton label="Botón" type="fail" />
       <BaseButton label="Botón" type="disabled" />
+      <ToggleSlider />
     </div>
   );
 }

@@ -13,7 +13,7 @@ export function FireError(message) {
         title: '¡Error!',
         icon: 'error',
         text: message,
-        confirmButtonColor: '#002b49',
+        confirmButtonColor: '#AB3428',
     });
 }
 
@@ -27,7 +27,7 @@ export function FireSucess(message) {
         title: '¡Éxito!',
         icon: 'success',
         text: message,
-        confirmButtonColor: '#002b49',
+        confirmButtonColor: '#136F63',
     });
 }
 
@@ -50,8 +50,8 @@ export async function FireQuestion(
         text: warning,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#002b49',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#EEA300',
+        cancelButtonColor: '#AB3428',
         confirmButtonText: confirmText,
         cancelButtonText: rejectText,
     });

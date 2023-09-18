@@ -5,7 +5,7 @@ const { connectDB } = require('../config/databaseTest');
 const agent = request.agent(app);
 
 const testPostCaeqUsers = async () => {
-    const endpoint = '/api/v1/users/user';
+    const endpoint = '/caequsers';
     
     let res = await agent
         .post(endpoint)

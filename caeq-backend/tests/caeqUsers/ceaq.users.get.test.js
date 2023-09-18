@@ -7,25 +7,27 @@ const User = require('../../models/caeq.user.model');
 const agent = request.agent(app);
 
 const testGetAllCaeqUsers = async () => {
+    const endpoint = '/caequsers';
     const res = await agent
-        .get('/api/v1/users')
+        .get(endpoint)
         .send();
     
-    console.log(res.body.data.documents);
+    console.log(res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body.results).toEqual(8);
     
 };
 
 const testGetCaeqUser = async () => {
+    const endpoint = '/caequsers';
     let res = await agent
-        .get('/api/v1/users/3454534534534535345')
+        .get(`${endpoint}/3454534534`)
         .send();
     
     expect(res.statusCode).toEqual(404);
     
     res = await agent
-        .get('/api/v1/users/3454534534534535345')
+        .get(`${endpoint}/3454534534`)
         .send();
     
     expect(res.statusCode).toEqual(404);

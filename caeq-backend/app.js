@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// App error
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/error.controller');
+
 // Routers
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user.route');
@@ -24,19 +28,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/v1/users', userRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
+// Error handler for unhandled routes
+app.all('*', (req, res, next) => {
+    const error = new AppError(
+        `Can't find ${req.originalUrl} on this server`,
+        404
+    );
+
+    next(error);
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    res.status(201).json({
-        status: 'success',
-        data: {
-            documents: ['hola', 'soy', 'el', 'back'],
-        },
-    });
-});
+app.use(globalErrorHandler);
 
 module.exports = app;

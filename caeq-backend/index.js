@@ -44,8 +44,11 @@ if (process.env.NODE_ENV === 'development') {
             console.log(`Connection to ${process.env.NODE_ENV} DB successful`);
 
             if (process.env.NODE_ENV === 'testing') {
-                await dropCollections();
-                await setUpDbWithMuckData();
+                try {
+                    await setUpDbWithMuckData();
+                } catch (error) {
+                    console.log(error);
+                }
             }
         })
         .catch((err) => console.log('Connection to DB rejected', err));

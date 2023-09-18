@@ -1,18 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
 
 // App error
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error.controller');
 
 // Routers
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user.route');
+const userRouter = require('./routes/caeq.user.route');
 
-var app = express();
+const app = express();
+
+app.use(cors());
+app.options('*', cors());
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,8 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', indexRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/caequsers', userRouter);
 
 // Error handler for unhandled routes
 app.all('*', (req, res, next) => {

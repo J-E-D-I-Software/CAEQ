@@ -30,6 +30,11 @@ function App() {
 
     return (
         <div className='App'>
+            <p>
+                {response
+                    ? 'Se quieren ver a los admins'
+                    : 'No se quiere evr a los admins'}
+            </p>
             {admins.length === 0 ? (
                 <WhiteContainer>
                     <h1>Sin admins</h1>

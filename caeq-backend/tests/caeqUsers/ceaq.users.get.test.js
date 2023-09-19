@@ -1,8 +1,8 @@
 const request = require('supertest');
-const { connectDB, dropCollections } = require('../config/databaseTest');
+const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
+const CaeqUser = require('../../models/caeq.user.model');
 const app = require('../../app');
-const User = require('../../models/caeq.user.model');
 
 const agent = request.agent(app);
 
@@ -12,10 +12,8 @@ const testGetAllCaeqUsers = async () => {
         .get(endpoint)
         .send();
     
-    console.log(res.body);
     expect(res.statusCode).toEqual(200);
-    expect(res.body.results).toEqual(8);
-    
+    expect(res.body.results).toEqual(10);
 };
 
 const testGetCaeqUser = async () => {
@@ -23,14 +21,18 @@ const testGetCaeqUser = async () => {
     let res = await agent
         .get(`${endpoint}/3454534534`)
         .send();
+
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual('Inválido _id: 3454534534');
     
-    expect(res.statusCode).toEqual(404);
-    
+    let users = CaeqUser.find();
+    users.getFilter();
+    users = await users.exec();
     res = await agent
-        .get(`${endpoint}/3454534534`)
+        .get(`${endpoint}/${users[0]._id}`)
         .send();
-    
-    expect(res.statusCode).toEqual(404);
+
+    expect(res.statusCode).toEqual(200);
 };
 
 beforeAll(async () => {

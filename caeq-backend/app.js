@@ -39,9 +39,7 @@ app.use(function (err, req, res, next) {
     console.log(err);
     res.status(500).json({
         status: 'success',
-        data: {
-            documents: ['hola', 'soy', 'el', 'back'],
-        },
+        error: err,
     });
 });
 

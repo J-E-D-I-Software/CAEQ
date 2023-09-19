@@ -42,7 +42,6 @@ const uploadImage = async (file, resource) => {
 const uploadPDF = async (file, resource) => {
     let { originalname, buffer } = file;
 
-
     const timestamp = Date.now();
     const name = originalname.split('.')[0];
     const type = file.mimetype.split('/')[1];
@@ -57,7 +56,7 @@ const uploadPDF = async (file, resource) => {
     return downloadURL;
 };
 
-exports.formatCourseImage = catchAsync(async (req, res, next) => {
+exports.formatImage = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
     req.body.imageUrl = await uploadImage(req.file, 'image');
@@ -71,11 +70,16 @@ exports.formatCourseImage = catchAsync(async (req, res, next) => {
     // next();
 });
 
-/*
-exports.formatPDF = catchAsync(async ( req, res, next) => {
+exports.formatPDF = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
     req.body.pdfUrl = await uploadPDF(req.file, 'pdf');
-    
-})
-*/
+
+    res.status(200).json({
+        message: 'Archivo subido con exito',
+        imageDownloadUrl: req.body.pdfUrl,
+    });
+
+    // Use next when you need the url in the next controllers. Delete the response from above.
+    // next();
+});

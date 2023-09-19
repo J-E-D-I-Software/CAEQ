@@ -1,0 +1,28 @@
+{
+    "functions": [
+        {
+            "source": "../caeq-backend",
+            "codebase": "prod",
+            "ignore": [
+                "node_modules",
+                ".git",
+                "firebase-debug.log",
+                "firebase-debug.*.log",
+                "example.env"
+            ],
+            "runtime": "nodejs16"
+        },
+        {
+            "source": "./",
+            "codebase": "test",
+            "ignore": [
+                "node_modules",
+                ".git",
+                "firebase-debug.log",
+                "firebase-debug.*.log",
+                "example.env"
+            ],
+            "runtime": "nodejs16"
+        }
+    ]
+}

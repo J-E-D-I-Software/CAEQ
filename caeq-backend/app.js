@@ -4,6 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Read env variables and save them
+dotenv.config({ path: './.env' });
 
 // App error
 const AppError = require('./utils/appError');

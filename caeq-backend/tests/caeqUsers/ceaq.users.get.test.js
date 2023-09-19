@@ -16,6 +16,15 @@ const testGetAllCaeqUsers = async () => {
     expect(res.body.results).toEqual(10);
 };
 
+const testGetAllCaeqUsersWithParams = (paramKey, paramValue) => async () => {
+    const endpoint = `/caequsers?${paramKey}=${paramValue}`;
+    const res = await agent
+        .get(endpoint)
+        .send();
+    
+    expect(res.statusCode).toEqual(200);
+};
+
 const testGetCaeqUser = async () => {
     const endpoint = '/caequsers';
     let res = await agent
@@ -43,4 +52,6 @@ beforeAll(async () => {
 describe('Caeq User GET', () => {
     test('successful', () => testGetAllCaeqUsers());
     test('successful', () => testGetCaeqUser());
+    test('successful', testGetAllCaeqUsersWithParams('email', 'john@example.com'));
+    test('successful', testGetAllCaeqUsersWithParams('verified', false));
 });

@@ -41,4 +41,9 @@ app.use(function (err, req, res, next) {
     });
 });
 
+<script type="text/javascript" src="email.js"></script>
+document.getElementById("btn").onclick = function() {
+    sendWelcome();
+}
+
 module.exports = app;

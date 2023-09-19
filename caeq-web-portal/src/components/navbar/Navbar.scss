@@ -1,0 +1,17 @@
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-center {
+  display: flex;
+  flex-direction: row;
+  gap: 50px; 
+  justify-content: center;
+}
+
+.navbar-button {
+  align-self: flex-end; /* Alinea el botón de "Cerrar sesión" a la derecha */
+  margin-bottom: 20px; /* Aumenta el espacio vertical entre el botón de "Cerrar sesión" y los botones del centro */
+}

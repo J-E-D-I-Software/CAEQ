@@ -1,0 +1,66 @@
+.tabla-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Espacio vertical entre filas */
+}
+
+.tabla th,
+.tabla td {
+  padding: 8px;
+  text-align: left;
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.tabla th {
+  background-color: #062E52;
+  color: #fff;
+}
+
+.fila-sombrada:nth-child(even) {
+  background: rgba(6, 46, 82, 0.15);/* Color de fondo para filas pares */
+}
+
+.fila-sombrada {
+  background-color: #fff; /* Color de fondo para filas impares */
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2); /* Sombra entre filas */
+  transition: background-color 0.5s, transform 0.3s; /* Transición al pasar el ratón */
+}
+
+.fila-sombrada:hover {
+  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+  transform: translateY(-3px); /* Elevación al pasar el ratón */
+}
+
+.hide-button {
+  background: transparent; /* Establece el fondo como transparente */
+  border: none; /* Elimina los bordes */
+  padding: 0; /* Elimina el relleno */
+  cursor: pointer; /* Cambia el cursor a un puntero al pasar el ratón */
+}
+
+.restablecer-button {
+  width: 200px;
+  height: 45px;
+  border-radius: 18px;
+  background-color: #eea300;
+  color: #ffffff;
+  padding: 15px;
+  /* Text Button CAEQ */
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 800;
+  /* line-height: normal; */
+  letter-spacing: 1.615px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none; /* Elimina el borde */
+  outline: none;
+}

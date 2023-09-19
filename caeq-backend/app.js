@@ -4,6 +4,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Read env variables and save them
+dotenv.config({ path: './.env' });
+
+// App error
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/error.controller');
 
 // Routers
 const fileTestRouter = require('./routes/files.route');
@@ -29,18 +37,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/filetest', fileTestRouter);
 app.use('/caequsers', userRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
+// Error handler for unhandled routes
+app.all('*', (req, res, next) => {
+    const error = new AppError(
+        `Can't find ${req.originalUrl} on this server`,
+        404
+    );
+
+    next(error);
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    console.log(err);
-    res.status(500).json({
-        status: 'success',
-        error: err,
-    });
-});
+app.use(globalErrorHandler);
 
 module.exports = app;

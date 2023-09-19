@@ -39,6 +39,24 @@ const uploadImage = async (file, resource) => {
     return downloadURL;
 };
 
+const uploadPDF = async (file, resource) => {
+    let { originalname, buffer } = file;
+
+
+    const timestamp = Date.now();
+    const name = originalname.split('.')[0];
+    const type = file.mimetype.split('/')[1];
+    const fileName = `${name}_${resource}_${timestamp}.${type}`;
+
+    const pdfRef = storage.child(fileName);
+
+    const snapshot = await pdfRef.put(buffer);
+
+    const downloadURL = await snapshot.ref.getDownloadURL();
+
+    return downloadURL;
+};
+
 exports.formatCourseImage = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
@@ -52,3 +70,12 @@ exports.formatCourseImage = catchAsync(async (req, res, next) => {
     // Use next when you need the url in the next controllers. Delete the response from above.
     // next();
 });
+
+/*
+exports.formatPDF = catchAsync(async ( req, res, next) => {
+    if (!req.file) return next();
+
+    req.body.pdfUrl = await uploadPDF(req.file, 'pdf');
+    
+})
+*/

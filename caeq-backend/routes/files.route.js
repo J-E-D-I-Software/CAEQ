@@ -7,4 +7,6 @@ const fileParser = require('../utils/multipartParser');
 
 router.route('/').post(fileParser, filesController.formatCourseImage);
 
+//router.route('/').post(fileParser, filesController.formatPDF);
+
 module.exports = router;

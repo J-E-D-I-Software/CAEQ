@@ -7,6 +7,14 @@ const {
     updateCaeqUser,
     deleteCaeqUser,
 } = require(`${__dirname}/../controllers/caeq.user.controller.js`);
+const {
+    loginCaeqUser,
+    signUpCaeqUser,
+    protect,
+} = require(`${__dirname}/../controllers/auth.controller.js`);
+
+router.post('/auth/signup', signUpCaeqUser);
+router.post('/auth/login', loginCaeqUser);
 
 router.route('/').get(getAllCaeqUsers).post(createCaeqUser);
 router.route('/:id').get(getCaeqUser).patch(updateCaeqUser).delete(deleteCaeqUser);

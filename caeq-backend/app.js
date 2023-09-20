@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -15,10 +14,12 @@ const globalErrorHandler = require('./controllers/error.controller');
 
 // Routers
 const fileTestRouter = require('./routes/files.route');
-const userRouter = require('./routes/caeq.user.route');
+const caeqRouter = require('./routes/caeq.user.route');
+const architectRouter = require('./routes/architect.user.route');
 
 const app = express();
 
+app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
 
@@ -35,14 +36,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/filetest', fileTestRouter);
-app.use('/caequsers', userRouter);
+app.use('/caequsers', caeqRouter);
+app.use('/architectusers', architectRouter);
 
-// Error handler for unhandled routes
+// ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-    const error = new AppError(
-        `Can't find ${req.originalUrl} on this server`,
-        404
-    );
+    const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
 
     next(error);
 });

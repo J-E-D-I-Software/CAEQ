@@ -1,14 +1,15 @@
 /* LogingSingup.scss */
 
-
 /* Estilos para el contenedor principal */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: flex; /* Ancho máximo del contenido */
+  background: url("../images/backgroundCaeq.png") center/cover no-repeat;
+  background-attachment: fixed;
   padding: 20px;
+  height: 100vh;
   color: #000000; /* Color del texto dentro del contenedor */
 }
 
@@ -29,8 +30,7 @@ h2 {
 /* Estilos para los campos de entrada de texto */
 TextInput,
 HiddenTextInput {
-  //width: 100%;
-  //margin-bottom: 20px;
+  margin-bottom: 20px;
   text-align: center; /* Centra el texto dentro de los campos de entrada */
 }
 

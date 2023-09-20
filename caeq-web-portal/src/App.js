@@ -3,21 +3,21 @@ import { getCaeqUsers } from './client/CaeqUser/CaeqUser.GET';
 import { FireError, FireQuestion, FireSucess } from './utils/alertHandler';
 
 import "./styles/styles.scss";
-import WhiteContainer from "./components/containers/WhiteCard/WhiteCard";
-import TextInput from "./components/inputs/TextInput/TextInput";
-import LargeTextInput from "./components/inputs/TextInput/LargeTextInput";
-import DateInput from "./components/inputs/DateInput/DateInput";
-import HiddenTextInput from "./components/inputs/TextInput/HiddenTextInput";
-import InfoBox from "./components/cards/InfoBox";
-import Table from "./components/table/Table";
-import InteractiveTable from "./components/table/InteractiveTable";
-import DropdownInput from "./components/inputs/DropdownInput/DropdownInput";
-import FileInput from "./components/inputs/FileInput/FileInput";
-import BaseButton from "./components/buttons/BaseButton";
-import NavbarButton from "./components/buttons/NavbarButton";
-import Navbar from "./components/navbar/Navbar";
-import ToggleSlider from "./components/ToggleSlider/ToggleSlider";
-import Login from "./components/loginSignup/Login";
+// import WhiteContainer from "./components/containers/WhiteCard/WhiteCard";
+// import TextInput from "./components/inputs/TextInput/TextInput";
+// import LargeTextInput from "./components/inputs/TextInput/LargeTextInput";
+// import DateInput from "./components/inputs/DateInput/DateInput";
+// import HiddenTextInput from "./components/inputs/TextInput/HiddenTextInput";
+// import InfoBox from "./components/cards/InfoBox";
+// import Table from "./components/table/Table";
+// import InteractiveTable from "./components/table/InteractiveTable";
+// import DropdownInput from "./components/inputs/DropdownInput/DropdownInput";
+// import FileInput from "./components/inputs/FileInput/FileInput";
+// import BaseButton from "./components/buttons/BaseButton";
+// import NavbarButton from "./components/buttons/NavbarButton";
+// import Navbar from "./components/navbar/Navbar";
+// import ToggleSlider from "./components/ToggleSlider/ToggleSlider";
+// import Login from "./components/loginSignup/Login";
 import Signup from "./components/loginSignup/Signup"
 
 function App() {
@@ -107,8 +107,8 @@ function App() {
       <ToggleSlider />  */}
 
 
-      <Login/>
-      {/* <Signup/> */}
+     {/* <Login/> */}
+      <Signup/>  
 
       
     </div>

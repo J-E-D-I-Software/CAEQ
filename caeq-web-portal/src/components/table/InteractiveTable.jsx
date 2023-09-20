@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./Table.scss"; // Archivo CSS para el estilo de la tabla
+import "./Table.scss";
+import CloseIcon from "../icons/Close.png";
 
 // Datos de ejemplo
 const datos = [
@@ -71,61 +72,47 @@ const Table = () => {
     });
   };
 
+  const renderTableHeader = () => {
+    return (
+      <tr>
+        <th className="sticky-column">Columna 1</th>
+        {Object.keys(columnVisibility).map((key) =>
+          columnVisibility[key] ? (
+            <th key={key}>
+              {`Columna ${key.charAt(key.length - 1)}`}{" "}
+              <button
+                className="hide-button"
+                onClick={() => toggleColumnVisibility(key)}
+              >
+                <img src={CloseIcon} alt="Icono Ocultar" />
+              </button>
+            </th>
+          ) : null
+        )}
+      </tr>
+    );
+  };
+
+  const renderTableBody = () => {
+    return datos.map((fila) => (
+      <tr key={fila.id} className="fila-sombrada">
+        <td className="sticky-column">{fila.columna1}</td>
+        {Object.keys(columnVisibility).map((key) =>
+          columnVisibility[key] ? <td key={key}>{fila[key]}</td> : null
+        )}
+      </tr>
+    ));
+  };
+
   return (
     <div className="tabla-container">
       <table className="tabla">
-        <thead>
-          <tr>
-            <th className="sticky-column">
-              Columna 1
-            </th>
-            {columnVisibility.columna2 && (
-              <th>
-                Columna 2{" "}
-                <button onClick={() => toggleColumnVisibility("columna2")}>
-                  Ocultar
-                </button>
-              </th>
-            )}
-            {columnVisibility.columna3 && (
-              <th>
-                Columna 3{" "}
-                <button onClick={() => toggleColumnVisibility("columna3")}>
-                  Ocultar
-                </button>
-              </th>
-            )}
-            {columnVisibility.columna4 && (
-              <th>
-                Columna 4{" "}
-                <button onClick={() => toggleColumnVisibility("columna4")}>
-                  Ocultar
-                </button>
-              </th>
-            )}
-            {columnVisibility.columna5 && (
-              <th>
-                Columna 5{" "}
-                <button onClick={() => toggleColumnVisibility("columna5")}>
-                  Ocultar
-                </button>
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {datos.map((fila) => (
-            <tr key={fila.id} className="fila-sombrada">
-              <td className="sticky-column">{fila.columna1}</td>
-              {columnVisibility.columna2 && <td>{fila.columna2}</td>}
-              {columnVisibility.columna3 && <td>{fila.columna3}</td>}
-              {columnVisibility.columna4 && <td>{fila.columna4}</td>}
-              {columnVisibility.columna5 && <td>{fila.columna5}</td>}
-            </tr>
-          ))}
-        </tbody>
+        <thead>{renderTableHeader()}</thead>
+        <tbody>{renderTableBody()}</tbody>
       </table>
-      <button onClick={resetColumnVisibility}>Restablecer Columnas</button>
+      <button className="restablecer-button" onClick={resetColumnVisibility}>
+        Restablecer Columnas
+      </button>
     </div>
   );
 };

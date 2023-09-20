@@ -20,7 +20,7 @@ function App() {
                 element={
                   <div>
                     <Navbar />
-                    <route.Component />
+                    <route.Screen />
                   </div>
                 }
               />
@@ -31,7 +31,7 @@ function App() {
                 element={
                   <div>
                     <Navbar />
-                    <route.Component />
+                    <route.Screen />
                   </div>
                 }
               />

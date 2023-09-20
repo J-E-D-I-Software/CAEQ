@@ -9,12 +9,12 @@ import PrincipalIcon from "../src/components/icons/PrincipalIcon.png";
 
 
 const routes = [
-  { path: '/', name: 'Principal', Component: Dasbboard, icon: PrincipalIcon, isPrivate: false, inNavbar: true },
+  { path: '/', name: 'Principal', Screen: Dasbboard, icon: PrincipalIcon, isPrivate: false, inNavbar: true },
     {
         path: '/Cursos',
         name: 'Cursos',
         icon: CursosIcon,
-        Component: Test,
+        Screen: Test,
         isPrivate: true,
         inNavbar: true
     }

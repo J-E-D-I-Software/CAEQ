@@ -25,15 +25,4 @@
   }
 }
 
-.navbar-button {
-  align-self: flex-end; 
-  margin-bottom: 20px;
-
-  @media screen and (max-width: 767px) {
-    // Media query for screens smaller than 768px (phones)
-    align-self:first baseline;
-    row-gap: 10px;
-    flex-direction: column;
-  }
-}
 

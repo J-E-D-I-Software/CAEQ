@@ -17,6 +17,8 @@ import BaseButton from "./components/buttons/BaseButton";
 import NavbarButton from "./components/buttons/NavbarButton";
 import Navbar from "./components/navbar/Navbar";
 import ToggleSlider from "./components/ToggleSlider/ToggleSlider";
+import Login from "./components/loginSignup/Login";
+import Signup from "./components/loginSignup/Signup"
 
 function App() {
   const [admins, setAdmins] = useState([]);
@@ -49,7 +51,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>
+      {/* <p>
                 {response
                     ? 'Se quieren ver a los admins'
                     : 'No se quiere evr a los admins'}
@@ -66,8 +68,8 @@ function App() {
                     </WhiteContainer>
                 ))
             )}
-      <p>Bienvenido al CAEQ:</p>
-      <WhiteContainer>
+      <p>Bienvenido al CAEQ:</p> */}
+      {/* <WhiteContainer>
         <h1>Componentes</h1>
         <p>{inputVal}</p>
         <p>{inputVal1}</p>
@@ -101,8 +103,14 @@ function App() {
       <BaseButton label="Botón" type="fail" />
       <BaseButton label="Botón" type="disabled" />
       {/* <NavbarButton label="Botón" type="navbar" /> */}
-      <Navbar />
-      <ToggleSlider />
+      {/* <Navbar />
+      <ToggleSlider />  */}
+
+
+      <Login/>
+      {/* <Signup/> */}
+
+      
     </div>
   );    
 }

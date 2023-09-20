@@ -50,8 +50,8 @@ const createSendToken = (user, type, statusCode, req, res) => {
 
 /* Creating a new admin. */
 exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
-    const newUser = await Admin.create({
-        name: req.body.name,
+    const newUser = await CaeqUser.create({
+        fullName: req.body.fullName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
@@ -76,8 +76,8 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
 
 /* Creating a new user. */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
-    const newUser = await Admin.create({
-        name: req.body.name,
+    const newUser = await ArchitectUser.create({
+        fullName: req.body.fullName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,

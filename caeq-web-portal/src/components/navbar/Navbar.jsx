@@ -5,9 +5,12 @@ import AdminIcon from "../icons/AdminIcon.png";
 import CursosIcon from "../icons/CursosIcon.png";
 import DirectorioIcon from "../icons/DirectorioIcon.png";
 import PrincipalIcon from "../icons/PrincipalIcon.png";
+import routes from "../../routes";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const handlePrincipalClick = () => {
+  const navigate = useNavigate();
+  /*const handlePrincipalClick = () => {
     console.log('Clic en Principal');
   };
 
@@ -22,9 +25,9 @@ const Navbar = () => {
   const handleAdminsClick = () => {
     console.log('Clic en Admins');
   };
-
+*/
   return (
-    <div className="navbar">
+   /* <div className="navbar">
       <div className="navbar-button">
         <BaseButton label="Cerrar sesión" type="fail" />
       </div>
@@ -35,6 +38,27 @@ const Navbar = () => {
         <NavbarButton label="Admins" type="navbar" action={handleAdminsClick} icon={AdminIcon} />
       </div>
     </div>
+*/
+    <div className="navbar">
+      <div className="navbar-button">
+        <BaseButton label="Cerrar sesión" type="fail" />
+      </div>
+      <div className="navbar-center">
+        {routes
+          .filter((route) => route.inNavbar)
+          .map((route) => (
+            <NavbarButton
+              label={route.name} 
+              key={route.path}
+              className='button-navbar'
+              id='inicio_btn'
+              icon={route.icon}
+              action={() => navigate(route.path)}/>
+              
+        ))}
+      </div>
+    </div>
+
   );
 };
 

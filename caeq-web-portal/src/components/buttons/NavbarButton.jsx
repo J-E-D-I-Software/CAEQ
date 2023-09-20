@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./BaseButton";
+import "./BaseButton.scss";
 
 const NavbarButton = ({ label, type, action, icon }) => {
   const [isActive, setIsActive] = useState(false);

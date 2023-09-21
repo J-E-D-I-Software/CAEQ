@@ -6,8 +6,6 @@ import Navbar from "./components/navbar/Navbar";
 import { useState } from "react";
 
 function App() {
-
-
   return (
     <div id='app-container'>
       <div id='app-base-layout'>

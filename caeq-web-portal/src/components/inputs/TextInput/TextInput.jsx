@@ -5,11 +5,11 @@ const TextInput = ({ label, getVal, setVal, placeholder, require }) => {
     const isRequired = require;
 
     return (
-        <label>
+        <label data-testid="txtInput">
             <div className='label-input'>{label}
-                <line className='obligatorio'>
+                <span className='obligatorio'>
                         {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </line>
+                </span>
             </div>
             <input
                 className='box-input'

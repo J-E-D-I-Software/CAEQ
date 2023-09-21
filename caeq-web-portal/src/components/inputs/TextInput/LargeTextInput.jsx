@@ -6,10 +6,10 @@ const LargeTextInput = ({ label, getVal, setVal, placeholder, require }) => {
 
     return (
         <label>
-            <div className='label-input'>{label}
-                <line className='obligatorio'>
+            <div className='label-input' data-testid='largeTxtInput'>{label}
+                <span className='obligatorio'>
                     {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </line>
+                </span>
             </div>
             <textarea
                 className='large-box-input'

@@ -19,9 +19,9 @@ const DropdownInput = ({ label, options, onChange, require }) => {
         <div>
             <label>
                 <div className='label-input'>{label}
-                    <line className='obligatorio'>
+                    <span className='obligatorio'>
                         {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                    </line>
+                    </span>
                 </div>
                 <select 
                 className='dropdown-input'

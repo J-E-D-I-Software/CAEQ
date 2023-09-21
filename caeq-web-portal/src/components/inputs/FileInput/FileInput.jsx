@@ -14,9 +14,9 @@ const FileInput = ({ label, getVal, setVal, require }) => {
     return (
         <label>
             <div className='label-input'>{label}
-                <line className='obligatorio'>
+                <span className='obligatorio'>
                     {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </line>
+                </span>
             </div>
             <input
                 className='file-input'

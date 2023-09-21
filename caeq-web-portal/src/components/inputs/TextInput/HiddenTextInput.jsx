@@ -13,7 +13,9 @@ const HiddenTextInput = ({ label, getVal, setVal, placeholder, ...props }) => {
         placeholder={placeholder}
         {...props}
         value={getVal}
+        onChange={(e) => setVal(e.target.value)}
       />
+
       <button className="button" onClick={() => setIsToggled(!isToggled)}>
         <img
           width="10"

@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import "../styles/loginAdmin.scss"; 
-import TextInput from "../components/inputs/TextInput/TextInput"; 
-import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput"; 
-import Logo from "../components/images/caeqLogo.png"; 
+import "../styles/loginAdmin.scss";
+import TextInput from "../components/inputs/TextInput/TextInput";
+import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput";
+import Logo from "../components/images/caeqLogo.png";
 import Button from "../components/buttons/BaseButton";
 import { Link } from "react-router-dom";
-import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST"
+import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import {FireError, FireSucess} from '../utils/alertHandler'
+
 
 const LogingSingup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault(); // Evita la recarga de la página al enviar el formulario
-    postLoginCaeqUsers(email, password)
-    // Lógica para manejar el inicio de sesión
-    // Enviar la información de inicio de sesión al servidor
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await postLoginCaeqUsers(email, password);
+      FireSucess('Haz iniciado sesión con éxito');
+    } catch (error) {
+      FireError(error.message);
+    }
   };
 
   return (
@@ -27,18 +30,18 @@ const LogingSingup = () => {
       <form onSubmit={handleLogin}>
         <TextInput
           placeholder="Correo Electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          getVal={email}
+          setVal={setEmail}
         />
         <HiddenTextInput
           placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          getVal={password}
+          setVal={setPassword}
         />
         <Button type="submit" label="Iniciar Sesión" />
       </form>
       <div className="forgot-register-links">
-        <a href="/forgot-password">¿Olvidaste tu contraseña?</a> <br /> 
+        <a href="/forgot-password">¿Olvidaste tu contraseña?</a> <br />
         <Link to="/SignupAdmin">
           <p> Regístrate</p>
         </Link>

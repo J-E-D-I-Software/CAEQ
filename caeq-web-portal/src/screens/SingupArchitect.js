@@ -5,7 +5,7 @@ import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput";
 import Logo from "../components/images/caeqLogo.png";
 import BaseButton from "../components/buttons/BaseButton";
 import { Link } from "react-router-dom";
-import { postSignupCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import { postSignupArchitectUsers } from "../client/ArchitectUser/ArchitectUser.POST";
 import { FireError, FireSucess } from "../utils/alertHandler";
 
 const Signup = () => {
@@ -18,7 +18,7 @@ const Signup = () => {
     const data = { fullName, email, password, passwordConfirm };
     e.preventDefault();
     try {
-      await postSignupCaeqUsers(data);
+      await postSignupArchitectUsers(data);
       FireSucess("Te haz registrado con éxito");
     } catch (error) {
       FireError(error.message);

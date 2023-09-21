@@ -78,20 +78,37 @@ function App() {
         getVal={inputVal}
         setVal={setVal}
         placeholder="Escibe aqui tu nombre"
+        require={true}
       />
       <LargeTextInput
         label="Large Text"
         getVal={inputVal}
         setVal={setVal}
         placeholder="Escibe aqui tu nombre"
+        require={true}
       />
-      <DateInput label="Date" getVal={inputVal1} setVal={setVal2} />
+      <DateInput 
+        label="Date" 
+        getVal={inputVal1} 
+        setVal={setVal2} 
+        require={true}
+      />
       <HiddenTextInput
         label="Password"
         placeholder="Contraseña de 8 a 16 caracteres"
+        require={true}
       />
-      <DropdownInput label="Select an option:" options={options} />
-      <FileInput label="File" getVal={inputVal2} setVal={setVal3} />
+      <DropdownInput 
+        label="Select an option:" 
+        options={options} 
+        require={true}
+      />
+      <FileInput 
+        label="File" 
+        getVal={inputVal2} 
+        setVal={setVal3}
+        require={true} 
+      />
       <InfoBox />
       <Table />
       <InteractiveTable />

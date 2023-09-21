@@ -32,5 +32,4 @@ const setUpArchitectUserData = catchAsync(async () => {
 exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpArchitectUserData();
     await setUpCaeqUserData();
-    console.log('Test data uploaded to DB.');
 });

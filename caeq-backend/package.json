@@ -44,5 +44,12 @@
         "supertest": "^6.3.3",
         "validator": "^13.11.0",
         "xhr2": "^0.2.1"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "testTimeout": 60000,
+        "coveragePathIgnorePatterns": [
+            "/node_modules/"
+        ]
     }
 }

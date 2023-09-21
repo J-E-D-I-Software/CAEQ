@@ -1,34 +1,34 @@
 const request = require('supertest');
 const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
-const CaeqUser = require('../../models/caeq.user.model');
+const ArchitectUser = require('../../models/architect.user.model');
 const app = require('../../app');
 
 const agent = request.agent(app);
 
-const testGetAllCaeqUsers = async () => {
-    const endpoint = '/caequsers';
+const testGetAllArchitectUsers = async () => {
+    const endpoint = '/architectusers';
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.results).toEqual(10);
+    expect(res.body.results).toEqual(20);
 };
 
-const testGetAllCaeqUsersWithParams = (paramKey, paramValue) => async () => {
-    const endpoint = `/caequsers?${paramKey}=${paramValue}`;
+const testGetAllArchitectUsersWithParams = (paramKey, paramValue) => async () => {
+    const endpoint = `/architectusers?${paramKey}=${paramValue}`;
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
 };
 
-const testGetCaeqUser = async () => {
-    const endpoint = '/caequsers';
+const testGetArchitectUser = async () => {
+    const endpoint = '/architectusers';
     let res = await agent.get(`${endpoint}/3454534534`).send();
 
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Inválido _id: 3454534534');
 
-    let users = CaeqUser.find();
+    let users = ArchitectUser.find();
     users.getFilter();
     users = await users.exec();
     res = await agent.get(`${endpoint}/${users[0]._id}`).send();
@@ -41,9 +41,9 @@ beforeAll(async () => {
     await setUpDbWithMuckData();
 });
 
-describe('Caeq User GET', () => {
-    test('successful', () => testGetAllCaeqUsers());
-    test('successful', () => testGetCaeqUser());
-    test('successful', testGetAllCaeqUsersWithParams('email', 'john@example.com'));
-    test('successful', testGetAllCaeqUsersWithParams('verified', false));
+describe('Architect User GET', () => {
+    test('successful', () => testGetAllArchitectUsers());
+    test('successful', () => testGetArchitectUser());
+    test('successful', testGetAllArchitectUsersWithParams('email', 'john@example.com'));
+    test('successful', testGetAllArchitectUsersWithParams('verified', false));
 });

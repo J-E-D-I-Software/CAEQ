@@ -3,6 +3,7 @@ const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const User = require('../../models/caeq.user.model');
 const app = require('../../app');
+const { loginAdmin, loginUser } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
@@ -22,8 +23,9 @@ const testDeleteCaeqUser = async () => {
 beforeAll(async () => {
     await connectDB();
     await setUpDbWithMuckData();
+    await loginAdmin(agent, 'john@example.com', 'password123');
 });
 
 describe('Caeq User Delete', () => {
-    test('successful', () => testDeleteCaeqUser(), 6000000);
+    test('successful', () => testDeleteCaeqUser());
 });

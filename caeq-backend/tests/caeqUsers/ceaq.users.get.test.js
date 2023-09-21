@@ -2,6 +2,7 @@ const request = require('supertest');
 const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const CaeqUser = require('../../models/caeq.user.model');
+const { loginAdmin, loginUser } = require('../config/authSetUp');
 const app = require('../../app');
 
 const agent = request.agent(app);
@@ -39,6 +40,7 @@ const testGetCaeqUser = async () => {
 beforeAll(async () => {
     await connectDB();
     await setUpDbWithMuckData();
+    await loginAdmin(agent, 'john@example.com', 'password123');
 });
 
 describe('Caeq User GET', () => {

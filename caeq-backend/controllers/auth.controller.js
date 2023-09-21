@@ -3,6 +3,7 @@ const ArchitectUser = require('../models/architect.user.model');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const { promisify } = require('util');
 
 /**
  * This function takes an id as an argument and returns a signed JWT token with the id as the payload
@@ -171,21 +172,16 @@ exports.loginCaeqUser = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting the token and check if its there
     let token;
-    if (
-        // es un estandard que el token vaya con este header y con el Bearer antes
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-    ) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
         token = req.cookies.jwt;
     }
-    // console.log('Token used: ', token);
 
     if (!token) {
         return next(
             new AppError(
-                'No has iniciado sesión, por favor inicia sesión para obtener acceso.',
+                'No haz iniciado sesión, por favor inicia sesión para obtener acceso.',
                 401
             )
         );

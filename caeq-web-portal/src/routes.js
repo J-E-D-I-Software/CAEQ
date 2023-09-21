@@ -14,7 +14,7 @@ const routes = [
         name: 'Principal',
         Component: Dasbboard,
         icon: PrincipalIcon,
-        isPrivate: false,
+        isPrivate: true,
         inNavbar: true,
     },
     {

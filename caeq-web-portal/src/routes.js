@@ -1,7 +1,7 @@
 import Dasbboard from './screens/Dasboard';
 import Test from './screens/Test';
 import LoginAdmin from './screens/LoginAdmin';
-import Register from './screens/RegisterAdmin';
+import Register from './screens/SignupAdmin';
 
 
 import AdminIcon from "../src/components/icons/AdminIcon.png";
@@ -21,7 +21,7 @@ const routes = [
         inNavbar: true
     },
   { path: '/LoginAdmin', name: 'LoginAdmin', Component: LoginAdmin, isPrivate: false, inNavbar: false},
-  { path: '/RegisterAdmin', name: 'Registrar Admin', Component: Register, isPrivate: false, inNavbar: false}
+  { path: '/SignupAdmin', name: 'Registrar Admin', Component: Register, isPrivate: false, inNavbar: false}
 ];
 
 export default routes;

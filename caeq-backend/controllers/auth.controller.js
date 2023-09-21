@@ -160,5 +160,85 @@ exports.loginCaeqUser = catchAsync(async (req, res, next) => {
         );
     }
     // 3 Send JWT to user.
-    createSendToken(user, 'Caeq', 201, req, res);
+    createSendToken(user, 'caeq', 201, req, res);
 });
+
+/**
+ * The above code is checking if the user is logged in. If the user is logged in, the user is allowed
+ * to access the protected route. If the user is not logged in, the user is not allowed to access the
+ * protected route.
+ */
+exports.protect = catchAsync(async (req, res, next) => {
+    // 1) Getting the token and check if its there
+    let token;
+    if (
+        // es un estandard que el token vaya con este header y con el Bearer antes
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+        token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.jwt) {
+        token = req.cookies.jwt;
+    }
+    // console.log('Token used: ', token);
+
+    if (!token) {
+        return next(
+            new AppError(
+                'No has iniciado sesión, por favor inicia sesión para obtener acceso.',
+                401
+            )
+        );
+    }
+    // 2) Verification: Validate the token to view if the signature is valid
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    // decoded will be the JWT payload - caeq or architect
+    const userType = decoded.type;
+
+    // 3) Check if user or admin exists
+    let user;
+    if (userType === 'caeq') {
+        user = await CaeqUser.findById(decoded.id);
+    } else if (userType === 'architect') {
+        user = await ArchitectUser.findById(decoded.id);
+    }
+
+    if (!user) {
+        return next(
+            new AppError('El usuario con el que intentas ingresar ya no existe.', 401)
+        );
+    }
+
+    // 4) Check if user changed passwords after the token was issued
+    if (user && user.changedPasswordAfter(decoded.iat)) {
+        // iat - issued at
+        return next(
+            new AppError(
+                'Has cambiado recientemente tu contraseña. Inicia sesión de nuevo.',
+                401
+            )
+        );
+    }
+
+    // 5) Next is called and the req accesses the protected route
+    if (user) {
+        req.userType = userType;
+        req.user = user;
+    }
+    next();
+});
+
+/* Restricting the user to a certain role. Can be caeq or architect. */
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.userType)) {
+            next(
+                new AppError(
+                    'No cuentas con los permisos para realizar esta acción.',
+                    403
+                )
+            );
+        }
+        next();
+    };
+};

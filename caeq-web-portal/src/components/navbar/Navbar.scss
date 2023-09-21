@@ -2,16 +2,38 @@
 .navbar {
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 767px) {
+    // Media query for screens smaller than 768px (phones)
+    display: flex;
+    flex-direction: column;
+  }
+  
 }
 
 .navbar-center {
   display: flex;
   flex-direction: row;
-  gap: 50px; 
+  column-gap: 50px; 
   justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    // Media query for screens smaller than 768px (phones)
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+  }
 }
 
 .navbar-button {
-  align-self: flex-end; /* Alinea el botón de "Cerrar sesión" a la derecha */
-  margin-bottom: 20px; /* Aumenta el espacio vertical entre el botón de "Cerrar sesión" y los botones del centro */
+  align-self: flex-end; 
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 767px) {
+    // Media query for screens smaller than 768px (phones)
+    align-self:first baseline;
+    row-gap: 10px;
+    flex-direction: column;
+  }
 }
+

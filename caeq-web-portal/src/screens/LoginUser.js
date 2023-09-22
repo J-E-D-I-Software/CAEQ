@@ -25,8 +25,9 @@ const LogingSingup = () => {
                 setToken(token);
                 setArchitectUserSaved(response.data.user);
             }
+
             FireSucess('Haz iniciado sesión con éxito');
-            navigate(('/Principal'));
+            navigate('/Principal');
         } catch (error) {
             FireError(error.message);
         }

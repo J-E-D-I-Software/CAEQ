@@ -29,9 +29,9 @@ export function setToken(token) {
  * @param {Object} user - user data that will be stored in LocalStorage, need to be json serializable
  * @return {Object|null} - returns an object representing the saved user, or null if none found
  */
-export async function setAdminUserSaved(user) {
+export async function setCaeqUserSaved(user) {
     if (user) {
-        localStorage.setItem('adminUser', JSON.stringify(user));
+        localStorage.setItem('caeqUser', JSON.stringify(user));
         return user;
     }
     return null;
@@ -97,8 +97,8 @@ export function getArchitectUserSaved() {
  *
  * @returns {Object|null} - returns an object representing the saved user, or null if none found
  */
-export function getStaffUserSaved() {
-    let user = localStorage.getItem('staffUser');
+export function getCaeqUserSaved() {
+    let user = localStorage.getItem('caeqUser');
     if (user) {
         user = JSON.parse(user);
         return user;
@@ -112,7 +112,7 @@ export function getStaffUserSaved() {
  * @returns {bool} - true if user is authenticated, false otherwise
  */
 export function isAuthenticated() {
-    const user = getArchitectUserSaved();
+    const user = getUserType() === 'caeq' ? getCaeqUserSaved() : getArchitectUserSaved();
     const token = getToken();
     if (user && token) {
         if (jwt_decode(token).id === user._id) {
@@ -130,6 +130,7 @@ export function isAuthenticated() {
  */
 export function logOut() {
     localStorage.removeItem('adminUser');
+    localStorage.removeItem('architectUser');
     localStorage.removeItem('authToken');
     window.location.reload(false);
 }

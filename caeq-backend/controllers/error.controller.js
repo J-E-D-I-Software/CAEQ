@@ -34,10 +34,10 @@ const sendErrorProduction = (err, req, res) => {
         // Programming error
     } else {
         // 1 log error
-        console.error('Error', err);
+        console.log('Error', err);
 
         // Verifies if it is an image file
-        if(err.message.toString() == 'Input buffer contains unsupported image format'){
+        if (err.message.toString() == 'Input buffer contains unsupported image format') {
             res.status(400).json({
                 status: 'error',
                 error: 'El archivo no es una imagen. Intenta de nuevo.',
@@ -45,7 +45,7 @@ const sendErrorProduction = (err, req, res) => {
         }
 
         // Verifies if the file is an image larger than 10MB
-        if(err.message.toString() == 'request entity too large'){
+        if (err.message.toString() == 'request entity too large') {
             res.status(400).json({
                 status: 'error',
                 error: 'El archivo pesa más de 10 MB. Intenta de nuevo.',
@@ -82,10 +82,7 @@ const handleJWTExpiredError = (err) =>
  * @param err - The error object that was thrown by the database.
  */
 const handleBadField = (err) =>
-    new AppError(
-        `Parámetro de búsqueda inválido ${err.sqlMessage.split(' ')[2]}.`,
-        404
-    );
+    new AppError(`Parámetro de búsqueda inválido ${err.sqlMessage.split(' ')[2]}.`, 404);
 
 /**
  * If the error is a CastError, then return a new AppError with the message "Invalido ${err.path}:
@@ -140,19 +137,14 @@ module.exports = (err, req, res, next) => {
         console.log('Error Name:', err.name);
         console.log('Error code:', err.code);
         return sendErrorDev(err, req, res);
-    } else if (
-        process.env.NODE_ENV === 'production' ||
-        process.env.NODE_ENV === 'test'
-    ) {
+    } else if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
         // con esto identificaremos los errores de validación
         let error = Object.create(err);
         if (err.name === 'CastError') error = handleCastErrorDB(err);
         if (err.code === 11000) error = handleDuplicateFieldsDB(err);
-        if (err.name === 'ValidationError')
-            error = handleValidationErrorDB(err);
+        if (err.name === 'ValidationError') error = handleValidationErrorDB(err);
         if (err.name === 'JsonWebTokenError') error = handleJWTError(err);
-        if (err.name === 'TokenExpiredError')
-            error = handleJWTExpiredError(err);
+        if (err.name === 'TokenExpiredError') error = handleJWTExpiredError(err);
         if (err.code === 'ER_BAD_FIELD_ERROR') error = handleBadField(err);
         return sendErrorProduction(error, req, res);
     }

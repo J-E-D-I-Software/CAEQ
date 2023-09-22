@@ -8,8 +8,10 @@
         "@testing-library/user-event": "^13.5.0",
         "axios": "^1.5.0",
         "firebase-tools": "^12.5.4",
+        "jwt-decode": "^3.1.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-router-dom": "^6.16.0",
         "react-scripts": "5.0.1",
         "sass": "^1.66.1",
         "sweetalert2": "^11.7.28",
@@ -34,6 +36,11 @@
             "react-app/jest"
         ]
     },
+    "jest": {
+        "moduleNameMapper": {
+            "axios": "axios/dist/node/axios.cjs"
+        }
+    },
     "browserslist": {
         "production": [
             ">0.2%",
@@ -47,6 +54,7 @@
         ]
     },
     "devDependencies": {
+        "jest": "^27.5.1",
         "react-test-renderer": "^18.2.0"
     }
 }

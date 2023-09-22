@@ -1,15 +1,13 @@
 import React from 'react';
 import './TextInput.scss';
 
-const LargeTextInput = ({ label, getVal, setVal, placeholder, require }) => {
+const LargeTextInput = ({ label, getVal, setVal, placeholder, require = false }) => {
     const isRequired = require;
 
     return (
         <label>
             <div className='label-input' data-testid='largeTxtInput'>{label}
-                <span className='obligatorio'>
-                    {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </span>
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <textarea
                 className='large-box-input'

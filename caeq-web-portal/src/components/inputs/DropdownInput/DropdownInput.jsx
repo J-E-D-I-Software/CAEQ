@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './DropdownInput.scss';
 
-const DropdownInput = ({ label, options, onChange, require }) => {
+const DropdownInput = ({ label, options, onChange, require = false}) => {
     const isRequired = require;
 
     const [selectedOption, setSelected] = useState('');
@@ -19,9 +19,7 @@ const DropdownInput = ({ label, options, onChange, require }) => {
         <div>
             <label>
                 <div className='label-input'>{label}
-                    <span className='obligatorio'>
-                        {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                    </span>
+                    {isRequired && <span className='obligatorio'>*obligatorio</span>}
                 </div>
                 <select 
                 className='dropdown-input'

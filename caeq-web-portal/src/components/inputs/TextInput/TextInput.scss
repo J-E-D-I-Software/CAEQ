@@ -48,26 +48,31 @@
 }
 
 .fused-box-input {
-  width: auto;
+  width:auto;
   padding: 10px;
   border: none;
   box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
   border-radius: 20px;
+  padding-right: 45px;
   font-size: 18px;
 }
 
-.button {
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+.button-eye {
+  height: 30px;
+  width: 30px;
   border: none;
-  border-radius: 20px;
-  padding: 13px 20px;
-  margin-left: 0px;
+  border-radius: 30px;
+  margin-left: -40px;
+  margin-bottom: -10px;
+  background: none;
   cursor: pointer;
+  align-content: center;
   transition: background 0.2s ease-in-out;
 }
 
-.button:hover {
-  background-color: #bebebe;
+.button-eye:hover {
+  border: none;
+  border-radius: 30px;
 }
 
 .obligatorio {

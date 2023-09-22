@@ -1,15 +1,13 @@
 import React from 'react';
 import './DateInput.scss';
 
-const DateInput = ({ label, getVal, setVal, require }) => {
+const DateInput = ({ label, getVal, setVal, require = false }) => {
     const isRequired = require;
 
     return (
         <label>
            <div className='label-input'>{label}
-            <span className='obligatorio'>
                 {isRequired && <span className='obligatorio'>*obligatorio</span>}
-            </span>
            </div> 
            <input
             className='date-input'

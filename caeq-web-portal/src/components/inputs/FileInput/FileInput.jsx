@@ -1,7 +1,7 @@
 import React from 'react';
 import './FileInput.scss';
 
-const FileInput = ({ label, getVal, setVal, require }) => {
+const FileInput = ({ label, getVal, setVal, require = false }) => {
     const isRequired = require;
     const onSelectFile = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
@@ -14,9 +14,7 @@ const FileInput = ({ label, getVal, setVal, require }) => {
     return (
         <label>
             <div className='label-input'>{label}
-                <span className='obligatorio'>
-                    {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </span>
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <input
                 className='file-input'

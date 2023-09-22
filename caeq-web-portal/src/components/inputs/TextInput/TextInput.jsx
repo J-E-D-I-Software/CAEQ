@@ -1,15 +1,13 @@
 import React from 'react';
 import './TextInput.scss';
 
-const TextInput = ({ label, getVal, setVal, placeholder, require }) => {
+const TextInput = ({ label, getVal, setVal, placeholder, require = false }) => {
     const isRequired = require;
 
     return (
         <label data-testid="txtInput">
             <div className='label-input'>{label}
-                <span className='obligatorio'>
-                        {isRequired && <span className='obligatorio'>*obligatorio</span>}
-                </span>
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <input
                 className='box-input'

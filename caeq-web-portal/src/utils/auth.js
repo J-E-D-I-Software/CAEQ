@@ -67,12 +67,26 @@ export function setUserType(token) {
 }
 
 /**
- * This function retrieves the saved admin user from local storage
+ * This function retrieves the saved archited user from local storage
  *
  * @returns {Object|null} - returns an object representing the saved user, or null if none found
  */
-export function getUserSaved() {
-    let user = localStorage.getItem('adminUser');
+export function getArchitectUserSaved() {
+    let user = localStorage.getItem('architectUser');
+    if (user) {
+        user = JSON.parse(user);
+        return user;
+    }
+    return null;
+}
+
+/**
+ * This function retrieves the saved staff user from local storage
+ *
+ * @returns {Object|null} - returns an object representing the saved user, or null if none found
+ */
+export function getStaffUserSaved() {
+    let user = localStorage.getItem('staffUser');
     if (user) {
         user = JSON.parse(user);
         return user;
@@ -86,7 +100,7 @@ export function getUserSaved() {
  * @returns {bool} - true if user is authenticated, false otherwise
  */
 export function isAuthenticated() {
-    const user = getUserSaved();
+    const user = getArchitectUserSaved();
     const token = getToken();
     if (user && token) {
         if (jwt_decode(token).id === user._id) {

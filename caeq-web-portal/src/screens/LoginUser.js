@@ -4,7 +4,7 @@ import TextInput from '../components/inputs/TextInput/TextInput';
 import HiddenTextInput from '../components/inputs/TextInput/HiddenTextInput';
 import Logo from '../components/images/caeqLogo.png';
 import Button from '../components/buttons/BaseButton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postLoginArchitectUsers } from '../client/ArchitectUser/ArchitectUser.POST';
 import { FireError, FireSucess } from '../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
@@ -12,6 +12,7 @@ import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
 const LogingSingup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,6 +26,7 @@ const LogingSingup = () => {
                 setArchitectUserSaved(response.data.user);
             }
             FireSucess('Haz iniciado sesión con éxito');
+            navigate(('/Principal'));
         } catch (error) {
             FireError(error.message);
         }

@@ -25,6 +25,7 @@ const CaeqUserSchema = new mongoose.Schema({
     },
     passwordConfirm: {
         type: String,
+        select: false,
         required: [true, 'Por favor confirma tu contraseña.'],
         validate: {
             // queremos contraseñas iguales

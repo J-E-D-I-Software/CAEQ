@@ -9,6 +9,23 @@ import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 
 const routes = [
+    // TO-DO: CORREGIR ESTAS RUTAS
+    {
+        path: '/',
+        name: 'Principal',
+        Component: Dasbboard,
+        icon: PrincipalIcon,
+        isPrivate: true,
+        inNavbar: true,
+    },
+    {
+        path: '/Principal',
+        name: 'Principal',
+        Component: () => <div>DASHBOARD</div>,
+        icon: PrincipalIcon,
+        isPrivate: true,
+        inNavbar: true,
+    },
     {
         path: '/',
         name: 'Principal',

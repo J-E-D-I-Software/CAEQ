@@ -38,6 +38,35 @@ export async function setAdminUserSaved(user) {
 }
 
 /**
+ * This function saves user data to local storage
+ *
+ * @param {Object} user - user data that will be stored in LocalStorage, need to be json serializable
+ * @return {Object|null} - returns an object representing the saved user, or null if none found
+ */
+export async function setArchitectUserSaved(user) {
+    if (user) {
+        localStorage.setItem('architectUser', JSON.stringify(user));
+        return user;
+    }
+    return null;
+}
+
+/**
+ * This function saves user type data to local storage
+ *
+ * @param {Object} token - user type data that will be stored in LocalStorage, need to be json serializable
+ * @return {Object|null} - returns an object representing the saved user, or null if none found
+ */
+export function setUserType(token) {
+    const userType = jwt_decode(token).type;
+    if (userType) {
+        localStorage.setItem('userType', JSON.stringify(userType));
+        return true;
+    }
+    return null;
+}
+
+/**
  * This function retrieves the saved admin user from local storage
  *
  * @returns {Object|null} - returns an object representing the saved user, or null if none found
@@ -70,7 +99,7 @@ export function isAuthenticated() {
 
 /**
  * Removes the 'adminUser' and 'authToken' keys from localStorage and reloads the page.
- * 
+ *
  * @returns undefined
  */
 export function logOut() {

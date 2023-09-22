@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
 
+
 /* Create a class called Email.*/
 module.exports = class Email {
     /**
@@ -100,10 +101,11 @@ module.exports = class Email {
      */
 
     /* The sendPasswordReset method is calling the send method and passing in the passwordReset template */
-    async sendPasswordReset() {
+    /*async sendPasswordReset() {
         await this.send(
             'passwordReset',
             'Recuperar contraseña (válido por sólo 10 minutos)'
         );
-    }
+    }*/
 };
+

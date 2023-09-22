@@ -24,9 +24,9 @@ if (process.env.NODE_ENV === 'development') {
     // Connect using mongoose
 } else {
     let DB = process.env.DATABASE_CONNECTION.replace(
-        '<password>',
+        '<password>', 
         process.env.DATABASE_PASSWORD
-    ).replace('<user>', process.env.DATABASE_USER);
+        ).replace('<user>', process.env.DATABASE_USER);
 
     if (process.env.NODE_ENV === 'production') {
         DB = DB.replace('<database>', process.env.DATABASE_NAME_PROD);

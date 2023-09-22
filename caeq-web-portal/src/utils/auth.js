@@ -67,6 +67,18 @@ export function setUserType(token) {
 }
 
 /**
+ * This function retrieves the user type data from local storage
+ *
+ * @return {String|null} - returns a string representing the type, or null if none found
+ */
+export function getUserType() {
+    const type = localStorage.getItem('userType');
+    if (type)
+        return JSON.parse(type);
+    return null;
+}
+
+/**
  * This function retrieves the saved archited user from local storage
  *
  * @returns {Object|null} - returns an object representing the saved user, or null if none found

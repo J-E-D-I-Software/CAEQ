@@ -7,6 +7,8 @@ import RegisterUser from './screens/SingupArchitect';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import BaseButton from './components/buttons/BaseButton';
+import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
@@ -21,7 +23,16 @@ const routes = [
     {
         path: '/Principal',
         name: 'Principal',
-        Component: () => <div>DASHBOARD</div>,
+        Component: () => (
+        <div>
+            <RestrictByRole allowedRoles={['architect']}>
+                <BaseButton label="architect" />
+            </RestrictByRole>
+            <RestrictByRole allowedRoles={['staff']}>
+                <BaseButton label="staff" />
+            </RestrictByRole>
+        </div>
+        ),
         icon: PrincipalIcon,
         isPrivate: true,
         inNavbar: true,

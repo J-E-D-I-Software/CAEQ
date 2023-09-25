@@ -67,14 +67,15 @@ export function setUserType(token) {
 }
 
 /**
- * This function retrieves the saved user type from local storage
+ * This function retrieves the user type data from local storage
  *
- * @returns {Object|null} - returns the user type.
+ * @return {String|null} - returns a string representing the type, or null if none found
  */
 export function getUserType() {
-    let userType = JSON.parse(localStorage.getItem('userType'));
-
-    return userType;
+    const type = localStorage.getItem('userType');
+    if (type)
+        return JSON.parse(type);
+    return null;
 }
 
 /**

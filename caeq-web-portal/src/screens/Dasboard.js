@@ -13,8 +13,7 @@ import { Link } from "react-router-dom";
 
 import DropdownInput from "../components/inputs/DropdownInput/DropdownInput";
 import FileInput from "../components/inputs/FileInput/FileInput";
-import React, { useState, useEffect } from "react";
-import Test from "./Test";
+import React, { useState } from "react";
 
 function Dasbboard() {
   const [inputVal, setVal] = useState("");

@@ -5,10 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-// Llama a los métodos de la clase Email
-emailInstance.sendWelcome();
-//emailInstance.sendPasswordReset();
-
 const dotenv = require('dotenv');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');

@@ -4,23 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const { htmlToText } = require('html-to-text');
-
-const Email = require('./utils/email');
-
-const user = {
-    email: "caeq.recepcion@gmail.com",
-    name: 'Lucero Rodríquez',
-  };
-
-const url = 'https://tec.mx';
-
-const emailInstance = new Email(user, url);
 
 // Llama a los métodos de la clase Email
 emailInstance.sendWelcome();
 //emailInstance.sendPasswordReset();
-
 
 const dotenv = require('dotenv');
 const compression = require('compression');
@@ -115,6 +102,5 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
-
 
 module.exports = app;

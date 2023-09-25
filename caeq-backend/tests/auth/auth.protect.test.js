@@ -12,7 +12,7 @@ const testProtection = async () => {
 
     expect(res1.statusCode).toEqual(401);
     expect(res1.body.message).toEqual(
-        'No haz iniciado sesión, por favor inicia sesión para obtener acceso.'
+        'No has iniciado sesión, por favor inicia sesión para obtener acceso.'
     );
 
     await loginAdmin(agent, 'john@example.com', 'password123');

@@ -9,21 +9,29 @@ import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput";
 import InfoBox from "../components/cards/InfoBox";
 import Table from "../components/table/Table";
 import InteractiveTable from "../components/table/InteractiveTable";
+import { Link } from "react-router-dom";
 
 import DropdownInput from "../components/inputs/DropdownInput/DropdownInput";
 import FileInput from "../components/inputs/FileInput/FileInput";
-import React, { useState, useEffect } from 'react';
-import Test from "./Test";
-
+import React, { useState } from "react";
 
 function Dasbboard() {
-    const [inputVal, setVal] = useState("");
-    const [inputVal1, setVal2] = useState("");
-    const [inputVal2, setVal3] = useState("");
-    const options = ["Hombre", "Mujer", "Prefiero no decirlo"];
-    return (
-        <div>
-            <p>Bienvenido al CAEQ:</p>
+  const [inputVal, setVal] = useState("");
+  const [inputVal1, setVal2] = useState("");
+  const [inputVal2, setVal3] = useState("");
+  const options = ["Hombre", "Mujer", "Prefiero no decirlo"];
+  return (
+    <div>
+      <p>Bienvenido al CAEQ:</p>
+
+      <Link to="/LoginAdmin">
+        <BaseButton type="primary" label="Login Admin"></BaseButton>
+      </Link>
+
+      <Link to="/LoginUser">
+        <BaseButton type="primary" label="Login User"></BaseButton>
+      </Link>
+
       <WhiteContainer>
         <h1>Componentes</h1>
         <p>{inputVal}</p>
@@ -58,9 +66,8 @@ function Dasbboard() {
       <BaseButton label="Botón" type="fail" />
       <BaseButton label="Botón" type="disabled" />
       {/* <NavbarButton label="Botón" type="navbar" /> */}
-        </div>
-    );
+    </div>
+  );
 }
 
 export default Dasbboard;
-

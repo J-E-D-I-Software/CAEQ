@@ -58,7 +58,10 @@ class APIFeatures {
      */
     limitFields() {
         if (this.queryString.fields) {
-            const fields = this.queryString.fields.split(',').join(' ');
+            const fields = this.queryString.fields
+                .split(',')
+                .filter((val) => val !== 'password' && val !== 'passwordConfirm')
+                .join(' ');
             this.query.select(fields);
         }
 

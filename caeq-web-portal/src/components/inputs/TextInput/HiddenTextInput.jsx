@@ -1,27 +1,47 @@
 import React, { useState } from "react";
 import "./TextInput.scss";
+import hiddenIcon from "../../icons/hiddenIcon.png";
+import visibleIcon from "../../icons/visibleIcon.png";
 
-const HiddenTextInput = ({ label, getVal, setVal, placeholder, ...props }) => {
+const HiddenTextInput = ({ label, getVal, setVal, placeholder, require = false, ...props }) => {
+  const isRequired = require;
   const [isToggled, setIsToggled] = useState(false);
+  const [iconIndex, setIconIndex] = useState(0);
+  const [inputValue, setInputValue] = useState(getVal);
+
+  const iconUrls = [hiddenIcon, visibleIcon];
+
+  const iconChange = () => {
+    setIsToggled(!isToggled);
+    setIconIndex((iconIndex + 1) % iconUrls.length);
+  }
+
+  const inputChange = (e) => {
+    setInputValue(e.target.value);
+    setVal(e.target.value);
+  }
 
   return (
     <label>
-      <div className="label-input">{label}</div>
+      <div className="label-input">{label}
+        {isRequired && <span className='obligatorio'>*obligatorio</span>}
+      </div>
       <input
         className="fused-box-input"
         type={isToggled ? "text" : "password"}
         placeholder={placeholder}
         {...props}
-        value={getVal}
+        value={inputValue}
+        required={isRequired}
+        onChange={inputChange}
       />
-      <button className="button" onClick={() => setIsToggled(!isToggled)}>
-        <img
-          width="10"
-          height="10"
-          src="https://cdn-icons-png.flaticon.com/512/829/829117.png"
-          alt="mostrar"
-        />
-      </button>
+      <img
+        className="button-eye"
+        onClick={iconChange}
+        type="button"
+        src={iconUrls[iconIndex]}
+        alt="mostrar"
+      />
     </label>
   );
 };

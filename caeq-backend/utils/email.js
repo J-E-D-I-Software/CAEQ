@@ -1,11 +1,9 @@
-
 /* Nodemailer is a module for Node.js applications to allow easy as cake email sending.*/
 /* Install nodemailer from json?*/
 const nodemailer = require('nodemailer');
 /* Pug is an easy-to-code template engine used to code HTML in a more readable fashion.*/
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
-
 
 /* Create a class called Email.*/
 module.exports = class Email {
@@ -90,10 +88,7 @@ module.exports = class Email {
     /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
     async sendWelcome() {
         // esto va a ser una pug template
-        await this.send(
-            'welcome',
-            'Bienvenido a la familia CAEQ!'
-        );
+        await this.send('welcome', 'Bienvenido a la familia CAEQ!');
     }
 
     /**
@@ -108,4 +103,3 @@ module.exports = class Email {
         );
     }*/
 };
-

@@ -28,8 +28,8 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {datos.map((fila) => (
-            <tr key={fila.id} className="fila-sombrada">
+          {datos.map((fila, id) => (
+            <tr key={id} className="fila-sombrada">
               <td>{fila.columna1}</td>
               <td>{fila.columna2}</td>
               <td>{fila.columna3}</td>

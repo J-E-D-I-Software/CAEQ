@@ -28,7 +28,7 @@ const ArchitectUserSchema = new mongoose.Schema({
         enum: [
             "Expresidente",
             "Docente",
-            "Convenio "],
+            "Convenio"],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
@@ -52,10 +52,8 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu edad!']
     },
     gender: {
-        tyep: String,
-        enum:[
-        "Masculino",
-        "Femenino", ],
+        type: String,
+        enum: ["Masculino", "Femenino"],
         required: [true, 'Por favor dinos tu género!']
     },
     cellphone: {
@@ -118,8 +116,8 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         enum: [ 
             "Corresponsable en seguridad estructural", 
-            "Corresponsable en instalaciones ",
-            "Corresponsable en instalaciones eléctricas ",
+            "Corresponsable en instalaciones",
+            "Corresponsable en instalaciones eléctricas",
             "DUYA",
             "Dictaminador estructural", 
             "Revisor de bajo riesgo", ],

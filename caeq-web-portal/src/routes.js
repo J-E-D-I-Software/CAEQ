@@ -4,6 +4,7 @@ import LoginAdmin from './screens/LoginAdmin';
 import LoginUser from './screens/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin';
 import RegisterUser from './screens/SingupArchitect';
+import Directory from './screens/Directory';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
@@ -73,6 +74,13 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
+    {
+        path:'/Directory',
+        name:'Directorio',
+        Component: Directory,
+        isPrivate: true,
+        inNavbar: true,
+    }
 ];
 
 export default routes;

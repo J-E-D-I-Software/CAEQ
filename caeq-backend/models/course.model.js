@@ -1,9 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const AppError = require('../utils/appError');
-const { Double } = require('mongodb');
 
 const CourseSchema = new mongoose.Schema(
     {
@@ -24,7 +19,7 @@ const CourseSchema = new mongoose.Schema(
             type: String
         },
         schedule: {
-            type: Double
+            type: String
         },
         daysOfSession: {
             type: String
@@ -33,12 +28,12 @@ const CourseSchema = new mongoose.Schema(
             type: String
         },
         price: {
-            type: Double
+            type: Float32Array,
         },
         teacherName: {
             type: String,
         },
-        teacherRaing: {
+        teacherReview: {
             type: String,
         },
         paymentInfo : {

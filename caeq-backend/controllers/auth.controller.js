@@ -110,6 +110,8 @@ exports.logout = (req, res, next) => {
  * protected route.
  */
 exports.loginArchitectUser = catchAsync(async (req, res, next) => {
+    await new Promise((r) => setTimeout(r, 3000));
+
     const { email, password } = req.body;
 
     if (!email || !password) {

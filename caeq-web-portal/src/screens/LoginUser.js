@@ -6,10 +6,10 @@ import Logo from '../components/images/caeqLogo.png';
 import Button from '../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { postLoginArchitectUsers } from '../client/ArchitectUser/ArchitectUser.POST';
-import { FireError, FireSucess } from '../utils/alertHandler';
+import { FireError, FireSucess, FireLoading } from '../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
 
-const LogingSingup = () => {
+const LogingSignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -17,6 +17,7 @@ const LogingSingup = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
+            const swal = FireLoading('Iniciando sesión...');
             const response = await postLoginArchitectUsers(email, password);
             if (response.status === 'success') {
                 const token = response.token;
@@ -25,8 +26,8 @@ const LogingSingup = () => {
                 setToken(token);
                 setArchitectUserSaved(response.data.user);
             }
-
-            FireSucess('Haz iniciado sesión con éxito');
+            swal.close();
+            FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
             FireError(error.message);
@@ -60,4 +61,4 @@ const LogingSingup = () => {
     );
 };
 
-export default LogingSingup;
+export default LogingSignUp;

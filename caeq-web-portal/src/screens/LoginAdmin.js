@@ -9,7 +9,7 @@ import { postLoginCaeqUsers } from '../client/CaeqUser/CaeqUser.POST';
 import { FireError, FireSucess } from '../utils/alertHandler';
 import { setToken, setUserType, setCaeqUserSaved } from '../utils/auth';
 
-const LogingSingup = () => {
+const LogingSignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -60,4 +60,4 @@ const LogingSingup = () => {
     );
 };
 
-export default LogingSingup;
+export default LogingSignUp;

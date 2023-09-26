@@ -5,9 +5,113 @@ const crypto = require('crypto');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
+    collegiateNumber: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de DRO!'],
+    },
     fullName: {
         type: String,
         required: [true, 'Por favor dinos tu nombre!'],
+    },
+    memberType: {
+        type: String,
+        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'], //TODO: change to enum
+    },
+    classification: {
+        type: String,
+        required: [true, 'Por favor dinos tu clasificación!'],
+    },
+    DRONumber: {
+        type: String,
+        required: [true, 'Por favor dinos tu número de DRO!'],
+    },
+    authorizationToShareInfo: {
+        type: Boolean,
+        required: [true, 'Por favor dinos si tienes autorización para compartir información!'],
+    },
+    lifeInsurance: {
+        type: Boolean,
+        required: [true, 'Por favor dinos si tienes autorización para compartir información!']
+    },
+    lifeInsureID:{
+        type: String,
+        required: [true, 'Por favor dinos tu poliza de seguro de vida!']
+    },
+    age: {
+        type: Number,
+        required: [true, 'Por favor dinos tu edad!']
+    },
+    gender: {
+        tyep: String,
+        required: [true, 'Por favor dinos tu género!']
+    },
+    cellphone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de celular!']
+    },
+    homePhone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de casa!']
+    },
+    officePhone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de oficina!']
+    },
+    emergencyContact: {
+        type: Number,
+        required: [true, 'Por favor dinos tu contacto de emergencia!']
+    },
+    emergencyContactName: {
+        type: String,
+        required: [true, 'Por favor dinos el nombre de tu contacto de emergencia!']
+    }, 
+    mainProfessionalActivity: {
+        type: String,
+        required: [true, 'Por favor dinos tu actividad principal profesional!']
+    },
+    dateOfAdmission: {
+        type: Date,
+        required: [true, 'Por favor dinos tu fecha de admisión!']
+    },
+    dateOfBirth: {
+        type: Date,
+        required: [true, 'Por favor dinos tu fecha de nacimiento!']
+    },
+    municipalityOfLabor: {
+        type: String,
+        required: [true, 'Por favor dinos tu municipio de labor!']
+    },
+    linkCV: {
+        type: String,
+        required: [true, 'Por favor dinos tu link de CV!']
+    },
+    university: {
+        type: String,
+        required: [true, 'Por favor dinos tu universidad!']
+    },
+    professionalLicense: {
+        type: String,
+        required: [true, 'Por favor dinos tu cédula profesional!']
+    },
+    workAddress: {
+        type: String,
+        required: [true, 'Por favor dinos tu dirección de trabajo!']
+    },
+    homeAddress: {
+        type: String,
+        required: [true, 'Por favor dinos tu dirección de casa!']
+    },
+    specialty: {
+        type: String,
+        required: [true, 'Por favor dinos tu especialidad!']
+    },
+    positionsInCouncil: {
+        type: String,
+        required: [true, 'Por favor dinos tus cargos en el consejo directivo!']
+    },
+    capacitationHours: {
+        type: Number,
+        required: [true, 'Por favor dinos tus horas de capacitación!']
     },
     email: {
         type: String,

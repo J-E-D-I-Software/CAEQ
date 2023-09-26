@@ -30,7 +30,7 @@ const testCaeqLogin = async () => {
 
     expect(resTest3.statusCode).toEqual(401);
     expect(resTest3.body.message).toEqual(
-        'No haz sido verificado, espera a que un administrador verifique tu perfil.'
+        'No has sido verificado, espera a que un administrador verifique tu perfil.'
     );
 };
 

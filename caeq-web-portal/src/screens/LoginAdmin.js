@@ -26,7 +26,7 @@ const LogingSingup = () => {
                 setCaeqUserSaved(response.data.user);
             }
 
-            FireSucess('Haz iniciado sesión con éxito');
+            FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
             FireError(error.message);

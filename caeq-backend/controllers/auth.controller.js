@@ -157,7 +157,7 @@ exports.loginCaeqUser = catchAsync(async (req, res, next) => {
     if (!user.verified) {
         return next(
             new AppError(
-                'No haz sido verificado, espera a que un administrador verifique tu perfil.',
+                'No has sido verificado, espera a que un administrador verifique tu perfil.',
                 401
             )
         );
@@ -183,7 +183,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (!token) {
         return next(
             new AppError(
-                'No haz iniciado sesión, por favor inicia sesión para obtener acceso.',
+                'No has iniciado sesión, por favor inicia sesión para obtener acceso.',
                 401
             )
         );

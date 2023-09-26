@@ -76,7 +76,7 @@ const limiter = rateLimit({
     handler: function (req, res, next) {
         return next(
             new AppError(
-                'Haz enviado demasiadas peticiones, espera un tiempo antes de continuar.',
+                'Has enviado demasiadas peticiones, espera un tiempo antes de continuar.',
                 429
             )
         );

@@ -15,10 +15,20 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     memberType: {
         type: String,
-        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'], //TODO: change to enum
+        enum: [
+            "Miembro de número",
+            "Miembro Adherente",
+            "Miembro Pasante",
+            "Miembro Vitalicio",
+            "Miembro Honorario" ],
+        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'] //TODO: change to enum
     },
     classification: {
         type: String,
+        enum: [
+            "Expresidente",
+            "Docente",
+            "Convenio "],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
@@ -43,6 +53,9 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     gender: {
         tyep: String,
+        enum:[
+        "Masculino",
+        "Femenino", ],
         required: [true, 'Por favor dinos tu género!']
     },
     cellphone: {
@@ -103,6 +116,13 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     specialty: {
         type: String,
+        enum: [ 
+            "Corresponsable en seguridad estructural", 
+            "Corresponsable en instalaciones ",
+            "Corresponsable en instalaciones eléctricas ",
+            "DUYA",
+            "Dictaminador estructural", 
+            "Revisor de bajo riesgo", ],
         required: [true, 'Por favor dinos tu especialidad!']
     },
     positionsInCouncil: {

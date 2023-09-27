@@ -1,12 +1,19 @@
 .signup-admin-container {
     display: flex;
     flex-direction: column;
-    background: url('../../components/images/backgroundCaeq.png') right center/cover
-        no-repeat;
+    background: rgba(169, 169, 169, 0.5); /* Background color with opacity */
+    background-image: url('../../components/images/backgroundCaeqImage.png');
+    background-position: 10% right center;
+    background-size: cover;
+    background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100vh;
-    color: #000000; /* Color del texto dentro del contenedor */
+    color: #000000;
+    position: relative;
 
+    @media (max-width: 1000px) {
+        background-image: url('../../components/images/backgroundCaeq.png');
+    }
     .signup-form {
         padding: 20px;
         background-color: white;
@@ -23,20 +30,22 @@
         margin-bottom: 5px; /* Reduzca el espacio inferior de los títulos h3 */
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 60%;
+    }
+
     .Logo {
         width: 500px;
         height: auto;
         margin-bottom: 20px;
 
         @media (max-width: 1000px) {
-            width: 80%;
+            width: 300px;
             background-color: transparent;
         }
-    }
-
-    TextInput,
-    HiddenTextInput {
-        text-align: center; /* Centra el texto dentro de los campos de entrada */
     }
 
     .button-container {
@@ -44,5 +53,10 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        flex-wrap: wrap;
+
+        .button {
+            margin-top: 2rem;
+        }
     }
 }

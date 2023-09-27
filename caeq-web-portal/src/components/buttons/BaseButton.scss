@@ -48,6 +48,15 @@
     background-color: #fab82b; /* Cambio de color al pasar el ratón */
 }
 
+.button-cancel {
+    background-color: #ffffff;
+    color: #ab3428;
+    border: solid #ab3428 2px;
+}
+.button-cancel:hover {
+    background-color: #ffffff; /* Cambio de color al pasar el ratón */
+}
+
 .button-success {
     color: #eff9f0;
     background-color: #136f63;

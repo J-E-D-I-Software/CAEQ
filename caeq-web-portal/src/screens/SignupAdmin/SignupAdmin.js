@@ -6,7 +6,7 @@ import Logo from '../../components/images/caeqLogo.png';
 import BaseButton from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
-import { FireError, FireSucess } from '../../utils/alertHandler';
+import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 
 const Signup = () => {
     const [fullName, setfullName] = useState('');
@@ -19,8 +19,9 @@ const Signup = () => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();
         try {
+            const swal = FireLoading('Registrando administrador...');
             await postSignupCaeqUsers(data);
-
+            swal.close();
             FireSucess(
                 'Te has registrado con éxito. Un administrador actualizará tu perfil'
             );
@@ -34,31 +35,31 @@ const Signup = () => {
         <div className='signup-admin-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h2>Registro</h2>
+                <h1>Registrate para acceder</h1>
                 <form onSubmit={handleSignup}>
-                    <h3>Nombre</h3>
                     <TextInput
                         placeholder='Nombre Completo'
                         getVal={fullName}
                         setVal={setfullName}
+                        label='Nombre completo'
                     />
-                    <h3>Correo Electrónico</h3>
                     <TextInput
                         placeholder='Correo Electrónico'
                         getVal={email}
                         setVal={setEmail}
+                        label='Correo Electrónico'
                     />
-                    <h3>Contraseña</h3>
                     <HiddenTextInput
                         placeholder='Contraseña'
                         getVal={password}
                         setVal={setPassword}
+                        label='Contraseña'
                     />
-                    <h3>Confirmar Contraseña</h3>
                     <HiddenTextInput
                         placeholder='Confirmar Contraseña'
                         getVal={passwordConfirm}
                         setVal={setConfirmPassword}
+                        label='Confirmar contraseña'
                     />
                     <div className='button-container'>
                         <BaseButton
@@ -67,7 +68,7 @@ const Signup = () => {
                             onClick={handleSignup}
                         />
                         <Link to='/LoginAdmin'>
-                            <BaseButton type='fail' label='Cancelar' />
+                            <BaseButton type='cancel' label='Cancelar' />
                         </Link>
                     </div>
                 </form>

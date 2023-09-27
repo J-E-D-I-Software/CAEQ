@@ -6,6 +6,7 @@ import RegisterAdmin from './screens/SignupAdmin';
 import RegisterUser from './screens/SingupArchitect';
 import Directory from './screens/Directory';
 
+import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import BaseButton from './components/buttons/BaseButton';
@@ -74,13 +75,22 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
+    
     {
-        path:'/Directory',
-        name:'Directorio',
-        Component: Directory,
+        path: '/Directorio',
+        name: 'Directorio',
+        Component: () => (
+            <div>
+                <RestrictByRole allowedRoles={['caeq']}>
+                <Directory /> {Directory}
+                </RestrictByRole>
+            </div>
+            ),
+        icon: DirectorioIcon,
         isPrivate: true,
         inNavbar: true,
-    }
+    },
+
 ];
 
 export default routes;

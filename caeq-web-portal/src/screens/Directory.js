@@ -5,7 +5,7 @@ const Directory = () => {
 
     return (
         <div>
-            <h1>Directory</h1>
+            <h1>Directorio de Colegiados</h1>
         </div>
     );
 };

@@ -1,42 +1,41 @@
 .label-input {
-  color: var(--Gray-CAEQ, #4d585e);
-  font-feature-settings: "clig" off, "liga" off;
+    color: var(--Gray-CAEQ, #4d585e);
+    font-feature-settings: 'clig' off, 'liga' off;
 
-
-  /* text Input CAEQ */
-  font-family: Montserrat;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  letter-spacing: 1.68px;
-  padding-left: 20px;
-  margin-bottom: 10px;
-
+    /* text Input CAEQ */
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: 1.68px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 .box-input {
-  font-family: Montserrat;
-  font-size: 18px;
-  border-radius: 20px;
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-  width: 300px;
-  height: 30px;
-  padding-left: 12px;
-  border: none;
+    font-family: Montserrat;
+    font-size: 18px;
+    border-radius: 20px;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+    border: none;
 }
 
 .large-box-input {
-  font-family: Montserrat;
-  font-size: 18px;
-  border-radius: 20px;
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-  width: auto;
-  height: 334px;
-  padding-left: 12px;
-  padding-top: 8px;
-  border: none;
-  resize: none;
+    font-family: Montserrat;
+    font-size: 18px;
+    border-radius: 20px;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 334px;
+    padding-left: 12px;
+    padding-top: 8px;
+    border: none;
+    resize: none;
     font-family: Montserrat;
     font-size: 20x;
     border-radius: 20px;
@@ -50,35 +49,35 @@
 }
 
 .fused-box-input {
-  width:auto;
-  padding: 10px;
-  border: none;
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-  border-radius: 20px;
-  padding-right: 45px;
-  font-size: 18px;
+    width: 100%;
+    padding-left: 20px;
+    border: none;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    border-radius: 31.056px 0px 0px 31.056px;
+    font-size: 18px;
+    height: 40px;
+}
+
+.input-eye {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .button-eye {
-  height: 30px;
-  width: 30px;
-  border: none;
-  border-radius: 30px;
-  margin-left: -40px;
-  margin-bottom: -10px;
-  background: none;
-  cursor: pointer;
-  align-content: center;
-  transition: background 0.2s ease-in-out;
-}
-
-.button-eye:hover {
-  border: none;
-  border-radius: 30px;
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: 0px 31.056px 31.056px 0px;
+    background: white;
+    cursor: pointer;
+    align-content: center;
+    transition: background 0.2s ease-in-out;
+    box-shadow: 4px 7px 5px 0px rgba(0, 0, 0, 0.096);
 }
 
 .obligatorio {
-  padding-left: 6px;
-  font-size: 14px;
-  color: red;
+    padding-left: 6px;
+    font-size: 14px;
+    color: red;
 }

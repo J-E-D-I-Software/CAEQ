@@ -1,25 +1,48 @@
-.signup-container {
+.signup-admin-container {
     display: flex;
     flex-direction: column;
     background: url('../../components/images/backgroundCaeq.png') right center/cover
         no-repeat;
     background-attachment: fixed;
-    padding: 20px;
     height: 100vh;
     color: #000000; /* Color del texto dentro del contenedor */
-}
 
-h3 {
-    margin-bottom: 5px; /* Reduzca el espacio inferior de los títulos h3 */
-}
+    .signup-form {
+        padding: 20px;
+        background-color: white;
+        width: 50%;
+        height: 100%;
 
-.Logo {
-    width: 300px;
-    height: auto;
-    margin-bottom: 20px;
-}
+        @media (max-width: 1000px) {
+            width: 100%;
+            background-color: transparent;
+        }
+    }
 
-TextInput,
-HiddenTextInput {
-    text-align: center; /* Centra el texto dentro de los campos de entrada */
+    h3 {
+        margin-bottom: 5px; /* Reduzca el espacio inferior de los títulos h3 */
+    }
+
+    .Logo {
+        width: 500px;
+        height: auto;
+        margin-bottom: 20px;
+
+        @media (max-width: 1000px) {
+            width: 80%;
+            background-color: transparent;
+        }
+    }
+
+    TextInput,
+    HiddenTextInput {
+        text-align: center; /* Centra el texto dentro de los campos de entrada */
+    }
+
+    .button-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 }

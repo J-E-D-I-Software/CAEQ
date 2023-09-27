@@ -12,7 +12,7 @@ const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
+    const [passwordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
     const handleSignup = async (e) => {
@@ -31,45 +31,48 @@ const Signup = () => {
     };
 
     return (
-        <div className='signup-container'>
-            <img src={Logo} alt='Logo' className='Logo' />
-            <h2>Registro</h2>
-            <form onSubmit={handleSignup}>
-                <h3>Nombre</h3>
-                <TextInput
-                    placeholder='Nombre Completo'
-                    getVal={fullName}
-                    setVal={setfullName}
-                />
-                <h3>Correo Electrónico</h3>
-                <TextInput
-                    placeholder='Correo Electrónico'
-                    getVal={email}
-                    setVal={setEmail}
-                />
-                <h3>Contraseña</h3>
-                <HiddenTextInput
-                    placeholder='Contraseña'
-                    getVal={password}
-                    setVal={setPassword}
-                />
-                <h3>Confirmar Contraseña</h3>
-                <HiddenTextInput
-                    placeholder='Confirmar Contraseña'
-                    getVal={passwordConfirm}
-                    setVal={setConfirmPassword}
-                />
-                <div className='button-container'>
-                    <BaseButton
-                        type='Submit'
-                        label='Registrarse'
-                        onClick={handleSignup}
+        <div className='signup-admin-container'>
+            <div className='signup-form'>
+                <img src={Logo} alt='Logo' className='Logo' />
+                <h2>Registro</h2>
+                <form onSubmit={handleSignup}>
+                    <h3>Nombre</h3>
+                    <TextInput
+                        placeholder='Nombre Completo'
+                        getVal={fullName}
+                        setVal={setfullName}
                     />
-                    <Link to='/LoginAdmin'>
-                        <BaseButton type='fail' label='Cancelar' />
-                    </Link>
-                </div>
-            </form>
+                    <h3>Correo Electrónico</h3>
+                    <TextInput
+                        placeholder='Correo Electrónico'
+                        getVal={email}
+                        setVal={setEmail}
+                    />
+                    <h3>Contraseña</h3>
+                    <HiddenTextInput
+                        placeholder='Contraseña'
+                        getVal={password}
+                        setVal={setPassword}
+                    />
+                    <h3>Confirmar Contraseña</h3>
+                    <HiddenTextInput
+                        placeholder='Confirmar Contraseña'
+                        getVal={passwordConfirm}
+                        setVal={setConfirmPassword}
+                    />
+                    <div className='button-container'>
+                        <BaseButton
+                            type='primary'
+                            label='Registrarse'
+                            onClick={handleSignup}
+                        />
+                        <Link to='/LoginAdmin'>
+                            <BaseButton type='fail' label='Cancelar' />
+                        </Link>
+                    </div>
+                </form>
+            </div>
+            <div className='signup-image'></div>
         </div>
     );
 };

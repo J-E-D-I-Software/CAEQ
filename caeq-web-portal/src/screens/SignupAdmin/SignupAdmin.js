@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import '../styles/signup.scss';
-import TextInput from '../components/inputs/TextInput/TextInput';
-import HiddenTextInput from '../components/inputs/TextInput/HiddenTextInput';
-import Logo from '../components/images/caeqLogo.png';
-import BaseButton from '../components/buttons/BaseButton';
+import './signup.scss';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
+import Logo from '../../components/images/caeqLogo.png';
+import BaseButton from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { postSignupArchitectUsers } from '../client/ArchitectUser/ArchitectUser.POST';
-import { FireError, FireSucess } from '../utils/alertHandler';
-import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
+import { postSignupCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
+import { FireError, FireSucess } from '../../utils/alertHandler';
 
 const Signup = () => {
     const [fullName, setfullName] = useState('');
@@ -20,17 +19,12 @@ const Signup = () => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();
         try {
-            const response = await postSignupArchitectUsers(data);
-            if (response.status === 'success') {
-                const token = response.token;
+            await postSignupCaeqUsers(data);
 
-                setUserType(token);
-                setToken(token);
-                setArchitectUserSaved(response.data.user);
-            }
-
-            FireSucess('Te has registrado con éxito');
-            navigate('/Principal');
+            FireSucess(
+                'Te has registrado con éxito. Un administrador actualizará tu perfil'
+            );
+            navigate('/');
         } catch (error) {
             FireError(error.message);
         }
@@ -42,7 +36,11 @@ const Signup = () => {
             <h2>Registro</h2>
             <form onSubmit={handleSignup}>
                 <h3>Nombre</h3>
-                <TextInput placeholder='Nombre Completo' getVal={fullName} setVal={setfullName} />
+                <TextInput
+                    placeholder='Nombre Completo'
+                    getVal={fullName}
+                    setVal={setfullName}
+                />
                 <h3>Correo Electrónico</h3>
                 <TextInput
                     placeholder='Correo Electrónico'

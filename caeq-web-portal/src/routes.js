@@ -1,10 +1,11 @@
 import Dasbboard from './screens/Dasboard';
 import Test from './screens/Test';
-import LoginAdmin from './screens/LoginAdmin';
-import LoginUser from './screens/LoginUser';
-import RegisterAdmin from './screens/SignupAdmin';
-import RegisterUser from './screens/SingupArchitect';
+import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
+import LoginUser from './screens/LoginUser/LoginUser';
+import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
+import RegisterUser from './screens/SignupArchitect/SingupArchitect';
 import Directory from './screens/Directory';
+
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import CursosIcon from '../src/components/icons/CursosIcon.png';
@@ -26,14 +27,14 @@ const routes = [
         path: '/Principal',
         name: 'Principal',
         Component: () => (
-        <div>
-            <RestrictByRole allowedRoles={['architect']}>
-                <BaseButton label="architect" />
-            </RestrictByRole>
-            <RestrictByRole allowedRoles={['staff']}>
-                <BaseButton label="staff" />
-            </RestrictByRole>
-        </div>
+            <div>
+                <RestrictByRole allowedRoles={['architect']}>
+                    <BaseButton label='architect' />
+                </RestrictByRole>
+                <RestrictByRole allowedRoles={['staff']}>
+                    <BaseButton label='staff' />
+                </RestrictByRole>
+            </div>
         ),
         icon: PrincipalIcon,
         isPrivate: true,

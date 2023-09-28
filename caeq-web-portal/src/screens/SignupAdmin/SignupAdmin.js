@@ -62,13 +62,11 @@ const Signup = () => {
                         label='Confirmar contraseña'
                     />
                     <div className='button-container'>
-                        <BaseButton
-                            type='primary'
-                            label='Registrarse'
-                            onClick={handleSignup}
-                        />
+                        <BaseButton type='primary' onClick={handleSignup}>
+                            Registrarse
+                        </BaseButton>
                         <Link to='/LoginAdmin'>
-                            <BaseButton type='cancel' label='Cancelar' />
+                            <BaseButton type='cancel'>Cancelar</BaseButton>
                         </Link>
                     </div>
                 </form>

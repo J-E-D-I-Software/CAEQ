@@ -24,3 +24,13 @@ TextInput,
 HiddenTextInput {
     text-align: center; /* Centra el texto dentro de los campos de entrada */
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns of equal width */
+  gap: 50px; /* Add gap for spacing between columns */
+}
+
+.column {
+  padding: 10px; /* Add padding for spacing within columns */
+}

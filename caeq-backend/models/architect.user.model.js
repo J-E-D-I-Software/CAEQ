@@ -49,7 +49,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: [true, 'Por favor dinos tu edad!']
+        required: [false]
     },
     gender: {
         type: String,
@@ -69,13 +69,9 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu número de oficina!']
     },
     emergencyContact: {
-        type: Number,
-        required: [true, 'Por favor dinos tu contacto de emergencia!']
-    },
-    emergencyContactName: {
         type: String,
-        required: [true, 'Por favor dinos el nombre de tu contacto de emergencia!']
-    }, 
+        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!']
+    },
     mainProfessionalActivity: {
         type: String,
         required: [true, 'Por favor dinos tu actividad principal profesional!']

@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import "./BaseButton.scss";
 
-const BaseButton = ({ label, type, action }) => {
-  const [isActive, setIsActive] = useState(false);
+const BaseButton = ({ children, type, onClick }) => {
 
-  const handleClick = (e) => {
-    // e.preventDefault();
-    // action(e);
-    setIsActive(!isActive); // Toggle the active state
-  };
-
-  const buttonClassName = `button button-${type} ${isActive ? "active" : ""}`;
+  const buttonClassName = `button button-${type}`;
   return (
-    <button onClick={handleClick} className={buttonClassName}>
-      {label}
+    <button onClick={onClick} className={buttonClassName}>
+      {children}
     </button>
   );
 };

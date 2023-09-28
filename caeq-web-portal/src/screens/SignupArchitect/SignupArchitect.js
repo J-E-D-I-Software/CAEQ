@@ -9,13 +9,27 @@ import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUs
 import { FireError, FireSucess } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 
+/**
+ * Signup component for user registration.
+ * @component
+ *
+ * @returns {JSX.Element} JSX element representing the Signup page.
+ *
+ * @example
+ * // Example usage of Signup:
+ * <Signup />
+ */
 const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
+    const [passwordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * Handles user registration when the form is submitted.
+     * @param {Object} e - The form submit event object.
+     */
     const handleSignup = async (e) => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();
@@ -66,10 +80,8 @@ const Signup = () => {
                     setVal={setConfirmPassword}
                 />
                 <div className='button-container'>
-                    <BaseButton
-                        type='Submit'
-                        onClick={handleSignup}
-                    >Registrarse
+                    <BaseButton type='Submit' onClick={handleSignup}>
+                        Registrarse
                     </BaseButton>
                     <Link to='/LoginAdmin'>
                         <BaseButton type='fail'>Cancelar</BaseButton>

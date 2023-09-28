@@ -42,11 +42,22 @@ const ArchitectUserSchema = new mongoose.Schema({
     lifeInsurance: {
         type: Boolean,
         required: [true, 'Por favor dinos si tienes autorización para compartir información!']
-    },
-    lifeInsureID:{
+      },
+    
+      lifeInsureID: {
         type: String,
-        required: [true, 'Por favor dinos tu poliza de seguro de vida!']
-    },
+        required: function () {
+          return this.lifeInsurance === true;
+        },
+        validate: [
+          {
+            validator: function (value) {
+              return !this.lifeInsurance || (this.lifeInsurance && value);
+            },
+            message: 'Por favor proporciona tu número de póliza de seguro de vida.'
+          }
+        ]
+      },
     age: {
         type: Number,
         required: [true, 'Por favor dinos tu edad!']

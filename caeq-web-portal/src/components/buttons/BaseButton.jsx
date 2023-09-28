@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import "./BaseButton.scss";
+import './BaseButton.scss';
 
 const BaseButton = ({ children, type, onClick }) => {
-
-  const buttonClassName = `button button-${type}`;
-  return (
-    <button onClick={onClick} className={buttonClassName}>
-      {children}
-    </button>
-  );
+    const buttonClassName = `button button-${type}`;
+    return (
+        <button onClick={onClick} className={buttonClassName}>
+            {children}
+        </button>
+    );
 };
 
 export default BaseButton;

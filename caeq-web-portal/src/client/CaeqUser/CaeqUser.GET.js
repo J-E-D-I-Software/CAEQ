@@ -6,7 +6,7 @@ import baseApiEndpoint from '../backendConfig';
  * @returns An array of objects.
  */
 export async function getCaeqUsers() {
-    let endpoint = `${baseApiEndpoint}/caequsers`;
+    let endpoint = `${baseApiEndpoint}/caequsers?verified=false`;
 
     const response = await axios.get(endpoint);
 

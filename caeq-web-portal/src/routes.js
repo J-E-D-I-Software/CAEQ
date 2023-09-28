@@ -4,11 +4,13 @@ import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
 import RegisterUser from './screens/SignupArchitect/SignupArchitect';
+import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import AdminIcon from '../src/components/icons/AdminIcon.png';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -40,6 +42,14 @@ const routes = [
         name: 'Cursos',
         icon: CursosIcon,
         Component: Course,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/admins',
+        name: 'Admins',
+        icon: AdminIcon,
+        Component: AcceptAdmin,
         isPrivate: true,
         inNavbar: true,
     },

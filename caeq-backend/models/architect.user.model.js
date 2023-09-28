@@ -5,13 +5,13 @@ const crypto = require('crypto');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
-    collegiateNumber: {
-        type: Number,
-        required: [true, 'Por favor dinos tu número de DRO!'],
-    },
     fullName: {
         type: String,
         required: [true, 'Por favor dinos tu nombre!'],
+    },
+    collegiateNumber: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de DRO!'],
     },
     memberType: {
         type: String,

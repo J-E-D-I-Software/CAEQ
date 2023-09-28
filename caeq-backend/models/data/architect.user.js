@@ -1,7 +1,7 @@
 const architectUserTestData = [
   {
-    collegiateNumber: 98765,
     fullName: "Luis García",
+    collegiateNumber: 98765,
     memberType: "Miembro de número",
     classification: "Docente",
     DRONumber: "DRO98765",
@@ -32,8 +32,8 @@ const architectUserTestData = [
     passwordConfirm: "password123",
   },
   {
-    collegiateNumber: 54321,
     fullName: "Laura Martínez",
+    collegiateNumber: 54321,
     memberType: "Miembro Adherente",
     classification: "Expresidente",
     DRONumber: "DRO54321",
@@ -64,8 +64,8 @@ const architectUserTestData = [
     passwordConfirm: "password456",
   },
   {
-    collegiateNumber: 12345,
     fullName: "Ana Rodríguez",
+    collegiateNumber: 12345,
     memberType: "Miembro Pasante",
     classification: "Convenio",
     DRONumber: "DRO12345",
@@ -96,8 +96,8 @@ const architectUserTestData = [
     passwordConfirm: "password789",
   },
   {
-    collegiateNumber: 67890,
     fullName: "Miguel Pérez",
+    collegiateNumber: 67890,
     memberType: "Miembro Vitalicio",
     classification: "Docente",
     DRONumber: "DRO67890",
@@ -128,8 +128,8 @@ const architectUserTestData = [
     passwordConfirm: "passwordabc",
   },
   {
-    collegiateNumber: 24680,
     fullName: "Javier López",
+    collegiateNumber: 24680,
     memberType: "Miembro Adherente",
     classification: "Docente",
     DRONumber: "DRO24680",
@@ -160,8 +160,8 @@ const architectUserTestData = [
     passwordConfirm: "password123",
   },
   {
-    collegiateNumber: 13579,
     fullName: "Isabel Torres",
+    collegiateNumber: 13579,
     memberType: "Miembro Pasante",
     classification: "Convenio",
     DRONumber: "DRO13579",

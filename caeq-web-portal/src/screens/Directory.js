@@ -52,6 +52,9 @@ const Directory = () => {
   // Filtrar los arquitectos en función del texto de búsqueda
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
+  // Filtrar y excluir la primera columna ('id') antes de pasar los datos a InteractiveTable
+  const tablefilteredArchitects = filteredArchitects.map(({ _id, ...rest }) => rest);
+
   return (
     <div>
       <label>
@@ -63,7 +66,7 @@ const Directory = () => {
         />
       </label>
       {filteredArchitects.length > 0 && (
-        <InteractiveTable data={filteredArchitects} />
+        <InteractiveTable data={tablefilteredArchitects} />
       )}
     </div>
   );

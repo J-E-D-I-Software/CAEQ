@@ -4,7 +4,13 @@ import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 import AdminCard from '../../components/cards/AdminCard';
 import { getCaeqUsers } from '../../client/CaeqUser/CaeqUser.GET';
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import { patchAcceptAdmin, patchRejectAdmin } from '../../client/CaeqUser/CaeqUser.PATCH';
+import {
+    FireError,
+    FireSucess,
+    FireLoading,
+    FireQuestion,
+} from '../../utils/alertHandler';
 
 const AcceptAdmin = () => {
     const [admins, setAdmins] = useState([]);
@@ -20,6 +26,52 @@ const AcceptAdmin = () => {
             }
         })();
     }, []);
+
+    const handleAccept = async (id) => {
+        try {
+            const confirmation = await FireQuestion(
+                '¿Está seguro que desea aprobar al administrador?',
+                'Esta acción no se puede deshacer. El administrador tendrá acceso a la aplicación.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Aceptando administrador...');
+            const response = await patchAcceptAdmin(id);
+
+            setAdmins(admins.filter((admin) => admin._id !== id));
+
+            swal.close();
+            FireSucess(response.message);
+        } catch (error) {
+            FireError(error.message);
+        }
+    };
+
+    const handleReject = async (id) => {
+        try {
+            const confirmation = await FireQuestion(
+                '¿Está seguro que desea rechazar al administrador?',
+                'Esta acción no se puede deshacer. El administrador será eliminado.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Rechazando administrador...');
+            const response = await patchRejectAdmin(id);
+
+            setAdmins(admins.filter((admin) => admin._id !== id));
+
+            swal.close();
+            FireSucess(response.message);
+        } catch (error) {
+            FireError(error.message);
+        }
+    };
 
     return (
         <div className='accept-admin'>
@@ -44,7 +96,13 @@ const AcceptAdmin = () => {
             </div>
             <div className='admin-cards'>
                 {admins.map((admin) => (
-                    <AdminCard email={admin.email} fullName={admin.fullName} />
+                    <AdminCard
+                        id={admin._id}
+                        email={admin.email}
+                        fullName={admin.fullName}
+                        acceptAdmin={handleAccept}
+                        rejectAdmin={handleReject}
+                    />
                 ))}
             </div>
         </div>

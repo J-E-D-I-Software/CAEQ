@@ -52,6 +52,7 @@ const routes = [
         Component: AcceptAdmin,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq'],
     },
     {
         path: '/LoginAdmin',

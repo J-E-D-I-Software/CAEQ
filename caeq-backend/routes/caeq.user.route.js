@@ -18,10 +18,11 @@ const {
 
 router.post('/auth/signup', signUpCaeqUser);
 router.post('/auth/login', loginCaeqUser);
+
+router.use(protect, restrictTo('caeq'));
 router.patch('/acceptadmin', acceptCaeqUser);
 router.patch('/rejectadmin', rejectCaeqUser);
 
-router.use(protect, restrictTo('caeq'));
 router.route('/').get(getAllCaeqUsers).post(createCaeqUser);
 router.route('/:id').get(getCaeqUser).patch(updateCaeqUser).delete(deleteCaeqUser);
 

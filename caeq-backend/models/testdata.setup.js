@@ -4,6 +4,7 @@ const CaeqUser = require('./caeq.user.model');
 const CaeqUserData = require('./data/caeq.user');
 const ArchitectUser = require('./architect.user.model');
 const ArchitectUserData = require('./data/architect.user');
+const Course = require('./course.model');
 const CourseData = require('./data/course');
 
 /**

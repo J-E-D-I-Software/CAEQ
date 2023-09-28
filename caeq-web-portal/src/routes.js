@@ -43,11 +43,11 @@ const routes = [
     },
     {
         path: '/Curso/:id',
-        name: 'Cursos',
+        name: 'Curso',
         icon: CursosIcon,
         Component: Course,
         isPrivate: true,
-        inNavbar: true,
+        inNavbar: false,
     },
     {
         path: '/LoginAdmin',

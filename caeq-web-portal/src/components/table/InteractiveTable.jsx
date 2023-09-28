@@ -46,7 +46,7 @@ const datos = [
   },
 ];
 
-const Table = () => {
+const InteractiveTable = () => {
   const [columnVisibility, setColumnVisibility] = useState({
     columna1: true,
     columna2: true,
@@ -117,4 +117,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default InteractiveTable;

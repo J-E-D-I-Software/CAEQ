@@ -3,7 +3,6 @@ import "./loginAdmin.scss";
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import HiddenTextInput from "../../components/inputs/TextInput/HiddenTextInput";
 import Logo from "../../components/images/caeqLogo.png";
-import Button from "../../components/buttons/BaseButton";
 import { Link, useNavigate } from "react-router-dom";
 import { postLoginCaeqUsers } from "../../client/CaeqUser/CaeqUser.POST";
 import { FireError, FireSucess } from "../../utils/alertHandler";
@@ -40,18 +39,18 @@ const LogingSignUp = () => {
       <form onSubmit={handleLogin}>
         <h2>Correo electrónico</h2>
         <TextInput
-          placeholder="juan@ejemplo.com"
+          placeholder="Ingresa tu correo"
           getVal={email}
           setVal={setEmail}
         />
         <h2>Contraseña</h2>
         <HiddenTextInput
-          placeholder="Ingresa la contraseña"
+          placeholder="Ingresa tu contraseña"
           getVal={password}
           setVal={setPassword}
         />
         <br />
-        <BaseButton color="primary" type="submit">
+        <BaseButton color="primary" type="submit" id="log">
           Iniciar sesión
         </BaseButton>
       </form>

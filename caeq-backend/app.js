@@ -23,7 +23,7 @@ const globalErrorHandler = require('./controllers/error.controller');
 const fileTestRouter = require('./routes/files.route');
 const caeqRouter = require('./routes/caeq.user.route');
 const architectRouter = require('./routes/architect.user.route');
-const courseRouter = require('.routes/course.route');
+const courseRouter = require('./routes/course.route');
 
 const app = express();
 

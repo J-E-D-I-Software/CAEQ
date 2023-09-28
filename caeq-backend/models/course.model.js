@@ -8,6 +8,9 @@ const CourseSchema = new mongoose.Schema(
         },
         modality: {
             type: String,
+            enum: { values: ['Presencial', 'Remoto'] },
+            required: [true, 'Modalidad requerida'],
+            default: 'Presencial',
         },
         numberHours: {
             type: Number,
@@ -28,7 +31,7 @@ const CourseSchema = new mongoose.Schema(
             type: String
         },
         price: {
-            type: Float32Array,
+            type: Number,
         },
         teacherName: {
             type: String,

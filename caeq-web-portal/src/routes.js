@@ -4,6 +4,8 @@ import LoginAdmin from './screens/LoginAdmin';
 import LoginUser from './screens/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin';
 import RegisterUser from './screens/SingupArchitect';
+import Courses from './screens/Courses';
+import Course from './screens/Course';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
@@ -25,12 +27,6 @@ const routes = [
         name: 'Principal',
         Component: () => (
         <div>
-            <RestrictByRole allowedRoles={['architect']}>
-                <BaseButton label="architect" />
-            </RestrictByRole>
-            <RestrictByRole allowedRoles={['staff']}>
-                <BaseButton label="staff" />
-            </RestrictByRole>
         </div>
         ),
         icon: PrincipalIcon,
@@ -41,7 +37,15 @@ const routes = [
         path: '/Cursos',
         name: 'Cursos',
         icon: CursosIcon,
-        Component: Test,
+        Component: Courses,
+        isPrivate: true,
+        inNavbar: true,
+    },
+    {
+        path: '/Curso/:id',
+        name: 'Cursos',
+        icon: CursosIcon,
+        Component: Course,
         isPrivate: true,
         inNavbar: true,
     },

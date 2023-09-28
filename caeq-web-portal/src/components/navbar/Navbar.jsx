@@ -11,7 +11,7 @@ const Navbar = () => {
 
     <div className="navbar">
       <div className="navbar-button">
-        <BaseButton label="Cerrar sesión" type="fail" />
+        <BaseButton type="fail">Cerrar sesión</BaseButton>
       </div>
       <div className="navbar-center">
         {routes

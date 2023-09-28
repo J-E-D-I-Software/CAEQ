@@ -58,11 +58,11 @@ const Signup = () => {
                 <div className='button-container'>
                     <BaseButton
                         type='Submit'
-                        label='Registrarse'
                         onClick={handleSignup}
-                    />
+                    >Registrarse
+                    </BaseButton>
                     <Link to='/LoginAdmin'>
-                        <BaseButton type='fail' label='Cancelar' />
+                        <BaseButton type='fail'>Cancelar</BaseButton>
                     </Link>
                 </div>
             </form>

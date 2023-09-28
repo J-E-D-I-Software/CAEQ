@@ -39,7 +39,10 @@ const CourseSchema = new mongoose.Schema(
         teacherReview: {
             type: String,
         },
-        paymentInfo : {
+        paymentInfo: {
+            type: String,
+        },
+        imageUrl: {
             type: String,
         }
     },

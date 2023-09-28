@@ -1,14 +1,15 @@
 import Dasbboard from './screens/Dasboard';
 import Test from './screens/Test';
-import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
-import LoginUser from './screens/LoginUser/LoginUser';
-import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
-import RegisterUser from './screens/SignupArchitect/SignupArchitect';
-import Courses from './screens/Courses';
-import Course from './screens/Course';
+import LoginAdmin from './screens/LoginAdmin';
+import LoginUser from './screens/LoginUser';
+import RegisterAdmin from './screens/SignupAdmin';
+import RegisterUser from './screens/SingupArchitect';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import BaseButton from './components/buttons/BaseButton';
+import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
+
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -22,7 +23,16 @@ const routes = [
     {
         path: '/Principal',
         name: 'Principal',
-        Component: () => <div></div>,
+        Component: () => (
+        <div>
+            <RestrictByRole allowedRoles={['architect']}>
+                <BaseButton label="architect" />
+            </RestrictByRole>
+            <RestrictByRole allowedRoles={['staff']}>
+                <BaseButton label="staff" />
+            </RestrictByRole>
+        </div>
+        ),
         icon: PrincipalIcon,
         isPrivate: true,
         inNavbar: true,
@@ -31,15 +41,7 @@ const routes = [
         path: '/Cursos',
         name: 'Cursos',
         icon: CursosIcon,
-        Component: Courses,
-        isPrivate: true,
-        inNavbar: true,
-    },
-    {
-        path: '/Curso/:id',
-        name: 'Cursos',
-        icon: CursosIcon,
-        Component: Course,
+        Component: Test,
         isPrivate: true,
         inNavbar: true,
     },

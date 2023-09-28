@@ -23,7 +23,6 @@ const globalErrorHandler = require('./controllers/error.controller');
 const fileTestRouter = require('./routes/files.route');
 const caeqRouter = require('./routes/caeq.user.route');
 const architectRouter = require('./routes/architect.user.route');
-const courseRouter = require('./routes/course.route');
 
 const app = express();
 
@@ -90,7 +89,6 @@ app.use(limiter);
 app.use('/filetest', fileTestRouter);
 app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
-app.use('/courses', courseRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

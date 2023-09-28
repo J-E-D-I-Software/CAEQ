@@ -1,35 +1,21 @@
 import React, { useState } from 'react';
-import './signup.scss';
-import TextInput from '../../components/inputs/TextInput/TextInput';
-import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
-import Logo from '../../components/images/caeqLogo.png';
-import BaseButton from '../../components/buttons/BaseButton';
+import '../styles/signup.scss';
+import TextInput from '../components/inputs/TextInput/TextInput';
+import HiddenTextInput from '../components/inputs/TextInput/HiddenTextInput';
+import Logo from '../components/images/caeqLogo.png';
+import BaseButton from '../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
-import { FireError, FireSucess } from '../../utils/alertHandler';
-import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
+import { postSignupArchitectUsers } from '../client/ArchitectUser/ArchitectUser.POST';
+import { FireError, FireSucess } from '../utils/alertHandler';
+import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
 
-/**
- * Signup component for user registration.
- * @component
- *
- * @returns {JSX.Element} JSX element representing the Signup page.
- *
- * @example
- * // Example usage of Signup:
- * <Signup />
- */
 const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setConfirmPassword] = useState('');
+    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
     const navigate = useNavigate();
 
-    /**
-     * Handles user registration when the form is submitted.
-     * @param {Object} e - The form submit event object.
-     */
     const handleSignup = async (e) => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();
@@ -56,11 +42,7 @@ const Signup = () => {
             <h2>Registro</h2>
             <form onSubmit={handleSignup}>
                 <h3>Nombre</h3>
-                <TextInput
-                    placeholder='Nombre Completo'
-                    getVal={fullName}
-                    setVal={setfullName}
-                />
+                <TextInput placeholder='Nombre Completo' getVal={fullName} setVal={setfullName} />
                 <h3>Correo Electrónico</h3>
                 <TextInput
                     placeholder='Correo Electrónico'
@@ -80,11 +62,13 @@ const Signup = () => {
                     setVal={setConfirmPassword}
                 />
                 <div className='button-container'>
-                    <BaseButton type='Submit' onClick={handleSignup}>
-                        Registrarse
-                    </BaseButton>
+                    <BaseButton
+                        type='Submit'
+                        label='Registrarse'
+                        onClick={handleSignup}
+                    />
                     <Link to='/LoginAdmin'>
-                        <BaseButton type='fail'>Cancelar</BaseButton>
+                        <BaseButton type='fail' label='Cancelar' />
                     </Link>
                 </div>
             </form>

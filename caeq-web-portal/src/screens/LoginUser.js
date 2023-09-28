@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './loginAdmin.scss';
-import TextInput from '../../components/inputs/TextInput/TextInput';
-import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
-import Logo from '../../components/images/caeqLogo.png';
-import Button from '../../components/buttons/BaseButton';
+import '../styles/loginAdmin.scss';
+import TextInput from '../components/inputs/TextInput/TextInput';
+import HiddenTextInput from '../components/inputs/TextInput/HiddenTextInput';
+import Logo from '../components/images/caeqLogo.png';
+import Button from '../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { postLoginCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
-import { FireError, FireSucess } from '../../utils/alertHandler';
-import { setToken, setUserType, setCaeqUserSaved } from '../../utils/auth';
+import { postLoginArchitectUsers } from '../client/ArchitectUser/ArchitectUser.POST';
+import { FireError, FireSucess, FireLoading } from '../utils/alertHandler';
+import { setToken, setUserType, setArchitectUserSaved } from '../utils/auth';
 
 const LogingSignUp = () => {
     const [email, setEmail] = useState('');
@@ -17,15 +17,16 @@ const LogingSignUp = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await postLoginCaeqUsers(email, password);
+            const swal = FireLoading('Iniciando sesión...');
+            const response = await postLoginArchitectUsers(email, password);
             if (response.status === 'success') {
                 const token = response.token;
 
                 setUserType(token);
                 setToken(token);
-                setCaeqUserSaved(response.data.user);
+                setArchitectUserSaved(response.data.user);
             }
-
+            swal.close();
             FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
@@ -52,7 +53,7 @@ const LogingSignUp = () => {
             </form>
             <div className='forgot-register-links'>
                 <a href='/forgot-password'>¿Olvidaste tu contraseña?</a> <br />
-                <Link to='/SignupAdmin'>
+                <Link to='/SignupUser'>
                     <p> Regístrate</p>
                 </Link>
             </div>

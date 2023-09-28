@@ -17,20 +17,11 @@ const Directory = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log("Datos de arquitectos:", architectUsers);
-  }, [architectUsers]);
-
   return (
     <div>
-      <center>
-        <h1>Directorio de Colegiados</h1>
-      </center>
-      <p>
-        Los datos se han impreso en la consola del navegador. Abre la consola
-        para verlos.
-      </p>
-      <InteractiveTable architectUsers={architectUsers} />
+      {architectUsers.length > 0 && ( // Verificar que architectUsers tenga datos
+        <InteractiveTable data={architectUsers} />
+      )}
     </div>
   );
 };

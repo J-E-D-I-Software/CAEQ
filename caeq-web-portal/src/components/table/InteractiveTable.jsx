@@ -2,117 +2,111 @@ import React, { useState } from "react";
 import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
 
-// Datos de ejemplo
-const datos = [
-  {
-    id: 1,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 2,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 3,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 4,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 5,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-];
+/**
+ * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
+ * @param {Object[]} data - Los datos para llenar la tabla.
+ * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
+ */
+const InteractiveTable = ({ data }) => {
+  // Obtiene las columnas que deben mostrarse en la tabla.
+  const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
-const InteractiveTable = () => {
-  const [columnVisibility, setColumnVisibility] = useState({
-    columna1: true,
-    columna2: true,
-    columna3: true,
-    columna4: true,
-    columna5: true,
+  // Estado para mantener la visibilidad de las columnas.
+  const [columnVisibility, setColumnVisibility] = useState(() => {
+    return columnsToShow.reduce((visibility, column) => {
+      visibility[column] = true;
+      return visibility;
+    }, {});
   });
 
+  /**
+   * Alternar la visibilidad de una columna.
+   * @param {string} columnKey - La clave de la columna a alternar.
+   */
   const toggleColumnVisibility = (columnKey) => {
-    setColumnVisibility((prevState) => ({
-      ...prevState,
-      [columnKey]: !prevState[columnKey],
+    setColumnVisibility((prevVisibility) => ({
+      ...prevVisibility,
+      [columnKey]: !prevVisibility[columnKey],
     }));
   };
 
+  /**
+   * Restablecer la visibilidad de todas las columnas.
+   */
   const resetColumnVisibility = () => {
-    setColumnVisibility({
-      columna1: true,
-      columna2: true,
-      columna3: true,
-      columna4: true,
-      columna5: true,
+    setColumnVisibility((prevVisibility) => {
+      const resetVisibility = {};
+      columnsToShow.forEach((column) => {
+        resetVisibility[column] = true;
+      });
+      return resetVisibility;
     });
   };
 
-  const renderTableHeader = () => {
-    return (
+  /**
+   * Función de formato para mostrar valores booleanos como "Sí" o "No".
+   * @param {boolean} value - El valor booleano a formatear.
+   * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
+   */
+  const formatBooleanValue = (value) => (value ? "Sí" : "No");
+
+  /**
+   * Renderizar el encabezado de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
+   */
+  const renderTableHeader = () => (
+    <tr>
+      {columnsToShow.map((column) =>
+        columnVisibility[column] ? (
+          <th key={column} className="sticky-column">
+            {column}
+            <button
+              className="hide-button"
+              onClick={() => toggleColumnVisibility(column)}
+            >
+              <img src={CloseIcon} alt="Icono Ocultar" />
+            </button>
+          </th>
+        ) : null
+      )}
+    </tr>
+  );
+
+  /**
+   * Renderizar el cuerpo de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
+   */
+  const renderTableBody = () =>
+    data?.length > 0 ? (
+      data.map((row, rowIndex) => (
+        <tr key={rowIndex} className="fila-sombrada">
+          {columnsToShow.map((column) =>
+            columnVisibility[column] ? (
+              <td key={column} className="sticky-column">
+                {/* Aplicar el formato solo a las celdas con valores booleanos */}
+                {typeof row[column] === "boolean"
+                  ? formatBooleanValue(row[column])
+                  : row[column]}
+              </td>
+            ) : null
+          )}
+        </tr>
+      ))
+    ) : (
       <tr>
-        <th className="sticky-column">Columna 1</th>
-        {Object.keys(columnVisibility).map((key) =>
-          columnVisibility[key] ? (
-            <th key={key}>
-              {`Columna ${key.charAt(key.length - 1)}`}{" "}
-              <button
-                className="hide-button"
-                onClick={() => toggleColumnVisibility(key)}
-              >
-                <img src={CloseIcon} alt="Icono Ocultar" />
-              </button>
-            </th>
-          ) : null
-        )}
+        <td colSpan={columnsToShow.length}>No hay datos disponibles.</td>
       </tr>
     );
-  };
-
-  const renderTableBody = () => {
-    return datos.map((fila) => (
-      <tr key={fila.id} className="fila-sombrada">
-        <td className="sticky-column">{fila.columna1}</td>
-        {Object.keys(columnVisibility).map((key) =>
-          columnVisibility[key] ? <td key={key}>{fila[key]}</td> : null
-        )}
-      </tr>
-    ));
-  };
 
   return (
     <div className="tabla-container">
+      <button className="restablecer-button" onClick={resetColumnVisibility}>
+        Restablecer Columnas
+      </button>
       <table className="tabla">
         <thead>{renderTableHeader()}</thead>
         <tbody>{renderTableBody()}</tbody>
       </table>
-      <button className="restablecer-button" onClick={resetColumnVisibility}>
-        Restablecer Columnas
-      </button>
     </div>
   );
 };

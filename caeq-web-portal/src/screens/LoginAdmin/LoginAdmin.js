@@ -1,63 +1,69 @@
-import React, { useState } from 'react';
-import './loginAdmin.scss';
-import TextInput from '../../components/inputs/TextInput/TextInput';
-import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
-import Logo from '../../components/images/caeqLogo.png';
-import Button from '../../components/buttons/BaseButton';
-import { Link, useNavigate } from 'react-router-dom';
-import { postLoginCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
-import { FireError, FireSucess } from '../../utils/alertHandler';
-import { setToken, setUserType, setCaeqUserSaved } from '../../utils/auth';
+import React, { useState } from "react";
+import "./loginAdmin.scss";
+import TextInput from "../../components/inputs/TextInput/TextInput";
+import HiddenTextInput from "../../components/inputs/TextInput/HiddenTextInput";
+import Logo from "../../components/images/caeqLogo.png";
+import Button from "../../components/buttons/BaseButton";
+import { Link, useNavigate } from "react-router-dom";
+import { postLoginCaeqUsers } from "../../client/CaeqUser/CaeqUser.POST";
+import { FireError, FireSucess } from "../../utils/alertHandler";
+import { setToken, setUserType, setCaeqUserSaved } from "../../utils/auth";
+import BaseButton from "../../components/buttons/BaseButton";
 
 const LogingSignUp = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await postLoginCaeqUsers(email, password);
-            if (response.status === 'success') {
-                const token = response.token;
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await postLoginCaeqUsers(email, password);
+      if (response.status === "success") {
+        const token = response.token;
 
-                setUserType(token);
-                setToken(token);
-                setCaeqUserSaved(response.data.user);
-            }
+        setUserType(token);
+        setToken(token);
+        setCaeqUserSaved(response.data.user);
+      }
 
-            FireSucess('Has iniciado sesión con éxito');
-            navigate('/Principal');
-        } catch (error) {
-            FireError(error.message);
-        }
-    };
+      FireSucess("Has iniciado sesión con éxito");
+      navigate("/Principal");
+    } catch (error) {
+      FireError(error.message);
+    }
+  };
 
-    return (
-        <div className='login-container'>
-            <img src={Logo} alt='Logo' className='Logo' />
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleLogin}>
-                <TextInput
-                    placeholder='Correo Electrónico'
-                    getVal={email}
-                    setVal={setEmail}
-                />
-                <HiddenTextInput
-                    placeholder='Contraseña'
-                    getVal={password}
-                    setVal={setPassword}
-                />
-                <Button type='submit' label='Iniciar Sesión' />
-            </form>
-            <div className='forgot-register-links'>
-                <a href='/forgot-password'>¿Olvidaste tu contraseña?</a> <br />
-                <Link to='/SignupAdmin'>
-                    <p> Regístrate</p>
-                </Link>
-            </div>
-        </div>
-    );
+  return (
+    <div className="login-container">
+      <img src={Logo} alt="Logo" className="Logo" />
+      <form onSubmit={handleLogin}>
+        <h2>Correo electrónico</h2>
+        <TextInput
+          placeholder="juan@ejemplo.com"
+          getVal={email}
+          setVal={setEmail}
+        />
+        <h2>Contraseña</h2>
+        <HiddenTextInput
+          placeholder="Ingresa la contraseña"
+          getVal={password}
+          setVal={setPassword}
+        />
+        <br />
+        <BaseButton color="primary" type="submit">
+          Iniciar sesión
+        </BaseButton>
+      </form>
+      <br />
+      <div className="forgot-register-links">
+        <a href="/forgot-password">¿Olvidaste tu contraseña?</a> <br />
+        <Link to="/SignupAdmin">
+          <p> Regístrate</p>
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default LogingSignUp;

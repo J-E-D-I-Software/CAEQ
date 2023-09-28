@@ -25,11 +25,11 @@ function Dasbboard() {
       <p>Bienvenido al CAEQ:</p>
 
       <Link to="/LoginAdmin">
-        <BaseButton type="primary">Login Admin</BaseButton>
+        <BaseButton color="primary">Login Admin</BaseButton>
       </Link>
 
       <Link to="/LoginUser">
-        <BaseButton type="primary">Login User</BaseButton>
+        <BaseButton color="primary">Login User</BaseButton>
       </Link>
 
       <WhiteContainer>
@@ -61,10 +61,10 @@ function Dasbboard() {
       <Table />
       <InteractiveTable />
       <BaseButton>Botón</BaseButton>
-      <BaseButton  type="primary">Botón</BaseButton>
-      <BaseButton  type="success">Botón</BaseButton>
-      <BaseButton  type="fail">Botón</BaseButton>
-      <BaseButton  type="disabled">Botón</BaseButton>
+      <BaseButton color="primary">Botón</BaseButton>
+      <BaseButton color="success">Botón</BaseButton>
+      <BaseButton color="fail">Botón</BaseButton>
+      <BaseButton color="disabled">Botón</BaseButton>
       {/* <NavbarButton label="Botón" type="navbar" /> */}
     </div>
   );

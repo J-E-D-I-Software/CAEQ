@@ -58,7 +58,7 @@ const LogingSignUp = () => {
       <br />
       <div className="forgot-register-links">
         <a href="/forgot-password">¿Olvidaste tu contraseña?</a> <br />
-        <Link to="/SignupAdmin">
+        <Link to="/SignupUser">
           <p> Regístrate</p>
         </Link>
       </div>

@@ -50,7 +50,7 @@ const LogingSignUp = () => {
           setVal={setPassword}
         />
         <br />
-        <BaseButton color="primary" type="submit" id="log">
+        <BaseButton color="primary" type="submit">
           Iniciar sesión
         </BaseButton>
       </form>

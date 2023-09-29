@@ -58,7 +58,6 @@ const Directory = () => {
   return (
     <div>
       <label>
-        Buscar arquitecto:
         <InputText
           getVal={getArchitect}
           setVal={setArchitect}

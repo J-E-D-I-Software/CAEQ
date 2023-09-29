@@ -8,6 +8,7 @@ const BaseButton = ({ label, type, action }) => {
     // e.preventDefault();
     // action(e);
     setIsActive(!isActive); // Toggle the active state
+    
   };
 
   const buttonClassName = `button button-${type} ${isActive ? "active" : ""}`;

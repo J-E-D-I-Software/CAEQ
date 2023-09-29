@@ -1,7 +1,8 @@
+//
+
 import React, { useState } from "react";
 import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
-import BaseButton from "../buttons/BaseButton";
 
 /**
  * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
@@ -55,30 +56,29 @@ const InteractiveTable = ({ data }) => {
    * Renderizar el encabezado de la tabla.
    * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
    */
-/**
- * Renderizar el encabezado de la tabla.
- * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
- */
-const renderTableHeader = () => (
-  <tr>
-    {columnsToShow.map((column) =>
-      columnVisibility[column] ? (
-        <th key={column} className="sticky-column">
-          <div className="header-content">
-            <span className="header-text">{column}</span>
-            <button
-              className="hide-button"
-              onClick={() => toggleColumnVisibility(column)}
-            >
-              <img src={CloseIcon} alt="Icono Ocultar" />
-            </button>
-          </div>
-        </th>
-      ) : null
-    )}
-  </tr>
-);
-
+  /**
+   * Renderizar el encabezado de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
+   */
+  const renderTableHeader = () => (
+    <tr>
+      {columnsToShow.map((column) =>
+        columnVisibility[column] ? (
+          <th key={column} className="sticky-column">
+            <div className="header-content">
+              <span className="header-text">{column}</span>
+              <button
+                className="hide-button"
+                onClick={() => toggleColumnVisibility(column)}
+              >
+                <img src={CloseIcon} alt="Icono Ocultar" />
+              </button>
+            </div>
+          </th>
+        ) : null
+      )}
+    </tr>
+  );
 
   /**
    * Renderizar el cuerpo de la tabla.
@@ -108,9 +108,14 @@ const renderTableHeader = () => (
 
   return (
     <div className="tabla-container">
-      <BaseButton type='primary' label='Resetear tabla' className="restablecer-button" onClick={resetColumnVisibility}>
-        Restablecer Columnas
-      </BaseButton>
+      <button
+        type="primary"
+        className="restablecer-button"
+        onClick={resetColumnVisibility}
+      >
+        Resetear tabla
+      </button>
+
       <table className="tabla">
         <thead>{renderTableHeader()}</thead>
         <tbody>{renderTableBody()}</tbody>

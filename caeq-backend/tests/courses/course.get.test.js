@@ -19,6 +19,8 @@ const testGetCoursesWithParams = (paramKey, paramValue) => async () => {
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
+    res.body.data.documents.forEach(course => expect(course.courseName.includes('paramValue')));
+    expect(res.body.data.documents);
 };
 
 const testGetCourse = async () => {

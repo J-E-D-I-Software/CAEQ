@@ -3,6 +3,7 @@ import BaseButton from '../buttons/BaseButton';
 import './Navbar.scss';
 import routes from '../../routes';
 import { useNavigate } from 'react-router-dom';
+import RestrictByRole from '../restrictAccess/RestrictByRole';
 
 /**
  * Navbar component for navigation and user actions.
@@ -26,14 +27,23 @@ const Navbar = () => {
                 {routes
                     .filter((route) => route.inNavbar)
                     .map((route) => (
-                        <NavbarButton
-                            label={route.name}
-                            key={route.path}
-                            className='button-navbar'
-                            id='inicio_btn'
-                            icon={route.icon}
-                            action={() => navigate(route.path)}
-                        />
+                        <RestrictByRole
+                            allowedRoles={
+                                route.roles !== undefined
+                                    ? route.roles
+                                    : ['architect', 'caeq']
+                            }>
+                            <NavbarButton
+                                label={route.name}
+                                key={route.path}
+                                className='button-navbar'
+                                id='inicio_btn'
+                                icon={route.icon}
+                                iconWhite={route.iconWhite}
+                                action={() => navigate(route.path)}
+                                to={route.path}
+                            />
+                        </RestrictByRole>
                     ))}
             </div>
         </div>

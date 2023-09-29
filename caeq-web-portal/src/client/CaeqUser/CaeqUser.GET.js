@@ -5,8 +5,8 @@ import baseApiEndpoint from '../backendConfig';
  * It makes a GET request to the endpoint `/caequsers` and returns the response data.
  * @returns An array of objects.
  */
-export async function getCaeqUsers() {
-    let endpoint = `${baseApiEndpoint}/caequsers`;
+export async function getCaeqUsers(verified) {
+    let endpoint = `${baseApiEndpoint}/caequsers?verified=${verified}`;
 
     const response = await axios.get(endpoint);
 

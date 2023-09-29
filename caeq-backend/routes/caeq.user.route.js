@@ -6,6 +6,8 @@ const {
     getAllCaeqUsers,
     updateCaeqUser,
     deleteCaeqUser,
+    acceptCaeqUser,
+    rejectCaeqUser,
 } = require(`${__dirname}/../controllers/caeq.user.controller.js`);
 const {
     loginCaeqUser,
@@ -18,6 +20,9 @@ router.post('/auth/signup', signUpCaeqUser);
 router.post('/auth/login', loginCaeqUser);
 
 router.use(protect, restrictTo('caeq'));
+router.patch('/acceptadmin', acceptCaeqUser);
+router.patch('/rejectadmin', rejectCaeqUser);
+
 router.route('/').get(getAllCaeqUsers).post(createCaeqUser);
 router.route('/:id').get(getCaeqUser).patch(updateCaeqUser).delete(deleteCaeqUser);
 

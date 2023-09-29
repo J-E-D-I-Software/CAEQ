@@ -263,41 +263,6 @@ const architectUserTestData = [
   password: "password456", 
   passwordConfirm: "password456",
 },
-{
-  fullName: "Luis Sánchez",
-  collegiateNumber: 12345,
-  hoursAttended: 40,
-  memberType: "Miembro de número",
-  classification: "Expresidente",
-  DRONumber: "DRO12345",
-  authorizationToShareInfo: true,
-  lifeInsurance: true,
-  lifeInsureID: "LIFE12345",
-  age: 58,
-  gender: "Masculino",
-  cellphone: 5552223333,
-  homePhone: 4447778888,
-  officePhone: 5554445555,
-  emergencyContact: 5559990000,
-  emergencyContactName: "Ana Sánchez",
-  mainProfessionalActivity: "Diseño estructural",
-  dateOfAdmission: new Date("1990-06-12"),
-  dateOfBirth: new Date("1965-03-28"),
-  municipalityOfLabor: "Querétaro",
-  linkCV: "https://www.ejemplo.com/luis",
-  university: "Universidad Autónoma de Querétaro",
-  professionalLicense: "PRO12345",
-  workAddress: "123 Avenida Principal, Querétaro",
-  homeAddress: "456 Calle Residencial, Querétaro",
-  specialty: "Dictaminador estructural",
-  positionsInCouncil: "Presidente",
-  capacitationHours: 500,
-  email: "luis@example.com",
-  password: "password123", 
-  passwordConfirm: "password123",
-}
-
-
 ];
 
 module.exports = architectUserTestData;

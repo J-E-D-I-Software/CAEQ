@@ -29,7 +29,8 @@ const LogingSignUp = () => {
       FireSucess("Has iniciado sesión con éxito");
       navigate("/Principal");
     } catch (error) {
-      FireError(error.message);
+      console.log(error);
+      FireError(error.response.data.message);
     }
   };
 

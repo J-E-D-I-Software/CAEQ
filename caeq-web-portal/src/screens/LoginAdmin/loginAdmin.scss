@@ -28,6 +28,11 @@
   width: 700px;
   height: auto;
   margin-bottom: 20px;
+
+  @media (max-width: 1000px) {
+    width: 300px;
+    background-color: transparent;
+  }
 }
 
 /* Estilos para el título */

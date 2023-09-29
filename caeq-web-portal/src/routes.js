@@ -1,5 +1,4 @@
 import Dasbboard from './screens/Dasboard';
-import Test from './screens/Test';
 import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';

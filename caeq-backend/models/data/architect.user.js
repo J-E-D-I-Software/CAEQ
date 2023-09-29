@@ -2,6 +2,7 @@ const architectUserTestData = [
   {
     fullName: "Luis García",
     collegiateNumber: 98765,
+    hoursAttended: 10,
     memberType: "Miembro de número",
     classification: "Docente",
     DRONumber: "DRO98765",
@@ -34,6 +35,7 @@ const architectUserTestData = [
   {
     fullName: "Laura Martínez",
     collegiateNumber: 54321,
+    hoursAttended: 15,
     memberType: "Miembro Adherente",
     classification: "Expresidente",
     DRONumber: "DRO54321",
@@ -66,6 +68,7 @@ const architectUserTestData = [
   {
     fullName: "Ana Rodríguez",
     collegiateNumber: 12345,
+    hoursAttended: 20,
     memberType: "Miembro Pasante",
     classification: "Convenio",
     DRONumber: "DRO12345",
@@ -98,6 +101,7 @@ const architectUserTestData = [
   {
     fullName: "Miguel Pérez",
     collegiateNumber: 67890,
+    hoursAttended: 17,
     memberType: "Miembro Vitalicio",
     classification: "Docente",
     DRONumber: "DRO67890",
@@ -130,6 +134,7 @@ const architectUserTestData = [
   {
     fullName: "Javier López",
     collegiateNumber: 24680,
+    hoursAttended: 12,
     memberType: "Miembro Adherente",
     classification: "Docente",
     DRONumber: "DRO24680",
@@ -162,6 +167,7 @@ const architectUserTestData = [
   {
     fullName: "Isabel Torres",
     collegiateNumber: 13579,
+    hoursAttended: 8,
     memberType: "Miembro Pasante",
     classification: "Convenio",
     DRONumber: "DRO13579",
@@ -194,6 +200,7 @@ const architectUserTestData = [
   {
   fullName: "Juan Pérez",
   collegiateNumber: 12345,
+  hoursAttended: 25,
   memberType: "Miembro de número",
   classification: "Expresidente",
   DRONumber: "DRO12345",
@@ -226,6 +233,7 @@ const architectUserTestData = [
 {
   fullName: "María González",
   collegiateNumber: 54321,
+  hoursAttended: 30,
   memberType: "Miembro Adherente",
   classification: "Docente",
   DRONumber: "DRO54321",
@@ -258,6 +266,7 @@ const architectUserTestData = [
 {
   fullName: "Luis Sánchez",
   collegiateNumber: 12345,
+  hoursAttended: 40,
   memberType: "Miembro de número",
   classification: "Expresidente",
   DRONumber: "DRO12345",

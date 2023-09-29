@@ -13,6 +13,10 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Por favor dinos tu número de DRO!'],
     },
+    hoursAttended: {
+        type: Number,
+        required: [true, 'Por favor dinos tus horas asistidas!'],
+    },
     memberType: {
         type: String,
         enum: [

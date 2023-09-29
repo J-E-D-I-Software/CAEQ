@@ -3,7 +3,8 @@ import Test from './screens/Test';
 import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
-import RegisterUser from './screens/SignupArchitect/SingupArchitect';
+import RegisterUser from './screens/SignupArchitect/SignupArchitect';
+import Directory from './screens/Directory'
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';

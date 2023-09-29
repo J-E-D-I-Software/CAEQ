@@ -1,25 +1,26 @@
 import React from 'react';
 import './FileInput.scss';
 
-const FileInput = ({ label, getVal, setVal, require = false }) => {
+const FileInput = ({ label, setVal, require = false }) => {
     const isRequired = require;
     const onSelectFile = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
             setVal(undefined);
-            return;
+        } else {
+            setVal(e.target.files[0]);
         }
-        setVal(e.target.files[0]);
     };
 
     return (
         <label>
-            <div className='label-input'>{label}
+            <div className='label-input'>
+                {label}
                 {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <input
                 className='file-input'
                 type='file'
-                value={getVal}
+                accept=".pdf"
                 required={isRequired}
                 onChange={onSelectFile}
             />

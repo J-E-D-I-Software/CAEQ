@@ -6,6 +6,15 @@ body {
     padding: 0px;
     margin: 0px;
 }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+
+    .column {
+        padding: 10px;
+    }
+}
 a {
     text-decoration: none;
 }

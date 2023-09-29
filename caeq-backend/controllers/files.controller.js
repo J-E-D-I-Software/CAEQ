@@ -73,13 +73,15 @@ exports.formatImage = catchAsync(async (req, res, next) => {
 exports.formatPDF = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
-    req.body.pdfUrl = await uploadPDF(req.file, 'pdf');
+    req.body.LinkCV = await uploadPDF(req.file, 'pdf');
 
+    /*
     res.status(200).json({
         message: 'Archivo subido con exito',
         imageDownloadUrl: req.body.pdfUrl,
     });
+    */
 
     // Use next when you need the url in the next controllers. Delete the response from above.
-    // next();
+    next();
 });

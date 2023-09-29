@@ -36,16 +36,15 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu número de DRO!'],
     },
     authorizationToShareInfo: {
-        type: Boolean,
-        required: [true, 'Por favor dinos si tienes autorización para compartir información!'],
+        type: String,
     },
     lifeInsurance: {
         type: Boolean,
-        required: [true, 'Por favor dinos si tienes autorización para compartir información!']
+        required: [false]
     },
     lifeInsureID:{
         type: String,
-        required: [true, 'Por favor dinos tu poliza de seguro de vida!']
+        required: [false]
     },
     age: {
         type: Number,
@@ -53,7 +52,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ["Masculino", "Femenino"],
+        enum: ["Hombre", "Mujer", "Prefieron no decirlo"],
         required: [true, 'Por favor dinos tu género!']
     },
     cellphone: {
@@ -90,7 +89,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     linkCV: {
         type: String,
-        required: [true, 'Por favor dinos tu link de CV!']
     },
     university: {
         type: String,
@@ -110,6 +108,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     specialty: {
         type: String,
+        /*
         enum: [ 
             "Corresponsable en seguridad estructural", 
             "Corresponsable en instalaciones",
@@ -117,6 +116,7 @@ const ArchitectUserSchema = new mongoose.Schema({
             "DUYA",
             "Dictaminador estructural", 
             "Revisor de bajo riesgo", ],
+        */
         required: [true, 'Por favor dinos tu especialidad!']
     },
     positionsInCouncil: {
@@ -125,7 +125,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     capacitationHours: {
         type: Number,
-        required: [true, 'Por favor dinos tus horas de capacitación!']
+        required: [false]
     },
     email: {
         type: String,

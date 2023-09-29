@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
 import './DropdownInput.scss';
 
-const DropdownInput = ({ label, options, onChange, require = false}) => {
+const DropdownInput = ({ label, getVal, setVal, options, onChange, require = false}) => {
     const isRequired = require;
 
-    const [selectedOption, setSelected] = useState('');
+    const [selectedOption, setSelected] = useState(getVal);
 
     const changeOption = (event) => {
         const newOption = event.target.value;
         setSelected(newOption);
+
+        if (setVal) {
+            setVal(newOption);
+        }
 
         if (onChange) {
             onChange(newOption);

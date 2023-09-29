@@ -133,7 +133,7 @@ module.exports = (err, req, res, next) => {
     err.status = err.status || 'error';
     err.statusCode = err.statusCode || 500;
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
         console.log('Error Name:', err.name);
         console.log('Error code:', err.code);
         return sendErrorDev(err, req, res);

@@ -1,5 +1,6 @@
 const factory = require('./handlerFactory.controller');
 const CaeqUser = require('../models/caeq.user.model');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllCaeqUsers = factory.getAll(CaeqUser);
@@ -10,6 +11,13 @@ exports.deleteCaeqUser = factory.deleteOne(CaeqUser);
 
 exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     const adminId = req.body.admin;
+
+    const caeqUser = (await CaeqUser.find({ _id: adminId }).select({ verified: 1 }))[0];
+    if (!caeqUser || caeqUser.verified === true) {
+        return next(
+            new AppError('No se puede realizar esta petición en este administrador.', 400)
+        );
+    }
 
     await CaeqUser.findByIdAndUpdate(adminId, { verified: true });
 

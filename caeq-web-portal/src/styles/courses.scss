@@ -33,7 +33,19 @@
     }
 }
 
-@media only screen and (max-width: 400px)  {
+@media only screen and (max-width: 1200px)  {
+    .courses {
+        .courses-filters{
+            flex-wrap: wrap;
+
+            .courses-row {
+                flex-direction: column;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 700px)  {
     .courses {
         padding: 0 1rem !important;
         

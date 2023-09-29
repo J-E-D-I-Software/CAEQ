@@ -52,12 +52,6 @@
 
 @media only screen and (max-width: 1070px)  {
     .course-card { 
-        width: 48%;
-    }
-}
-
-@media only screen and (max-width: 400px)  {
-    .course-card { 
         width: 100%;
         flex-direction: column;
 
@@ -70,5 +64,4 @@
             max-width: none;
         }
     }
-
 }

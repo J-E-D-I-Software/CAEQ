@@ -1,4 +1,4 @@
-import "./BaseButton.scss";
+import './BaseButton.scss';
 
 /**
  * WhiteContainer component for rendering content within a white container.
@@ -15,12 +15,12 @@ import "./BaseButton.scss";
  * </WhiteContainer>
  */
 const BaseButton = ({ children, color, onClick }) => {
-  const buttonClassName = `button button-${color}`;
-  return (
-    <button onClick={onClick} className={buttonClassName}>
-      {children}
-    </button>
-  );
+    const buttonClassName = `button button-${color}`;
+    return (
+        <button onClick={onClick} className={buttonClassName}>
+            {children}
+        </button>
+    );
 };
 
 export default BaseButton;

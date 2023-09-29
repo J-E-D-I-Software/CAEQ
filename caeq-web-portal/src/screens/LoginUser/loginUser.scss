@@ -2,54 +2,54 @@
 
 /* Estilos para el contenedor principal */
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: url("../../components/images/backgroundCaeq.png") center/cover
-    no-repeat;
-  background-attachment: fixed;
-  padding: 20px;
-  height: 100vh;
-  color: #000000; /* Color del texto dentro del contenedor */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('../../components/images/backgroundCaeq.png') center/cover
+        no-repeat;
+    background-attachment: fixed;
+    padding: 20px;
+    height: 100vh;
+    color: #000000; /* Color del texto dentro del contenedor */
 }
 
 /* Estilos para el logo */
 .Logo {
-  width: 700px;
-  height: auto;
-  margin-bottom: 20px;
+    width: 700px;
+    height: auto;
+    margin-bottom: 20px;
 
-  @media (max-width: 1000px) {
-    width: 300px;
-    background-color: transparent;
-  }
+    @media (max-width: 1000px) {
+        width: 300px;
+        background-color: transparent;
+    }
 }
 
 /* Estilos para el título */
 h2 {
-  font-size: 24px;
-  margin: 0;
-  margin-bottom: 15px;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Estilos para los campos de entrada de texto */
 TextInput,
 HiddenTextInput {
-  text-align: center; /* Centra el texto dentro de los campos de entrada */
-  width: max-content;
+    text-align: center; /* Centra el texto dentro de los campos de entrada */
+    width: max-content;
 }
 
 .forgot-register-links {
-  text-align: center;
-  a {
-    color: #136f63;
-    text-decoration: none;
-    font-weight: bold;
-  }
+    text-align: center;
+    a {
+        color: #136f63;
+        text-decoration: none;
+        font-weight: bold;
+    }
 }

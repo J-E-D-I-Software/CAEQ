@@ -1,11 +1,11 @@
-const populateDb = require("../utils/populateDb");
-const catchAsync = require("../utils/catchAsync");
-const CaeqUser = require("./caeq.user.model");
-const CaeqUserData = require("./data/caeq.user");
-const ArchitectUser = require("./architect.user.model");
-const ArchitectUserData = require("./data/architect.user");
-const Course = require("./course.model");
-const CourseData = require("./data/course");
+const populateDb = require('../utils/populateDb');
+const catchAsync = require('../utils/catchAsync');
+const CaeqUser = require('./caeq.user.model');
+const CaeqUserData = require('./data/caeq.user');
+const ArchitectUser = require('./architect.user.model');
+const ArchitectUserData = require('./data/architect.user');
+const Course = require('./course.model');
+const CourseData = require('./data/course');
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -13,7 +13,7 @@ const CourseData = require("./data/course");
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
  */
 const setUpCaeqUserData = catchAsync(async () => {
-  await populateDb(CaeqUser, CaeqUserData);
+    await populateDb(CaeqUser, CaeqUserData);
 });
 
 /**
@@ -22,7 +22,7 @@ const setUpCaeqUserData = catchAsync(async () => {
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
  */
 const setUpArchitectUserData = catchAsync(async () => {
-  await populateDb(ArchitectUser, ArchitectUserData);
+    await populateDb(ArchitectUser, ArchitectUserData);
 });
 
 /**
@@ -31,7 +31,7 @@ const setUpArchitectUserData = catchAsync(async () => {
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
  */
 const setUpCourseData = catchAsync(async () => {
-  await populateDb(Course, CourseData);
+    await populateDb(Course, CourseData);
 });
 
 /**
@@ -41,8 +41,8 @@ const setUpCourseData = catchAsync(async () => {
  * It sets up the 'CaeqUser' data by calling 'setUpCaeqUserData' and logs a message when the test data is uploaded to the database.
  */
 exports.setUpDbWithMuckData = catchAsync(async () => {
-  await setUpArchitectUserData();
-  await setUpCaeqUserData();
-  await setUpCourseData();
-  console.log("Test data uploaded to DB.");
+    await setUpArchitectUserData();
+    await setUpCaeqUserData();
+    await setUpCourseData();
+    console.log('Test data uploaded to DB.');
 });

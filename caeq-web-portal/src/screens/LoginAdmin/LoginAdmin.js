@@ -37,7 +37,7 @@ const LogingSignUp = () => {
     return (
         <div className='login-container'>
             <img src={Logo} alt='Logo' className='Logo' />
-            <form onSubmit={handleLogin}>
+            <form>
                 <h2>Correo electrónico</h2>
                 <TextInput
                     placeholder='Ingresa tu correo'
@@ -51,7 +51,7 @@ const LogingSignUp = () => {
                     setVal={setPassword}
                 />
                 <br />
-                <BaseButton color='primary' type='submit'>
+                <BaseButton type='primary' onClick={handleLogin}>
                     Iniciar sesión
                 </BaseButton>
             </form>

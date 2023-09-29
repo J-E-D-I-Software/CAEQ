@@ -28,7 +28,7 @@ const AcceptAdmin = () => {
     useEffect(() => {
         (async () => {
             try {
-                const admins = await getCaeqUsers();
+                const admins = await getCaeqUsers(false);
 
                 setAdmins(admins);
             } catch (error) {

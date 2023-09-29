@@ -1,0 +1,21 @@
+.courses {
+    padding: 3rem;
+
+    .courses-row { 
+        display: flex;
+    }
+
+    .filters { 
+        justify-content: space-between;
+    }
+
+    .box-input { 
+        width: 40vw;
+    }
+
+    .courses-section { 
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+}

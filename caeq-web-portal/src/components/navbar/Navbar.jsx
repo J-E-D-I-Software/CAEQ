@@ -32,7 +32,8 @@ const Navbar = () => {
                                 route.roles !== undefined
                                     ? route.roles
                                     : ['architect', 'caeq']
-                            }>
+                            }
+                        >
                             <NavbarButton
                                 label={route.name}
                                 key={route.path}

@@ -1,7 +1,7 @@
 
 .course-card { 
-    height: 250px;
-    width: 27vw;
+    min-height: 250px;
+    width: 30vw;
     border-radius: 15px;
     box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
     padding: 1rem;
@@ -48,4 +48,27 @@
         font-weight: bold;
         color: #136F63;
     }
+}
+
+@media only screen and (max-width: 1070px)  {
+    .course-card { 
+        width: 48%;
+    }
+}
+
+@media only screen and (max-width: 400px)  {
+    .course-card { 
+        width: 100%;
+        flex-direction: column;
+
+        div:first-child {
+            margin: 0;
+        }
+
+        img { 
+            width: 100%;
+            max-width: none;
+        }
+    }
+
 }

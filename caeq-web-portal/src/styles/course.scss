@@ -57,3 +57,51 @@
     }
 
 }
+
+@media only screen and (max-width: 400px)  {
+    .course {
+        padding: 0 1rem; 
+
+        div:first-child {
+            flex-direction: column;
+            align-items: start;
+            
+            * {
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+
+            h1{
+                font-size: 1.7em;
+            }
+        }
+
+        .course-data {
+            flex-wrap: wrap;
+
+            .course-row {
+                flex-direction: row !important;
+            }
+
+            img {
+                max-width: 50px;
+            }
+        }
+
+        .course-details {
+            flex-direction: column;
+
+            img {
+                width: 100%;
+            }
+
+            .course-extras {
+                flex-direction: column;
+                width: 100%;
+                margin: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+
+}

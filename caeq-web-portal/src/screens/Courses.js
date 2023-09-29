@@ -25,7 +25,6 @@ const Courses = (props) => {
                 else if (orderBy === 'Fecha de creación') filters += `&sort=_id`;
             }
 
-            console.log(filters);
             const data = await getAllCourses(paginationPage, filters);
             setCourses(data);
         };

@@ -22,7 +22,7 @@ const AcceptAdmin = () => {
 
                 setAdmins(admins);
             } catch (error) {
-                FireError(error.message);
+                FireError(error.response.data.message);
             }
         })();
     }, []);
@@ -46,7 +46,7 @@ const AcceptAdmin = () => {
             swal.close();
             FireSucess(response.message);
         } catch (error) {
-            FireError(error.message);
+            FireError(error.response.data.message);
         }
     };
 
@@ -69,7 +69,7 @@ const AcceptAdmin = () => {
             swal.close();
             FireSucess(response.message);
         } catch (error) {
-            FireError(error.message);
+            FireError(error.response.data.message);
         }
     };
 

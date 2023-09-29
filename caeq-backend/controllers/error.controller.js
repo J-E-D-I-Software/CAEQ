@@ -32,7 +32,6 @@ const sendErrorProduction = (err, req, res) => {
         // Programming error
     } else {
         // 1 log error
-        console.log('Error', err);
 
         // Verifies if it is an image file
         if (err.message.toString() == 'Input buffer contains unsupported image format') {

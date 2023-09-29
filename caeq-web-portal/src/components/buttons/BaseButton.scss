@@ -22,8 +22,9 @@
 }
 
 .active {
-    background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+    background-color: #eea300; /* Cambio de color al pasar el ratón */
     transform: translateY(-3px);
+    color: white;
 }
 
 .button:hover {

@@ -27,7 +27,7 @@ const Signup = () => {
             );
             navigate('/');
         } catch (error) {
-            FireError(error.message);
+            FireError(error.response.data.message);
         }
     };
 

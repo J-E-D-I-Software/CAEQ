@@ -9,6 +9,21 @@ exports.createCaeqUser = factory.createOne(CaeqUser);
 exports.updateCaeqUser = factory.updateOne(CaeqUser);
 exports.deleteCaeqUser = factory.deleteOne(CaeqUser);
 
+/**
+ * Accepts a CAEQ user's request to become an administrator.
+ *
+ * @function
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @returns {Promise<void>} A Promise that resolves when the operation is complete.
+ * @throws {AppError} If the request cannot be processed.
+ *
+ * @example
+ * // Example usage:
+ * acceptCaeqUser(req, res, next);
+ */
 exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     const adminId = req.body.admin;
 
@@ -28,6 +43,20 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     });
 });
 
+/**
+ * Rejects a CAEQ user's request to become an administrator and deletes the request.
+ *
+ * @function
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @returns {Promise<void>} A Promise that resolves when the operation is complete.
+ *
+ * @example
+ * // Example usage:
+ * rejectCaeqUser(req, res, next);
+ */
 exports.rejectCaeqUser = catchAsync(async (req, res, next) => {
     const adminId = req.body.admin;
 

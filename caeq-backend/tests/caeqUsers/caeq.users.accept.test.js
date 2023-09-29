@@ -7,6 +7,16 @@ const { loginAdmin } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
+/**
+ * Test function for accepting and rejecting admin requests.
+ * @function
+ * @async
+ * @throws {Error} If any of the test cases fail.
+ *
+ * @example
+ * // Example usage:
+ * testAcceptRejectAdmin();
+ */
 const testAcceptRejectAdmin = async () => {
     const admins = await User.find({ verified: false });
 

@@ -8,8 +8,11 @@ import Courses from './screens/Courses';
 import Course from './screens/Course';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
+import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
+import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -17,6 +20,7 @@ const routes = [
         name: 'Principal',
         Component: Dasbboard,
         icon: PrincipalIcon,
+        iconWhite: PrincipalIconWhite,
         isPrivate: false,
         inNavbar: true,
     },
@@ -25,6 +29,7 @@ const routes = [
         name: 'Principal',
         Component: () => <div></div>,
         icon: PrincipalIcon,
+        iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
     },
@@ -32,6 +37,7 @@ const routes = [
         path: '/Cursos',
         name: 'Cursos',
         icon: CursosIcon,
+        iconWhite: CursosIconWhite,
         Component: Courses,
         isPrivate: true,
         inNavbar: true,
@@ -40,6 +46,7 @@ const routes = [
         path: '/Curso/:id',
         name: 'Cursos',
         icon: CursosIcon,
+        iconWhite: CursosIconWhite,
         Component: Course,
         isPrivate: true,
         inNavbar: false,
@@ -48,6 +55,7 @@ const routes = [
         path: '/admins',
         name: 'Admins',
         icon: AdminIcon,
+        iconWhite: AdminIconWhite,
         Component: AcceptAdmin,
         isPrivate: true,
         inNavbar: true,

@@ -12,6 +12,16 @@ import {
     FireQuestion,
 } from '../../utils/alertHandler';
 
+/**
+ * AcceptAdmin component for managing the approval or rejection of administrator accounts.
+ * @component
+ *
+ * @returns {JSX.Element} JSX element representing the AcceptAdmin page.
+ *
+ * @example
+ * // Example usage of AcceptAdmin:
+ * <AcceptAdmin />
+ */
 const AcceptAdmin = () => {
     const [admins, setAdmins] = useState([]);
 
@@ -27,6 +37,10 @@ const AcceptAdmin = () => {
         })();
     }, []);
 
+    /**
+     * Handles the approval of an administrator.
+     * @param {string} id - The ID of the administrator to be approved.
+     */
     const handleAccept = async (id) => {
         try {
             const confirmation = await FireQuestion(
@@ -50,6 +64,10 @@ const AcceptAdmin = () => {
         }
     };
 
+    /**
+     * Handles the rejection of an administrator.
+     * @param {string} id - The ID of the administrator to be rejected.
+     */
     const handleReject = async (id) => {
         try {
             const confirmation = await FireQuestion(

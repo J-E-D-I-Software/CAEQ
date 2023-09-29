@@ -39,7 +39,9 @@ const Navbar = () => {
                                 className='button-navbar'
                                 id='inicio_btn'
                                 icon={route.icon}
+                                iconWhite={route.iconWhite}
                                 action={() => navigate(route.path)}
+                                to={route.path}
                             />
                         </RestrictByRole>
                     ))}

@@ -77,6 +77,7 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
 
 /* Creating a new user. */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
+    console.log("controller");
     const newUser = await ArchitectUser.create({
         fullName: req.body.fullName,
         email: req.body.email,
@@ -96,7 +97,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         dateOfAdmission: req.body.dateOfAdmission,
         dateOfBirth: req.body.dateOfBirth,
         municipalityOfLabor: req.body.municipalityOfLabor,
-        LinkCV: req.body.LinkCV,
+        linkCV: req.body.linkCV,
         university: req.body.university,
         professionalLicense: req.body.professionalLicense,
         workAddress: req.body.workAddress,

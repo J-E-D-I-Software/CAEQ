@@ -26,7 +26,7 @@ const architectRouter = require('./routes/architect.user.route')
 
 const app = express();
 
-app.enable('trust proxy');
+// app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
 

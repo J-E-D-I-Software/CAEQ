@@ -74,7 +74,7 @@ const Signup = () => {
         form.append('professionalLicense', professionalLicense);
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil',positionsInCouncil);
-        //form.append('file', linkCV);
+        form.append('file', linkCV);
         form.append('authorizationToShareInfo', authorizationToShareInfo);
         form.append('password', password);
         form.append('passwordConfirm',passwordConfirm);     
@@ -101,7 +101,7 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h2>Registro</h2>
+                <h2 class="h2-A">Registrate</h2>
                 <form onSubmit={handleSignup}>
                     <div class="grid-container">
                         <div class="column">
@@ -203,7 +203,7 @@ const Signup = () => {
                                 require={true}
                             />
                         </div>
-                        <div class="column">
+                        <div class="column-2">
                             <TextInput
                                 label="Contacto de emergencia (nombre y teléfono)"
                                 placeholder='Confirmar Contraseña'

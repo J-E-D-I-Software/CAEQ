@@ -89,6 +89,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     linkCV: {
         type: String,
+        required: [true, 'Por favor dinos tu municipio de labor!']
     },
     university: {
         type: String,

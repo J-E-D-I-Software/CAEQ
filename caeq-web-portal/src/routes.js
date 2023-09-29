@@ -6,6 +6,7 @@ import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
 import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
+import ForgotPassword from './screens/ForgotPassword';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
@@ -68,6 +69,13 @@ const routes = [
         path: '/SignupUser',
         name: 'Registrar User',
         Component: RegisterUser,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/Forgot-password',
+        name: 'Olvidar contrasña',
+        Component: ForgotPassword,
         isPrivate: false,
         inNavbar: false,
     },

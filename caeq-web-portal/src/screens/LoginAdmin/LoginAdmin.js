@@ -51,7 +51,9 @@ const LogingSignUp = () => {
                 <Button type='submit' label='Iniciar Sesión' />
             </form>
             <div className='forgot-register-links'>
-                <a href='/forgot-password'>¿Olvidaste tu contraseña?</a> <br />
+                <Link to='/Forgot-password'>
+                    <p> ¿Olvidaste tu contraseña?</p>
+                </Link>
                 <Link to='/SignupAdmin'>
                     <p> Regístrate</p>
                 </Link>

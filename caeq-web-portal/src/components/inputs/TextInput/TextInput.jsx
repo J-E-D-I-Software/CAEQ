@@ -30,7 +30,9 @@ const TextInput = ({ label, getVal, setVal, placeholder, require = false }) => {
         <label data-testid='txtInput'>
             <div className='label-input'>
                 {label}
-                {isRequired && <span className='obligatorio'>*obligatorio</span>}
+                {isRequired && (
+                    <span className='obligatorio'>*obligatorio</span>
+                )}
             </div>
             <div className='input-eye'>
                 <input

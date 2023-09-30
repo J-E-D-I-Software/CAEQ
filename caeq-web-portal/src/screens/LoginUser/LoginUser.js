@@ -3,11 +3,11 @@ import './loginUser.scss';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
 import Logo from '../../components/images/caeqLogo.png';
-import Button from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { postLoginArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
-import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
+import { postLoginCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
+import { FireError, FireSucess } from '../../utils/alertHandler';
+import { setToken, setUserType, setCaeqUserSaved } from '../../utils/auth';
+import BaseButton from '../../components/buttons/BaseButton';
 
 const LogingSignUp = () => {
     const [email, setEmail] = useState('');
@@ -17,40 +17,46 @@ const LogingSignUp = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const swal = FireLoading('Iniciando sesión...');
-            const response = await postLoginArchitectUsers(email, password);
+            const response = await postLoginCaeqUsers(email, password);
             if (response.status === 'success') {
                 const token = response.token;
 
                 setUserType(token);
                 setToken(token);
-                setArchitectUserSaved(response.data.user);
+                setCaeqUserSaved(response.data.user);
             }
-            swal.close();
+
             FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
-            FireError(error.message);
+            console.log(error);
+            FireError(error.response.data.message);
         }
     };
 
     return (
         <div className='login-container'>
             <img src={Logo} alt='Logo' className='Logo' />
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleLogin}>
+            <form>
+                <h2>Correo electrónico</h2>
                 <TextInput
-                    placeholder='Correo Electrónico'
+                    placeholder='Ingresa tu correo'
                     getVal={email}
                     setVal={setEmail}
                 />
+                <h2>Contraseña</h2>
                 <HiddenTextInput
-                    placeholder='Contraseña'
+                    placeholder='Ingresa tu contraseña'
                     getVal={password}
                     setVal={setPassword}
                 />
-                <Button type='submit' label='Iniciar Sesión' />
+                <br />
+                <BaseButton type='primary' onClick={handleLogin}>
+                    Iniciar sesión
+                </BaseButton>
             </form>
+
+            <br />
             <div className='forgot-register-links'>
                 <a href='/forgot-password'>¿Olvidaste tu contraseña?</a> <br />
                 <Link to='/SignupUser'>

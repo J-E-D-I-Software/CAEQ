@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles/styles.scss';
+import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './components/privateRoute/PrivateRoute';
+import routes from './routes';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div id='app-container'>
+            <div id='app-base-layout'>
+                <Routes>
+                    {routes.map(
+                        ({
+                            path,
+                            isPrivate,
+                            Component,
+                            roles = ['architect', 'caeq'],
+                        }) => (
+                            <Route
+                                exact
+                                key={path}
+                                path={path}
+                                element={
+                                    isPrivate ? (
+                                        <PrivateRoute
+                                            component={Component}
+                                            roles={roles}
+                                        />
+                                    ) : (
+                                        <Component />
+                                    )
+                                }
+                            />
+                        )
+                    )}
+                </Routes>
+            </div>
+        </div>
+    );
 }
 
 export default App;

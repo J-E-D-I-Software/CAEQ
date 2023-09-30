@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import InteractiveTable from "../components/table/InteractiveTable";
 import InputText from "../components/inputs/TextInput/TextInput";
 import { getAllArchitectUsers } from "../client/ArchitectUser/ArchitectUser.GET";
-
+import '../styles/directory.scss'
 /**
  * Componente que muestra una lista de arquitectos con función de búsqueda.
  * @component
@@ -56,18 +56,23 @@ const Directory = () => {
   const tablefilteredArchitects = filteredArchitects.map(({ _id, ...rest }) => rest);
 
   return (
-    <div>
-      <label>
-        <InputText
-          getVal={getArchitect}
-          setVal={setArchitect}
-          placeholder="Buscar"
-        />
-      </label>
+  <div className="directory">
+    <label>
+      <InputText
+        getVal={getArchitect}
+        setVal={setArchitect}
+        placeholder="Buscar"
+      />
+    </label>
+    <div className="directory-row">
       {filteredArchitects.length > 0 && (
-        <InteractiveTable data={tablefilteredArchitects} />
+        <div className="box-container">
+          <InteractiveTable data={tablefilteredArchitects} />
+        </div>
       )}
     </div>
+  </div>
+
   );
 };
 

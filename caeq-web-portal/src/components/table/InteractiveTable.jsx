@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
+import BaseButton from "../buttons/BaseButton";
 
 /**
  * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
@@ -45,6 +46,37 @@ const InteractiveTable = ({ data }) => {
     });
   };
 
+  const headerMappings = {
+    fullName: "Nombre completo",
+    collegiateNumber: "Número de colegiado",
+    hoursAttended: "Horas asistidas",
+    memberType: "Tipo de miembro",
+    classification: "Clasificación",
+    DRONumber: "Número de DRO",
+    autorizationToShareInfo: "Autorización para compartir información",
+    lifeInsurance: "Seguro de vida",
+    lifeInsuranceId: "Poliza de seguro de vida",
+    age: "Edad",
+    gender: "Género",
+    cellphoone: "Número de celular",
+    homephone: "Número de casa",
+    officephone: "Número de oficina",
+    emergencyContactName: "Nombre de contacto de emergencia",
+    emergencyContact: "Número de contacto de emergencia",
+    mainProfessionalActivity: "Actividad profesional principal",
+    dateOfAdmission: "Fecha de admisión",
+    dateOfBirth: "Fecha de nacimiento",
+    municipalityOfLabor: "Municipio de trabajo",
+    linkCV: "Link de CV",
+    university: "Universidad",
+    mainProfessionalLicense: "Cédula profesional",
+    workAddress: "Domicilio de trabajo",
+    homeAddress: "Domicilio de particular",
+    speciality: "Especialidad",
+    positionsInCouncil: "Cargos en consejos directivos",
+  };
+  
+
   /**
    * Función de formato para mostrar valores booleanos como "Sí" o "No".
    * @param {boolean} value - El valor booleano a formatear.
@@ -60,13 +92,14 @@ const InteractiveTable = ({ data }) => {
    * Renderizar el encabezado de la tabla.
    * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
    */
+
   const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
         columnVisibility[column] ? (
           <th key={column} className="sticky-column">
             <div className="header-content">
-              <span className="header-text">{column}</span>
+              <span className="header-text">{headerMappings[column]}</span>
               <button
                 className="hide-button"
                 onClick={() => toggleColumnVisibility(column)}
@@ -79,6 +112,7 @@ const InteractiveTable = ({ data }) => {
       )}
     </tr>
   );
+  
 
   /**
    * Renderizar el cuerpo de la tabla.
@@ -108,13 +142,13 @@ const InteractiveTable = ({ data }) => {
 
   return (
     <div className="tabla-container">
-      <button
+      <BaseButton 
         type="primary"
         className="restablecer-button"
         onClick={resetColumnVisibility}
       >
-        Resetear tabla
-      </button>
+        Resetear tabla 
+      </BaseButton>
 
       <table className="tabla">
         <thead>{renderTableHeader()}</thead>

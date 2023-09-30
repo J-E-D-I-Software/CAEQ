@@ -21,14 +21,18 @@ import './DropdownInput.scss';
  *   require={true}
  * />
  */
-const DropdownInput = ({ label, options, onChange, require = false }) => {
+const DropdownInput = ({ label, getVal, setVal, options, onChange, placeholder = 'Elige una opción', require = false}) => {
     const isRequired = require;
 
-    const [selectedOption, setSelected] = useState('');
+    const [selectedOption, setSelected] = useState(getVal);
 
     const changeOption = (event) => {
         const newOption = event.target.value;
         setSelected(newOption);
+
+        if (setVal) {
+            setVal(newOption);
+        }
 
         if (onChange) {
             onChange(newOption);
@@ -36,18 +40,18 @@ const DropdownInput = ({ label, options, onChange, require = false }) => {
     };
 
     return (
-        <div>
+        <div className='dropdown-'>
             <label>
                 <div className='label-input'>
                     {label}
                     {isRequired && <span className='obligatorio'>*obligatorio</span>}
                 </div>
-                <select
-                    className='dropdown-input'
-                    value={selectedOption}
-                    onChange={changeOption}
-                    required={isRequired}>
-                    <option value=''>Elige una opción</option>
+                <select 
+                className='dropdown-input'
+                value={selectedOption} 
+                onChange={changeOption}
+                required={isRequired}>
+                <option value="">{placeholder}</option>
                     {options.map((option) => (
                         <option key={option} value={option}>
                             {option}

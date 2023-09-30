@@ -18,6 +18,12 @@ const CourseSchema = new mongoose.Schema(
         startDate: {
             type: Date,
         },
+        endDate: {
+            type: Date,
+        },
+        description: {
+            type: String
+        },
         objective: {
             type: String
         },
@@ -28,6 +34,12 @@ const CourseSchema = new mongoose.Schema(
             type: String
         },
         temario: {
+            type: String
+        },
+        includes: {
+            type: String
+        },
+        place: {
             type: String
         },
         price: {

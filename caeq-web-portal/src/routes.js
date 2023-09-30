@@ -6,6 +6,7 @@ import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
+import Page404 from './screens/404';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
@@ -22,7 +23,7 @@ const routes = [
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: false,
-        inNavbar: true,
+        inNavbar: false,
     },
     {
         path: '/Principal',
@@ -44,7 +45,7 @@ const routes = [
     },
     {
         path: '/Curso/:id',
-        name: 'Cursos',
+        name: 'Curso',
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Course,
@@ -52,7 +53,7 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/admins',
+        path: '/Admins',
         name: 'Admins',
         icon: AdminIcon,
         iconWhite: AdminIconWhite,
@@ -86,6 +87,13 @@ const routes = [
         path: '/SignupUser',
         name: 'Registrar User',
         Component: RegisterUser,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '*',
+        name: '404 Not Found',
+        Component: Page404,
         isPrivate: false,
         inNavbar: false,
     },

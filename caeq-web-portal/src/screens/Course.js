@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getCourse } from "../client/Course/Course.GET";
 import BaseButton from "../components/buttons/BaseButton";
 import ClassroomIcon from '../components/icons/Classroom.png';
@@ -12,11 +12,14 @@ import '../styles/course.scss';
 
 const Course = (props) => {
     const searchParams = useParams();
+    const navigate = useNavigate();
     const [data, setData] = useState({});
 
     useEffect(() => {
         if (searchParams.id)
-            getCourse(searchParams.id).then(response => setData(response));
+            getCourse(searchParams.id)
+            .then(response => setData(response))
+            .catch(error => navigate('/404'));
     }, []);
 
     const startDate = new Date(data.startDate);
@@ -71,7 +74,7 @@ const Course = (props) => {
                 <div className="course-row course-extras">
                     <div className="course-col">
                         <h3>Objetivos</h3>
-                        <p>{data.objectives}</p>
+                        <p>{data.objective}</p>
                     </div>
                     <div className="course-col">
                         <h3>Incluye</h3>

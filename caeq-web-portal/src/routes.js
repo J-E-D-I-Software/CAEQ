@@ -23,7 +23,7 @@ const routes = [
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: false,
-        inNavbar: true,
+        inNavbar: false,
     },
     {
         path: '/Principal',

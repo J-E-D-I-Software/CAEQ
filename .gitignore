@@ -1,2 +1,5 @@
 */build
 */node_modules
+*/config.env
+*/.env
+*/.firebase/

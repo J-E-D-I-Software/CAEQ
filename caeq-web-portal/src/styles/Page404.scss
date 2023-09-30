@@ -1,0 +1,30 @@
+.page-404 {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    a {
+        color: white;
+        font-weight: 600;
+        background-color: #eea300;
+        padding: 1rem 2rem;
+        border-radius: 7px;
+    }
+
+    a:hover { 
+        color: white;
+        background-color: #fab82b;
+    }
+}

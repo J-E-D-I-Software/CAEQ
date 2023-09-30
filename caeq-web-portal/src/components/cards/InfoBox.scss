@@ -1,0 +1,16 @@
+.info-box {
+  display: flex;
+  border-radius: 20px;
+  background: #FFF;
+  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+}
+
+.column {
+  flex: 1;
+  margin: 20px;
+}
+
+.column p {
+  margin: 0;
+  padding: 5px;
+}

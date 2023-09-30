@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "caeq-system"
+  },
+  "targets": {
+    "caeq-system": {
+      "hosting": {
+        "prod": [
+          "caeq-system"
+        ],
+        "test": [
+          "test-caeq-system"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

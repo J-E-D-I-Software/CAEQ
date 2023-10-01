@@ -1,6 +1,6 @@
 .tabla-container {
   width: 100%;
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 
 .tabla {
@@ -9,52 +9,62 @@
   border-spacing: 0 16px;
 }
 
-.tabla th {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 16px;
+.tabla th,
+.tabla td {
+  padding: 24px;
   text-align: left;
-  border-radius: 5px;
-  background-color: #062E52;
-  color: #fff;
+  border-radius: 10px;
   white-space: nowrap;
 }
 
+.tabla th {
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #062E52;
+  color: #fff;
+  min-width: 200px;
+  position: relative;
+}
+
 .tabla td {
-  padding: 14px;
-  text-align: left;
-  border-radius: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .fila-sombrada {
   background-color: #F1F1F1;
   transition: background-color 0.5s, transform 0.3s;
-  border-radius: 10px; 
+  border-radius: 10px;
   margin-bottom: 8px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5); 
-  cursor: pointer; 
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .fila-sombrada:hover {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   transform: translateY(-3px);
 }
 
-.fila-sombrada:last-child {
-  margin-bottom: 0;
-}
 
 .header-content {
-  .hide-button {
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    
-  } 
-
-  .restablecer-button{
-    position: absolute;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+
+.hide-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+}
+
+
+
+.hide-button-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}

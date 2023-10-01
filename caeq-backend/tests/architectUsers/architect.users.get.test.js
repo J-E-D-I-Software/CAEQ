@@ -36,6 +36,20 @@ const testGetArchitectUser = async () => {
     expect(res.statusCode).toEqual(200);
 };
 
+
+
+const testPagination = async () => {
+    const page = 1; 
+    const limit = 10;
+    const endpoint = `/architectusers?page=${page}&limit=${limit}`;
+
+    const res = await agent.get(endpoint);
+
+    expect(res.statusCode).toEqual(200);
+};
+
+
+
 beforeAll(async () => {
     await connectDB();
     await setUpDbWithMuckData();
@@ -46,4 +60,5 @@ describe('Architect User GET', () => {
     test('successful', () => testGetArchitectUser());
     test('successful', testGetAllArchitectUsersWithParams('email', 'john@example.com'));
     test('successful', testGetAllArchitectUsersWithParams('verified', false));
+    test('pagination', () => testPagination());
 });

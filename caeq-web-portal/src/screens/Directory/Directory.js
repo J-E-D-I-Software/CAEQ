@@ -9,11 +9,10 @@ import "./directory.scss";
  * @component
  */
 const Directory = () => {
-  /** Estado que almacena la lista completa de arquitectos. */
   const [architectUsers, setArchitectUsers] = useState([]);
-  /** Estado que almacena el texto de búsqueda del usuario. */
   const [getArchitect, setArchitect] = useState("");
   const [paginationPage, setPaginationPage] = useState(1);
+
   /**
    * Efecto que se ejecuta al cargar el componente para obtener la lista completa de arquitectos.
    */
@@ -51,17 +50,24 @@ const Directory = () => {
   // Filtrar los arquitectos en función del texto de búsqueda
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
-// Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
-const tablefilteredArchitects = filteredArchitects.map(({ _id, ...rest }) => rest);
-const columnsToShow = filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
+  // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
+  const tablefilteredArchitects = filteredArchitects.map(
+    ({ _id, ...rest }) => rest
+  );
+  const columnsToShow =
+    filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
 
-// Asegúrate de que haya al menos una columna antes de excluir la última
-if (columnsToShow.length > 1) {
-  tablefilteredArchitects.forEach((architect) => {
-    // Elimina la última propiedad de cada objeto arquitecto
-    delete architect[columnsToShow[columnsToShow.length - 1]];
-  });
-}
+  // Asegúrate de que haya al menos una columna antes de excluir la última
+  if (columnsToShow.length > 1) {
+    tablefilteredArchitects.forEach((architect) => {
+      // Elimina la última propiedad de cada objeto arquitecto
+      delete architect[columnsToShow[columnsToShow.length - 1]];
+    });
+  }
+
+  /**
+   * Maneja la acción de retroceder a la página anterior en la paginación.
+   */
 
   const handlePreviousPage = () => {
     if (paginationPage > 1) {
@@ -69,6 +75,9 @@ if (columnsToShow.length > 1) {
     }
   };
 
+  /**
+   * Maneja la acción de avanzar a la siguiente página en la paginación.
+   */
   const handleNextPage = () => {
     setPaginationPage(paginationPage + 1);
   };
@@ -87,11 +96,12 @@ if (columnsToShow.length > 1) {
       </label>
 
       <div className="directory-row">
-        {filteredArchitects.length > 0 && (
+        {filteredArchitects.length > 0 ? (
           <div className="box-container">
-            {console.log(tablefilteredArchitects)}
             <InteractiveTable data={tablefilteredArchitects} />
           </div>
+        ) : (
+          <p className="no-data-message">No hay colegiados disponibles</p>
         )}
       </div>
 

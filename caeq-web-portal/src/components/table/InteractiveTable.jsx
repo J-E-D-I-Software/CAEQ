@@ -52,9 +52,9 @@ const InteractiveTable = ({ data }) => {
     memberType: "Tipo de miembro",
     classification: "Clasificación",
     DRONumber: "Número de DRO",
-    authorizationToShareInfo:"Autorización para compartir información",
+    authorizationToShareInfo: "Autorización para compartir información",
     lifeInsurance: "Seguro de vida",
-    lifeInsureID:"Poliza de seguro de vida",
+    lifeInsureID: "Poliza de seguro de vida",
     age: "Edad",
     gender: "Género",
     cellphone: "Número de celular",
@@ -76,7 +76,6 @@ const InteractiveTable = ({ data }) => {
     capacitationHours: "Horas asistidas",
     email: "Correo electrónico",
   };
-  
 
   /**
    * Función de formato para mostrar valores booleanos como "Sí" o "No".
@@ -94,76 +93,81 @@ const InteractiveTable = ({ data }) => {
     <tr>
       {columnsToShow.map((column) =>
         columnVisibility[column] ? (
-          <th key={column} className="sticky-column"style={{ minWidth: '200px' }}>
+          <th key={column} className="sticky-column">
             <div className="header-content">
               <span className="header-text">{headerMappings[column]}</span>
-              {console.log(headerMappings[column])}
-              <button
-                className="hide-button"
-                onClick={() => toggleColumnVisibility(column)}
-              >
-                <img src={CloseIcon} alt="Icono Ocultar" />
-              </button>
+              <div className="hide-button-container">
+                <button
+                  className="hide-button"
+                  onClick={() => toggleColumnVisibility(column)}
+                >
+                  <img src={CloseIcon} alt="Icono Ocultar" />
+                </button>
+              </div>
             </div>
           </th>
         ) : null
       )}
     </tr>
   );
-  
 
-/**
- * Renderizar el cuerpo de la tabla.
- * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
- */
-const renderTableBody = () =>
-  data?.length > 0 ? (
-    data.map((row, rowIndex) => (
+  /**
+   * Renderizar el cuerpo de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
+   */
+  const renderTableBody = () => {
+    if (data?.length === 0) {
+      return (
+        <tr>
+          <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
+        </tr>
+      );
+    }
+
+    return data.map((row, rowIndex) => (
       <tr key={rowIndex} className="fila-sombrada">
         {columnsToShow.map((column) =>
           columnVisibility[column] ? (
             <td key={column} className="sticky-column">
               {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-              {typeof row[column] === "boolean"
-                ? formatBooleanValue(row[column])
-                : column === "linkCV" && row[column] ? (
-                  <a href={row[column]} target="_blank" rel="noopener noreferrer">
-                    Descargar
-                  </a>
-                ) : column === "dateOfBirth" && row[column]
-                ? formatDate(row[column])
-                : column === "dateOfAdmission" && row[column]
-                ? formatDate(row[column])
-                : row[column]}
+              {typeof row[column] === "boolean" ? (
+                formatBooleanValue(row[column])
+              ) : column === "linkCV" && row[column] ? (
+                <a href={row[column]} target="_blank" rel="noopener noreferrer">
+                  Descargar
+                </a>
+              ) : column === "dateOfBirth" && row[column] ? (
+                formatDate(row[column])
+              ) : column === "dateOfAdmission" && row[column] ? (
+                formatDate(row[column])
+              ) : (
+                row[column]
+              )}
             </td>
           ) : null
         )}
       </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan={columnsToShow.length}>No hay datos disponibles.</td>
-    </tr>
-  );
+    ));
+  };
 
   /**
- * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.
- * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
- * @returns {string} - La fecha formateada en "DD/MM/AAAA".
- */
-const formatDate = (date) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(date).toLocaleDateString(undefined, options);
-};
-  
+   * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.
+   * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
+   * @returns {string} - La fecha formateada en "DD/MM/AAAA".
+   */
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="tabla-container">
-      <BaseButton 
+      <BaseButton
         type="primary"
         className="restablecer-button"
         onClick={resetColumnVisibility}
       >
-        Resetear tabla 
+        Resetear tabla
       </BaseButton>
 
       <table className="tabla">

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import InteractiveTable from "../components/table/InteractiveTable";
-import InputText from "../components/inputs/TextInput/TextInput";
-import { getAllArchitectUsers } from "../client/ArchitectUser/ArchitectUser.GET";
-import '../styles/directory.scss'
+import InteractiveTable from "../../components/table/InteractiveTable";
+import InputText from "../../components/inputs/TextInput/TextInput";
+import { getAllArchitectUsers } from "../../client/ArchitectUser/ArchitectUser.GET";
+import PaginationNav from "../../components/pagination/PaginationNav";
+import "./directory.scss";
 /**
  * Componente que muestra una lista de arquitectos con función de búsqueda.
  * @component
@@ -10,24 +11,22 @@ import '../styles/directory.scss'
 const Directory = () => {
   /** Estado que almacena la lista completa de arquitectos. */
   const [architectUsers, setArchitectUsers] = useState([]);
-  
   /** Estado que almacena el texto de búsqueda del usuario. */
-  const [getArchitect, setArchitect] = useState('');
-
+  const [getArchitect, setArchitect] = useState("");
+  const [paginationPage, setPaginationPage] = useState(1);
   /**
    * Efecto que se ejecuta al cargar el componente para obtener la lista completa de arquitectos.
    */
+
   useEffect(() => {
     (async () => {
       try {
-        const architects = await getAllArchitectUsers();
+        let filters = "";
+        const architects = await getAllArchitectUsers(paginationPage, filters);
         setArchitectUsers(architects);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     })();
-  }, []);
-
+  }, [paginationPage]);
   /**
    * Función que filtra los arquitectos en función del texto de búsqueda.
    * @param {Object[]} data - La lista de arquitectos completa.
@@ -53,26 +52,48 @@ const Directory = () => {
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
   // Filtrar y excluir la primera columna ('id') antes de pasar los datos a InteractiveTable
-  const tablefilteredArchitects = filteredArchitects.map(({ _id, ...rest }) => rest);
+  const tablefilteredArchitects = filteredArchitects.map(
+    ({ _id, ...rest }) => rest
+  );
+  const handlePreviousPage = () => {
+    if (paginationPage > 1) {
+      setPaginationPage(paginationPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    setPaginationPage(paginationPage + 1);
+  };
 
   return (
-  <div className="directory">
-    <label>
-      <InputText
-        getVal={getArchitect}
-        setVal={setArchitect}
-        placeholder="Buscar"
-      />
-    </label>
-    <div className="directory-row">
-      {filteredArchitects.length > 0 && (
-        <div className="box-container">
-          <InteractiveTable data={tablefilteredArchitects} />
-        </div>
-      )}
-    </div>
-  </div>
+    <div className="directory">
+      <div className="directory-row directory-header">
+        <h1>Directorio de arquitectos</h1>
+      </div>
+      <label>
+        <InputText
+          getVal={getArchitect}
+          setVal={setArchitect}
+          placeholder="Buscar"
+        />
+      </label>
 
+      <div className="directory-row">
+        {filteredArchitects.length > 0 && (
+          <div className="box-container">
+            <InteractiveTable data={tablefilteredArchitects} />
+          </div>
+        )}
+      </div>
+
+      <div className="directory-row directory-pagination">
+        <PaginationNav
+          onClickBefore={handlePreviousPage}
+          onClickAfter={handleNextPage}
+          page={paginationPage}
+        />
+      </div>
+    </div>
   );
 };
 

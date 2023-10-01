@@ -8,16 +8,16 @@ import { getUserType } from '../../utils/auth';
  *
  * @param {Object} props - The component's properties.
  * @param {React.ReactNode} props.children - The components to be rendered if the user's role matches.
- * @param {string[]} [props.allowedRoles=['architect', 'staff']] - An array of allowed user roles.
+ * @param {string[]} [props.allowedRoles=['architect', 'caeq']] - An array of allowed user roles.
  * @returns {JSX.Element|null} JSX element representing the RestrictByRole or null if the user's role doesn't match.
  *
  * @example
  * // Example usage of RestrictByRole:
- * <RestrictByRole allowedRoles={['admin']}>
+ * <RestrictByRole allowedRoles={['caeq']}>
  *   <AdminDashboard />
  * </RestrictByRole>
  */
-const RestrictByRole = ({ children, allowedRoles = ['architect', 'staff'] }) => {
+const RestrictByRole = ({ children, allowedRoles = ['architect', 'caeq'] }) => {
     const userRole = getUserType();
 
     if (allowedRoles.includes(userRole)) return children;

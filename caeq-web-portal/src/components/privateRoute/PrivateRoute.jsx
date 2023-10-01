@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { isAuthenticated } from '../../utils/auth';
+import { isAuthenticated, getUserType } from '../../utils/auth';
 import { Navigate } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 
@@ -16,8 +16,8 @@ import Navbar from '../navbar/Navbar';
  * // Example usage of PrivateRoute:
  * <PrivateRoute component={Dashboard} />
  */
-const PrivateRoute = ({ component: Component, ...props }) => {
-    return isAuthenticated() ? (
+const PrivateRoute = ({ component: Component, roles, ...props }) => {
+    return isAuthenticated() && roles.includes(getUserType()) ? (
         <Fragment>
             <Navbar />
             <Component {...props} />

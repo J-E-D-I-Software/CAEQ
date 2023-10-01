@@ -1,0 +1,15 @@
+.pagination-nav { 
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+
+    p {
+        color: #b67d02;
+        font-weight: 600;
+    }
+
+    p:hover { 
+        cursor: pointer;
+        color: #543f10;
+    }
+}

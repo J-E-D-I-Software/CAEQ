@@ -3,7 +3,14 @@
 const nodemailer = require('nodemailer');
 /* Pug is an easy-to-code template engine used to code HTML in a more readable fashion.*/
 const pug = require('pug');
+const dotenv = require('dotenv');
 const { htmlToText } = require('html-to-text');
+const sgMail = require('@sendgrid/mail');
+
+// Read env variables and save them
+dotenv.config({ path: '../.env' });
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 /* Create a class called Email.*/
 module.exports = class Email {
@@ -15,36 +22,11 @@ module.exports = class Email {
      */
     /*The constructor is taking in two parameters, user and url.
     The constructor is also setting the to, firstName, url, and from properties*/
-    constructor(user, url) {
+    constructor(user, url = '') {
         this.to = user.email;
-        this.firstName = user.name.split(' ')[0];
+        this.firstName = user.fullName.split(' ')[0];
         this.url = url;
-        this.from = `Colegio de Arquitectos del Estado de Querétaro - CAEQ <${process.env.EMAIL_FROM}>`;
-    }
-
-    /**
-     * It creates a new transport object using the nodemailer library.
-     *
-     * The transport object is used to send emails.
-     *
-     * The transport object is created using the host, port, username, and password that we set in our
-     * .env file.
-     * @returns A new instance of the nodemailer transport object.
-     */
-
-    /* The newTransport method is creating a new transport object based on the environment. */
-    newTransport() {
-        return nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.MAIL_USERNAME,
-                pass: process.env.MAIL_PASSWORD,
-                clientId: process.env.OAUTH_CLIENTID,
-                clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-            },
-        });
+        this.from = { email: process.env.MAIL_USERNAME };
     }
 
     /**
@@ -77,18 +59,53 @@ module.exports = class Email {
             text: htmlToText(html, { wordwrap: 130 }),
         };
 
-        //  create transport and send email
-        await this.newTransport().sendMail(mailOptions);
+        return sgMail.send(mailOptions);
     }
 
     /**
      * The function sendWelcome() is an asynchronous function that sends a welcome message to the user.
-     */
+     * Example
+     * 
+        const user = {
+            email: 'pablocesarjimenezvilleda@gmail.com',
+            fullName: 'Pablo Jimenez',
+        };
 
+        const email = new Email(user, 'www.google.com')
+            .sendWelcome()
+            .then(() => {
+                console.log('email sent');
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log(err.response.body);
+            });
+     */
     /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
-    async sendWelcome() {
+    async sendWelcomeUser() {
         // esto va a ser una pug template
-        await this.send('welcome', 'Bienvenido a la familia CAEQ!');
+        await this.send('welcomeUser', 'Bienvenido a la familia CAEQ!');
+    }
+    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+    async sendWelcomeAdmin() {
+        // esto va a ser una pug template
+        await this.send(
+            'welcomeAdmin',
+            'Bienvenido a la familia CAEQ! Un administrador revisará tu perfil.'
+        );
+    }
+    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+    async sendAdminAccepted() {
+        // esto va a ser una pug template
+        await this.send(
+            'adminAccepted',
+            'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
+        );
+    }
+    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+    async sendAdminRejected() {
+        // esto va a ser una pug template
+        await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
     }
 
     /**

@@ -2,6 +2,7 @@ const factory = require('./handlerFactory.controller');
 const CaeqUser = require('../models/caeq.user.model');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const Email = require('../utils/email');
 
 exports.getAllCaeqUsers = factory.getAll(CaeqUser);
 exports.getCaeqUser = factory.getOne(CaeqUser);
@@ -27,7 +28,13 @@ exports.deleteCaeqUser = factory.deleteOne(CaeqUser);
 exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     const adminId = req.body.admin;
 
-    const caeqUser = (await CaeqUser.find({ _id: adminId }).select({ verified: 1 }))[0];
+    const caeqUser = (
+        await CaeqUser.find({ _id: adminId }).select({
+            verified: 1,
+            fullName: 1,
+            email: 1,
+        })
+    )[0];
     if (!caeqUser || caeqUser.verified === true) {
         return next(
             new AppError('No se puede realizar esta petición en este administrador.', 400)
@@ -35,6 +42,18 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     }
 
     await CaeqUser.findByIdAndUpdate(adminId, { verified: true });
+
+    try {
+        console.log(caeqUser);
+        await new Email(caeqUser).sendAdminAccepted();
+    } catch (error) {
+        return next(
+            new AppError(
+                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
+                500
+            )
+        );
+    }
 
     res.status(200).json({
         status: 'success',
@@ -60,7 +79,18 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
 exports.rejectCaeqUser = catchAsync(async (req, res, next) => {
     const adminId = req.body.admin;
 
-    await CaeqUser.findByIdAndDelete(adminId);
+    const caeqUser = await CaeqUser.findByIdAndDelete(adminId);
+
+    try {
+        await new Email(caeqUser).sendAdminRejected();
+    } catch (error) {
+        return next(
+            new AppError(
+                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
+                500
+            )
+        );
+    }
 
     res.status(200).json({
         status: 'success',

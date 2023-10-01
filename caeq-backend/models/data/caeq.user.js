@@ -1,5 +1,12 @@
 const caeqUserTestData = [
     {
+        fullName: 'Pablo Cesar',
+        email: 'pablocesarjimenezvilleda@gmail.com',
+        password: 'password123',
+        passwordConfirm: 'password123',
+        verified: false,
+    },
+    {
         fullName: 'John Doe',
         email: 'john@example.com',
         password: 'password123',

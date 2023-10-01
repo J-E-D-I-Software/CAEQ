@@ -3,6 +3,7 @@ const ArchitectUser = require('../models/architect.user.model');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const Email = require('../utils/email');
 const { promisify } = require('util');
 
 /**
@@ -58,14 +59,13 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     });
 
-    // TO-DO: Add email module
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcome();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser).sendWelcomeAdmin();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -85,13 +85,13 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     });
 
     // TO-DO: Add email module
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcome();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser).sendWelcomeUser();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     return createSendToken(newUser, 'architect', 201, req, res);
 });

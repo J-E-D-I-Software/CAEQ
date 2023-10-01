@@ -1,5 +1,6 @@
 .tabla-container {
   width: 100%;
+  overflow-x: auto; 
 }
 
 .tabla {
@@ -44,13 +45,6 @@
 }
 
 .header-content {
-  display: flex;
-  align-items: center;
-
-  .header-text {
-    margin-right: 8px;
-  }
-
   .hide-button {
     background: transparent;
     border: none;
@@ -63,3 +57,4 @@
     position: absolute;
   }
 }
+

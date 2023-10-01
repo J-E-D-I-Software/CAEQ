@@ -51,10 +51,18 @@ const Directory = () => {
   // Filtrar los arquitectos en función del texto de búsqueda
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
-  // Filtrar y excluir la primera columna ('id') antes de pasar los datos a InteractiveTable
-  const tablefilteredArchitects = filteredArchitects.map(
-    ({ _id, ...rest }) => rest
-  );
+// Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
+const tablefilteredArchitects = filteredArchitects.map(({ _id, ...rest }) => rest);
+const columnsToShow = filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
+
+// Asegúrate de que haya al menos una columna antes de excluir la última
+if (columnsToShow.length > 1) {
+  tablefilteredArchitects.forEach((architect) => {
+    // Elimina la última propiedad de cada objeto arquitecto
+    delete architect[columnsToShow[columnsToShow.length - 1]];
+  });
+}
+
   const handlePreviousPage = () => {
     if (paginationPage > 1) {
       setPaginationPage(paginationPage - 1);
@@ -81,6 +89,7 @@ const Directory = () => {
       <div className="directory-row">
         {filteredArchitects.length > 0 && (
           <div className="box-container">
+            {console.log(tablefilteredArchitects)}
             <InteractiveTable data={tablefilteredArchitects} />
           </div>
         )}

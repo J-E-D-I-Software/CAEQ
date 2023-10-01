@@ -11,6 +11,7 @@ import Directory from './screens/Directory/Directory';
 
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
+import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
@@ -99,16 +100,12 @@ const routes = [
     {
         path: '/Directorio',
         name: 'Directorio',
-        Component: () => (
-            <div>
-                <RestrictByRole allowedRoles={['caeq']}>
-                <Directory /> {Directory}
-                </RestrictByRole>
-            </div>
-            ),
         icon: DirectorioIcon,
+        iconWhite: DirectorioIconWhite,
+        Component: Directory,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq'],
     },
 
     {

@@ -1,54 +1,56 @@
-import React, { useState } from 'react';
-import '../styles/courses.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "../styles/forgot-password.scss";
+import TextInput from "../components/inputs/TextInput/TextInput";
+import BaseButton from "../components/buttons/BaseButton";
+import { FireError, FireSucess } from "../utils/alertHandler";
+import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import { Link, useNavigate } from "react-router-dom";
 
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-function ForgotPassword() {
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
-    const navigate = useNavigate();
-  
-    const handleEmailChange = (e) => {
-      setEmail(e.target.value);
-    };
-  
-    const handleForgotPassword = async () => {
-      try {
-        const response = await fetch('/api/auth/forgot-password', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        });
-  
-        const data = await response.json();
-  
-        if (response.status === 200) {
-          setMessage(data.message);
-        } else {
-          setMessage('Error: ' + data.message);
-        }
-        navigate('/');
-      } catch (error) {
-        console.error(error);
-        setMessage('Error interno del servidor');
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await postLoginCaeqUsers(email);
+      if (response.status === "success") {
+        FireSucess(
+          "Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo."
+        );
+        navigate("/");
       }
-    };
-  
-    return (
-      <div>
-        <h2>Olvidé mi contraseña</h2>
-        <input
-          type="email"
-          placeholder="Ingrese su correo electrónico"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <button onClick={handleForgotPassword}>Enviar solicitud</button>
-        <p>{message}</p>
+    } catch (error) {
+      FireError(error.message);
+    }
+  };
+
+  return (
+    <div className="forgot-container">
+      <h2>¿Has olvidado tu contraseña?</h2>
+
+      <div className="forgot-description">
+          <p2> Escribe el correo electrónico que usaste para registrarte. Te
+          enviaremos un correo con instrucciones sobre cómo restablecer tu
+          contraseña. </p2>
       </div>
-    );
-  }
-  
-  export default ForgotPassword;
+      <form onSubmit={handleForgotPassword}>
+        <TextInput
+          placeholder="Correo Electrónico"
+          getVal={email}
+          setVal={setEmail}
+        />
+        <BaseButton type="primary" onClick={handleForgotPassword}>
+          Enviar correo Electronico
+        </BaseButton>
+      </form>
+      <div className="forgot-description">
+        <Link to="/">
+          <p> Volver </p>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default ForgotPassword;

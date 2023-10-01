@@ -7,6 +7,7 @@ import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
 import ForgotPassword from './screens/ForgotPassword';
+import ResetPassword from './screens/ResetPassword';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
@@ -74,8 +75,15 @@ const routes = [
     },
     {
         path: '/Forgot-password',
-        name: 'Olvidar contrasña',
+        name: 'Olvidar contraseña',
         Component: ForgotPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/Reset-password',
+        name: 'Restaurar contraseña',
+        Component: ResetPassword,
         isPrivate: false,
         inNavbar: false,
     },

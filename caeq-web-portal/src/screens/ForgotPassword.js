@@ -49,6 +49,11 @@ const ForgotPassword = () => {
           <p> Volver </p>
         </Link>
       </div>
+      <div className="forgot-description">
+        <Link to="/Reset-password">
+          <p> Restablecer </p>
+        </Link>
+      </div>
     </div>
   );
 };

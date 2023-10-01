@@ -1,7 +1,3 @@
-/* Nodemailer is a module for Node.js applications to allow easy as cake email sending.*/
-/* Install nodemailer from json?*/
-const nodemailer = require('nodemailer');
-/* Pug is an easy-to-code template engine used to code HTML in a more readable fashion.*/
 const pug = require('pug');
 const dotenv = require('dotenv');
 const { htmlToText } = require('html-to-text');
@@ -10,7 +6,9 @@ const sgMail = require('@sendgrid/mail');
 // Read env variables and save them
 dotenv.config({ path: '../.env' });
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+if (process.env.NODE_ENV !== 'test') {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 /* Create a class called Email.*/
 module.exports = class Email {
@@ -39,6 +37,10 @@ module.exports = class Email {
     /* The send method is rendering the html based on the template and subject. 
     The send method is also defining the mail options and sending the email. */
     async send(template, subject) {
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template

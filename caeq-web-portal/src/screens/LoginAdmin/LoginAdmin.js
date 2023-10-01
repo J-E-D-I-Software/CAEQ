@@ -35,8 +35,8 @@ const LogingSignUp = () => {
     };
 
     return (
-        <div className='login-container'>
-            <img src={Logo} alt='Logo' className='Logo' />
+        <div className='login-admin-container'>
+            <img src={Logo} alt='Logo' className='logo' />
             <form>
                 <h2>Correo electrónico</h2>
                 <TextInput

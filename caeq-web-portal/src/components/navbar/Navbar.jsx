@@ -32,12 +32,10 @@ const Navbar = () => {
                                 route.roles !== undefined
                                     ? route.roles
                                     : ['architect', 'caeq']
-                            }
-                        >
+                            }>
                             <NavbarButton
                                 label={route.name}
                                 key={route.path}
-                                className='button-navbar'
                                 id='inicio_btn'
                                 icon={route.icon}
                                 iconWhite={route.iconWhite}

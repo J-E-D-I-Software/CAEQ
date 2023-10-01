@@ -13,13 +13,10 @@ if (process.env.NODE_ENV !== 'test') {
 /* Create a class called Email.*/
 module.exports = class Email {
     /**
-     * The constructor function is a special method for creating and initializing an object created
-     * within a class.
-     * @param user - The user object that contains the email and name of the user.
-     * @param url - The URL that the user will be sent to in order to reset their password.
+     * Create an Email instance.
+     * @param {object} user - The user object that contains the email and name of the user.
+     * @param {string} [url=''] - The URL that the user will be sent to in order to reset their password.
      */
-    /*The constructor is taking in two parameters, user and url.
-    The constructor is also setting the to, firstName, url, and from properties*/
     constructor(user, url = '') {
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
@@ -28,14 +25,11 @@ module.exports = class Email {
     }
 
     /**
-     * The function takes in a template and a subject, renders the template using the data from the
-     * object, defines the email options, creates a new transport and sends the email.
-     * @param template - The name of the template file that we want to use.
-     * @param subject - The subject of the email
+     * Send an email using a template and subject.
+     * @param {string} template - The name of the template file that we want to use.
+     * @param {string} subject - The subject of the email.
+     * @returns {Promise} A promise that resolves when the email is sent.
      */
-
-    /* The send method is rendering the html based on the template and subject. 
-    The send method is also defining the mail options and sending the email. */
     async send(template, subject) {
         if (process.env.NODE_ENV === 'test') {
             return;
@@ -65,30 +59,30 @@ module.exports = class Email {
     }
 
     /**
-     * The function sendWelcome() is an asynchronous function that sends a welcome message to the user.
-     * Example
-     * 
-        const user = {
-            email: 'pablocesarjimenezvilleda@gmail.com',
-            fullName: 'Pablo Jimenez',
-        };
-
-        const email = new Email(user, 'www.google.com')
-            .sendWelcome()
-            .then(() => {
-                console.log('email sent');
-            })
-            .catch((err) => {
-                console.log(err);
-                console.log(err.response.body);
-            });
+     * Send a welcome email to the user.
+     * @example
+     * const user = {
+     *     email: 'pablocesarjimenezvilleda@gmail.com',
+     *     fullName: 'Pablo Jimenez',
+     * };
+     * const email = new Email(user, 'www.google.com')
+     *     .sendWelcomeUser()
+     *     .then(() => {
+     *         console.log('Email sent');
+     *     })
+     *     .catch((err) => {
+     *         console.log(err);
+     *         console.log(err.response.body);
+     *     });
      */
-    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
     async sendWelcomeUser() {
         // esto va a ser una pug template
         await this.send('welcomeUser', 'Bienvenido a la familia CAEQ!');
     }
-    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+
+    /**
+     * Send a welcome email to an administrator.
+     */
     async sendWelcomeAdmin() {
         // esto va a ser una pug template
         await this.send(
@@ -96,7 +90,10 @@ module.exports = class Email {
             'Bienvenido a la familia CAEQ! Un administrador revisará tu perfil.'
         );
     }
-    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+
+    /**
+     * Send an email to notify that an administrator's request is accepted.
+     */
     async sendAdminAccepted() {
         // esto va a ser una pug template
         await this.send(
@@ -104,21 +101,25 @@ module.exports = class Email {
             'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
         );
     }
-    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
+
+    /**
+     * Send an email to notify that an administrator's request is rejected.
+     */
     async sendAdminRejected() {
         // esto va a ser una pug template
         await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
     }
 
     /**
-     * It sends a password reset email to the user.
+     * Send a password reset email to the user.
+     * Note: This method is commented out in the original code.
      */
-
-    /* The sendPasswordReset method is calling the send method and passing in the passwordReset template */
-    /*async sendPasswordReset() {
+    /*
+    async sendPasswordReset() {
         await this.send(
             'passwordReset',
             'Recuperar contraseña (válido por sólo 10 minutos)'
         );
-    }*/
+    }
+    */
 };

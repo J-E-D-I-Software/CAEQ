@@ -75,7 +75,8 @@ const Signup = () => {
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil',positionsInCouncil);
         form.append('file', linkCV);
-        form.append('authorizationToShareInfo', authorizationToShareInfo);
+        const isAuthorized = authorizationToShareInfo === "SÍ" ? true : false;
+        form.append('authorizationToShareInfo', isAuthorized);
         form.append('password', password);
         form.append('passwordConfirm',passwordConfirm);     
         e.preventDefault();
@@ -101,7 +102,7 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h2 class="h2-A">Registrate</h2>
+                <h2 class="h2-A">Regístrate</h2>
                 <form onSubmit={handleSignup}>
                     <div class="grid-container">
                         <div class="column">
@@ -120,14 +121,14 @@ const Signup = () => {
                             />
                             <HiddenTextInput
                                 label="Contraseña"
-                                placeholder='Contraseña'
+                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
                                 getVal={password}
                                 setVal={setPassword}
                                 require={true}
                             />
                             <HiddenTextInput
                                 label="Confirmar contraseña"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
                                 getVal={passwordConfirm}
                                 setVal={setConfirmPassword}
                                 require={true}
@@ -169,35 +170,35 @@ const Signup = () => {
                             />
                             <TextInput
                                 label="Número de teléfono celular"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Número de teléfono celular'
                                 getVal={cellphone}
                                 setVal={setCellphone}
                                 require={true}
                             />
                             <TextInput
                                 label="Número de teléfono de casa"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Número de teléfono de casa'
                                 getVal={homePhone}
                                 setVal={setHomePhone}
                                 require={true}
                             />
                             <TextInput
                                 label="Número de teléfono de oficina"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Número de teléfono de oficina'
                                 getVal={officePhone}
                                 setVal={setOfficePhone}
                                 require={true}
                             />
                             <LargeTextInput
                                 label="Domicilio particular"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Domicilio particular'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label="Domicilio de trabajo"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Domicilio de trabajo'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -205,64 +206,62 @@ const Signup = () => {
                         </div>
                         <div class="column-2">
                             <TextInput
-                                label="Contacto de emergencia (nombre y teléfono)"
-                                placeholder='Confirmar Contraseña'
+                                label="Contacto de emergencia (nombre completo y teléfono)"
+                                placeholder='Contacto de emergencia (nombre completo y teléfono)'
                                 getVal={emergencyContact}
                                 setVal={setEmergencyContact}
                                 require={true}
                             />
                             <TextInput
                                 label="Actividad Principal Preponderante"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Actividad Principal Preponderante'
                                 getVal={mainProfessionalActivity}
                                 setVal={setMainProfessionalActivity}
                                 require={true}
                             />
                             <TextInput
                                 label="Especialidad"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Especialidad'
                                 getVal={specialty}
                                 setVal={setSpecialty}
                                 require={true}
                             />
                             <DateInput
                                 label="Fecha de ingreso al colegio"
-                                placeholder='Confirmar Contraseña'
                                 getVal={dateOfAdmission}
                                 setVal={setDateOfAdmission}
                                 require={true}
                             />
                             <DateInput
                                 label="Fecha de nacimiento"
-                                placeholder='Confirmar Contraseña'
                                 getVal={dateOfBirth}
                                 setVal={setDateOfBirth}
                                 require={true}
                             />
                             <TextInput
                                 label="Universidad"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='¿En que universidad te graduaste?'
                                 getVal={university}
                                 setVal={setUniversity}
                                 require={true}
                             />
                             <TextInput
                                 label="Cedula profesional"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Cedula profesional'
                                 getVal={professionalLicense}
                                 setVal={setProfessionalLicense}
                                 require={true}
                             />
                             <TextInput
                                 label="Municipio"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Municipio de trabajo'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}
                             />
                             <TextInput
                                 label="Cargos en consejo directivo (fecha y nombre del cargo)"
-                                placeholder='Confirmar Contraseña'
+                                placeholder='Cargos en consejo directivo (fecha y nombre del cargo)'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                                 require={true}
@@ -271,7 +270,6 @@ const Signup = () => {
                                 label="Suba su curriculum"
                                 getVal={linkCV}
                                 setVal={setLinkCV}
-                                require={true}
                             />
                             <DropdownInput
                                 label="¿Autoriza compartir su información?"
@@ -284,7 +282,7 @@ const Signup = () => {
                     </div>
                     <div className='button-container'>
                         <BaseButton
-                            type='Submit'
+                            type='primary'
                             label='Registrarse'
                             onClick={handleSignup}
                         />

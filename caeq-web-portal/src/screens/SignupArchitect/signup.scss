@@ -1,5 +1,6 @@
 .h2-A {
     padding-left: 40px;
+    color: rgb(85, 85, 85);
 }
 
 .signup-container {
@@ -9,7 +10,7 @@
     background: url('../../components/images/backgroundCaeq.png') right center/cover
         no-repeat;
     background-attachment: fixed;
-    height: 100vh;
+    height: 100%;
     color: #000000; /* Color del texto dentro del contenedor */
 
     .grid-container {
@@ -23,7 +24,7 @@
             flex-direction: column;
         }
         .column-2 {
-            margin-top: -9px;
+            margin-top: 20px;
             padding: 10px;
             display: flex;
             flex-direction: column;

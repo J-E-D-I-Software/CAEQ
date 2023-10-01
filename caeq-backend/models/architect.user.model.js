@@ -36,7 +36,8 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu número de DRO!'],
     },
     authorizationToShareInfo: {
-        type: String,
+        type: Boolean,
+        required: [true, 'Por favor dinos si autorizas compartir tu información'],
     },
     lifeInsurance: {
         type: Boolean,
@@ -89,7 +90,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     linkCV: {
         type: String,
-        required: [true, 'Por favor dinos tu municipio de labor!']
+        required: [false]
     },
     university: {
         type: String,

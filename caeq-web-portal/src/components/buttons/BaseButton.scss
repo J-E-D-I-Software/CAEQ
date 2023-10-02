@@ -1,8 +1,6 @@
 .button {
-  width: 200px;
-  height: 45px;
   flex-shrink: 0;
-  border-radius: 18px;
+  border-radius: 8px;
   background: #eff9f0;
   padding: 15px;
   /* Text Button CAEQ */
@@ -18,79 +16,91 @@
   justify-content: center; 
   cursor: pointer;
   transition: background-color 0.3s ease; 
+  padding: 0.5rem 1.5rem;
+  border: none;
 }
 
 .active {
-  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
-  transform: translateY(-3px);
+    background-color: #eea300; /* Cambio de color al pasar el ratón */
+    transform: translateY(-3px);
+    color: white;
 }
 
 .button:hover {
-  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
-  transform: translateY(-3px); /* Elevación al pasar el ratón */
+    background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
+    transform: translateY(-3px); /* Elevación al pasar el ratón */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
 }
 
 .button-navbar:active {
-  color: #e0e0e0; 
+    color: #e0e0e0;
 }
 
 .button-.button-navbar:not(:active) {
-  color: #000000; 
+    color: #000000;
 }
 
 .button-primary {
-  background-color: #eea300;
-  color: #ffffff; 
+    background-color: #eea300;
+    color: #ffffff;
 }
 .button-primary:hover {
-  background-color: #fab82b; /* Cambio de color al pasar el ratón */
+    background-color: #fab82b; /* Cambio de color al pasar el ratón */
+}
+
+.button-cancel {
+    background-color: #ffffff;
+    color: #ab3428;
+    border: solid #ab3428 2px;
+}
+.button-cancel:hover {
+    background-color: #ffffff; /* Cambio de color al pasar el ratón */
 }
 
 .button-success {
-  color: #eff9f0;
-  background-color: #136f63;
+    color: #eff9f0;
+    background-color: #136f63;
 }
 
 .button-success:hover {
-  background-color: #0f9c89; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #0f9c89; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
 }
 
 .button-fail {
-  color: #eff9f0;
-  background-color: #ab3428;
-  
+    color: #eff9f0;
+    background-color: #ab3428;
 }
 
 .button-fail:hover {
-  background-color: #c73c2f; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #c73c2f; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
 }
 
 .button-disabled {
-  color: #eff9f0;
-  background-color: #4d585e;
+    color: #eff9f0;
+    background-color: #4d585e;
 }
 
 .button-disabled:hover {
-  background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
 }
 
 .button-navbar {
-  background-color: #eff9f0;
-  width: 200px;
-  height: 45px;
-  border-radius: 10px; /* Reducir la redondez del borde */
+    background-color: #eff9f0;
+    width: 200px;
+    height: 45px;
+    border-radius: 10px; /* Reducir la redondez del borde */
 }
 
 .button-navbar:hover {
-  background-color: #fab82b; /* Cambio de color al pasar el ratón */
+    background-color: #fab82b; /* Cambio de color al pasar el ratón */
 }
 
 /* Estilos para icono y etiqueta */
 .button-content {
-  text-align: center; 
-  flex-grow: 2;
+    text-align: center;
+    flex-grow: 2;
 }
 
 .icon img {
-  max-width: 24px; 
+    max-width: 24px;
 }

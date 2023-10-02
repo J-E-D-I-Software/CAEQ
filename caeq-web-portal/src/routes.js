@@ -1,16 +1,19 @@
 import Dasbboard from './screens/Dasboard';
-import Test from './screens/Test';
-import LoginAdmin from './screens/LoginAdmin';
-import LoginUser from './screens/LoginUser';
-import RegisterAdmin from './screens/SignupAdmin';
-import RegisterUser from './screens/SingupArchitect';
-import Directory from './screens/Directory';
+import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
+import LoginUser from './screens/LoginUser/LoginUser';
+import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
+import RegisterUser from './screens/SignupArchitect/SignupArchitect';
+import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
+import Courses from './screens/Courses';
+import Course from './screens/Course';
+import Page404 from './screens/404';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
+import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
-import BaseButton from './components/buttons/BaseButton';
-import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
-
+import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
+import AdminIcon from '../src/components/icons/AdminIcon.png';
+import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -18,23 +21,16 @@ const routes = [
         name: 'Principal',
         Component: Dasbboard,
         icon: PrincipalIcon,
+        iconWhite: PrincipalIconWhite,
         isPrivate: false,
-        inNavbar: true,
+        inNavbar: false,
     },
     {
         path: '/Principal',
         name: 'Principal',
-        Component: () => (
-        <div>
-            <RestrictByRole allowedRoles={['architect']}>
-                <BaseButton label="architect" />
-            </RestrictByRole>
-            <RestrictByRole allowedRoles={['staff']}>
-                <BaseButton label="staff" />
-            </RestrictByRole>
-        </div>
-        ),
+        Component: () => <div></div>,
         icon: PrincipalIcon,
+        iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
     },
@@ -42,9 +38,29 @@ const routes = [
         path: '/Cursos',
         name: 'Cursos',
         icon: CursosIcon,
-        Component: Test,
+        iconWhite: CursosIconWhite,
+        Component: Courses,
         isPrivate: true,
         inNavbar: true,
+    },
+    {
+        path: '/Curso/:id',
+        name: 'Curso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: Course,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Admins',
+        name: 'Admins',
+        icon: AdminIcon,
+        iconWhite: AdminIconWhite,
+        Component: AcceptAdmin,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
     },
     {
         path: '/LoginAdmin',
@@ -75,12 +91,12 @@ const routes = [
         inNavbar: false,
     },
     {
-        path:'/Directory',
-        name:'Directorio',
-        Component: Directory,
-        isPrivate: true,
-        inNavbar: true,
-    }
+        path: '*',
+        name: '404 Not Found',
+        Component: Page404,
+        isPrivate: false,
+        inNavbar: false,
+    },
 ];
 
 export default routes;

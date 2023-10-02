@@ -91,6 +91,14 @@ const routes = [
         inNavbar: false,
     },
     {
+        path: '/Directorio/:id',
+        name: 'Arquitecto',
+        Component: ArchitectDetails,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq']
+    },
+    {
         path: '*',
         name: '404 Not Found',
         Component: Page404,

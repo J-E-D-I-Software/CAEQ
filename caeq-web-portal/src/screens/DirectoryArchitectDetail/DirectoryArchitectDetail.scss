@@ -1,0 +1,23 @@
+.architect-detail {
+    padding: 3rem;
+
+    .architect-detail-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+    }
+
+    .architect-detail-col {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .save-button {
+        display: flex;
+        position: end;
+        margin-top: 1rem;
+    }
+
+}

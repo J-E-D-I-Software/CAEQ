@@ -17,8 +17,6 @@ import Navbar from '../navbar/Navbar';
  * <PrivateRoute component={Dashboard} />
  */
 const PrivateRoute = ({ component: Component, roles, ...props }) => {
-    console.log(isAuthenticated());
-
     return isAuthenticated() && roles.includes(getUserType()) ? (
         <Fragment>
             <Navbar />

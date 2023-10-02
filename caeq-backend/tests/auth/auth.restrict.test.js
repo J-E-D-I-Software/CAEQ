@@ -22,7 +22,7 @@ const testRestriction = async () => {
     let res2 = await agent.get(`${protectedEndpoint}`).send();
 
     expect(res2.statusCode).toEqual(200);
-    expect(res2.body.results).toEqual(10);
+    expect(res2.body.results).toEqual(11);
 };
 
 beforeAll(async () => {

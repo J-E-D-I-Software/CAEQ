@@ -56,6 +56,7 @@ const courseData = [
         paymentInfo: "",
         imageUrl: "https://caeq.org/wp-content/uploads/2023/09/EXCEL-INTERMEDIO-AVANZADO_Mesa-de-trabajo-1.png",
     },
+  
 ];
 
 module.exports = courseData;

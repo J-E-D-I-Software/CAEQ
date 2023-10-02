@@ -1,120 +1,182 @@
+//
+
 import React, { useState } from "react";
 import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
+import BaseButton from "../buttons/BaseButton";
 
-// Datos de ejemplo
-const datos = [
-  {
-    id: 1,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 2,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 3,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 4,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-  {
-    id: 5,
-    columna1: "Dato 1",
-    columna2: "Dato 2",
-    columna3: "Dato 3",
-    columna4: "Dato 4",
-    columna5: "Dato 5",
-  },
-];
+/**
+ * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
+ * @param {Object[]} data - Los datos para llenar la tabla.
+ * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
+ */
+const InteractiveTable = ({ data }) => {
+  // Obtiene las columnas que deben mostrarse en la tabla.
+  const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
-const Table = () => {
-  const [columnVisibility, setColumnVisibility] = useState({
-    columna1: true,
-    columna2: true,
-    columna3: true,
-    columna4: true,
-    columna5: true,
+  // Estado para mantener la visibilidad de las columnas.
+  const [columnVisibility, setColumnVisibility] = useState(() => {
+    return columnsToShow.reduce((visibility, column) => {
+      visibility[column] = true;
+      return visibility;
+    }, {});
   });
 
+  /**
+   * Alternar la visibilidad de una columna.
+   * @param {string} columnKey - La clave de la columna a alternar.
+   */
   const toggleColumnVisibility = (columnKey) => {
-    setColumnVisibility((prevState) => ({
-      ...prevState,
-      [columnKey]: !prevState[columnKey],
+    setColumnVisibility((prevVisibility) => ({
+      ...prevVisibility,
+      [columnKey]: !prevVisibility[columnKey],
     }));
   };
 
+  /**
+   * Restablecer la visibilidad de todas las columnas.
+   */
   const resetColumnVisibility = () => {
-    setColumnVisibility({
-      columna1: true,
-      columna2: true,
-      columna3: true,
-      columna4: true,
-      columna5: true,
+    setColumnVisibility((prevVisibility) => {
+      const resetVisibility = {};
+      columnsToShow.forEach((column) => {
+        resetVisibility[column] = true;
+      });
+      return resetVisibility;
     });
   };
 
-  const renderTableHeader = () => {
-    return (
-      <tr>
-        <th className="sticky-column">Columna 1</th>
-        {Object.keys(columnVisibility).map((key) =>
-          columnVisibility[key] ? (
-            <th key={key}>
-              {`Columna ${key.charAt(key.length - 1)}`}{" "}
-              <button
-                className="hide-button"
-                onClick={() => toggleColumnVisibility(key)}
-              >
-                <img src={CloseIcon} alt="Icono Ocultar" />
-              </button>
-            </th>
-          ) : null
-        )}
-      </tr>
-    );
+  const headerMappings = {
+    fullName: "Nombre completo",
+    collegiateNumber: "Número de colegiado",
+    memberType: "Tipo de miembro",
+    classification: "Clasificación",
+    DRONumber: "Número de DRO",
+    authorizationToShareInfo: "Autorización para compartir información",
+    lifeInsurance: "Seguro de vida",
+    lifeInsureID: "Poliza de seguro de vida",
+    age: "Edad",
+    gender: "Género",
+    cellphone: "Número de celular",
+    homePhone: "Número de casa",
+    officePhone: "Número de oficina",
+    emergencyContactName: "Nombre de contacto de emergencia",
+    emergencyContact: "Número de contacto de emergencia",
+    mainProfessionalActivity: "Actividad profesional principal",
+    dateOfAdmission: "Fecha de admisión",
+    dateOfBirth: "Fecha de nacimiento",
+    municipalityOfLabor: "Municipio de trabajo",
+    linkCV: "Link de CV",
+    university: "Universidad",
+    professionalLicense: "Cédula profesional",
+    workAddress: "Domicilio de trabajo",
+    homeAddress: "Domicilio de particular",
+    specialty: "Especialidad",
+    positionsInCouncil: "Cargos en consejos directivos",
+    capacitationHours: "Horas asistidas",
+    email: "Correo electrónico",
   };
 
+  /**
+   * Función de formato para mostrar valores booleanos como "Sí" o "No".
+   * @param {boolean} value - El valor booleano a formatear.
+   * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
+   */
+  const formatBooleanValue = (value) => (value ? "Sí" : "No");
+
+  /**
+   * Renderizar el encabezado de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
+   */
+
+  const renderTableHeader = () => (
+    <tr>
+      {columnsToShow.map((column) =>
+        columnVisibility[column] ? (
+          <th key={column} className="sticky-column">
+            <div className="header-content">
+              <span className="header-text">{headerMappings[column]}</span>
+              <div className="hide-button-container">
+                <button
+                  className="hide-button"
+                  onClick={() => toggleColumnVisibility(column)}
+                >
+                  <img src={CloseIcon} alt="Icono Ocultar" />
+                </button>
+              </div>
+            </div>
+          </th>
+        ) : null
+      )}
+    </tr>
+  );
+
+  /**
+   * Renderizar el cuerpo de la tabla.
+   * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
+   */
   const renderTableBody = () => {
-    return datos.map((fila) => (
-      <tr key={fila.id} className="fila-sombrada">
-        <td className="sticky-column">{fila.columna1}</td>
-        {Object.keys(columnVisibility).map((key) =>
-          columnVisibility[key] ? <td key={key}>{fila[key]}</td> : null
-        )}
+  if (!data || data.length === 0) {
+    return (
+      <tr>
+        <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
       </tr>
-    ));
+    );
+  }
+
+  return data.map((row, rowIndex) => (
+    <tr key={rowIndex} className="fila-sombrada">
+      {columnsToShow.map((column) =>
+        columnVisibility[column] ? (
+          <td key={column} className="sticky-column">
+            {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
+            {typeof row[column] === "boolean" ? (
+              formatBooleanValue(row[column])
+            ) : column === "linkCV" && row[column] ? (
+              <a href={row[column]} target="_blank" rel="noopener noreferrer">
+                Descargar
+              </a>
+            ) : column === "dateOfBirth" && row[column] ? (
+              formatDate(row[column])
+            ) : column === "dateOfAdmission" && row[column] ? (
+              formatDate(row[column])
+            ) : (
+              row[column]
+            )}
+          </td>
+        ) : null
+      )}
+    </tr>
+  ));
+};
+
+
+  /**
+   * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.
+   * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
+   * @returns {string} - La fecha formateada en "DD/MM/AAAA".
+   */
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(date).toLocaleDateString(undefined, options);
   };
 
   return (
     <div className="tabla-container">
+      <BaseButton
+        type="primary"
+        className="restablecer-button"
+        onClick={resetColumnVisibility}
+      >
+        Resetear tabla
+      </BaseButton>
+
       <table className="tabla">
         <thead>{renderTableHeader()}</thead>
         <tbody>{renderTableBody()}</tbody>
       </table>
-      <button className="restablecer-button" onClick={resetColumnVisibility}>
-        Restablecer Columnas
-      </button>
     </div>
   );
 };
 
-export default Table;
+export default InteractiveTable;

@@ -9,8 +9,6 @@ const {
     acceptCaeqUser,
     rejectCaeqUser,
 } = require(`${__dirname}/../controllers/caeq.user.controller.js`);
-
-
 const {
     loginCaeqUser,
     signUpCaeqUser,

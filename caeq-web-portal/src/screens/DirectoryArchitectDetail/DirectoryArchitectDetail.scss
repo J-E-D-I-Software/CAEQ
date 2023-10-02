@@ -3,19 +3,22 @@
 
     .architect-detail-row {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.5rem 0;
+        flex-direction: row;
+        column-gap: 20px;
     }
 
     .architect-detail-col {
-        display: flex;
-        flex-direction: column;
-        
+       width: 50%;
+       
+       .label-input {
+            margin-top: 10px;
+            
+        }
+       
     }
 
     .save-button {
-        display: flex;
+    
         position: end;
         margin-top: 1rem;
     }

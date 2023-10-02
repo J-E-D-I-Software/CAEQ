@@ -44,7 +44,7 @@ import BaseButton from "../../components/buttons/BaseButton";
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
-    const [data, setData] = useState({});
+    const [data, setData] = useState({}); 
 
     const dateOfAdmission = new Date(data.dateOfAdmission);
 
@@ -59,11 +59,15 @@ const ArchitectDetail = (props) => {
     return (
         <div className="architect-detail">
             <div className="architect-detail-row">
+                <center>
+
                 <h1>{data.fullName}</h1>
+                </center>
             </div>
 
             
             <div className="architect-detail-row">
+
                 <div className="architect-detail-col">
                     <TextInput label="Fecha de Ingreso" placeholder="FechaDeIngreso" getVal={dateOfAdmission.toLocaleDateString()} setVal={dateOfAdmission.toLocaleDateString()} />
                     <TextInput label="Número de Colegiado" placeholder="Número de Colegiado" getVal={data.collegiateNumber} setVal={data.collegiateNumber} />
@@ -77,6 +81,7 @@ const ArchitectDetail = (props) => {
                 <TextInput label="Número de Asistencias a Asambleas" placeholder="Número de Asistencias a Asambleas" getVal={data.hoursAttended} setVal={data.hoursAttended} />
                 <TextInput label="Pago de Anualidad" placeholder="Pago de Anualidad" getVal={data.authorizationToShareInfo} setVal={data.authorizationToShareInfo} />
                 <FileInput label="CV" placeholder="CV" getVal={""} setVal={""} />
+                <p>Archivo Actual: {data.linkCV}</p>
                 </div>
             </div>
 

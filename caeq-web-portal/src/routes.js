@@ -7,6 +7,7 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
 import Page404 from './screens/404';
+import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
@@ -93,7 +94,7 @@ const routes = [
     {
         path: '/Directorio/:id',
         name: 'Arquitecto',
-        Component: ArchitectDetails,
+        Component: DirectoryArchitectDetails,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq']

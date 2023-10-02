@@ -1,11 +1,11 @@
-import BaseButton from "../components/buttons/BaseButton";
-import DropdownInput from "../components/inputs/DropdownInput/DropdownInput";
-import TextInput from "../components/inputs/TextInput/TextInput";
-import CourseCard from "../components/cards/CourseCard";
-import PaginationNav from "../components/pagination/PaginationNav";
+import BaseButton from '../components/buttons/BaseButton';
+import DropdownInput from '../components/inputs/DropdownInput/DropdownInput';
+import TextInput from '../components/inputs/TextInput/TextInput';
+import CourseCard from '../components/cards/CourseCard';
+import PaginationNav from '../components/pagination/PaginationNav';
 import '../styles/courses.scss';
-import { useState, useEffect } from "react";
-import { getAllCourses } from "../client/Course/Course.GET";
+import { useState, useEffect } from 'react';
+import { getAllCourses } from '../client/Course/Course.GET';
 
 const Courses = (props) => {
     const [courses, setCourses] = useState([]);
@@ -30,49 +30,52 @@ const Courses = (props) => {
         };
         try {
             fetchData();
-        }
-        catch (error) {
-            console.log(error);
+        } catch (error) {
+            FireError(error.response.data.message);
         }
     }, [filterSearchByName, filterModality, orderBy]);
-    
+
     return (
-    <div className="courses">
-        <div className="courses-row">
-            <h1>Oferta de cursos</h1>
-        </div>
+        <div className='courses'>
+            <div className='courses-row'>
+                <h1>Oferta de cursos</h1>
+            </div>
 
-        <div className="courses-row courses-filters">
-            <BaseButton type="primary">Crear curso</BaseButton>
-            <TextInput placeholder="Buscar" getVal={filterSearchByName} setVal={setFilterSearchByName} />
+            <div className='courses-row courses-filters'>
+                <BaseButton type='primary'>Crear curso</BaseButton>
+                <TextInput
+                    placeholder='Buscar'
+                    getVal={filterSearchByName}
+                    setVal={setFilterSearchByName}
+                />
 
-            <div className="courses-row">
-                <DropdownInput 
-                    getVal={filterModality} 
-                    setVal={setFilterModality} 
-                    options={['Presencial', 'Remoto']}
-                    placeholder="Filtrar modalidad"
-                />
-                
-                <DropdownInput 
-                    getVal={orderBy} 
-                    setVal={setOrderBy} 
-                    options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
-                    placeholder="Ordenar"
-                />
+                <div className='courses-row'>
+                    <DropdownInput
+                        getVal={filterModality}
+                        setVal={setFilterModality}
+                        options={['Presencial', 'Remoto']}
+                        placeholder='Filtrar modalidad'
+                    />
+
+                    <DropdownInput
+                        getVal={orderBy}
+                        setVal={setOrderBy}
+                        options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
+                        placeholder='Ordenar'
+                    />
+                </div>
+            </div>
+
+            <div className='courses-row courses-section'>
+                {courses.map((course, i) => (
+                    <CourseCard key={i} {...course} />
+                ))}
+            </div>
+
+            <div className='courses-row courses-pagination'>
+                <PaginationNav page={paginationPage} />
             </div>
         </div>
-
-        <div className="courses-row courses-section">
-            {courses.map((course, i) => (
-                <CourseCard key={i} {...course} />
-            ))}
-        </div>
-
-        <div className="courses-row courses-pagination">
-            <PaginationNav page={paginationPage} />
-        </div>
-    </div>
     );
 };
 

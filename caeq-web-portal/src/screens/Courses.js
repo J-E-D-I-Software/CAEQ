@@ -1,74 +1,65 @@
 import BaseButton from "../components/buttons/BaseButton";
+import DropdownInput from "../components/inputs/DropdownInput/DropdownInput";
 import TextInput from "../components/inputs/TextInput/TextInput";
 import CourseCard from "../components/cards/CourseCard";
+import PaginationNav from "../components/pagination/PaginationNav";
 import '../styles/courses.scss';
+import { useState, useEffect } from "react";
+import { getAllCourses } from "../client/Course/Course.GET";
 
 const Courses = (props) => {
-    const courses = [
-        {
-            _id: 'randomID',
-            courseName: "Matematicas discretas",
-            modality: "Presencial",
-            numberHours: 7,
-            startDate: "2023-10-03T13:00:00Z",
-            objective: "Fundamentos de las matemáticas discretas",
-            schedule: "5:00pm - 6:00pm",
-            daysOfSession: "LU-MA-MI",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus luctus at mi id lacinia.  Phasellus luctus at mi id lacinia. Proin eu eros...",
-            temario: "... more maths",
-            price: 120.30,
-            teacherName: "Juan Ernesto Cevilla",
-            teacherReview: "",
-            paymentInfo: "",
-            imageUrl: "https://artbreeder.b-cdn.net/imgs/6da98c5919c0315321cb540fd521.jpeg?width=256",
-        },
-        {
-            _id: 'randomID',
-            courseName: "Matematicas discretas",
-            modality: "Presencial",
-            numberHours: 7,
-            startDate: "2023-10-03T13:00:00Z",
-            objective: "Fundamentos de las matemáticas discretas",
-            schedule: "5:00pm - 6:00pm",
-            daysOfSession: "LU-MA-MI",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus luctus at mi id lacinia.  Phasellus luctus at mi id lacinia. Proin eu eros...",
-            temario: "... more maths",
-            price: 120.30,
-            teacherName: "Juan Ernesto Cevilla",
-            teacherReview: "",
-            paymentInfo: "",
-            imageUrl: "https://artbreeder.b-cdn.net/imgs/6da98c5919c0315321cb540fd521.jpeg?width=256",
-        },
-        {
-            _id: 'randomID',
-            courseName: "Matematicas discretas",
-            modality: "Presencial",
-            numberHours: 7,
-            startDate: "2023-10-03T13:00:00Z",
-            objective: "Fundamentos de las matemáticas discretas",
-            schedule: "5:00pm - 6:00pm",
-            daysOfSession: "LU-MA-MI",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus luctus at mi id lacinia.  Phasellus luctus at mi id lacinia. Proin eu eros...",
-            temario: "... more maths",
-            price: 120.30,
-            teacherName: "Juan Ernesto Cevilla",
-            teacherReview: "",
-            paymentInfo: "",
-            imageUrl: "https://artbreeder.b-cdn.net/imgs/6da98c5919c0315321cb540fd521.jpeg?width=256",
-        },
-    ];
+    const [courses, setCourses] = useState([]);
+    const [filterModality, setFilterModality] = useState('');
+    const [filterSearchByName, setFilterSearchByName] = useState('');
+    const [orderBy, setOrderBy] = useState('');
+    const [paginationPage, setPaginationPage] = useState(1);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let filters = '';
+            if (filterSearchByName) filters = `courseName[regex]=${filterSearchByName}`;
+            if (filterModality) filters += `&modality=${filterModality}`;
+            if (orderBy) {
+                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
+                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-courseName`;
+                else if (orderBy === 'Fecha de creación') filters += `&sort=_id`;
+            }
+
+            const data = await getAllCourses(paginationPage, filters);
+            setCourses(data);
+        };
+        try {
+            fetchData();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }, [filterSearchByName, filterModality, orderBy]);
+    
     return (
     <div className="courses">
         <div className="courses-row">
             <h1>Oferta de cursos</h1>
         </div>
 
-        <div className="courses-row filters">
+        <div className="courses-row courses-filters">
             <BaseButton type="primary">Crear curso</BaseButton>
-            <TextInput />
+            <TextInput placeholder="Buscar" getVal={filterSearchByName} setVal={setFilterSearchByName} />
+
             <div className="courses-row">
-                <BaseButton type="primary">Filtrar</BaseButton>
-                <BaseButton type="primary">Ordenar Por</BaseButton>
+                <DropdownInput 
+                    getVal={filterModality} 
+                    setVal={setFilterModality} 
+                    options={['Presencial', 'Remoto']}
+                    placeholder="Filtrar modalidad"
+                />
+                
+                <DropdownInput 
+                    getVal={orderBy} 
+                    setVal={setOrderBy} 
+                    options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
+                    placeholder="Ordenar"
+                />
             </div>
         </div>
 
@@ -78,8 +69,8 @@ const Courses = (props) => {
             ))}
         </div>
 
-        <div className="courses-row">
-
+        <div className="courses-row courses-pagination">
+            <PaginationNav page={paginationPage} />
         </div>
     </div>
     );

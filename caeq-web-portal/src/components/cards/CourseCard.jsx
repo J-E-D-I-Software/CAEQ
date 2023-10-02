@@ -1,7 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
 import './CourseCard.scss';
 
 const CourseCard = (props) => {
+    const navigate = useNavigate();
+
+    let description = props.description.slice(0, 130);
+    if (props.description.length > 130)
+        description += '...';
+
+    const date = new Date(props.startDate);
+    
     return (
         <div className='course-card'>
             <div className='card-col'>
@@ -9,35 +18,39 @@ const CourseCard = (props) => {
             </div>
 
             <div className='card-col'>
-                <div className='card-row'>
+                <div className='card-row m-1'>
                     <h4>{props.courseName}</h4>
                 </div>
                 <div className='card-row'>
-                    <div className='inline-block'>
-                        <i>Icon</i>
-                        <p>{props.startDate}</p>
+                    <div className='card-icon-text'>
+                        {/* <i>I</i> */}
+                        <p>{date.toLocaleDateString()}</p>
                     </div>
-                    <div className='inline-block'>
-                        <span>{props.daysOfSession}</span>
-                        <span>{props.schedule}</span>
+                    <div className='card-col card-icon-text'>
+                        <p>{props.daysOfSession}</p>
+                        <p>{props.schedule}</p>
                     </div>
                 </div>
                 <div className='card-row'>
-                    <p>{props.description}</p>
+                    <p>{description}</p>
                 </div>
                 <div className='card-row'>
-                    <div>
-                        <i>Icon</i>
+                    <div className='card-row'>
+                        {/* <i>I</i> */}
                         <p>{props.modality}</p>
                     </div>
-                    <div>
-                        <i>Icon</i>
-                        <p>{props.modality}</p>
+                    <div className='card-row'>
+                        {/* <i>I</i> */}
+                        <p>{props.numberHours} horas</p>
                     </div>
                 </div>
                 <div className='card-row'>
-                    <p>${props.price}</p>
-                    <BaseButton type="primary">Ver más</BaseButton>
+                    <p className='card-price'>
+                        {props.price ? `$${props.price}` : 'Gratuito'}
+                    </p>
+                    <BaseButton type="primary" onClick={()=> navigate(`/curso/${props._id}`)}>
+                        Ver más
+                    </BaseButton>
                 </div>
             </div>
         </div>

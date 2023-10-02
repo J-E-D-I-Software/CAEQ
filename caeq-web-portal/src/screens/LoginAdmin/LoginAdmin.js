@@ -3,11 +3,11 @@ import './loginAdmin.scss';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
 import Logo from '../../components/images/caeqLogo.png';
-import Button from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { postLoginCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
 import { FireError, FireSucess } from '../../utils/alertHandler';
 import { setToken, setUserType, setCaeqUserSaved } from '../../utils/auth';
+import BaseButton from '../../components/buttons/BaseButton';
 
 const LogingSignUp = () => {
     const [email, setEmail] = useState('');
@@ -29,27 +29,33 @@ const LogingSignUp = () => {
             FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
-            FireError(error.message);
+            console.log(error);
+            FireError(error.response.data.message);
         }
     };
 
     return (
         <div className='login-container'>
             <img src={Logo} alt='Logo' className='Logo' />
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleLogin}>
+            <form>
+                <h2>Correo electrónico</h2>
                 <TextInput
-                    placeholder='Correo Electrónico'
+                    placeholder='Ingresa tu correo'
                     getVal={email}
                     setVal={setEmail}
                 />
+                <h2>Contraseña</h2>
                 <HiddenTextInput
-                    placeholder='Contraseña'
+                    placeholder='Ingresa tu contraseña'
                     getVal={password}
                     setVal={setPassword}
                 />
-                <Button type='submit' label='Iniciar Sesión' />
+                <br />
+                <BaseButton type='primary' onClick={handleLogin}>
+                    Iniciar sesión
+                </BaseButton>
             </form>
+            <br />
             <div className='forgot-register-links'>
                 <Link to='/Forgot-password'>
                     <p> ¿Olvidaste tu contraseña?</p>

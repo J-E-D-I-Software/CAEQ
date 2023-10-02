@@ -1,0 +1,26 @@
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    background: url("../components/images/backgroundCaeq.png") right center/cover no-repeat;
+    background-attachment: fixed;
+    padding: 20px;
+    height: 100vh;
+    color: #000000; /* Color del texto dentro del contenedor */
+  }
+  
+  
+h3 {
+    margin-bottom: 5px; /* Reduzca el espacio inferior de los títulos h3 */
+  }
+
+
+.Logo {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+TextInput,
+HiddenTextInput {
+    text-align: center; /* Centra el texto dentro de los campos de entrada */
+}

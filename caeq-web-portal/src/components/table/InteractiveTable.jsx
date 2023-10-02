@@ -92,7 +92,7 @@ const InteractiveTable = ({ data }) => {
   const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
-        columnVisibility[column] ? (
+        columnVisibility[column] && column !== "_id" ? (
           <th key={column} className="sticky-column">
             <div className="header-content">
               <span className="header-text">{headerMappings[column]}</span>
@@ -127,7 +127,7 @@ const InteractiveTable = ({ data }) => {
   return data.map((row, rowIndex) => (
     <tr key={rowIndex} className="fila-sombrada">
       {columnsToShow.map((column) =>
-        columnVisibility[column] ? (
+        columnVisibility[column] && column !== "_id" ? (
           <td key={column} className="sticky-column">
             {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
             {typeof row[column] === "boolean" ? (

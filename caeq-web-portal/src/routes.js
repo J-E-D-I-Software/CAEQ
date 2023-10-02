@@ -8,6 +8,7 @@ import Courses from './screens/Courses';
 import Course from './screens/Course';
 import Page404 from './screens/404';
 import Directory from './screens/Directory/Directory';
+import Perfil from './screens/Perfil/Profile';
 
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
@@ -20,6 +21,8 @@ import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import PerfilIcon from '../src/components/icons/PerfilIcon.png';
+
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -103,6 +106,16 @@ const routes = [
         icon: DirectorioIcon,
         iconWhite: DirectorioIconWhite,
         Component: Directory,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Perfil/:id',
+        name: 'Perfil',
+        icon: PerfilIcon,
+        iconWhite: PerfilIcon,
+        Component: Perfil,
         isPrivate: true,
         inNavbar: true,
         roles: ['caeq'],

@@ -1,4 +1,5 @@
 //
+/*
 
 import React, { useState } from "react";
 import "./Table.scss";
@@ -10,7 +11,7 @@ import BaseButton from "../buttons/BaseButton";
  * @param {Object[]} data - Los datos para llenar la tabla.
  * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
  */
-const InteractiveTable = ({ data }) => {
+/*const InteractiveTable = ({ data }) => {
   // Obtiene las columnas que deben mostrarse en la tabla.
   const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
@@ -26,7 +27,7 @@ const InteractiveTable = ({ data }) => {
    * Alternar la visibilidad de una columna.
    * @param {string} columnKey - La clave de la columna a alternar.
    */
-  const toggleColumnVisibility = (columnKey) => {
+  /*const toggleColumnVisibility = (columnKey) => {
     setColumnVisibility((prevVisibility) => ({
       ...prevVisibility,
       [columnKey]: !prevVisibility[columnKey],
@@ -36,7 +37,7 @@ const InteractiveTable = ({ data }) => {
   /**
    * Restablecer la visibilidad de todas las columnas.
    */
-  const resetColumnVisibility = () => {
+  /*const resetColumnVisibility = () => {
     setColumnVisibility((prevVisibility) => {
       const resetVisibility = {};
       columnsToShow.forEach((column) => {
@@ -82,14 +83,14 @@ const InteractiveTable = ({ data }) => {
    * @param {boolean} value - El valor booleano a formatear.
    * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
    */
-  const formatBooleanValue = (value) => (value ? "Sí" : "No");
+  /*const formatBooleanValue = (value) => (value ? "Sí" : "No");
 
   /**
    * Renderizar el encabezado de la tabla.
    * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
    */
 
-  const renderTableHeader = () => (
+  /*const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
         columnVisibility[column] ? (
@@ -115,7 +116,7 @@ const InteractiveTable = ({ data }) => {
    * Renderizar el cuerpo de la tabla.
    * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
    */
-  const renderTableBody = () => {
+  /*const renderTableBody = () => {
     if (data?.length === 0) {
       return (
         <tr>
@@ -129,8 +130,8 @@ const InteractiveTable = ({ data }) => {
         {columnsToShow.map((column) =>
           columnVisibility[column] ? (
             <td key={column} className="sticky-column">
-              {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-              {typeof row[column] === "boolean" ? (
+              {/* Aplicar el formato solo a las celdas con valores booleanos o fechas }*/
+              /*{typeof row[column] === "boolean" ? (
                 formatBooleanValue(row[column])
               ) : column === "linkCV" && row[column] ? (
                 <a href={row[column]} target="_blank" rel="noopener noreferrer">
@@ -155,7 +156,7 @@ const InteractiveTable = ({ data }) => {
    * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
    * @returns {string} - La fecha formateada en "DD/MM/AAAA".
    */
-  const formatDate = (date) => {
+  /*const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(date).toLocaleDateString(undefined, options);
   };
@@ -178,4 +179,4 @@ const InteractiveTable = ({ data }) => {
   );
 };
 
-export default InteractiveTable;
+export default InteractiveTable;*/

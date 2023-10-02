@@ -58,14 +58,13 @@ function Dasbboard() {
             <DropdownInput label='Select an option:' options={options} />
             <FileInput label='File' getVal={inputVal2} setVal={setVal3} />
             <InfoBox />
-            <Table />
-            <InteractiveTable />
+            
             <BaseButton>Botón</BaseButton>
             <BaseButton type='primary'>Botón</BaseButton>
             <BaseButton type='success'>Botón</BaseButton>
             <BaseButton type='fail'>Botón</BaseButton>
             <BaseButton type='disabled'>Botón</BaseButton>
-            {/* <NavbarButton label="Botón" type="navbar" /> */}
+            {<NavbarButton label="Botón" type="navbar" /> }
         </div>
     );
 }

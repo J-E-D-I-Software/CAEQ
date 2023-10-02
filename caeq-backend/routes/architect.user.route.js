@@ -7,6 +7,8 @@ const {
     updateArchitectUser,
     deleteArchitectUser,
 } = require(`${__dirname}/../controllers/architect.user.controller.js`);
+
+
 const {
     loginArchitectUser,
     signUpArchitectUser,
@@ -16,7 +18,7 @@ const {
 router.post('/auth/signup', signUpArchitectUser);
 router.post('/auth/login', loginArchitectUser);
 
-router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
+router.route('/').get(getAllArchitectUsers).post(createArchitectUser)
 router
     .route('/:id')
     .get(getArchitectUser)

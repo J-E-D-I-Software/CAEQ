@@ -13,3 +13,17 @@ export async function getAllArchitectUsers() {
     return response.data.data.documents;
 }
 
+
+/**
+ *  It makes a GET request to the endpoint `/architectusers/:id` and returns the response data.
+ * @param {string} id - The id of the architect user.  
+ * @returns An object.
+ */
+export async function getArchitectUserById(id) {
+    let endpoint = `${baseApiEndpoint}/architectusers/${id}`;
+
+    const response = await axios.get(endpoint);
+    console.log('Response:', response.data.data.document);
+    return response.data.data.document;
+}
+

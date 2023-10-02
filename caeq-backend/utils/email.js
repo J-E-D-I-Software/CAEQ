@@ -110,16 +110,16 @@ module.exports = class Email {
         await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
     }
 
-    /**
+    /*
      * Send a password reset email to the user.
      * Note: This method is commented out in the original code.
      */
-    /*
+    
     async sendPasswordReset() {
         await this.send(
             'passwordReset',
             'Recuperar contraseña (válido por sólo 10 minutos)'
         );
     }
-    */
+
 };

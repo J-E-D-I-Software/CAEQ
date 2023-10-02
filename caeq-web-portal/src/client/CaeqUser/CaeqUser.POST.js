@@ -1,5 +1,5 @@
-import axios from 'axios';
-import baseApiEndpoint from '../backendConfig';
+import axios from "axios";
+import baseApiEndpoint from "../backendConfig";
 
 /**
  * Sends a POST request to the '/admin/auth/login' endpoint with the provided email and password as the request body.
@@ -9,34 +9,27 @@ import baseApiEndpoint from '../backendConfig';
  * @returns {Promise} - A Promise object that resolves to the data returned by the server.
  */
 export async function postLoginCaeqUsers(email, password) {
-    let endpoint = `${baseApiEndpoint}/caequsers/auth/login`;
+  let endpoint = `${baseApiEndpoint}/caequsers/auth/login`;
 
-    const body = {
-        email,
-        password,
-    };
-    const response = await axios.post(endpoint, body);
-    return response.data;
+  const body = {
+    email,
+    password,
+  };
+  const response = await axios.post(endpoint, body);
+  return response.data;
 }
 
 export async function postSignupCaeqUsers(data) {
-    const endpoint = `${baseApiEndpoint}/caequsers/auth/signup`;
-    const response = await axios.post(endpoint, data);
-    return response.data;
+  const endpoint = `${baseApiEndpoint}/caequsers/auth/signup`;
+  const response = await axios.post(endpoint, data);
+  return response.data;
 }
-
 export async function postForgotCaeqUsers(email) {
-    const endpoint = `${baseApiEndpoint}/caequsers/auth/Forgot-password`;
-  
-    const body = {
-      email,
-    };
-  
-    try {
-      const response = await axios.post(endpoint, body);
-      return response.data;
-    } catch (error) {
-      // Handle errors here, e.g., throw an error or return an error message
-      throw error;
-    }
-  }
+  const endpoint = `${baseApiEndpoint}/forgotpassword`;
+
+  const body = {
+    email,
+  };
+  const response = await axios.post(endpoint, body);
+  return response.data;
+}

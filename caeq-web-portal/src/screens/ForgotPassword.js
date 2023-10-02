@@ -7,7 +7,7 @@ import { postForgotCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
 import { Link, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
@@ -31,10 +31,9 @@ const ForgotPassword = () => {
 
       <div className="forgot-description">
         <p2>
-          {" "}
           Escribe el correo electrónico que usaste para registrarte. Te
           enviaremos un correo con instrucciones sobre cómo restablecer tu
-          contraseña.{" "}
+          contraseña.
         </p2>
       </div>
       <form onSubmit={handleForgotPassword}>

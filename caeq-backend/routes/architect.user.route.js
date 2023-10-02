@@ -12,10 +12,15 @@ const {
     signUpArchitectUser,
     protect,
 } = require(`${__dirname}/../controllers/auth.controller.js`);
+const {
+    forgotPasswordArchitectUser,
+    resetPasswordArchitectUser,
+  } = require(`${__dirname}/../controllers/password.controller.js`);
 
 router.post('/auth/signup', signUpArchitectUser);
 router.post('/auth/login', loginArchitectUser);
-
+router.post("/forgot-password", forgotPasswordArchitectUser);
+router.patch("/reset-password/:token", resetPasswordArchitectUser);
 router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')

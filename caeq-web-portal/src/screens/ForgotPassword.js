@@ -3,7 +3,7 @@ import "../styles/forgot-password.scss";
 import TextInput from "../components/inputs/TextInput/TextInput";
 import BaseButton from "../components/buttons/BaseButton";
 import { FireError, FireSucess } from "../utils/alertHandler";
-import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import { postForgotCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
 import { Link, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await postLoginCaeqUsers(email);
+      const response = await postForgotCaeqUsers(email);
       if (response.status === "success") {
         FireSucess(
           "Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo."
@@ -30,9 +30,12 @@ const ForgotPassword = () => {
       <h2>¿Has olvidado tu contraseña?</h2>
 
       <div className="forgot-description">
-          <p2> Escribe el correo electrónico que usaste para registrarte. Te
+        <p2>
+          {" "}
+          Escribe el correo electrónico que usaste para registrarte. Te
           enviaremos un correo con instrucciones sobre cómo restablecer tu
-          contraseña. </p2>
+          contraseña.{" "}
+        </p2>
       </div>
       <form onSubmit={handleForgotPassword}>
         <TextInput

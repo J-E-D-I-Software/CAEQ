@@ -7,8 +7,8 @@ import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
 import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
-  const [newpassword, setPassword] = useState("");
-  const [newpasswordConfirm, setConfirmPassword] = useState("");
+  const [newpassword, setPassword] = useState('');
+  const [newpasswordConfirm, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
@@ -18,11 +18,11 @@ const ResetPassword = () => {
         newpassword,
         newpasswordConfirm
       );
-      if (response.status === "success") {
+      if (response.status === 'success') {
         FireSucess(
-          "Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo."
+          'Contraseña Restablecida con éxito'
         );
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
       FireError(error.message);

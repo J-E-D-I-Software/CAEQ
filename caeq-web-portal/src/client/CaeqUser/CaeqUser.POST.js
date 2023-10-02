@@ -26,3 +26,19 @@ export async function postSignupCaeqUsers(data) {
     const response = await axios.post(endpoint, data);
     return response.data;
 }
+
+export async function postForgotCaeqUsers(email) {
+    const endpoint = `${baseApiEndpoint}/caequsers/auth/Forgot-password`;
+  
+    const body = {
+      email,
+    };
+  
+    try {
+      const response = await axios.post(endpoint, body);
+      return response.data;
+    } catch (error) {
+      // Handle errors here, e.g., throw an error or return an error message
+      throw error;
+    }
+  }

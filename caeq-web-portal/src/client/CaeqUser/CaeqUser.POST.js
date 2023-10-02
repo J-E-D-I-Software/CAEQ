@@ -25,7 +25,7 @@ export async function postSignupCaeqUsers(data) {
   return response.data;
 }
 export async function postForgotCaeqUsers(email) {
-  const endpoint = `${baseApiEndpoint}/forgotpassword`;
+  const endpoint = `${baseApiEndpoint}/caequsers/forgot-password`;
 
   const body = {
     email,

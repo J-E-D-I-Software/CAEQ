@@ -7,7 +7,7 @@ import { postForgotCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
 import { Link, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
@@ -21,7 +21,7 @@ const ForgotPassword = () => {
         navigate("/");
       }
     } catch (error) {
-      FireError(error.message);
+      FireError(error.response.data.message);
     }
   };
 

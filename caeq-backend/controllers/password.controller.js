@@ -25,17 +25,19 @@ const forgotPassword = async (Model, email, req, userType) => {
   // 3 send it back as an email
   const resetURL = `${req.protocol}://${req.get(
     "host"
-  )}/Reset-password/${userType}/${resetToken}`;
+  )}/reset-password/${userType}/${resetToken}`;
 
   // si falla queremos eliminar la token
   try {
+    console.log(user);
+    console.log(resetURL);
     await new Email(user, resetURL).sendPasswordReset();
   } catch (err) {
     user.passwordResetExpires = undefined;
     user.passwordResetToken = undefined;
     await user.save({ validateBeforeSave: false });
     throw new AppError(
-      "Hubo un error enviando el correo de confirmacion. Intenta de nuevo",
+      'Hubo un error enviando el correo de reset password. Intenta de nuevo',
       500
     );
   }
@@ -71,7 +73,8 @@ const resetPassword = async (token, Model, password, passwordConfirm) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-  await forgotPassword(CaeqUser, req.body.email, req, "CaeqUser");
+  console.log(req.body);
+  await forgotPassword(CaeqUser, req.body.email, req, "caequser");
 
   res.status(200).json({
     status: "success",
@@ -99,11 +102,11 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-  await forgotPassword(ArchitectUser, req.body.email, req, 'ArchitectUser');
+  await forgotPassword(ArchitectUser, req.body.email, req, "ArchitectUser");
 
   res.status(200).json({
-      status: 'success',
-      message: 'Correo para recuperar tu contraseña enviado.',
+    status: "success",
+    message: "Correo para recuperar tu contraseña enviado.",
   });
 });
 
@@ -112,15 +115,15 @@ to the server. The server then checks if the token is valid and if it is, it all
 change their password. */
 exports.resetPasswordArchitectUser = catchAsync(async (req, res, next) => {
   await resetPassword(
-      req.params.id,
-      ArchitectUser,
-      req.body.password,
-      req.body.passwordConfirm
+    req.params.id,
+    ArchitectUser,
+    req.body.password,
+    req.body.passwordConfirm
   );
 
   res.status(200).json({
-      status: 'success',
-      message:
-          'Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo',
+    status: "success",
+    message:
+      "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
   });
 });

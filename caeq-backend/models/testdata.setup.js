@@ -44,5 +44,5 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpArchitectUserData();
     await setUpCaeqUserData();
     await setUpCourseData();
-    console.log('Test data uploaded to DB.');
+    console.log('Test data uploaded to DB');
 });

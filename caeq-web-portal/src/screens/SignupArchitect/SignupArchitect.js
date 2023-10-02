@@ -291,13 +291,11 @@ const Signup = () => {
                         </div>
                     </div>
                     <div className='button-container'>
-                        <BaseButton
-                            type='primary'
-                            label='Registrarse'
-                            onClick={handleSignup}
-                        />
+                        <BaseButton type='primary' onClick={handleSignup}>
+                            Registrarse
+                        </BaseButton>
                         <Link to='/LoginUser'>
-                            <BaseButton type='fail' label='Cancelar' />
+                            <BaseButton type='cancel'>Cancelar</BaseButton>
                         </Link>
                     </div>
                 </form>

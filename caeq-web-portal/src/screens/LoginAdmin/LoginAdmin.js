@@ -30,7 +30,6 @@ const LoginAdmin = () => {
             FireSucess('Has iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
-            console.log(error);
             FireError(error.response.data.message);
         }
     };

@@ -1,0 +1,67 @@
+
+.course-card { 
+    min-height: 250px;
+    width: 30vw;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+
+    p, h4, div { 
+        display: inline;
+        margin: 0;
+    } 
+
+    img { 
+        max-width: 165px;
+        border-radius: 10px;
+    }
+
+    .card-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.25rem 0;
+        align-items: center;
+    }
+    
+    .card-col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-icon-text { 
+        font-size: 0.8rem;
+    }
+
+    .button { 
+        font-size: 1rem;
+        font-weight: 400;
+        padding: 0.2rem 0.6rem !important;
+    }
+
+    div:first-child { 
+        margin-right: 0.5rem;
+    }
+
+    .card-price { 
+        font-weight: bold;
+        color: #136F63;
+    }
+}
+
+@media only screen and (max-width: 1070px)  {
+    .course-card { 
+        width: 100%;
+        flex-direction: column;
+
+        div:first-child {
+            margin: 0;
+        }
+
+        img { 
+            width: 100%;
+            max-width: none;
+        }
+    }
+}

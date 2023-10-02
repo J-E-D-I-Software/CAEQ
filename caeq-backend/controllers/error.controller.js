@@ -14,7 +14,6 @@ const sendErrorDev = (err, req, res) => {
         stack: err.stack,
     });
 
-    console.log(err);
 };
 /**
  * If the error is operational, send the error message to the client. If the error is not operational,
@@ -34,7 +33,6 @@ const sendErrorProduction = (err, req, res) => {
         // Programming error
     } else {
         // 1 log error
-        console.log('Error', err);
 
         // Verifies if it is an image file
         if (err.message.toString() == 'Input buffer contains unsupported image format') {
@@ -85,7 +83,7 @@ const handleBadField = (err) =>
     new AppError(`Parámetro de búsqueda inválido ${err.sqlMessage.split(' ')[2]}.`, 404);
 
 /**
- * If the error is a CastError, then return a new AppError with the message "Invalido ${err.path}:
+ * If the error is a CastError, then return a new AppError with the message
  * ${err.value}" and a status code of 400.
  * @param err - The error object that was thrown by Mongoose.
  * @returns A new instance of AppError with the message and status code.
@@ -137,7 +135,11 @@ module.exports = (err, req, res, next) => {
         console.log('Error Name:', err.name);
         console.log('Error code:', err.code);
         return sendErrorDev(err, req, res);
-    } else if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+    } else if (
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'test' ||
+        process.env.NODE_ENV === 'testing'
+    ) { 
         // con esto identificaremos los errores de validación
         let error = Object.create(err);
         if (err.name === 'CastError') error = handleCastErrorDB(err);

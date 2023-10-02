@@ -11,6 +11,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const morgan = require('morgan');
+const Email = require('./utils/email');
 
 // Read env variables and save them
 dotenv.config({ path: './.env' });
@@ -22,11 +23,12 @@ const globalErrorHandler = require('./controllers/error.controller');
 // Routers
 const fileTestRouter = require('./routes/files.route');
 const caeqRouter = require('./routes/caeq.user.route');
-const architectRouter = require('./routes/architect.user.route')
+const architectRouter = require('./routes/architect.user.route');
+const courseRouter = require('./routes/course.route');
 
 const app = express();
 
-// app.enable('trust proxy');
+app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
 
@@ -89,6 +91,7 @@ app.use(limiter);
 app.use('/filetest', fileTestRouter);
 app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
+app.use('/courses', courseRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

@@ -13,6 +13,16 @@ import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUs
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 
+/**
+ * Signup component for user registration.
+ * @component
+ *
+ * @returns {JSX.Element} JSX element representing the Signup page.
+ *
+ * @example
+ * // Example usage of Signup:
+ * <Signup />
+ */
 const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
@@ -47,8 +57,8 @@ const Signup = () => {
     const navigate = useNavigate();
 
     /**
-     * 
-     * @param {Event} e - The form submission event that triggers the function 
+     * Handles user registration when the form is submitted.
+     * @param {Object} e - The form submit event object.
      */
 
     const handleSignup = async (e) => {

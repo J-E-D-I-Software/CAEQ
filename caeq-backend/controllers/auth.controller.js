@@ -3,13 +3,15 @@ const ArchitectUser = require('../models/architect.user.model');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const Email = require('../utils/email');
 const { promisify } = require('util');
 
 /**
- * This function takes an id as an argument and returns a signed JWT token with the id as the payload
- * and the JWT_SECRET and JWT_EXPIRES_IN as the secret and expiration time respectively.
- * @param id - the user id
- * @returns The signToken function is returning a JWT token.
+ * Creates a JWT token with the provided user ID and user type.
+ *
+ * @param {string} id - The user ID.
+ * @param {string} type - The user type (e.g., 'caeq' or 'architect').
+ * @returns {string} JWT token.
  */
 const signToken = (id, type) => {
     return jwt.sign({ id, type }, process.env.JWT_SECRET, {
@@ -18,12 +20,13 @@ const signToken = (id, type) => {
 };
 
 /**
- * It creates a JWT token, sets the cookie options, sets the cookie, and sends the response.
- * @param user - the user object that we just created or updated
- * @param type - the user type that is authenticated
- * @param statusCode - The HTTP status code to send back to the client.
- * @param req - The request object
- * @param res - the response object
+ * Creates and sends a JWT token as a cookie in the response.
+ *
+ * @param {object} user - The user object.
+ * @param {string} type - The user type.
+ * @param {number} statusCode - The HTTP status code to send in the response.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
  */
 const createSendToken = (user, type, statusCode, req, res) => {
     const token = signToken(user._id, type);
@@ -49,7 +52,13 @@ const createSendToken = (user, type, statusCode, req, res) => {
     });
 };
 
-/* Creating a new admin. */
+/**
+ * Creates a new CAEQ user.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
+ */
 exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
     const newUser = await CaeqUser.create({
         fullName: req.body.fullName,
@@ -58,14 +67,13 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     });
 
-    // TO-DO: Add email module
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcome();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser).sendWelcomeAdmin();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -75,7 +83,13 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
     });
 });
 
-/* Creating a new user. */
+/**
+ * Creates a new architect user.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
+ */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     console.log("controller");
     const newUser = await ArchitectUser.create({
@@ -106,19 +120,23 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         positionsInCouncil: req.body.positionsInCouncil,    
     });
 
-    // TO-DO: Add email module
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcome();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser, process.env.LANDING_URL).sendWelcome();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     return createSendToken(newUser, 'architect', 201, req, res);
 });
 
-/* Setting the cookie to loggedout and then sending a response. */
+/**
+ * Logs out a user by setting the JWT cookie to 'loggedout'.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
 exports.logout = (req, res, next) => {
     res.cookie('jwt', 'loggedout', {
         expires: new Date(Date.now() + 10 * 1000),
@@ -127,9 +145,11 @@ exports.logout = (req, res, next) => {
 };
 
 /**
- * Checking if the user is logged in. If the user is logged in, the user is allowed
- * to access the protected route. If the user is not logged in, the user is not allowed to access the
- * protected route.
+* Logs in an architect user.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
  */
 exports.loginArchitectUser = catchAsync(async (req, res, next) => {
     await new Promise((r) => setTimeout(r, 3000));
@@ -155,9 +175,11 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
 });
 
 /**
- * Checking if the admin is logged in. If the user is logged in, the user is allowed
- * to access the protected route. If the user is not logged in, the user is not allowed to access the
- * protected route.
+ * Logs in a CAEQ user.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
  */
 exports.loginCaeqUser = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
@@ -189,9 +211,11 @@ exports.loginCaeqUser = catchAsync(async (req, res, next) => {
 });
 
 /**
- * The above code is checking if the user is logged in. If the user is logged in, the user is allowed
- * to access the protected route. If the user is not logged in, the user is not allowed to access the
- * protected route.
+ * Middleware to check if the user is authenticated.
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
  */
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting the token and check if its there
@@ -248,7 +272,12 @@ exports.protect = catchAsync(async (req, res, next) => {
     next();
 });
 
-/* Restricting the user to a certain role. Can be caeq or architect. */
+/**
+ * Middleware to restrict access based on user roles.
+ *
+ * @param {...string} roles - User roles (e.g., 'caeq', 'architect').
+ * @returns {function} Middleware function.
+ */
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.userType)) {

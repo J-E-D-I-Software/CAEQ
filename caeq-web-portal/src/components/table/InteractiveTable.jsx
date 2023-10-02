@@ -116,39 +116,40 @@ const InteractiveTable = ({ data }) => {
    * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
    */
   const renderTableBody = () => {
-    if (data?.length === 0) {
-      return (
-        <tr>
-          <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
-        </tr>
-      );
-    }
-
-    return data.map((row, rowIndex) => (
-      <tr key={rowIndex} className="fila-sombrada">
-        {columnsToShow.map((column) =>
-          columnVisibility[column] ? (
-            <td key={column} className="sticky-column">
-              {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-              {typeof row[column] === "boolean" ? (
-                formatBooleanValue(row[column])
-              ) : column === "linkCV" && row[column] ? (
-                <a href={row[column]} target="_blank" rel="noopener noreferrer">
-                  Descargar
-                </a>
-              ) : column === "dateOfBirth" && row[column] ? (
-                formatDate(row[column])
-              ) : column === "dateOfAdmission" && row[column] ? (
-                formatDate(row[column])
-              ) : (
-                row[column]
-              )}
-            </td>
-          ) : null
-        )}
+  if (!data || data.length === 0) {
+    return (
+      <tr>
+        <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
       </tr>
-    ));
-  };
+    );
+  }
+
+  return data.map((row, rowIndex) => (
+    <tr key={rowIndex} className="fila-sombrada">
+      {columnsToShow.map((column) =>
+        columnVisibility[column] ? (
+          <td key={column} className="sticky-column">
+            {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
+            {typeof row[column] === "boolean" ? (
+              formatBooleanValue(row[column])
+            ) : column === "linkCV" && row[column] ? (
+              <a href={row[column]} target="_blank" rel="noopener noreferrer">
+                Descargar
+              </a>
+            ) : column === "dateOfBirth" && row[column] ? (
+              formatDate(row[column])
+            ) : column === "dateOfAdmission" && row[column] ? (
+              formatDate(row[column])
+            ) : (
+              row[column]
+            )}
+          </td>
+        ) : null
+      )}
+    </tr>
+  ));
+};
+
 
   /**
    * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.

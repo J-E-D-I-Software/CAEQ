@@ -91,16 +91,39 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  * @param {function} next - The next middleware function.
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
+    console.log("controller");
     const newUser = await ArchitectUser.create({
         fullName: req.body.fullName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
+        collegiateNumber: req.body.collegiateNumber,
+        memberType: req.body.memberType,
+        classification: req.body.classification,
+        DRONumber: req.body.DRONumber,
+        authorizationToShareInfo: req.body.authorizationToShareInfo,
+        gender: req.body.gender,
+        cellphone: req.body.cellphone,
+        homePhone: req.body.homePhone,
+        officePhone: req.body.officePhone,
+        emergencyContact: req.body.emergencyContact,
+        mainProfessionalActivity: req.body.mainProfessionalActivity,
+        dateOfAdmission: req.body.dateOfAdmission,
+        dateOfBirth: req.body.dateOfBirth,
+        municipalityOfLabor: req.body.municipalityOfLabor,
+        linkCV: req.body.linkCV,
+        university: req.body.university,
+        professionalLicense: req.body.professionalLicense,
+        workAddress: req.body.workAddress,
+        homeAddress: req.body.homeAddress,
+        specialty: req.body.specialty,
+        positionsInCouncil: req.body.positionsInCouncil,    
     });
 
-    // TO-DO: Add email module
     try {
-        await new Email(newUser).sendWelcomeUser();
+        console.log("controller");
+        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+        console.log("controller");
     } catch (error) {
         return next(
             new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
@@ -124,7 +147,7 @@ exports.logout = (req, res, next) => {
 };
 
 /**
- * Logs in an architect user.
+* Logs in an architect user.
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.

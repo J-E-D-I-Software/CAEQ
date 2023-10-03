@@ -61,6 +61,7 @@ const Profile = (props) => {
         <div className='profile'>
             <div className='profile-row'>
                 <div className="PERSONALprofile-row PERSONALprofile-section">
+                <br></br>
                 <h1>Mis Datos Personales</h1>
                 <PersonalDataCardCard {...profile} />
                 </div>

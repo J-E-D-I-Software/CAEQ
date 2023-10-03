@@ -93,7 +93,7 @@ import BaseButton from "../buttons/BaseButton";
   /*const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
-        columnVisibility[column] && column !== "_id" ? (
+        columnVisibility[column] ? (
           <th key={column} className="sticky-column">
             <div className="header-content">
               <span className="header-text">{headerMappings[column]}</span>
@@ -116,22 +116,22 @@ import BaseButton from "../buttons/BaseButton";
    * Renderizar el cuerpo de la tabla.
    * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
    */
-  const renderTableBody = () => {
-  if (!data || data.length === 0) {
-    return (
-      <tr>
-        <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
-      </tr>
-    );
-  }
+  /*const renderTableBody = () => {
+    if (data?.length === 0) {
+      return (
+        <tr>
+          <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
+        </tr>
+      );
+    }
 
     return data.map((row, rowIndex) => (
       <tr key={rowIndex} className="fila-sombrada">
         {columnsToShow.map((column) =>
           columnVisibility[column] ? (
             <td key={column} className="sticky-column">
-              {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-              {typeof row[column] === "boolean" ? (
+              {/* Aplicar el formato solo a las celdas con valores booleanos o fechas }*/
+              /*{typeof row[column] === "boolean" ? (
                 formatBooleanValue(row[column])
               ) : column === "linkCV" && row[column] ? (
                 <a href={row[column]} target="_blank" rel="noopener noreferrer">

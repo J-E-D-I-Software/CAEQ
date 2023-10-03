@@ -73,24 +73,13 @@ exports.formatImage = catchAsync(async (req, res, next) => {
 exports.formatPDF = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
-    req.body.LinkCV = await uploadPDF(req.file, 'pdf');
+    req.body.pdfUrl = await uploadPDF(req.file, 'pdf');
 
-    
     res.status(200).json({
         message: 'Archivo subido con exito',
-        imageDownloadUrl: req.body.LinkCV,
+        imageDownloadUrl: req.body.pdfUrl,
     });
-    
 
     // Use next when you need the url in the next controllers. Delete the response from above.
     // next();
-});
-
-exports.formatCV = catchAsync(async (req, res, next) => {
-    if (!req.file) return next();
-    console.log(req.file)
-    req.body.linkCV = await uploadPDF(req.file, 'cv');
-
-    // Use next when you need the url in the next controllers. Delete the response from above.
-    next();
 });

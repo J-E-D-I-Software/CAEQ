@@ -39,6 +39,7 @@ import "./directory.scss";
       const architectValues = Object.values(architect).map((value) =>
         String(value).toLowerCase()
       );
+
       // Verificar si algún valor contiene el texto de búsqueda
       return architectValues.some((value) =>
         value.includes(searchText.toLowerCase())
@@ -49,11 +50,16 @@ import "./directory.scss";
   // Filtrar los arquitectos en función del texto de búsqueda
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
+  // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
+  const tablefilteredArchitects = filteredArchitects.map(
+    ({ _id, ...rest }) => rest
+  );
   const columnsToShow =
     filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
 
+  // Asegúrate de que haya al menos una columna antes de excluir la última
   if (columnsToShow.length > 1) {
-    filteredArchitects.forEach((architect) => {
+    tablefilteredArchitects.forEach((architect) => {
       // Elimina la última propiedad de cada objeto arquitecto
       delete architect[columnsToShow[columnsToShow.length - 1]];
     });
@@ -92,7 +98,7 @@ import "./directory.scss";
       <div className="directory-row">
         {filteredArchitects.length > 0 ? (
           <div className="box-container">
-            <InteractiveTable data={filteredArchitects} />
+            <InteractiveTable data={tablefilteredArchitects} />
           </div>
         ) : (
           <p className="no-data-message">No hay colegiados disponibles</p>

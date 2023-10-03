@@ -1,63 +1,31 @@
-.h2-A {
-    padding-left: 40px;
-    color: rgb(85, 85, 85);
-}
-
 .signup-container {
-    margin-bottom: 10px !important;
     display: flex;
     flex-direction: column;
     background: url('../../components/images/backgroundCaeq.png') right center/cover
         no-repeat;
     background-attachment: fixed;
-    height: 100%;
+    height: 100vh;
     color: #000000; /* Color del texto dentro del contenedor */
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 40px;
-    
-        .column {
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-        }
-        .column-2 {
-            margin-top: 20px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-        }
-    }
- 
-    @media (max-width: 768px) {
-        .grid-container {
-            display: block;
-        }
+    h3 {
+        margin-bottom: 5px; /* Reduzca el espacio inferior de los títulos h3 */
     }
 
-    
     .Logo {
-        padding-left: 10px;
-        padding-top: 10px;
         width: 300px;
         height: auto;
         margin-bottom: 20px;
     }
-    
-    label {
-        margin-bottom: 20px; /* Add margin to these input types */ 
-        select {
-            margin-bottom: 20px;
-        }
+
+    TextInput,
+    HiddenTextInput {
+        text-align: center; /* Centra el texto dentro de los campos de entrada */
     }
 
     .button-container {
-        margin-top: 30px;
+        margin-top: 40px;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
     }
-
 }

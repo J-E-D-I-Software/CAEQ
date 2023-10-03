@@ -77,7 +77,8 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu actividad principal profesional!']
     },
     dateOfAdmission: {
-        type: Date,
+        type: Number,
+        minlength: [4, 'Deben ser cuatro digitos.'],
         required: [true, 'Por favor dinos tu fecha de admisión!']
     },
     dateOfBirth: {

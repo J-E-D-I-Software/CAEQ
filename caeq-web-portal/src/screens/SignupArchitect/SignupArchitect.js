@@ -6,6 +6,7 @@ import LargeTextInput from '../../components/inputs/TextInput/LargeTextInput';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import FileInput from '../../components/inputs/FileInput/FileInput';
+import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import Logo from '../../components/images/caeqLogo.png';
 import BaseButton from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
@@ -118,7 +119,7 @@ const Signup = () => {
                         <div class="column">
                             <TextInput 
                                 label="Nombre completo"
-                                placeholder='Nombre Completo' 
+                                placeholder='Nombre / Apellido paterno / Apellido materno' 
                                 getVal={fullName} 
                                 setVal={setfullName} 
                                 require={true} />
@@ -201,14 +202,14 @@ const Signup = () => {
                             />
                             <LargeTextInput
                                 label="Domicilio particular"
-                                placeholder='Domicilio particular'
+                                placeholder='ej. Calle, Número de colonia, Código postal'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label="Domicilio de trabajo"
-                                placeholder='Domicilio de trabajo'
+                                placeholder='ej. Calle, Número de colonia, Código postal'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -236,10 +237,12 @@ const Signup = () => {
                                 setVal={setSpecialty}
                                 require={true}
                             />
-                            <DateInput
+                            <NumberInput
                                 label="Fecha de ingreso al colegio"
+                                placeholder='Año (aaaa)'
                                 getVal={dateOfAdmission}
                                 setVal={setDateOfAdmission}
+                                maxDigits={4}
                                 require={true}
                             />
                             <DateInput
@@ -264,14 +267,14 @@ const Signup = () => {
                             />
                             <TextInput
                                 label="Municipio"
-                                placeholder='Municipio de trabajo'
+                                placeholder='Municipio de residencia'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}
                             />
                             <TextInput
                                 label="Cargos en consejo directivo (fecha y nombre del cargo)"
-                                placeholder='Cargos en consejo directivo (fecha y nombre del cargo)'
+                                placeholder='Cargos en consejo directivo (año y nombre del cargo)'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                                 require={true}

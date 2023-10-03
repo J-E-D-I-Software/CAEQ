@@ -22,6 +22,7 @@ import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 import PerfilIcon from '../src/components/icons/PerfilIcon.png';
+import PerfilIconWhite from '../src/components/icons/PerfilIconWhite.png';
 
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
@@ -111,14 +112,13 @@ const routes = [
         roles: ['caeq'],
     },
     {
-        path: '/Perfil/:id',
+        path: '/Perfil',
         name: 'Perfil',
         icon: PerfilIcon,
-        iconWhite: PerfilIcon,
+        iconWhite: PerfilIconWhite,
         Component: Perfil,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq'],
     },
 
     {

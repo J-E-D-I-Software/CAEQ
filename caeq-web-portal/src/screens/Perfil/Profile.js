@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
+import { getArchitectUserSaved } from "../../utils/auth";
 
 import PersonalDataCardCard from '../../components/cards/PersonalDataCard';
 import ContactDataCard from '../../components/cards/ContactDataCard';
@@ -10,15 +11,16 @@ import WhiteCard from '../../components/containers/WhiteCard/WhiteCard';
 
 const Profile = (props) => {
     const searchParams = useParams();
+    const SavedUser = getArchitectUserSaved();
+    console.log("this", SavedUser);
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
 
     useEffect(() => {
-        if (searchParams.id)
-            getArchitectUserById(searchParams.id)
+        if (SavedUser._id)
+            getArchitectUserById(SavedUser._id)
             .then(response => setProfile(response))
             .catch(error => navigate('/404'));
-            console.log(profile);
     }, []);
 
     return (

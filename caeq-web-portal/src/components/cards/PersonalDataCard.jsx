@@ -13,16 +13,25 @@ const PersonalDataCard = (props) => {
 
                 <div className='card-row'>
                     {/* <i>I</i> */}
+                    <h4>Nombre:</h4>
+                    &nbsp;
+                    &nbsp;
                     <p>{props.fullName}</p>
                     </div>
 
                 <div className='card-row'>
                     {/* <i>I</i> */}
+                    <h4>Fecha de Nacimiento:</h4>
+                    &nbsp;
+                    &nbsp;
                     <p>{date.toLocaleDateString()}</p>
                     </div>
 
                 <div className='card-row'>
                     {/* <i>I</i> */}
+                    <h4>Edad:</h4>
+                    &nbsp;
+                    &nbsp;
                     <p>{props.age}</p>
                     </div>
 
@@ -32,11 +41,17 @@ const PersonalDataCard = (props) => {
 
                 <div className='card-row'>
                     {/* <i>I</i> */}
+                    <h4>Género:</h4>
+                    &nbsp;
+                    &nbsp;
                     <p>{props.gender}</p>
                     </div>
 
                 <div className='card-row'>
                     {/* <i>I</i> */}
+                    <h4>Número Celular:</h4>
+                    &nbsp;
+                    &nbsp;
                     <p>{props.cellphone}</p>
                     </div>
 

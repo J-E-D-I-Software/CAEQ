@@ -1,12 +1,15 @@
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
+/**
+ * SweetAlert2 instance with React support.
+ * @type {object}
+ */
 export const MySwal = withReactContent(Swal);
 
 /**
- * This function is used to display a popup with a title, icon, text, and a button with a specific
- * color.
- * @param message - The message to display in the alert.
+ * Display an error popup with a title, icon, text, and a specific button color.
+ * @param {string} message - The message to display in the alert.
  */
 export function FireError(message) {
     MySwal.fire({
@@ -18,9 +21,9 @@ export function FireError(message) {
 }
 
 /**
- * It's a function that takes a message as a parameter and displays a success message using the
- * SweetAlert2 library.
- * @param message - The message you want to display.
+ * Display a loading popup with a message using the SweetAlert2 library.
+ * @param {string} message - The message to display in the loading popup.
+ * @returns {object} - A SweetAlert2 instance.
  */
 export function FireSucess(message) {
     MySwal.fire({
@@ -32,9 +35,9 @@ export function FireSucess(message) {
 }
 
 /**
- * It's a function that takes a message as a parameter and displays a loading message using the
- * SweetAlert2 library.
- * @param message - The message you want to display.
+ * Display a loading popup with a message using the SweetAlert2 library.
+ * @param {string} message - The message to display in the loading popup.
+ * @returns {object} - A SweetAlert2 instance.
  */
 export function FireLoading(message) {
     return MySwal.fire({
@@ -48,12 +51,12 @@ export function FireLoading(message) {
 }
 
 /**
- * It's a function that returns a promise that resolves to a boolean value
- * @param question - The question you want to ask the user.
- * @param warning - The text that will be displayed in the body of the modal.
- * @param [confirmText=Acepto] - The text that will be displayed on the confirm button.
- * @param [rejectText=Cancelar] - The text that will be displayed in the cancel button.
- * @returns A promise.
+ * Display a question popup with options to confirm or reject.
+ * @param {string} question - The question to ask the user.
+ * @param {string} warning - The text displayed in the body of the modal.
+ * @param {string} [confirmText='Acepto'] - The text for the confirm button (optional).
+ * @param {string} [rejectText='Cancelar'] - The text for the reject button (optional).
+ * @returns {object} - A SweetAlert2 instance.
  */
 export async function FireQuestion(
     question,

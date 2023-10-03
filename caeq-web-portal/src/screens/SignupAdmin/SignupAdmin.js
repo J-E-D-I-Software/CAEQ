@@ -8,13 +8,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import { postSignupCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 
-const Signup = () => {
+/**
+ * Componente para el registro de administradores.
+ * @returns {JSX.Element} JSX que representa el formulario de registro de administradores.
+ */
+
+const SignupAdmin = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * Maneja el evento de registro del administrador.
+     * @param {Event} e - El evento de formulario.
+     * @returns {void}
+     */
     const handleSignup = async (e) => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();
@@ -33,8 +43,12 @@ const Signup = () => {
 
     return (
         <div className='signup-admin-container'>
-            <div className='signup-form'>
-                <img src={Logo} alt='Logo' className='Logo' />
+            <div className='signup-admin-container__signup-form'>
+                <img
+                    src={Logo}
+                    alt='Logo'
+                    className='signup-admin-container__signup-form__logo'
+                />
                 <h1>Registrate para acceder</h1>
                 <form onSubmit={handleSignup}>
                     <TextInput
@@ -61,7 +75,7 @@ const Signup = () => {
                         setVal={setConfirmPassword}
                         label='Confirmar contraseña'
                     />
-                    <div className='button-container'>
+                    <div className='signup-admin-container__signup-form__button-container'>
                         <BaseButton type='primary' onClick={handleSignup}>
                             Registrarse
                         </BaseButton>
@@ -76,4 +90,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default SignupAdmin;

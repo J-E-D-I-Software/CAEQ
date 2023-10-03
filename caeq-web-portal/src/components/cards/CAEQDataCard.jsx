@@ -6,7 +6,8 @@ const CAEQDataCard = (props) => {
 
     return (
         //<h1>hola</h1>
-        <div className='profile-card'>
+
+        <div className='longprofile-card'>
 
             <div className='card-col'>
 
@@ -46,6 +47,23 @@ const CAEQDataCard = (props) => {
 
             <div className='card-col'>
 
+            </div>
+
+            <div className='card-col'>
+                
+            </div>
+
+            <div className='card-col'>
+                
+            </div>
+
+            <div className='card-col'>
+                
+            </div>
+
+
+            <div className='card-col'>
+
                 <div className='card-row'>
                     {/* <i>I</i> */}
                     <h4>Número DRO:</h4>
@@ -70,9 +88,18 @@ const CAEQDataCard = (props) => {
                     <p>{date.toLocaleDateString()}</p>
                     </div>
 
+                <div className='card-row'>
+                    {/* <i>I</i> */}
+                    <h4>Correo:</h4>
+                    &nbsp;
+                    &nbsp;
+                    <p>{props.email}</p>
+                    </div>
+
             </div>
 
         </div>
+
     )
 
 }

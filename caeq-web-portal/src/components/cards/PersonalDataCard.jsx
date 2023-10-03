@@ -7,7 +7,7 @@ const PersonalDataCard = (props) => {
     return(
         //<h1>hola</h1>
 
-        <div className='profile-card'>
+        <div className='longprofile-card'>
     
             <div className='card-col'>
 
@@ -35,6 +35,22 @@ const PersonalDataCard = (props) => {
                     <p>{props.age}</p>
                     </div>
 
+            </div>
+
+            <div className='card-col'>
+
+            </div>
+
+            <div className='card-col'>
+                
+            </div>
+
+            <div className='card-col'>
+                
+            </div>
+
+            <div className='card-col'>
+                
             </div>
 
             <div className='card-col'>

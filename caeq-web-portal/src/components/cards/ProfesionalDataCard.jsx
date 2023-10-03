@@ -1,4 +1,4 @@
-import './LongDataCard.scss';
+import './DataCard.scss';
 
 const ProfesionalDataCard = (props) => {
 
@@ -32,10 +32,6 @@ const ProfesionalDataCard = (props) => {
                     <p>{props.mainProfessionalActivity}</p>
                     </div>
 
-            </div>
-
-            <div className='card-col'>
-
                 <div className='card-row'>
                     {/* <i>I</i> */}
                     <h4>Especialidad:</h4>
@@ -63,6 +59,7 @@ const ProfesionalDataCard = (props) => {
             </div>
 
         </div>
+
     )
 
 }

@@ -8,6 +8,7 @@ import ContactDataCard from '../../components/cards/ContactDataCard';
 import ProfesionalDataCard from '../../components/cards/ProfesionalDataCard';
 import CAEQDataCard from '../../components/cards/CAEQDataCard';
 import WhiteCard from '../../components/containers/WhiteCard/WhiteCard';
+import '../../styles/profile.scss';
 
 const Profile = (props) => {
     const searchParams = useParams();
@@ -46,19 +47,45 @@ const Profile = (props) => {
         </div>*/
 
 
-        <div className="PERSONALprofile-row PERSONALprofile-section">
+        /*<div className="PERSONALprofile-row PERSONALprofile-section">
             <h1>Personal Data</h1>
             <PersonalDataCardCard {...profile} />
 
             <h1>CAEQ Data</h1>
             <CAEQDataCard {...profile} />
 
-            <h1>Contact Data</h1>
-            <ContactDataCard {...profile} />
-
             <h1>Professional Data</h1>
-            <ProfesionalDataCard {...profile} />
+            <ContactDataCard {...profile} />
+            </div>*/
+
+        <div className='profile'>
+            <div className='profile-row'>
+                <div className="PERSONALprofile-row PERSONALprofile-section">
+                <h1>Mis Datos Personales</h1>
+                <PersonalDataCardCard {...profile} />
+                </div>
             </div>
+
+            <div className='profile-row'>
+                <div className="PERSONALprofile-row PERSONALprofile-section">
+                <br></br>
+                <br></br>
+                <br></br>
+                <h1>Mis Datos CAEQ</h1>
+                <CAEQDataCard {...profile} />
+                </div>
+            </div>
+
+            <div className='profile-row'>
+                <div className="PERSONALprofile-row PERSONALprofile-section">
+                <br></br>
+                <br></br>
+                <br></br>
+                <h1>Mis Datos Profesionales</h1>
+                <ContactDataCard {...profile} />
+                </div>
+            </div>
+        </div>
 
     )
 

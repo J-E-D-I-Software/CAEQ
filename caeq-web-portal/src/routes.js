@@ -3,7 +3,6 @@ import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
 import RegisterUser from './screens/SignupArchitect/SignupArchitect';
-import Directory from './screens/Directory'
 import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
@@ -90,13 +89,6 @@ const routes = [
         Component: RegisterUser,
         isPrivate: false,
         inNavbar: false,
-    },
-    {
-        path:'/Directory',
-        name:'Directorio',
-        Component: Directory,
-        isPrivate: true,
-        inNavbar: true,
     },
     {
         path: '*',

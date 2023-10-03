@@ -121,7 +121,9 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     });
 
     try {
-        await new Email(newUser, process.env.LANDING_URL).sendWelcome();
+        console.log("controller");
+        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+        console.log("controller");
     } catch (error) {
         return next(
             new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)

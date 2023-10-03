@@ -1,16 +1,16 @@
 .architect-detail {
     align-self: center;
 
-    h1{
+    h1 {
         width: 100%;
         text-align: center;
     }
 
-    .architect-row{
+    .architect-row {
         display: flex;
         width: 100%;
 
-        .button{
+        .button {
             display: flex;
             position: fixed;
             bottom: 0;
@@ -19,29 +19,25 @@
         }
     }
 
-    .architect-col{
+    .architect-col {
         display: flex;
         flex-direction: column;
-        width:50%;
+        width: 50%;
         margin-left: 20px;
 
-        .architect-row{
+        .architect-row {
             display: flex;
             flex-direction: row;
             width: 100%;
-            
-
         }
-        
 
-        .label-input{
+        .label-input {
             margin-top: 20px;
         }
 
-        .file-input{
+        .file-input {
             padding: 20px;
             width: 100%;
         }
     }
-
 }

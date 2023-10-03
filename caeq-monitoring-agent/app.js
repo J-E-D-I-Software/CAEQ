@@ -50,6 +50,12 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
+app.use('/', (req, res, next) =>
+    res.status(200).json({
+        status: 'success',
+        message: 'Bienvenido a la API de CAEQ.',
+    })
+);
 app.all('*', (req, res, next) => {
     const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
 
@@ -120,8 +126,8 @@ async function makeRequestAndLogResponseTimeTesting() {
     }
 }
 
-// Interval in milliseconds (e.g., every 5 seconds)
-const monitoringInterval = 60000;
+// Interval in milliseconds (e.g., every 5 minutes)
+const monitoringInterval = 5 * 60000;
 
 // Start monitoring at regular intervals
 setInterval(makeRequestAndLogResponseTimeProduction, monitoringInterval);

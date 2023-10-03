@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const axios = require('axios');
 
 const dotenv = require('dotenv');
 const compression = require('compression');
@@ -92,6 +93,52 @@ app.use('/filetest', fileTestRouter);
 app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
 app.use('/courses', courseRouter);
+app.use('/', (req, res, next) =>
+    res.status(200).json({
+        status: 'success',
+        message: 'Bienvenido a la API de CAEQ.',
+    })
+);
+
+const responseTimesProd = [];
+const maxResponseTimesToKeep = 30;
+
+async function makeRequestAndLogResponseTimeMonitoring() {
+    const targetUrl = process.env.BASE_API_ENDPOINT_MONITOR;
+    try {
+        const startTime = Date.now();
+        const response = await axios.get(targetUrl);
+        const endTime = Date.now();
+        const responseTime = endTime - startTime;
+
+        responseTimesProd.push(responseTime);
+
+        if (responseTimesProd.length > maxResponseTimesToKeep) {
+            responseTimesProd.shift(); // Remove the oldest response time if the array is too long
+        }
+
+        const averageResponseTime =
+            responseTimesProd.reduce((acc, time) => acc + time, 0) /
+            responseTimesProd.length;
+
+        console.log(
+            `Response from ${targetUrl}: Status ${
+                response.status
+            }, Response Time: ${responseTime}ms, Average Response Time: ${averageResponseTime.toFixed(
+                2
+            )}ms`
+        );
+    } catch (error) {
+        console.error(`Error while making the request to ${targetUrl}: ${error.message}`);
+    }
+}
+
+// Interval in milliseconds (e.g., every 10 minutes)
+// const monitoringInterval = 10 * 60000;
+const monitoringInterval = 10 * 60000;
+
+// Start monitoring at regular intervals
+setInterval(makeRequestAndLogResponseTimeMonitoring, monitoringInterval);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

@@ -15,6 +15,7 @@
     "dependencies": {
         "@google-cloud/storage": "^5.8.5",
         "@sendgrid/mail": "^7.7.0",
+        "axios": "^1.5.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
         "busboy": "^0.2.14",

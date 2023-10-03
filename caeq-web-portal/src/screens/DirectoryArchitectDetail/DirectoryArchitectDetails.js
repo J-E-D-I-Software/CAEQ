@@ -56,19 +56,18 @@ const ArchitectDetail = (props) => {
             console.log(data);
     }, []);
 
+    const today = new Date();
+
     return (
         <div className="architect-detail">
-            <div className="architect-detail-row">
-                <center>
-
+            <div className="architect-row">
                 <h1>{data.fullName}</h1>
-                </center>
             </div>
 
             
-            <div className="architect-detail-row">
+            <div className="architect-row">
 
-                <div className="architect-detail-col">
+                <div className="architect-col">
                     <TextInput label="Fecha de Ingreso" placeholder="FechaDeIngreso" getVal={dateOfAdmission.toLocaleDateString()} setVal={dateOfAdmission.toLocaleDateString()} />
                     <TextInput label="Número de Colegiado" placeholder="Número de Colegiado" getVal={data.collegiateNumber} setVal={data.collegiateNumber} />
                     <TextInput label="Número de DRO" placeholder="Número de DRO" getVal={data.DRONumber} setVal={data.DRONumber} />
@@ -76,16 +75,19 @@ const ArchitectDetail = (props) => {
                     <TextInput label="Especialidad" placeholder="Especialidad" getVal={data.specialty} setVal={data.specialty} />
                 </div>
                 
-                <div className="architect-detail-col">
+                <div className="architect-col">
                 <TextInput label="Horas Acreditadas" placeholder="Horas Acreditadas" getVal={data.capacitationHours} setVal={data.capacitationHours} />
                 <TextInput label="Número de Asistencias a Asambleas" placeholder="Número de Asistencias a Asambleas" getVal={data.hoursAttended} setVal={data.hoursAttended} />
-                <TextInput label="Pago de Anualidad" placeholder="Pago de Anualidad" getVal={data.authorizationToShareInfo} setVal={data.authorizationToShareInfo} />
+                    
+                
+                <TextInput label="Pago de Anualidad" placeholder="Pago de Anualidad" getVal={data.uthorizationToShareInfo ? "Si": "No"} setVal={data.authorizationToShareInfo} />
+
                 <FileInput label="CV" placeholder="CV" getVal={""} setVal={""} />
-                <p>Archivo Actual: {data.linkCV}</p>
+                <p>Archivo Actual: <a href="{data.linkCV}">{data.linkCV}</a></p>
                 </div>
             </div>
 
-            <div className="architect-detail-row save-button">
+            <div className="architect-row">
                 <BaseButton type="primary">Guardar Cambios</BaseButton>
             </div>
         </div>

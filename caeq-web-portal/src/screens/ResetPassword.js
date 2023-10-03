@@ -4,19 +4,20 @@ import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput";
 import BaseButton from "../components/buttons/BaseButton";
 import { FireError, FireSucess } from "../utils/alertHandler";
 import { patchResetPassword } from "../client/CaeqUser/CaeqUser.PATCH";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom"; 
 
 const ResetPassword = () => {
   const [newpassword, setPassword] = useState('');
   const [newpasswordConfirm, setConfirmPassword] = useState('');
-  const navigate = useNavigate();
+  const { token } = useParams(); // Obtiene el token de los parámetros de la URL
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
     try {
       const response = await patchResetPassword(
+        token,
         newpassword,
-        newpasswordConfirm
+        newpasswordConfirm,
       );
       if (response.status === 'success') {
         FireSucess(

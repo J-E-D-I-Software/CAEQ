@@ -107,7 +107,7 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/caequser/Reset-password/:token',
+        path: '/:type/Reset-password/:token',
         name: 'Restaurar contraseña',
         Component: ResetPassword,
         isPrivate: false,

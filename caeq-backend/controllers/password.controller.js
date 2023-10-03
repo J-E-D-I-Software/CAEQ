@@ -1,21 +1,23 @@
+require('dotenv').config();
 const CaeqUser = require("../models/caeq.user.model");
 const ArchitectUser = require("../models/architect.user.model");
 const Email = require("../utils/email");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
+const frontDomain = process.env.FRONT_DOMAIN;
 
 
 /**
  * It takes a user's email, creates a reset token, saves it to the user, and sends an email with a link
  * to reset the password.
- * @param Model - The model you want to use.
+ * @param type - The type you want to use.
  * @param email - the email of the user who wants to reset their password
  * @returns Nothing.
  */
-const forgotPassword = async (Model, email, req, userType) => {
+const forgotPassword = async (type, email, req, userType) => {
   // 1 get user based on posted email
-  const user = await Model.findOne({ email });
+  const user = await type.findOne({ email });
   if (!user) {
     throw new AppError("No existe un usuario con ese correo.", 404);
   }
@@ -23,9 +25,9 @@ const forgotPassword = async (Model, email, req, userType) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-)}/${userType}/reset-password/${resetToken}`;
+  const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
+
+ 
   // si falla queremos eliminar la token
   try {
     console.log(user);
@@ -43,18 +45,18 @@ const forgotPassword = async (Model, email, req, userType) => {
 };
 
 /**
- * It takes a token, a user model, a password, and a password confirmation, and then it updates the
+ * It takes a token, a user type, a password, and a password confirmation, and then it updates the
  * user's password
  * @param token - The token that was sent to the user's email address.
- * @param Model - The model that you want to update.
+ * @param type - The type that you want to update.
  * @param password - the new password
  * @param passwordConfirm - The password confirmation field.
  */
-const resetPassword = async (token, Model, password, passwordConfirm) => {
+const resetPassword = async (token, type, password, passwordConfirm) => {
   // 1 get user based on token
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
   // get user based on reset token and expiration date
-  const user = await Model.findOne({
+  const user = await type.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gte: Date.now() },
   });

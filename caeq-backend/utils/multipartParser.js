@@ -12,9 +12,9 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
             allowedMethods.includes(req.method) &&
             type &&
             type.startsWith('multipart/form-data')
-        ) {
-            getRawBody(
-                req,
+            ) {
+                getRawBody(
+                    req,
                 Object.assign(
                     {
                         length: req.headers['content-length'],
@@ -31,6 +31,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     }
                 }
             );
+            console.log("FILE PARSER");
         } else {
             next();
         }

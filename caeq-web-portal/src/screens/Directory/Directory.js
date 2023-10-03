@@ -47,7 +47,6 @@ const Directory = () => {
       const architectValues = Object.values(architect).map((value) =>
         String(value).toLowerCase()
       );
-
       // Verificar si algún valor contiene el texto de búsqueda
       return architectValues.some((value) =>
         value.includes(searchText.toLowerCase())
@@ -66,9 +65,8 @@ const Directory = () => {
   const columnsToShow =
     filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
 
-  // Asegúrate de que haya al menos una columna antes de excluir la última
   if (columnsToShow.length > 1) {
-    tablefilteredArchitects.forEach((architect) => {
+    filteredArchitects.forEach((architect) => {
       // Elimina la última propiedad de cada objeto arquitecto
       delete architect[columnsToShow[columnsToShow.length - 1]];
     });
@@ -108,7 +106,7 @@ const Directory = () => {
       <div className="directory-row">
         {filteredArchitects.length > 0 ? (
           <div className="box-container">
-            <InteractiveTable data={tablefilteredArchitects} onRowClick={handleRowClick} />
+            <InteractiveTable data={filteredArchitects} onRowClick={handleRowClick} />
           </div>
         ) : (
           <p className="no-data-message">No hay colegiados disponibles</p>

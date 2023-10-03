@@ -1,6 +1,7 @@
 import axios from "axios";
 import baseApiEndpoint from "../backendConfig";
 const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 5;
+
 /**
  * It makes a GET request to the endpoint `/architectusers` and returns the response data.
  * @returns An array of objects.
@@ -28,3 +29,10 @@ export async function getArchitectUserById(id) {
 }
 
 
+export async function getArchitectUsers() {
+    let endpoint = `${baseApiEndpoint}/architectusers`;
+
+    const response = await axios.get(endpoint);
+
+    return response.data.data.documents;
+}

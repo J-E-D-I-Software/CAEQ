@@ -52,7 +52,7 @@ const ForgotPassword = () => {
         </Link>
       </div>
       <div className="forgot-description">
-        <Link to="/Reset-password">
+        <Link to="/Reset-password/:token">
           <p> Restablecer </p>
         </Link>
       </div>

@@ -3,7 +3,7 @@ import "../styles/reset-password.scss";
 import HiddenTextInput from "../components/inputs/TextInput/HiddenTextInput";
 import BaseButton from "../components/buttons/BaseButton";
 import { FireError, FireSucess } from "../utils/alertHandler";
-import { postLoginCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import { patchResetPassword } from "../client/CaeqUser/CaeqUser.PATCH";
 import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -14,18 +14,17 @@ const ResetPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await postLoginCaeqUsers(
+      const response = await patchResetPassword(
         newpassword,
         newpasswordConfirm
       );
       if (response.status === 'success') {
         FireSucess(
-          'Contraseña Restablecida con éxito'
+          'Contraseña Restablecida con éxito, ya puede cerrar esta pestaña'
         );
-        navigate('/');
       }
     } catch (error) {
-      FireError(error.message);
+      FireError(error.response.data.message);
     }
   };
 

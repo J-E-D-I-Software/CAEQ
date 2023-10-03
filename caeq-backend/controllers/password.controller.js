@@ -5,6 +5,7 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
 
+
 /**
  * It takes a user's email, creates a reset token, saves it to the user, and sends an email with a link
  * to reset the password.
@@ -22,11 +23,9 @@ const forgotPassword = async (Model, email, req, userType) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
-  // 3 send it back as an email
   const resetURL = `${req.protocol}://${req.get(
-    "host"
-  )}/reset-password/${userType}/${resetToken}`;
-
+    'host'
+)}/${userType}/reset-password/${resetToken}`;
   // si falla queremos eliminar la token
   try {
     console.log(user);
@@ -37,7 +36,7 @@ const forgotPassword = async (Model, email, req, userType) => {
     user.passwordResetToken = undefined;
     await user.save({ validateBeforeSave: false });
     throw new AppError(
-      'Hubo un error enviando el correo de reset password. Intenta de nuevo',
+      "Hubo un error enviando el correo de reset password. Intenta de nuevo",
       500
     );
   }

@@ -20,7 +20,7 @@ const {
 router.post('/auth/signup', signUpArchitectUser);
 router.post('/auth/login', loginArchitectUser);
 router.post("/forgot-password", forgotPasswordArchitectUser);
-router.patch("/reset-password/:token", resetPasswordArchitectUser);
+router.post("/reset-password/:token", resetPasswordArchitectUser);
 router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')

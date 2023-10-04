@@ -1,6 +1,5 @@
-.h2-A {
+.h1-A {
     padding-left: 40px;
-    color: rgb(85, 85, 85);
 }
 
 .signup-container {
@@ -19,12 +18,13 @@
         gap: 40px;
     
         .column {
+            margin: 20px;
             padding: 10px;
             display: flex;
             flex-direction: column;
         }
         .column-2 {
-            margin-top: 20px;
+            margin: 20px;
             padding: 10px;
             display: flex;
             flex-direction: column;

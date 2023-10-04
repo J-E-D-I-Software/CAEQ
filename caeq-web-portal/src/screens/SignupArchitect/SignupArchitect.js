@@ -113,7 +113,7 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h2 class="h2-A">Regístrate</h2>
+                <h1 class="h1-A">Regístrate para acceder</h1>
                 <form onSubmit={handleSignup}>
                     <div class="grid-container">
                         <div class="column">
@@ -202,14 +202,14 @@ const Signup = () => {
                             />
                             <LargeTextInput
                                 label="Domicilio particular"
-                                placeholder='ej. Calle, Número de colonia, Código postal'
+                                placeholder='Calle, Número de colonia, Código postal'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label="Domicilio de trabajo"
-                                placeholder='ej. Calle, Número de colonia, Código postal'
+                                placeholder='Calle, Número de colonia, Código postal'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}

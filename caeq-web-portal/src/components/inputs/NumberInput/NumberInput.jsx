@@ -1,5 +1,5 @@
 import React from 'react';
-//import './NumberInput.scss';
+import './NumberInput.scss';
 
 /**
  * NumberInput component for a single-line number input.

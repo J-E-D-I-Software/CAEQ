@@ -7,6 +7,7 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses';
 import Course from './screens/Course';
 import Page404 from './screens/404';
+import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 
 
@@ -105,9 +106,16 @@ const routes = [
         Component: Directory,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq']
+    },
+    {
+        path: '/Directorio/:id',
+        name: 'Detalles de arquitecto',
+        Component: DirectoryArchitectDetails,
+        isPrivate: true,
+        inNavbar: false,
         roles: ['caeq'],
     },
-
     {
         path: '*',
         name: '404 Not Found',

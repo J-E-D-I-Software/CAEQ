@@ -1,12 +1,13 @@
-import BaseButton from '../components/buttons/BaseButton';
-import DropdownInput from '../components/inputs/DropdownInput/DropdownInput';
-import TextInput from '../components/inputs/TextInput/TextInput';
-import CourseCard from '../components/cards/CourseCard';
-import PaginationNav from '../components/pagination/PaginationNav';
-import '../styles/courses.scss';
-import { FireError } from '../utils/alertHandler';
+import BaseButton from '../../components/buttons/BaseButton';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import CourseCard from '../../components/cards/CourseCard';
+import PaginationNav from '../../components/pagination/PaginationNav';
+import '../../styles/courses.scss';
+import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
-import { getAllCourses } from '../client/Course/Course.GET';
+import { getAllCourses } from '../../client/Course/Course.GET';
+import { useNavigate } from 'react-router-dom';
 
 const Courses = (props) => {
     const [courses, setCourses] = useState([]);
@@ -14,6 +15,7 @@ const Courses = (props) => {
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [orderBy, setOrderBy] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,7 +45,9 @@ const Courses = (props) => {
             </div>
 
             <div className='courses-row courses-filters'>
-                <BaseButton type='primary'>Crear curso</BaseButton>
+                <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
+                    Crear curso
+                </BaseButton>
                 <TextInput
                     placeholder='Buscar'
                     getVal={filterSearchByName}

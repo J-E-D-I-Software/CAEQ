@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
 import './CourseCard.scss';
 
-const CourseCard = (props) => {
+const CourseCard = ({showMoreBtn=true, ...props}) => {
     const navigate = useNavigate();
 
     let description = props.description.slice(0, 130);
@@ -48,9 +48,11 @@ const CourseCard = (props) => {
                     <p className='card-price'>
                         {props.price ? `$${props.price}` : 'Gratuito'}
                     </p>
-                    <BaseButton type="primary" onClick={()=> navigate(`/curso/${props._id}`)}>
-                        Ver más
-                    </BaseButton>
+                    {showMoreBtn &&
+                        <BaseButton type="primary" onClick={()=> navigate(`/curso/${props._id}`)}>
+                            Ver más
+                        </BaseButton>
+                    }
                 </div>
             </div>
         </div>

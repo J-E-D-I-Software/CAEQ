@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCourse } from "../client/Course/Course.GET";
-import BaseButton from "../components/buttons/BaseButton";
-import ClassroomIcon from '../components/icons/Classroom.png';
-import LocationIcon from '../components/icons/Location.png';
-import ClockIcon from '../components/icons/Clock.png';
-import TeacherIcon from '../components/icons/Teacher.png';
-import CalendarIcon from '../components/icons/Calendar.png';
-import SatisfactionIcon from '../components/icons/Satisfaction.png';
-import '../styles/course.scss';
+import { getCourse } from "../../client/Course/Course.GET";
+import BaseButton from "../../components/buttons/BaseButton";
+import ClassroomIcon from '../../components/icons/Classroom.png';
+import LocationIcon from '../../components/icons/Location.png';
+import ClockIcon from '../../components/icons/Clock.png';
+import TeacherIcon from '../../components/icons/Teacher.png';
+import CalendarIcon from '../../components/icons/Calendar.png';
+import SatisfactionIcon from '../../components/icons/Satisfaction.png';
+import '../../styles/course.scss';
 
 const Course = (props) => {
     const searchParams = useParams();
@@ -19,7 +19,7 @@ const Course = (props) => {
         if (searchParams.id)
             getCourse(searchParams.id)
             .then(response => setData(response))
-            .catch(error => navigate('/404'));
+            .catch(() => navigate('/404'));
     }, []);
 
     const startDate = new Date(data.startDate);
@@ -29,7 +29,7 @@ const Course = (props) => {
     <div className="course">
         <div className="course-row">
             <h1>{data.courseName}</h1>
-            <BaseButton type="primary">Modificar</BaseButton>
+            <BaseButton type="primary" onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>Modificar</BaseButton>
             <h2 className="course-price">{
                 data.price ? `$${data.price}` : 'Gratuito'
             }</h2>

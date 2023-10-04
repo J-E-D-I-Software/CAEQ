@@ -4,8 +4,9 @@ import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
 import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
-import Courses from './screens/Courses';
-import Course from './screens/Course';
+import Courses from './screens/Courses/Courses';
+import Course from './screens/Courses/Course';
+import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import Directory from './screens/Directory/Directory';
 
@@ -55,6 +56,24 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Course,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Cursos/Curso',
+        name: 'Crear curso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateOrUpdateCourse,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Cursos/Curso/:id',
+        name: 'Curso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
     },

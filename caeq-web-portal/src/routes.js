@@ -1,26 +1,26 @@
-import Dasbboard from './screens/Dasboard';
-import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
-import LoginUser from './screens/LoginUser/LoginUser';
-import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
-import RegisterUser from './screens/SignupArchitect/SignupArchitect';
-import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
-import Courses from './screens/Courses';
-import Course from './screens/Course';
-import ForgotPassword from './screens/ForgotPassword';
-import ResetPassword from './screens/ResetPassword';
-import Page404 from './screens/404';
+import Dasbboard from "./screens/Dasboard";
+import LoginAdmin from "./screens/LoginAdmin/LoginAdmin";
+import LoginUser from "./screens/LoginUser/LoginUser";
+import RegisterAdmin from "./screens/SignupAdmin/SignupAdmin";
+import RegisterUser from "./screens/SignupArchitect/SignupArchitect";
+import AcceptAdmin from "./screens/AcceptAdmin/AcceptAdmin";
+import Courses from "./screens/Courses";
+import Course from "./screens/Course";
+import ForgotPassword from "./screens/ForgotPassword";
+import ResetPassword from "./screens/ResetPassword";
+import Page404 from "./screens/404";
 
-import CursosIcon from '../src/components/icons/CursosIcon.png';
-import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
-import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
-import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
-import AdminIcon from '../src/components/icons/AdminIcon.png';
-import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import CursosIcon from "../src/components/icons/CursosIcon.png";
+import CursosIconWhite from "../src/components/icons/CursosIconWhite.png";
+import PrincipalIcon from "../src/components/icons/PrincipalIcon.png";
+import PrincipalIconWhite from "../src/components/icons/PrincipalIconWHite.png";
+import AdminIcon from "../src/components/icons/AdminIcon.png";
+import AdminIconWhite from "../src/components/icons/AdminIconWhite.png";
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
-        path: '/',
-        name: 'Principal',
+        path: "/",
+        name: "Principal",
         Component: Dasbboard,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
@@ -28,8 +28,8 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/Principal',
-        name: 'Principal',
+        path: "/Principal",
+        name: "Principal",
         Component: () => <div></div>,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
@@ -37,8 +37,8 @@ const routes = [
         inNavbar: true,
     },
     {
-        path: '/Cursos',
-        name: 'Cursos',
+        path: "/Cursos",
+        name: "Cursos",
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Courses,
@@ -46,8 +46,8 @@ const routes = [
         inNavbar: true,
     },
     {
-        path: '/Curso/:id',
-        name: 'Curso',
+        path: "/Curso/:id",
+        name: "Curso",
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Course,
@@ -55,60 +55,60 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/Admins',
-        name: 'Admins',
+        path: "/Admins",
+        name: "Admins",
         icon: AdminIcon,
         iconWhite: AdminIconWhite,
         Component: AcceptAdmin,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq'],
+        roles: ["caeq"],
     },
     {
-        path: '/LoginAdmin',
-        name: 'LoginAdmin',
+        path: "/LoginAdmin",
+        name: "LoginAdmin",
         Component: LoginAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '/LoginUser',
-        name: 'LoginUser',
+        path: "/LoginUser",
+        name: "LoginUser",
         Component: LoginUser,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '/SignupAdmin',
-        name: 'Registrar Admin',
+        path: "/SignupAdmin",
+        name: "Registrar Admin",
         Component: RegisterAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '/SignupUser',
-        name: 'Registrar User',
+        path: "/SignupUser",
+        name: "Registrar User",
         Component: RegisterUser,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '*',
-        name: '404 Not Found',
+        path: "*",
+        name: "404 Not Found",
         Component: Page404,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '/Forgot-password',
-        name: 'Olvidar contraseña',
+        path: "/Forgot-password",
+        name: "Olvidar contraseña",
         Component: ForgotPassword,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: '/:type/Reset-password/:token',
-        name: 'Restaurar contraseña',
+        path: "/:type/Reset-password/:token",
+        name: "Restaurar contraseña",
         Component: ResetPassword,
         isPrivate: false,
         inNavbar: false,

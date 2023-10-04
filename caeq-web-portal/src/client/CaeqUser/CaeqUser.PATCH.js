@@ -1,5 +1,5 @@
-import axios from 'axios';
-import baseApiEndpoint from '../backendConfig';
+import axios from "axios";
+import baseApiEndpoint from "../backendConfig";
 
 /**
  * Sends a PATCH request to the '/caequsers/acceptadmin' endpoint with the name of the admin to accept.
@@ -50,6 +50,7 @@ export async function patchResetPassword(token, newPassword, passwordConfirm) {
     let endpoint = `${baseApiEndpoint}/caequsers/reset-password/${token}`;
 
     const body = {
+        token,
         password: newPassword,
         passwordConfirm,
     };

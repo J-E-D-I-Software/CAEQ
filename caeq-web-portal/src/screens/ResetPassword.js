@@ -7,11 +7,12 @@ import { patchResetPassword } from "../client/CaeqUser/CaeqUser.PATCH";
 import { useParams } from "react-router-dom"; 
 
 const ResetPassword = () => {
+  const { token } = useParams(); // Obtiene el token de los parámetros de la URL
   const [newpassword, setPassword] = useState('');
   const [newpasswordConfirm, setConfirmPassword] = useState('');
-  const { token } = useParams(); // Obtiene el token de los parámetros de la URL
-
+  
   const handleResetPassword = async (e) => {
+    console.log(token);
     e.preventDefault();
     try {
       const response = await patchResetPassword(

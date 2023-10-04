@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const CaeqUser = require("../models/caeq.user.model");
 const ArchitectUser = require("../models/architect.user.model");
 const Email = require("../utils/email");
@@ -6,6 +6,7 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
 const frontDomain = process.env.FRONT_DOMAIN;
+
 
 
 /**
@@ -16,32 +17,29 @@ const frontDomain = process.env.FRONT_DOMAIN;
  * @returns Nothing.
  */
 const forgotPassword = async (type, email, req, userType) => {
-  // 1 get user based on posted email
-  const user = await type.findOne({ email });
-  if (!user) {
-    throw new AppError("No existe un usuario con ese correo.", 404);
-  }
-  // 2 generate random token
-  const resetToken = user.createPasswordResetToken();
-  await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
+    // 1 get user based on posted email
+    const user = await type.findOne({ email });
+    if (!user) {
+        throw new AppError("No existe un usuario con ese correo.", 404);
+    }
+    // 2 generate random token
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
-  const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
+    const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
 
- 
-  // si falla queremos eliminar la token
-  try {
-    console.log(user);
-    console.log(resetURL);
-    await new Email(user, resetURL).sendPasswordReset();
-  } catch (err) {
-    user.passwordResetExpires = undefined;
-    user.passwordResetToken = undefined;
-    await user.save({ validateBeforeSave: false });
-    throw new AppError(
-      "Hubo un error enviando el correo de reset password. Intenta de nuevo",
-      500
-    );
-  }
+    // if it fails, we want to delete that token
+    try {
+        await new Email(user, resetURL).sendPasswordReset();
+    } catch (err) {
+        user.passwordResetExpires = undefined;
+        user.passwordResetToken = undefined;
+        await user.save({ validateBeforeSave: false });
+        throw new AppError(
+            "Hubo un error enviando el correo de reset password. Intenta de nuevo",
+            500
+        );
+    }
 };
 
 /**
@@ -53,78 +51,82 @@ const forgotPassword = async (type, email, req, userType) => {
  * @param passwordConfirm - The password confirmation field.
  */
 const resetPassword = async (token, type, password, passwordConfirm) => {
-  // 1 get user based on token
-  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-  // get user based on reset token and expiration date
-  const user = await type.findOne({
-    passwordResetToken: hashedToken,
-    passwordResetExpires: { $gte: Date.now() },
-  });
+    // 1 get user based on token
+    console.log(token);
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    // get user based on reset token and expiration date
+    console.log(hashedToken);
+    const user = await type.findOne({
+        changedPasswordToken: hashedToken,
+        tokenExpirationDate: { $gte: Date.now() },
+    });
 
-  // 2 if token has not expired and there is user set new password
-  if (!user) throw new AppError("Token expirado o correo incorrecto", 400);
-  // 3 update changedPasswordAt property for the user
-  user.password = password;
-  user.passwordConfirm = passwordConfirm;
-  user.passwordResetToken = undefined;
-  user.passwordResetExpires = undefined;
+    // 2 if token has not expired and there is user set new password
+    if (!user) {
+        console.log(user);
+        throw new AppError("Token expirado o correo incorrecto", 400);
+    }
 
-  await user.save();
+    // 3 update changedPasswordAt property for the user
+    user.password = password;
+    user.passwordConfirm = passwordConfirm;
+    user.changedPasswordToken = undefined;
+    user.tokenExpirationDate = undefined;
+    user.changedPassword = Date.now();
+    await user.save();
 };
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  await forgotPassword(CaeqUser, req.body.email, req, "caequser");
+    console.log(req.body);
+    await forgotPassword(CaeqUser, req.body.email, req, 'caeq');
 
-  res.status(200).json({
-    status: "success",
-    message: "Correo para recuperar tu contraseña enviado.",
-  });
+    res.status(200).json({
+        status: "success",
+        message: "Correo para recuperar tu contraseña enviado.",
+    });
 });
 
 /* This is the code that is executed when the user clicks on the link in the email. It is a GET request
 to the server. The server then checks if the token is valid and if it is, it allows the user to
 change their password. */
 exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
-  await resetPassword(
-    req.params.id,
-    CaeqUser,
-    req.body.password,
-    req.body.passwordConfirm
-  );
+    await resetPassword(
+        req.params.token,
+        CaeqUser,
+        req.body.password,
+        req.body.passwordConfirm
+    );
 
-  res.status(200).json({
-    status: "success",
-    message:
-      "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
-  });
+    res.status(200).json({
+        status: "success",
+        message: "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
+    });
 });
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-  await forgotPassword(ArchitectUser, req.body.email, req, "ArchitectUser");
+    await forgotPassword(ArchitectUser, req.body.email, req, 'architect');
 
-  res.status(200).json({
-    status: "success",
-    message: "Correo para recuperar tu contraseña enviado.",
-  });
+    res.status(200).json({
+        status: "success",
+        message: "Correo para recuperar tu contraseña enviado.",
+    });
 });
 
 /* This is the code that is executed when the user clicks on the link in the email. It is a GET request
 to the server. The server then checks if the token is valid and if it is, it allows the user to
 change their password. */
 exports.resetPasswordArchitectUser = catchAsync(async (req, res, next) => {
-  await resetPassword(
-    req.params.id,
-    ArchitectUser,
-    req.body.password,
-    req.body.passwordConfirm
-  );
+    await resetPassword(
+        req.params.id,
+        ArchitectUser,
+        req.body.password,
+        req.body.passwordConfirm
+    );
 
-  res.status(200).json({
-    status: "success",
-    message:
-      "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
-  });
+    res.status(200).json({
+        status: "success",
+        message: "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
+    });
 });

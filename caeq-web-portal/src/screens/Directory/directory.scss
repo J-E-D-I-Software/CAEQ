@@ -1,14 +1,15 @@
 .directory {
   padding: 3rem;
-}
 
-.directory-row {
-  justify-content: center;
-  align-items: flex-start; 
-}
+  .directory-row {
+    justify-content: center;
+    align-items: flex-start; 
+  }
 
-label {
-  margin-right: 20px;
+  label {
+    margin-right: 20px;
+  }
+
 }
 
 .InputText {

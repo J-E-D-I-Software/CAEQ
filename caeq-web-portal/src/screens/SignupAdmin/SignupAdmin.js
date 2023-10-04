@@ -12,7 +12,6 @@ import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
  * Componente para el registro de administradores.
  * @returns {JSX.Element} JSX que representa el formulario de registro de administradores.
  */
-
 const SignupAdmin = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');

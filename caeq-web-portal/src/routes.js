@@ -67,6 +67,7 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
+        roles: ['caeq'],
     },
     {
         path: '/Cursos/Curso/:id',
@@ -76,6 +77,7 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
+        roles: ['caeq'],
     },
     {
         path: '/Admins',

@@ -12,6 +12,15 @@ const CourseSchema = new mongoose.Schema(
             required: [true, 'Modalidad requerida'],
             default: 'Presencial',
         },
+        pricing: {
+            type: String,
+            enum: { values: ['Gratuito', 'Pagado'] },
+            default: 'Gratuito',
+        },
+        capacity: {
+            type: Number,
+            required: [true, 'Capacidad de curso requerido'],
+        },
         numberHours: {
             type: Number,
         },

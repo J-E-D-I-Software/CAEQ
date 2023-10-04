@@ -8,6 +8,8 @@ import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getAllCourses } from '../../client/Course/Course.GET';
 import { useNavigate } from 'react-router-dom';
+import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
+
 
 const Courses = (props) => {
     const [courses, setCourses] = useState([]);
@@ -45,9 +47,11 @@ const Courses = (props) => {
             </div>
 
             <div className='courses-row courses-filters'>
-                <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
-                    Crear curso
-                </BaseButton>
+                <RestrictByRole allowedRoles={['caeq']}>
+                    <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
+                        Crear curso
+                    </BaseButton>
+                </RestrictByRole>
                 <TextInput
                     placeholder='Buscar'
                     getVal={filterSearchByName}

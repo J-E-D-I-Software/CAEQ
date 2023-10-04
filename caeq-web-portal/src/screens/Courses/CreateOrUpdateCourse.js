@@ -3,6 +3,7 @@ import { getCourse } from "../../client/Course/Course.GET";
 import { useParams, useNavigate } from "react-router-dom";
 import CourseCard from "../../components/cards/CourseCard";
 import TextInput from "../../components/inputs/TextInput/TextInput";
+import NumberInput from "../../components/inputs/NumberInput/NumberInput";
 import DateInput from "../../components/inputs/DateInput/DateInput";
 import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
 import FileInput from "../../components/inputs/FileInput/FileInput";
@@ -51,13 +52,18 @@ const CreateOrUpdateCourse = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
+        
+        // Validations
         if (data.pricing === 'Gratuito')
             data.price = 0;
-
+    
         if (!data.modality)
             throw "Es necesario una modalidad"
+
+        // Build FormData
+        const formData = new FormData();
         Object.entries(data).forEach(entry => formData.append(entry[0], entry[1]));
+        formData.set('imageUrl', image);
 
         let response = null;
         try{
@@ -86,23 +92,21 @@ const CreateOrUpdateCourse = () => {
                     <div className="display-course-card">
                         <CourseCard showMoreBtn={false} {...data} />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="capacity">Capacidad de la sesión</label>
-                        <input 
-                            type="number"
-                            name="capacity"
-                            value={data.capacity}
-                            onChange={e => updateData('capacity', e.target.value)}
-                        />
-                    </div>
+                    <NumberInput 
+                        label="Capacidad de la sesión"
+                        getVal={data.capacity}
+                        setVal={value => updateData('capacity', value)}
+                    />
                     <TextInput 
                         label="Nombre del instructor"
                         getVal={data.teacherName}
                         setVal={value => updateData('teacherName', value)}
                     />
+                    
                     <div className="form-group">
-                        <label htmlFor="review">Reseña del instructor</label>
+                        <label htmlFor="review" className="label-input" >Reseña del instructor</label>
                         <textarea 
+                            className="box-input"
                             name="review"
                             value={data.teacherReview}
                             onChange={e => updateData('teacherReview', e.target.value)}
@@ -117,15 +121,11 @@ const CreateOrUpdateCourse = () => {
                     />
                     {data.pricing === 'Pagado' &&
                         <Fragment>
-                            <div className="form-group">
-                                <label htmlFor="price">Costo del curso</label>
-                                <input 
-                                    type="number"
-                                    name="price"
-                                    value={data.price}
-                                    onChange={e => updateData('price', e.target.value)}
-                                />
-                            </div>
+                            <NumberInput 
+                                label="Costo del curso"
+                                getVal={data.price}
+                                setVal={value => updateData('price', value)}
+                            />
                             <TextInput 
                                 label="Datos de pago"
                                 getVal={data.paymentInfo}
@@ -135,8 +135,9 @@ const CreateOrUpdateCourse = () => {
                         </Fragment>
                     }
                     <div className="form-group">
-                        <label htmlFor="includes">Incluye</label>
+                        <label htmlFor="includes" className="label-input">Incluye</label>
                         <textarea 
+                            className="box-input"
                             name="includes"
                             value={data.includes}
                             onChange={e => updateData('includes', e.target.value)}
@@ -144,8 +145,9 @@ const CreateOrUpdateCourse = () => {
                         ></textarea>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="temario">Temario del curso</label>
+                        <label htmlFor="temario" className="label-input">Temario del curso</label>
                         <textarea 
+                            className="box-input"
                             name="temario"
                             value={data.temario}
                             onChange={e => updateData('temario', e.target.value)}
@@ -162,8 +164,9 @@ const CreateOrUpdateCourse = () => {
                         require
                     />
                     <div className="form-group">
-                        <label htmlFor="includes">Descripción general del curso</label>
+                        <label htmlFor="includes" className="label-input">Descripción general del curso</label>
                         <textarea 
+                            className="box-input"
                             name="description"
                             value={data.description}
                             onChange={e => updateData('description', e.target.value)}
@@ -181,15 +184,11 @@ const CreateOrUpdateCourse = () => {
                         setVal={value => updateData('place', value)}
                         placeholder="Edificio y salón o link de Zoom"
                     />
-                    <div className="form-group">
-                        <label htmlFor="capacity">Horas que se acreditan</label>
-                        <input 
-                            type="number"
-                            name="capacity"
-                            value={data.numberHours}
-                            onChange={e => updateData('numberHours', e.target.value)}
-                        />
-                    </div>
+                    <NumberInput 
+                        label="Horas que se acreditan"
+                        getVal={data.numberHours}
+                        setVal={value => updateData('numberHours', value)}
+                    />
                     <DateInput 
                         label="Fecha de inicio"
                         value={data.startDate}
@@ -213,8 +212,9 @@ const CreateOrUpdateCourse = () => {
                         placeholder="5:00PM a 6:00pm"
                         />
                     <div className="form-group">
-                        <label htmlFor="objective">Objetivos del curso</label>
+                        <label htmlFor="objective" className="label-input">Objetivos del curso</label>
                         <textarea 
+                            className="box-input"
                             name="objective"
                             value={data.objective}
                             onChange={e => updateData('objective', e.target.value)}

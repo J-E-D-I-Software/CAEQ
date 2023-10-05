@@ -8,6 +8,7 @@ import ClockIcon from '../../components/icons/Clock.png';
 import TeacherIcon from '../../components/icons/Teacher.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
 import SatisfactionIcon from '../../components/icons/Satisfaction.png';
+import RestrictByRole from "../../components/restrictAccess/RestrictByRole";
 import '../../styles/course.scss';
 
 const Course = (props) => {
@@ -22,14 +23,20 @@ const Course = (props) => {
             .catch(() => navigate('/404'));
     }, []);
 
-    const startDate = new Date(data.startDate);
-    const endDate = new Date(data.endDate);
-
+    let startDate = null;
+    let endDate = null;
+    if (data?.startDate && data?.endDate) {
+        startDate = new Date(data.startDate);
+        endDate = new Date(data.endDate);
+    }
+    
     return (
     <div className="course">
         <div className="course-row">
             <h1>{data.courseName}</h1>
-            <BaseButton type="primary" onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>Modificar</BaseButton>
+            <RestrictByRole allowedRoles={['caeq']}>
+                <BaseButton type="primary" onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>Modificar</BaseButton>
+            </RestrictByRole>
             <h2 className="course-price">{
                 data.price ? `$${data.price}` : 'Gratuito'
             }</h2>
@@ -61,7 +68,9 @@ const Course = (props) => {
             </div>
             <div className="course-row course-time">
                 <img src={CalendarIcon} height={40} />
-                <span>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</span>
+                {startDate && endDate &&
+                    <span>{startDate.toISOString().slice(0, 10)} - {endDate.toISOString().slice(0, 10)}</span>
+                }
                 <span>{data.daysOfSession}</span>
                 <span>{data.schedule}</span>
             </div>
@@ -70,19 +79,19 @@ const Course = (props) => {
         <div className="course-row course-details">
             <img src={data.imageUrl} />
             <div className="course-col">
-                <p>{data.description}</p>
+                <p className="text-area">{data.description}</p>
                 <div className="course-row course-extras">
                     <div className="course-col">
                         <h3>Objetivos</h3>
-                        <p>{data.objective}</p>
+                        <p className="text-area">{data.objective}</p>
                     </div>
                     <div className="course-col">
                         <h3>Incluye</h3>
-                        <p>{data.includes}</p>
+                        <p className="text-area">{data.includes}</p>
                     </div>
                     <div className="course-col">
                         <h3>Temario</h3>
-                        <p>{data.temario}</p>
+                        <p className="text-area">{data.temario}</p>
                     </div>
                 </div>
             </div>

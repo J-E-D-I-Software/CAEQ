@@ -42,7 +42,11 @@ const CreateOrUpdateCourse = () => {
     useEffect(() => {
         if (searchParams.id)
             getCourse(searchParams.id)
-            .then(response => setData(response))
+            .then(response => {
+                response.startDate = response.startDate.slice(0, 10);
+                response.endDate = response.endDate.slice(0, 10);
+                setData(response);
+            })
             .catch(error => navigate('/404'));
     }, []);
 
@@ -58,7 +62,7 @@ const CreateOrUpdateCourse = () => {
             data.price = 0;
     
         if (!data.modality)
-            throw "Es necesario una modalidad"
+            throw "Es necesario una modalidad";
 
         // Build FormData
         const formData = new FormData();
@@ -189,16 +193,36 @@ const CreateOrUpdateCourse = () => {
                         getVal={data.numberHours}
                         setVal={value => updateData('numberHours', value)}
                     />
-                    <DateInput 
-                        label="Fecha de inicio"
-                        value={data.startDate}
-                        setVal={value => updateData('startDate', value)}
-                    />
-                    <DateInput 
-                        label="Fecha de finalización"
-                        value={data.endDate}
-                        setVal={value => updateData('endDate', value)}
-                    />
+                    <div className="form-group">
+                        {/* <DateInput 
+                            label="Fecha de inicio"
+                            value={data.startDate}
+                            setVal={value => updateData('startDate', value)}
+                        /> */}
+                        <label htmlFor="startDate" className="label-input">Fecha de inicio</label>
+                        <input
+                            name="startDate"
+                            className='date-input'
+                            value={data.startDate}
+                            type='date'
+                            onChange={(e) => updateData('startDate', e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        {/* <DateInput 
+                            label="Fecha de finalización"
+                            value={data.endDate}
+                            setVal={value => updateData('endDate', value)}
+                        /> */}
+                        <label htmlFor="endDate" className="label-input">Fecha de finalización</label>
+                        <input
+                            name="endDate"
+                            className='date-input'
+                            value={data.endDate}
+                            type='date'
+                            onChange={(e) => updateData('endDate', e.target.value)}
+                        />
+                    </div>
                     <TextInput 
                         label="Días de la sesión"
                         getVal={data.daysOfSession}

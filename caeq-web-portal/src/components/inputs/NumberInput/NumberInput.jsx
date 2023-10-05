@@ -65,7 +65,7 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
                 value={getVal}
                 required={isRequired}
                 onKeyDown={handleKeyPress}
-                onChange={inputChange}
+                onChange={e=> setVal(e.target.value)}
             />
         </label>
     );

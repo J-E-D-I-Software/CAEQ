@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [true, "Por favor dinos tu número de DRO!"],
     },
     fullName: {
         type: String,
-        required: [true, 'Por favor dinos tu nombre!'],
+        required: [true, "Por favor dinos tu nombre!"],
     },
     memberType: {
         type: String,
@@ -20,93 +20,91 @@ const ArchitectUserSchema = new mongoose.Schema({
             "Miembro Adherente",
             "Miembro Pasante",
             "Miembro Vitalicio",
-            "Miembro Honorario" ],
-        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'] //TODO: change to enum
+            "Miembro Honorario",
+        ],
+        required: [true, "Por favor dinos qué |tipo de miembro| eres!"], //TODO: change to enum
     },
     classification: {
         type: String,
-        enum: [
-            "Expresidente",
-            "Docente",
-            "Convenio"],
-        required: [true, 'Por favor dinos tu clasificación!'],
+        enum: ["Expresidente", "Docente", "Convenio"],
+        required: [true, "Por favor dinos tu clasificación!"],
     },
     DRONumber: {
         type: String,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [true, "Por favor dinos tu número de DRO!"],
     },
     authorizationToShareInfo: {
         type: Boolean,
-        required: [true, 'Por favor dinos si autorizas compartir tu información'],
+        required: [true, "Por favor dinos si autorizas compartir tu información"],
     },
     lifeInsurance: {
         type: Boolean,
-        required: [false]
+        required: [false],
     },
-    lifeInsureID:{
+    lifeInsureID: {
         type: String,
-        required: [false]
+        required: [false],
     },
     age: {
         type: Number,
-        required: [false]
+        required: [false],
     },
     gender: {
         type: String,
         enum: ["Hombre", "Mujer", "Prefieron no decirlo"],
-        required: [true, 'Por favor dinos tu género!']
+        required: [true, "Por favor dinos tu género!"],
     },
     cellphone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de celular!']
+        required: [true, "Por favor dinos tu número de celular!"],
     },
     homePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de casa!']
+        required: [true, "Por favor dinos tu número de casa!"],
     },
     officePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de oficina!']
+        required: [true, "Por favor dinos tu número de oficina!"],
     },
     emergencyContact: {
         type: String,
-        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!']
+        required: [true, "Por favor dinos tu contacto de emergencia (nombre y número)!"],
     },
     mainProfessionalActivity: {
         type: String,
-        required: [true, 'Por favor dinos tu actividad principal profesional!']
+        required: [true, "Por favor dinos tu actividad principal profesional!"],
     },
     dateOfAdmission: {
         type: Date,
-        required: [true, 'Por favor dinos tu fecha de admisión!']
+        required: [true, "Por favor dinos tu fecha de admisión!"],
     },
     dateOfBirth: {
         type: Date,
-        required: [true, 'Por favor dinos tu fecha de nacimiento!']
+        required: [true, "Por favor dinos tu fecha de nacimiento!"],
     },
     municipalityOfLabor: {
         type: String,
-        required: [true, 'Por favor dinos tu municipio de labor!']
+        required: [true, "Por favor dinos tu municipio de labor!"],
     },
     linkCV: {
         type: String,
-        required: [false]
+        required: [false],
     },
     university: {
         type: String,
-        required: [true, 'Por favor dinos tu universidad!']
+        required: [true, "Por favor dinos tu universidad!"],
     },
     professionalLicense: {
         type: String,
-        required: [true, 'Por favor dinos tu cédula profesional!']
+        required: [true, "Por favor dinos tu cédula profesional!"],
     },
     workAddress: {
         type: String,
-        required: [true, 'Por favor dinos tu dirección de trabajo!']
+        required: [true, "Por favor dinos tu dirección de trabajo!"],
     },
     homeAddress: {
         type: String,
-        required: [true, 'Por favor dinos tu dirección de casa!']
+        required: [true, "Por favor dinos tu dirección de casa!"],
     },
     specialty: {
         type: String,
@@ -119,40 +117,40 @@ const ArchitectUserSchema = new mongoose.Schema({
             "Dictaminador estructural", 
             "Revisor de bajo riesgo", ],
         */
-        required: [true, 'Por favor dinos tu especialidad!']
+        required: [true, "Por favor dinos tu especialidad!"],
     },
     positionsInCouncil: {
         type: String,
-        required: [true, 'Por favor dinos tus cargos en el consejo directivo!']
+        required: [true, "Por favor dinos tus cargos en el consejo directivo!"],
     },
     capacitationHours: {
         type: Number,
-        required: [false]
+        required: [false],
     },
     email: {
         type: String,
-        required: [true, 'Por favor dinos tu correo!'],
+        required: [true, "Por favor dinos tu correo!"],
         lowercase: true,
         unique: true,
         trim: true,
-        validate: [validator.isEmail, 'Necesitas un correo válido.'],
+        validate: [validator.isEmail, "Necesitas un correo válido."],
     },
     password: {
         type: String,
-        required: [true, 'Por favor provee una contraseña.'],
+        required: [true, "Por favor provee una contraseña."],
         // Using select prevents the field from being retrieved
-        minlength: [8, 'Tu contraseña debe contar con al menos 8 caracteres.'],
+        minlength: [8, "Tu contraseña debe contar con al menos 8 caracteres."],
         select: false,
     },
     passwordConfirm: {
         type: String,
-        required: [true, 'Por favor confirma tu contraseña.'],
+        required: [true, "Por favor confirma tu contraseña."],
         validate: {
             // queremos contraseñas iguales
             validator: function (value) {
                 return value === this.password;
             },
-            message: 'Por favor ingresa la misma contraseña.',
+            message: "Por favor ingresa la misma contraseña.",
         },
     },
     changedPassword: Date,
@@ -166,8 +164,8 @@ ArchitectUserSchema.index({ email: 1 });
 // MIDDLEWARES
 /* This is a middleware that runs before the save() or create() method. It hashes the password and sets
 the passwordConfirm to undefined. */
-ArchitectUserSchema.pre('save', async function (next) {
-    if (this.isModified('password')) {
+ArchitectUserSchema.pre("save", async function (next) {
+    if (this.isModified("password")) {
         this.password = await bcrypt.hash(this.password, 12);
         // Mongoose wont save a field if it has been set to undefined.
         this.passwordConfirm = undefined;
@@ -177,8 +175,8 @@ ArchitectUserSchema.pre('save', async function (next) {
 
 /* This is a middleware that runs before the save() or create() method. Checks if the password has changed
 and updates the passwordChangedAt attribute. */
-ArchitectUserSchema.pre('save', async function (next) {
-    if (!this.isModified('password') || this.isNew) return next();
+ArchitectUserSchema.pre("save", async function (next) {
+    if (!this.isModified("password") || this.isNew) return next();
     else {
         this.passwordConfirm = Date.now() - 1000;
         next();
@@ -199,13 +197,13 @@ ArchitectUserSchema.methods.correctPassword = async function (
 
 /* Creating a password reset token and saving it in the database. */
 ArchitectUserSchema.methods.createPasswordResetToken = function () {
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
 
     // We save the password reset token in the database.
     this.changedPasswordToken = crypto
-        .createHash('sha256')
+        .createHash("sha256")
         .update(resetToken)
-        .digest('hex');
+        .digest("hex");
 
     // 10 hours
     this.tokenExpirationDate = Date.now() + 10 * 60 * 1000;
@@ -225,6 +223,6 @@ ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     return false;
 };
 
-const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
+const ArchitectUser = mongoose.model("architect.user", ArchitectUserSchema);
 
 module.exports = ArchitectUser;

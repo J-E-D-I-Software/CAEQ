@@ -11,7 +11,7 @@ import baseApiEndpoint from "../backendConfig";
  * @returns {Promise} - The message from the server.
  */
 
-export async function patchArchitecResetPassword(token, newPassword, passwordConfirm) {
+export async function patchResetPasswordArchitec(token, newPassword, passwordConfirm) {
     let endpoint = `${baseApiEndpoint}/architectusers/reset-password/${token}`;
 
     const body = {

@@ -46,7 +46,7 @@ export async function patchRejectAdmin(id) {
  * @returns {Promise} - The message from the server.
  */
 
-export async function patchResetPassword(token, newPassword, passwordConfirm) {
+export async function patchResetPasswordAdmin(token, newPassword, passwordConfirm) {
     let endpoint = `${baseApiEndpoint}/caequsers/reset-password/${token}`;
 
     const body = {

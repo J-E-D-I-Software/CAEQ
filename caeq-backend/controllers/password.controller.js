@@ -7,8 +7,6 @@ const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
 const frontDomain = process.env.FRONT_DOMAIN;
 
-
-
 /**
  * It takes a user's email, creates a reset token, saves it to the user, and sends an email with a link
  * to reset the password.
@@ -52,10 +50,8 @@ const forgotPassword = async (type, email, req, userType) => {
  */
 const resetPassword = async (token, type, password, passwordConfirm) => {
     // 1 get user based on token
-    console.log(token);
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     // get user based on reset token and expiration date
-    console.log(hashedToken);
     const user = await type.findOne({
         changedPasswordToken: hashedToken,
         tokenExpirationDate: { $gte: Date.now() },
@@ -63,7 +59,6 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
     // 2 if token has not expired and there is user set new password
     if (!user) {
-        console.log(user);
         throw new AppError("Token expirado o correo incorrecto", 400);
     }
 
@@ -78,8 +73,7 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-    console.log(req.body);
-    await forgotPassword(CaeqUser, req.body.email, req, 'caeq');
+    await forgotPassword(CaeqUser, req.body.email, req, "caeq");
 
     res.status(200).json({
         status: "success",
@@ -106,7 +100,7 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-    await forgotPassword(ArchitectUser, req.body.email, req, 'architect');
+    await forgotPassword(ArchitectUser, req.body.email, req, "architect");
 
     res.status(200).json({
         status: "success",

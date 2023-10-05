@@ -29,7 +29,7 @@ export async function postSignupArchitectUsers(data) {
     return response.data;
 }
 
-export async function postForgotUsers(email) {
+export async function postForgotArchitect(email) {
     const endpoint = `${baseApiEndpoint}/architectusers/forgot-password`;
   
     const body = {

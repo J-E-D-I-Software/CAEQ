@@ -43,18 +43,15 @@ const ArquitecForgotPassword = () => {
                     getVal={email}
                     setVal={setEmail}
                 />
+                 <br />
                 <BaseButton type="primary" onClick={handleArquitecForgotPassword}>
                     Enviar correo Electronico
                 </BaseButton>
             </form>
+            <br />
             <div className="forgot-description">
                 <Link to="/LoginUser">
                     <p> Volver </p>
-                </Link>
-            </div>
-            <div className="forgot-description">
-                <Link to="/architect/Reset-password/:token">
-                    <p> Restablecer </p>
                 </Link>
             </div>
         </div>

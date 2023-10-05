@@ -42,18 +42,15 @@ const ForgotPassword = () => {
                     getVal={email}
                     setVal={setEmail}
                 />
+                 <br />
                 <BaseButton type="primary" onClick={handleForgotPassword}>
                     Enviar correo Electronico
                 </BaseButton>
             </form>
+            <br />
             <div className="forgot-description">
                 <Link to="/LoginAdmin">
                     <p> Volver </p>
-                </Link>
-            </div>
-            <div className="forgot-description">
-                <Link to="/caeq/Reset-password/:token">
-                    <p> Restablecer </p>
                 </Link>
             </div>
         </div>

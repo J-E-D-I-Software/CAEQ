@@ -33,6 +33,11 @@ const ArchitecResetPassword = () => {
   return (
     <div className="reset-container">
       <h2>Restablecer Contraseña</h2>
+      <div className="forgot-description">
+                <p2>
+                    Escribe tu nueva contraseña y confirmala. La contraseña debe tener al menos 8 caracteres.
+                </p2>
+            </div>
 
       <form onSubmit={handleArchitecResetPassword }>
         <HiddenTextInput
@@ -45,10 +50,12 @@ const ArchitecResetPassword = () => {
           getVal={newpasswordConfirm}
           setVal={setConfirmPassword}
         />
+        <br />
         <BaseButton type="primary" onClick={handleArchitecResetPassword}>
           Restablecer Contraseña
         </BaseButton>
       </form>
+      <br />
     </div>
   );
 };

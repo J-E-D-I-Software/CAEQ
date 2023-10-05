@@ -44,7 +44,6 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     await CaeqUser.findByIdAndUpdate(adminId, { verified: true });
 
     try {
-        console.log(caeqUser);
         await new Email(caeqUser).sendAdminAccepted();
     } catch (error) {
         return next(

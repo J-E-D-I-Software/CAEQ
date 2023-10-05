@@ -124,7 +124,7 @@ const Signup = () => {
                                 setVal={setfullName} 
                                 require={true} />
                             <TextInput
-                                label="Correo Electronico"
+                                label="Correo Electrónico"
                                 placeholder='Correo Electrónico'
                                 getVal={email}
                                 setVal={setEmail}
@@ -202,14 +202,14 @@ const Signup = () => {
                             />
                             <LargeTextInput
                                 label="Domicilio particular"
-                                placeholder='Calle, Número de colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label="Domicilio de trabajo"
-                                placeholder='Calle, Número de colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -259,8 +259,8 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label="Cedula profesional"
-                                placeholder='Cedula profesional'
+                                label="Cédula profesional"
+                                placeholder='Cédula profesional'
                                 getVal={professionalLicense}
                                 setVal={setProfessionalLicense}
                                 require={true}

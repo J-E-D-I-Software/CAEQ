@@ -3,7 +3,6 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
-
 .longprofile-card { 
     min-height: 250px;
     width: 90svw;
@@ -14,20 +13,23 @@
     flex-direction: row;
     margin-top: 2.5rem;
     margin-left: 1rem;
-
     .card-row {
         display: flex;
         justify-content: space-between;
         margin: 0.25rem 0;
         align-items: center;
+        float: left;
+        width: 70%;
+        padding: 0 10px;
     }
-    
     .card-col {
         display: flex;
         flex-direction: column;
         margin-left: 5rem;
+        float: left;
+        width: 25%;
+        padding: 0 10px;
     }
-
     div:first-child { 
         margin-right: 0.5rem;
     }
@@ -42,5 +44,4 @@
         }
     }
 }
-
 }

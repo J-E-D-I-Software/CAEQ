@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -11,7 +10,6 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const morgan = require('morgan');
-const Email = require('./utils/email');
 
 // Read env variables and save them
 dotenv.config({ path: './.env' });
@@ -95,7 +93,7 @@ app.use('/courses', courseRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-    const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
+    const error = new AppError(`Can't find ${req.originalUrl} on this server`, 404);
 
     next(error);
 });

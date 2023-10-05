@@ -15,7 +15,7 @@ const caeqUserTestData = [
     },
     {
         fullName: 'Leo Ramos',
-        email: 'cehavag904@gronasu.com',
+        email: 'tidikab638@gronasu.com',
         password: 'password123',
         passwordConfirm: 'password123',
         verified: true,

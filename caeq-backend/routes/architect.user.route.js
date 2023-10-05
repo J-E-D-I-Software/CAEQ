@@ -24,7 +24,7 @@ const fileParser = require('../utils/multipartParser');
 router.post('/auth/signup', fileParser, filesController.formatCV, signUpArchitectUser);
 router.post('/auth/login', loginArchitectUser);
 router.post("/forgot-password", forgotPasswordArchitectUser);
-router.post("/reset-password/:token", resetPasswordArchitectUser);
+router.patch("/reset-password/:token", resetPasswordArchitectUser);
 router.route('/').get(getAllArchitectUsers).post(createArchitectUser)
 router
     .route('/:id')

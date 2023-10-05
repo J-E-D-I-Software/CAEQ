@@ -9,6 +9,8 @@ import Course from './screens/Course';
 import Page404 from './screens/404';
 import ForgotPassword from "./screens/ForgotPassword";
 import ResetPassword from "./screens/ResetPassword";
+import ArquitecForgotPassword from './screens/PasswordUser/ArquitecForgotPassword';
+import ArchitecResetPassword from './screens/PasswordUser/ArquitecResetPassword';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 
@@ -133,9 +135,23 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: "/:type/Reset-password/:token",
+        path: "/User-ForgotPassword",
+        name: "Arquitecto Contraseña",
+        Component: ArquitecForgotPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: "/caeq/Reset-password/:token",
         name: "Restaurar contraseña",
         Component: ResetPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: "/architect/Reset-password/:token",
+        name: "Restaurar contraseña",
+        Component: ArchitecResetPassword,
         isPrivate: false,
         inNavbar: false,
     },

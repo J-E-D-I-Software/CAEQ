@@ -27,7 +27,7 @@ const forgotPassword = async (type, email, req, userType) => {
     await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
     const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
-
+    console.log(resetURL);
     // if it fails, we want to delete that token
     try {
         await new Email(user, resetURL).sendPasswordReset();
@@ -119,7 +119,7 @@ to the server. The server then checks if the token is valid and if it is, it all
 change their password. */
 exports.resetPasswordArchitectUser = catchAsync(async (req, res, next) => {
     await resetPassword(
-        req.params.id,
+        req.params.token,
         ArchitectUser,
         req.body.password,
         req.body.passwordConfirm

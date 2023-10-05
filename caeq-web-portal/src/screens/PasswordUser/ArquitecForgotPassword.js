@@ -1,24 +1,25 @@
 import React, { useState } from "react";
-import "../styles/forgot-password.scss";
-import TextInput from "../components/inputs/TextInput/TextInput";
-import BaseButton from "../components/buttons/BaseButton";
-import { FireError, FireSucess } from "../utils/alertHandler";
-import { postForgotCaeqUsers } from "../client/CaeqUser/CaeqUser.POST";
+import './Arquitecforgot-password.scss'
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import BaseButton from "../../components/buttons/BaseButton";
+import { FireError, FireSucess } from "../../utils/alertHandler";
+import { postForgotUsers } from "../../client/ArchitectUser/ArchitectUser.POST";
 import { Link, useNavigate } from "react-router-dom";
 
-const ForgotPassword = () => {
+
+const ArquitecForgotPassword = () => {
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
 
-    const handleForgotPassword = async (e) => {
+    const handleArquitecForgotPassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await postForgotCaeqUsers(email);
+            const response = await postForgotUsers(email);
             if (response.status === "success") {
                 FireSucess(
                     "Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo."
                 );
-                navigate("/LoginAdmin");
+                navigate("/LoginUser");
             }
         } catch (error) {
             FireError(error.response.data.message);
@@ -36,23 +37,23 @@ const ForgotPassword = () => {
                     contraseña.
                 </p2>
             </div>
-            <form onSubmit={handleForgotPassword}>
+            <form onSubmit={handleArquitecForgotPassword}>
                 <TextInput
                     placeholder="Correo Electrónico"
                     getVal={email}
                     setVal={setEmail}
                 />
-                <BaseButton type="primary" onClick={handleForgotPassword}>
+                <BaseButton type="primary" onClick={handleArquitecForgotPassword}>
                     Enviar correo Electronico
                 </BaseButton>
             </form>
             <div className="forgot-description">
-                <Link to="/LoginAdmin">
+                <Link to="/LoginUser">
                     <p> Volver </p>
                 </Link>
             </div>
             <div className="forgot-description">
-                <Link to="/caeq/Reset-password/:token">
+                <Link to="/architect/Reset-password/:token">
                     <p> Restablecer </p>
                 </Link>
             </div>
@@ -60,4 +61,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default ArquitecForgotPassword;

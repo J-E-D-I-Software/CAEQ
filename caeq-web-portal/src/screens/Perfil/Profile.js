@@ -7,6 +7,7 @@ import PersonalDataCardCard from '../../components/cards/PersonalDataCard';
 import ProfesionalDataCard from '../../components/cards/ProfesionalDataCard';
 import CAEQDataCard from '../../components/cards/CAEQDataCard';
 import '../../styles/profile.scss';
+import ProfileCard from '../../components/cards/ProfileCard';
 
 const Profile = (props) => {
     const SavedUser = getArchitectUserSaved();
@@ -22,7 +23,7 @@ const Profile = (props) => {
     }, []);
 
     return (
-        <div className='profile'>
+        /*<div className='profile'>
             <div className='profile-row'>
                 <div className="PERSONALprofile-row PERSONALprofile-section">
                 <br></br>
@@ -46,6 +47,16 @@ const Profile = (props) => {
                 <br></br>
                 <h1>Mis Datos Profesionales</h1>
                 <ProfesionalDataCard {...profile} />
+                </div>
+            </div>
+        </div>*/
+
+        <div className='profile'>
+            <div className='profile-row'>
+                <div className="PERSONALprofile-row PERSONALprofile-section">
+                <br></br>
+                <h1>Mis Datos Personales</h1>
+                <ProfileCard {...profile} />
                 </div>
             </div>
         </div>

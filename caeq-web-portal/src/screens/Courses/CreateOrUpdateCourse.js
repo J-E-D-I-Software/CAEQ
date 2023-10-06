@@ -43,11 +43,21 @@ const CreateOrUpdateCourse = () => {
         if (searchParams.id)
             getCourse(searchParams.id)
             .then(response => {
-                response.startDate = response.startDate.slice(0, 10);
-                response.endDate = response.endDate.slice(0, 10);
+                if (response.startDate)
+                    response.startDate = response.startDate.slice(0, 10);
+                else 
+                    response.startDate = '';
+                if (response.endDate)
+                    response.endDate = response.endDate.slice(0, 10);
+                else 
+                    response.endDate = '';
+
                 setData(response);
             })
-            .catch(error => navigate('/404'));
+            .catch(error => {
+                // navigate('/404')
+                console.error(error);
+            });
     }, []);
 
     const updateData = (key, value) => {
@@ -60,10 +70,15 @@ const CreateOrUpdateCourse = () => {
         // Validations
         if (data.pricing === 'Gratuito')
             data.price = 0;
+        else if (!data.pricing) {
+            FireError('Es necesario declarar si el cursos es gratuito o de paga');
+            return;
+        }
     
-        if (!data.modality)
-            throw "Es necesario una modalidad";
-
+        if (!data.modality) {
+            FireError('Es necesario una modalidad');
+            return;
+        }
 
         // Build FormData
         const formData = new FormData();
@@ -80,7 +95,6 @@ const CreateOrUpdateCourse = () => {
                 response =  await createCourse(formData);
         }
         catch(error) {
-            console.log(error);
             FireError(error?.message);
         }
 

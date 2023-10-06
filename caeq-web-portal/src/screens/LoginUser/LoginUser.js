@@ -17,7 +17,7 @@ const LoginUser = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const swal = FireLoading('Iniciando sesión de administrador...');
+            const swal = FireLoading('Iniciando sesión de arquitecto...');
             const response = await postLoginArchitectUsers(email, password);
             if (response.status === 'success') {
                 const token = response.token;

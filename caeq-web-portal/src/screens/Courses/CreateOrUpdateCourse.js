@@ -31,7 +31,7 @@ const CreateOrUpdateCourse = () => {
         place: "",
         includes: "",
         price: 0,
-        pricing: 'Gratuito',
+        pricing: "Gratuito",
         capacity: 10,   
         teacherName: "",
         teacherReview: "",
@@ -64,10 +64,13 @@ const CreateOrUpdateCourse = () => {
         if (!data.modality)
             throw "Es necesario una modalidad";
 
+
         // Build FormData
         const formData = new FormData();
         Object.entries(data).forEach(entry => formData.append(entry[0], entry[1]));
-        formData.set('imageUrl', image);
+        
+        if (image)
+            formData.set('imageUrl', image);
 
         let response = null;
         try{
@@ -194,11 +197,6 @@ const CreateOrUpdateCourse = () => {
                         setVal={value => updateData('numberHours', value)}
                     />
                     <div className="form-group">
-                        {/* <DateInput 
-                            label="Fecha de inicio"
-                            value={data.startDate}
-                            setVal={value => updateData('startDate', value)}
-                        /> */}
                         <label htmlFor="startDate" className="label-input">Fecha de inicio</label>
                         <input
                             name="startDate"
@@ -209,11 +207,6 @@ const CreateOrUpdateCourse = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <DateInput 
-                            label="Fecha de finalización"
-                            value={data.endDate}
-                            setVal={value => updateData('endDate', value)}
-                        /> */}
                         <label htmlFor="endDate" className="label-input">Fecha de finalización</label>
                         <input
                             name="endDate"

@@ -13,6 +13,7 @@ const sendErrorDev = (err, req, res) => {
         message: err.message,
         stack: err.stack,
     });
+
 };
 /**
  * If the error is operational, send the error message to the client. If the error is not operational,
@@ -134,7 +135,11 @@ module.exports = (err, req, res, next) => {
         console.log('Error Name:', err.name);
         console.log('Error code:', err.code);
         return sendErrorDev(err, req, res);
-    } else if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+    } else if (
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'test' ||
+        process.env.NODE_ENV === 'testing'
+    ) { 
         // con esto identificaremos los errores de validación
         let error = Object.create(err);
         if (err.name === 'CastError') error = handleCastErrorDB(err);

@@ -4,6 +4,7 @@ import './Navbar.scss';
 import routes from '../../routes';
 import { useNavigate } from 'react-router-dom';
 import RestrictByRole from '../restrictAccess/RestrictByRole';
+import { logOut } from '../../utils/auth';
 
 /**
  * Navbar component for navigation and user actions.
@@ -18,10 +19,17 @@ import RestrictByRole from '../restrictAccess/RestrictByRole';
 const Navbar = () => {
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        logOut();
+        navigate('/');
+    };
+
     return (
         <div className='navbar'>
             <div className='navbar-button'>
-                <BaseButton type='fail'>Cerrar sesión</BaseButton>
+                <BaseButton type='fail' onClick={handleLogout}>
+                    Cerrar sesión
+                </BaseButton>
             </div>
             <div className='navbar-center'>
                 {routes
@@ -32,12 +40,10 @@ const Navbar = () => {
                                 route.roles !== undefined
                                     ? route.roles
                                     : ['architect', 'caeq']
-                            }
-                        >
+                            }>
                             <NavbarButton
                                 label={route.name}
                                 key={route.path}
-                                className='button-navbar'
                                 id='inicio_btn'
                                 icon={route.icon}
                                 iconWhite={route.iconWhite}

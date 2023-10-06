@@ -11,6 +11,9 @@ import SatisfactionIcon from '../../components/icons/Satisfaction.png';
 import RestrictByRole from "../../components/restrictAccess/RestrictByRole";
 import '../../styles/course.scss';
 
+/**
+ * Page that detailed information of a course.
+ */
 const Course = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();

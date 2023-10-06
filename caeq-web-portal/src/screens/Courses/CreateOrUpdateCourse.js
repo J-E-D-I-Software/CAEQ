@@ -4,15 +4,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import CourseCard from "../../components/cards/CourseCard";
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import NumberInput from "../../components/inputs/NumberInput/NumberInput";
-import DateInput from "../../components/inputs/DateInput/DateInput";
 import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
 import FileInput from "../../components/inputs/FileInput/FileInput";
 import createCourse from "../../client/Course/Course.POST";
 import updateCourse from "../../client/Course/Course.PATCH";
 import BaseButton from "../../components/buttons/BaseButton";
-import { FireError, FireSucess } from "../../utils/alertHandler";
+import { FireError, FireSucess, FireLoading } from "../../utils/alertHandler";
 import "../../styles/createCourse.scss";
 
+/**
+ * Page that if it receives a course id it will display an "Edit" mode
+ * and if not, it display a "Create" mode for a course.
+ */
 const CreateOrUpdateCourse = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
@@ -54,16 +57,24 @@ const CreateOrUpdateCourse = () => {
 
                 setData(response);
             })
-            .catch(error => {
-                // navigate('/404')
-                console.error(error);
-            });
+            .catch(() => navigate('/404'));
     }, []);
 
+    /**
+     * Updates the state with the given value for the given key
+     *
+     * @param {string} key - the name of the field to be updated
+     * @param {string} value - the new value of the field
+     */
     const updateData = (key, value) => {
         setData({...data, [key]: value});
     };
 
+    /**
+     * Creates or updates whatever is in the data state to the Course model in the backend
+     *
+     * @param {Event} event - event sent by the triggered element
+     */
     const onSubmit = async (event) => {
         event.preventDefault();
         
@@ -79,37 +90,49 @@ const CreateOrUpdateCourse = () => {
             FireError('Es necesario una modalidad');
             return;
         }
+        
+        if (!data.courseName) {
+            FireError('Es necesario un nombre para el curso');
+            return;
+        }
 
         // Build FormData
         const formData = new FormData();
         Object.entries(data).forEach(entry => formData.append(entry[0], entry[1]));
         
+        
         if (image)
-            formData.set('imageUrl', image);
-
+        formData.set('imageUrl', image);
+    
         let response = null;
+        const swal = FireLoading('Guardando...');
         try{
             if (searchParams.id)
                 response = await updateCourse(searchParams.id, formData);
             else
                 response =  await createCourse(formData);
+
+            if (!response._id)
+                throw 'Error: ' + response;
         }
         catch(error) {
+            swal.close();
             FireError(error?.message);
         }
 
+        swal.close();
         FireSucess('Curso guardado');
         navigate(`/Cursos/Curso/${response._id}`);
     };
 
     return (
         <div className="create-course">
-            <div className="row">
+            <div className="create-course--row">
                 <h1>{searchParams.id ? 'Modificar' : 'Crear'} curso</h1>
             </div>
 
-            <div className="row">
-                <div className="col mr-3">
+            <div className="create-course--row">
+                <div className="create-course--col create-course--mr-3">
                     <div className="display-course-card">
                         <CourseCard showMoreBtn={false} {...data} />
                     </div>
@@ -124,8 +147,8 @@ const CreateOrUpdateCourse = () => {
                         setVal={value => updateData('teacherName', value)}
                     />
                     
-                    <div className="form-group">
-                        <label htmlFor="review" className="label-input" >Reseña del instructor</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="review" className="create-course__label-input" >Reseña del instructor</label>
                         <textarea 
                             className="box-input"
                             name="review"
@@ -155,8 +178,8 @@ const CreateOrUpdateCourse = () => {
                         />
                         </Fragment>
                     }
-                    <div className="form-group">
-                        <label htmlFor="includes" className="label-input">Incluye</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="includes" className="create-course__label-input">Incluye</label>
                         <textarea 
                             className="box-input"
                             name="includes"
@@ -165,8 +188,8 @@ const CreateOrUpdateCourse = () => {
                             placeholder="Una lista de cosas que incluye el curso"
                         ></textarea>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="temario" className="label-input">Temario del curso</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="temario" className="create-course__label-input">Temario del curso</label>
                         <textarea 
                             className="box-input"
                             name="temario"
@@ -177,15 +200,15 @@ const CreateOrUpdateCourse = () => {
                     </div>
                 </div>
                 
-                <div className="col">
+                <div className="create-course--col">
                     <TextInput 
                         label="Título del curso"
                         getVal={data.courseName}
                         setVal={value => updateData('courseName', value)}
                         require
                     />
-                    <div className="form-group">
-                        <label htmlFor="includes" className="label-input">Descripción general del curso</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="includes" className="create-course__label-input">Descripción general del curso</label>
                         <textarea 
                             className="box-input"
                             name="description"
@@ -210,8 +233,8 @@ const CreateOrUpdateCourse = () => {
                         getVal={data.numberHours}
                         setVal={value => updateData('numberHours', value)}
                     />
-                    <div className="form-group">
-                        <label htmlFor="startDate" className="label-input">Fecha de inicio</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="startDate" className="create-course__label-input">Fecha de inicio</label>
                         <input
                             name="startDate"
                             className='date-input'
@@ -220,8 +243,8 @@ const CreateOrUpdateCourse = () => {
                             onChange={(e) => updateData('startDate', e.target.value)}
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="endDate" className="label-input">Fecha de finalización</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="endDate" className="create-course__label-input">Fecha de finalización</label>
                         <input
                             name="endDate"
                             className='date-input'
@@ -242,8 +265,8 @@ const CreateOrUpdateCourse = () => {
                         setVal={value => updateData('schedule', value)}
                         placeholder="5:00PM a 6:00pm"
                         />
-                    <div className="form-group">
-                        <label htmlFor="objective" className="label-input">Objetivos del curso</label>
+                    <div className="create-course--form-group">
+                        <label htmlFor="objective" className="create-course__label-input">Objetivos del curso</label>
                         <textarea 
                             className="box-input"
                             name="objective"

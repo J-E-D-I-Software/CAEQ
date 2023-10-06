@@ -12,5 +12,7 @@ export default async function updateCourse(id, data) {
     };
 
     const response = await axios.patch(endpoint, data, { headers: headers });
+    if (response?.status !== 200)
+        throw response.data;
     return response.data.data.document;
 }

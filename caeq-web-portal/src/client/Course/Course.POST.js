@@ -9,6 +9,8 @@ export default async function createCourse(data) {
     let endpoint = `${baseApiEndpoint}/courses`;
 
     const response = await axios.post(endpoint, data);
+    if (response?.status !== 201)
+        throw response.data;
     return response.data.data.document;
 }
 

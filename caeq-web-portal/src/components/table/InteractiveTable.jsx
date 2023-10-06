@@ -1,5 +1,4 @@
-//
-/*
+
 
 import React, { useState } from "react";
 import "./Table.scss";
@@ -83,7 +82,7 @@ const InteractiveTable = ({ data, onRowClick}) => {
    * @param {boolean} value - El valor booleano a formatear.
    * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
    */
-  /*const formatBooleanValue = (value) => (value ? "Sí" : "No");
+  const formatBooleanValue = (value) => (value ? "Sí" : "No");
 
   /**
    * Renderizar el encabezado de la tabla. MERGE WEIRDNESS

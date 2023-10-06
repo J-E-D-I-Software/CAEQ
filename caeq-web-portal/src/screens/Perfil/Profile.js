@@ -5,8 +5,12 @@ import { getArchitectUserSaved } from "../../utils/auth";
 
 import WhiteContainer from "../../components/containers/WhiteCard/WhiteCard";
 import "./profile.scss";
-import ProfileCard from "../../components/cards/ProfileCard";
 
+/**
+ * Renders the user's profile information, including personal data, CAEQ information, and professional information.
+ * @param {Object} props - The props object.
+ * @returns {JSX.Element} - The JSX element representing the user's profile.
+ */
 const Profile = (props) => {
     const SavedUser = getArchitectUserSaved();
     const navigate = useNavigate();

@@ -21,7 +21,7 @@ import './FileInput.scss';
  *   require={true}
  * />
  */
-const FileInput = ({ label, setVal, require = false }) => {
+const FileInput = ({ label, setVal, accept = '.pdf', require = false }) => {
     const isRequired = require;
     const onSelectFile = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
@@ -40,7 +40,7 @@ const FileInput = ({ label, setVal, require = false }) => {
             <input
                 className='file-input'
                 type='file'
-                accept=".pdf"
+                accept={accept}
                 required={isRequired}
                 onChange={onSelectFile}
             />

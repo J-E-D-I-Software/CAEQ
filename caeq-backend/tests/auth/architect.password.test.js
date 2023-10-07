@@ -11,13 +11,13 @@ beforeAll(async () => {
 
 const ForgotPasswordCaeq = async () => {
     // Request to endpoint
-    const resTest1 = await agent.post("/caequsers/forgot-password").send({
-        email: "leo9ramosp@hotmail.com",
+    const resTest1 = await agent.post("/architectusers/forgot-password").send({
+        email: "fogawaf506@htoal.com",
     });
 
 
-    const resTest2 = await agent.post("/caequsers/forgot-password").send({
-        email: "fogawaf506@htoal.com",
+    const resTest2 = await agent.post("/architectusers/forgot-password").send({
+        email: "leo9ramosp@hotmail.com",
     });
 
     // Assertions
@@ -27,12 +27,12 @@ const ForgotPasswordCaeq = async () => {
 
 const ResetPasswordCaeq = async () => {
 
-    let response = await agent.post("/caequsers/forgot-password").send({
-        email: "leo9ramosp@hotmail.com",
+    let response = await agent.post("/architectusers/forgot-password").send({
+        email: "fogawaf506@htoal.com",
     });
     const token = response.body.data.resetToken;
 
-    response = await agent.patch(`/caequsers/reset-password/${token}`).send({
+    response = await agent.patch(`/architectusers/reset-password/${token}`).send({
         [token]: token,
         password: "123456789",
         passwordConfirm: "123456789",

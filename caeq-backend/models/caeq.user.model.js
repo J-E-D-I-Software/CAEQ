@@ -95,7 +95,7 @@ CaeqUserSchema.methods.createPasswordResetToken = function () {
     this.tokenExpirationDate = Date.now() + 10 * 60 * 1000;
 
     // We return the reset token encrypted.
-    return resetToken;
+    return this.changedPasswordToken;
 };
 
 /* This method checks if the password has been changed after the token was issued. */

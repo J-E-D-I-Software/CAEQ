@@ -25,7 +25,6 @@ const forgotPassword = async (type, email, req, userType, res) => {
     await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
     const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
-    console.log(resetURL);
     // if it fails, we want to delete that token
     try {
         await new Email(user, resetURL).sendPasswordReset();
@@ -38,7 +37,7 @@ const forgotPassword = async (type, email, req, userType, res) => {
             500
         );
     }
-    return resetURL;
+    return resetToken;
 };
 
 /**
@@ -51,10 +50,10 @@ const forgotPassword = async (type, email, req, userType, res) => {
  */
 const resetPassword = async (token, type, password, passwordConfirm) => {
     // 1 get user based on token
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    // const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     // get user based on reset token and expiration date
     const user = await type.findOne({
-        changedPasswordToken: hashedToken,
+        changedPasswordToken: token,
         tokenExpirationDate: { $gte: Date.now() },
     });
 
@@ -74,12 +73,11 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-    const resetUrl = await forgotPassword(CaeqUser, req.body.email, req, "caeq", res);
-
+    const resetToken = await forgotPassword(CaeqUser, req.body.email, req, "caeq", res);
     res.status(200).json({
         status: "success",
         data: {
-            resetUrl,
+            resetToken,
         },
         message: "Correo para recuperar tu contraseña enviado.",
     });
@@ -105,12 +103,12 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-    const resetUrl = await forgotPassword(ArchitectUser, req.body.email, req, "architect", res);
+    const resetToken = await forgotPassword(ArchitectUser, req.body.email, req, "architect", res);
 
     res.status(200).json({
         status: "success",
         data: {
-            resetUrl,
+            resetToken,
         },
         message: "Correo para recuperar tu contraseña enviado.",
     });

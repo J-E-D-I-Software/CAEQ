@@ -1,26 +1,29 @@
-import Dasbboard from "./screens/Dasboard";
-import LoginAdmin from "./screens/LoginAdmin/LoginAdmin";
-import LoginUser from "./screens/LoginUser/LoginUser";
-import RegisterAdmin from "./screens/SignupAdmin/SignupAdmin";
-import RegisterUser from "./screens/SignupArchitect/SignupArchitect";
-import AcceptAdmin from "./screens/AcceptAdmin/AcceptAdmin";
-import Courses from "./screens/Courses";
-import Course from "./screens/Course";
-import Page404 from "./screens/404";
+import Dasbboard from './screens/Dasboard';
+import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
+import LoginUser from './screens/LoginUser/LoginUser';
+import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
+import RegisterUser from './screens/SignupArchitect/SignupArchitect';
+import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
+import Courses from './screens/Courses/Courses';
+import Course from './screens/Courses/Course';
+import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
+import Page404 from './screens/404';
+import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
+import Directory from './screens/Directory/Directory';
+
 import ForgotPasswordAdmin from "./screens/ForgotPasswordAdmin/ForgotPasswordAdmin";
 import ResetPasswordAdmin from "./screens/ResetPasswordAdmin/ResetPasswordAdmin";
 
 import ArquitecForgotPassword from "./screens/ForgotPasswordArchitect/ForgotPasswordArchitect";
 import ArchitecResetPassword from "./screens/ResetPasswordArchitect/ResetPasswordArchitect";
-import DirectoryArchitectDetails from "./screens/DirectoryArchitectDetail/DirectoryArchitectDetails";
-import Directory from "./screens/Directory/Directory";
 
-import DirectorioIcon from "./components/icons/DirectorioIcon.png";
-import DirectorioIconWhite from "./components/icons/DirectorioIconWhite.png";
-import CursosIcon from "../src/components/icons/CursosIcon.png";
-import CursosIconWhite from "../src/components/icons/CursosIconWhite.png";
-import PrincipalIcon from "../src/components/icons/PrincipalIcon.png";
-import RestrictByRole from "./components/restrictAccess/RestrictByRole.jsx";
+
+import DirectorioIcon from './components/icons/DirectorioIcon.png';
+import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
+import CursosIcon from '../src/components/icons/CursosIcon.png';
+import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
+import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from "../src/components/icons/PrincipalIconWHite.png";
 import AdminIcon from "../src/components/icons/AdminIcon.png";
@@ -64,8 +67,28 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: "/Admins",
-        name: "Admins",
+        path: '/Cursos/Curso',
+        name: 'Crear curso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateOrUpdateCourse,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Cursos/Curso/:id',
+        name: 'Curso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateOrUpdateCourse,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Admins',
+        name: 'Admins',
         icon: AdminIcon,
         iconWhite: AdminIconWhite,
         Component: AcceptAdmin,

@@ -3,6 +3,7 @@ const courseData = [
         courseName: "Mampostería industrial",
         modality: "Presencial",
         numberHours: 7,
+        pricing: 'Pagado',
         startDate: "2023-10-03T00:00:00",
         endDate: "2023-10-31T00:00:00",
         schedule: "5:00pm - 6:00pm",
@@ -13,6 +14,7 @@ const courseData = [
         place: "Aula 3 CAEQ",
         includes: "- Generar modelos de análisis de diferentes sistemas estructurales...\n".repeat(5),
         price: 120.30,
+        capacity: 10,
         teacherName: "Juan Ernesto Cevilla",
         teacherReview: "Excelente profesor. Siempre atento a los alumnos y responde las preguntas de forma comleta y asertiva.",
         paymentInfo: "",
@@ -22,6 +24,7 @@ const courseData = [
         courseName: "Modelado y análisis de estructuras con SAP2000",
         modality: "Remoto",
         numberHours: 7,
+        pricing: 'Gratuito',
         startDate: "2023-10-03T00:00:00",
         endDate: "2023-10-31T00:00:00",
         schedule: "5:00pm - 6:00pm",
@@ -32,6 +35,7 @@ const courseData = [
         place: "Aula 3 CAEQ",
         includes: "- Generar modelos de análisis de diferentes sistemas estructurales...\n".repeat(5),
         price: null,
+        capacity: 10,
         teacherName: "Juan Ernesto Cevilla",
         teacherReview: "Excelente profesor. Siempre atento a los alumnos y responde las preguntas de forma comleta y asertiva.",
         paymentInfo: "",
@@ -41,6 +45,7 @@ const courseData = [
         courseName: "Excel intermedio",
         modality: "Presencial",
         numberHours: 7,
+        pricing: 'Pagado',
         startDate: "2023-10-03T00:00:00",
         endDate: "2023-10-31T00:00:00",
         schedule: "5:00pm - 6:00pm",
@@ -51,12 +56,12 @@ const courseData = [
         place: "Aula 3 CAEQ",
         includes: "- Generar modelos de análisis de diferentes sistemas estructurales...\n".repeat(5),
         price: 120.30,
+        capacity: 10,
         teacherName: "Juan Ernesto Cevilla",
         teacherReview: "Excelente profesor. Siempre atento a los alumnos y responde las preguntas de forma comleta y asertiva.",
         paymentInfo: "",
         imageUrl: "https://caeq.org/wp-content/uploads/2023/09/EXCEL-INTERMEDIO-AVANZADO_Mesa-de-trabajo-1.png",
     },
-  
 ];
 
 module.exports = courseData;

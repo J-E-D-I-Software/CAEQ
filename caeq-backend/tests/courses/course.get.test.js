@@ -3,10 +3,12 @@ const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const Course = require('../../models/course.model');
 const app = require('../../app');
+const { loginAdmin } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
 const testGetAllCourses = async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = '/courses';
     const res = await agent.get(endpoint).send();
 
@@ -15,6 +17,7 @@ const testGetAllCourses = async () => {
 };
 
 const testGetCoursesWithParams = (paramKey, paramValue) => async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = `/courses?${paramKey}=${paramValue}`;
     const res = await agent.get(endpoint).send();
 
@@ -24,6 +27,7 @@ const testGetCoursesWithParams = (paramKey, paramValue) => async () => {
 };
 
 const testGetCourse = async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = '/courses';
     let res = await agent.get(`${endpoint}/3454534534`).send();
 

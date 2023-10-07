@@ -1,19 +1,25 @@
-import BaseButton from '../components/buttons/BaseButton';
-import DropdownInput from '../components/inputs/DropdownInput/DropdownInput';
-import TextInput from '../components/inputs/TextInput/TextInput';
-import CourseCard from '../components/cards/CourseCard';
-import PaginationNav from '../components/pagination/PaginationNav';
-import '../styles/courses.scss';
-import { FireError } from '../utils/alertHandler';
+import BaseButton from '../../components/buttons/BaseButton';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import CourseCard from '../../components/cards/CourseCard';
+import PaginationNav from '../../components/pagination/PaginationNav';
+import '../../styles/courses.scss';
+import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
-import { getAllCourses } from '../client/Course/Course.GET';
+import { getAllCourses } from '../../client/Course/Course.GET';
+import { useNavigate } from 'react-router-dom';
+import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
+/**
+ * Page that displays the courses.
+ */
 const Courses = (props) => {
     const [courses, setCourses] = useState([]);
     const [filterModality, setFilterModality] = useState('');
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [orderBy, setOrderBy] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,19 +44,23 @@ const Courses = (props) => {
 
     return (
         <div className='courses'>
-            <div className='courses-row'>
+            <div className='courses--row'>
                 <h1>Oferta de cursos</h1>
             </div>
 
-            <div className='courses-row courses-filters'>
-                <BaseButton type='primary'>Crear curso</BaseButton>
+            <div className='courses--row courses__filters'>
+                <RestrictByRole allowedRoles={['caeq']}>
+                    <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
+                        Crear curso
+                    </BaseButton>
+                </RestrictByRole>
                 <TextInput
                     placeholder='Buscar'
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
-                <div className='courses-row'>
+                <div className='courses--row'>
                     <DropdownInput
                         getVal={filterModality}
                         setVal={setFilterModality}
@@ -67,13 +77,13 @@ const Courses = (props) => {
                 </div>
             </div>
 
-            <div className='courses-row courses-section'>
+            <div className='courses--row courses__courses-section'>
                 {courses.map((course, i) => (
                     <CourseCard key={i} {...course} />
                 ))}
             </div>
 
-            <div className='courses-row courses-pagination'>
+            <div className='courses--row courses__courses-pagination'>
                 <PaginationNav page={paginationPage} />
             </div>
         </div>

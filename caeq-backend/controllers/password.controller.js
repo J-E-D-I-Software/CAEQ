@@ -14,7 +14,7 @@ const frontDomain = process.env.FRONT_DOMAIN;
  * @param email - the email of the user who wants to reset their password
  * @returns Nothing.
  */
-const forgotPassword = async (type, email, req, userType) => {
+const forgotPassword = async (type, email, req, userType, res) => {
     // 1 get user based on posted email
     const user = await type.findOne({ email });
     if (!user) {
@@ -38,6 +38,7 @@ const forgotPassword = async (type, email, req, userType) => {
             500
         );
     }
+    return resetURL;
 };
 
 /**
@@ -73,10 +74,13 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-    await forgotPassword(CaeqUser, req.body.email, req, "caeq");
+    const resetUrl = await forgotPassword(CaeqUser, req.body.email, req, "caeq", res);
 
     res.status(200).json({
         status: "success",
+        data: {
+            resetUrl,
+        },
         message: "Correo para recuperar tu contraseña enviado.",
     });
 });
@@ -89,7 +93,8 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
         req.params.token,
         CaeqUser,
         req.body.password,
-        req.body.passwordConfirm
+        req.body.passwordConfirm,
+        res
     );
 
     res.status(200).json({
@@ -100,10 +105,13 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-    await forgotPassword(ArchitectUser, req.body.email, req, "architect");
+    const resetUrl = await forgotPassword(ArchitectUser, req.body.email, req, "architect", res);
 
     res.status(200).json({
         status: "success",
+        data: {
+            resetUrl,
+        },
         message: "Correo para recuperar tu contraseña enviado.",
     });
 });
@@ -116,7 +124,8 @@ exports.resetPasswordArchitectUser = catchAsync(async (req, res, next) => {
         req.params.token,
         ArchitectUser,
         req.body.password,
-        req.body.passwordConfirm
+        req.body.passwordConfirm,
+        res
     );
 
     res.status(200).json({

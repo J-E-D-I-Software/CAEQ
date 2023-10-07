@@ -12,7 +12,7 @@ const testDeleteArchitect = async () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Inválido _id: 3454534534');
 
-    let user = User.findOne({ email: 'sarahj@example.com' });
+    let user = User.findOne({ email: 'luis@example.com' });
     user.getFilter();
     user = await user.exec();
     res = await agent.delete(`${endpoint}/${user._id}`).send();

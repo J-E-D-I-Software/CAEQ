@@ -1,33 +1,26 @@
-const request = require("supertest");
-const { connectDB } = require("../config/databaseTest");
-const { setUpDbWithMuckData } = require("../../models/testdata.setup");
-const ArchitectUser = require("../../models/architect.user.model");
-const app = require("../../app");
-const e = require("express");
+const request = require('supertest');
+const { connectDB } = require('../config/databaseTest');
+const { setUpDbWithMuckData } = require('../../models/testdata.setup');
+const ArchitectUser = require('../../models/architect.user.model');
+const app = require('../../app');
+const e = require('express');
 
 const agent = request.agent(app);
 
 const testGetAllDirectoryArchitectDetails = async () => {
-    const endpoint = "/architectusers";
+    const endpoint = '/architectusers';
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200); //
-    expect(res.body.results).toEqual(8);
-};
-
-const testGetDirectoryArchitectDetailsWithParams = (id) => async () => {
-    const endpoint = `/architecusers/${id}`;
-    const res = await agent.get(endpoint).send();
-
-    expect(res.statusCode).toEqual(200);
+    expect(res.body.results).toEqual(6);
 };
 
 const testGetDirectoryArchitectDetails = async () => {
-    const endpoint = "/architectusers";
+    const endpoint = '/architectusers';
     let res = await agent.get(`${endpoint}/3454534534`).send();
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual("Inválido _id: 3454534534");
+    expect(res.body.message).toEqual('Inválido _id: 3454534534');
 
     let users = ArchitectUser.find();
     users.getFilter();
@@ -42,9 +35,7 @@ beforeAll(async () => {
     await setUpDbWithMuckData();
 });
 
-describe("Directory Architect Details GET", () => {
-    test("successful", () => testGetAllDirectoryArchitectDetails());
-    test("successful", () => testGetDirectoryArchitectDetails());
-    test("successful", () =>
-        testGetDirectoryArchitectDetailsWithParams("651bb27d42a2ae9900ee61ae"));
+describe('Directory Architect Details GET', () => {
+    test('successful', () => testGetAllDirectoryArchitectDetails());
+    test('successful', () => testGetDirectoryArchitectDetails());
 });

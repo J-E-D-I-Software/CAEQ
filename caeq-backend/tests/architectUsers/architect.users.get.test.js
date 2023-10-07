@@ -55,10 +55,28 @@ beforeAll(async () => {
     await setUpDbWithMuckData();
 });
 
+const testGetProfile = async () => {
+    const endpoint = '/architectusers';
+    const res = await agent.get(endpoint).send();
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.results).toEqual(6);
+}
+
+const testGetOneProfile = async () => {
+    let endpoint = '/architectusers';
+    let res = await agent.get(endpoint).send();
+    let id = res.body.data.documents[0]._id;
+    endpoint += `/${id}`;
+    res = await agent.get(endpoint).send();
+    expect(res.statusCode).toEqual(200);
+}
+
 describe('Architect User GET', () => {
     test('successful', () => testGetAllArchitectUsers());
     test('successful', () => testGetArchitectUser());
     test('successful', testGetAllArchitectUsersWithParams('email', 'john@example.com'));
     test('successful', testGetAllArchitectUsersWithParams('verified', false));
     test('pagination', () => testPagination());
+    test('successful', () => testGetProfile());
+    test('successful', () => testGetOneProfile());
 });

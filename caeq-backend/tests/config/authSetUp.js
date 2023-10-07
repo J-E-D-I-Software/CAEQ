@@ -8,6 +8,8 @@ const loginUser = async (agent, email, password) => {
 
     // Attach the authorization header to the agent object
     agent.set(authHeader);
+
+    return res;
 };
 
 // Will set authorization headder to agent based on email and password
@@ -20,6 +22,8 @@ const loginAdmin = async (agent, email, password) => {
 
     // Attach the authorization header to the agent object
     agent.set(authHeader);
+
+    return res;
 };
 
 module.exports = { loginUser, loginAdmin };

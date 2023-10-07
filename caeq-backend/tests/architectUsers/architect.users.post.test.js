@@ -14,26 +14,26 @@ const testPostArchitectUsers = async () => {
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
         collegiateNumber: 98765,
-        memberType: "Miembro de número",
-        classification: "Docente",
-        DRONumber: "DRO98765",
+        memberType: 'Miembro de número',
+        classification: 'Docente',
+        DRONumber: 'DRO98765',
         authorizationToShareInfo: true,
-        gender: "Hombre",
+        gender: 'Hombre',
         cellphone: 5551112222,
         homePhone: 5553334444,
         officePhone: 5555556666,
-        emergencyContact: "Ana García 5557778888",
-        mainProfessionalActivity: "Ingeniero Civil",
-        dateOfAdmission: new Date("2010-02-15"),
-        dateOfBirth: new Date("1983-07-20"),
-        municipalityOfLabor: "Querétaro",
-        linkCV: "https://example.com/luisgarcia-cv",
-        university: "Universidad Autónoma de Querétaro",
-        professionalLicense: "P98765",
-        workAddress: "123 Avenida Principal, Querétaro",
-        homeAddress: "456 Calle Secundaria, Querétaro",
-        specialty: "Corresponsable en seguridad estructural",
-        positionsInCouncil: "15/12/2021 Vocal",
+        emergencyContact: 'Ana García 5557778888',
+        mainProfessionalActivity: 'Ingeniero Civil',
+        dateOfAdmission: new Date('2010-02-15'),
+        dateOfBirth: new Date('1983-07-20'),
+        municipalityOfLabor: 'Querétaro',
+        linkCV: 'https://example.com/luisgarcia-cv',
+        university: 'Universidad Autónoma de Querétaro',
+        professionalLicense: 'P98765',
+        workAddress: '123 Avenida Principal, Querétaro',
+        homeAddress: '456 Calle Secundaria, Querétaro',
+        specialty: 'Corresponsable en seguridad estructural',
+        positionsInCouncil: '15/12/2021 Vocal',
     });
     expect(res.statusCode).toEqual(201);
 
@@ -43,26 +43,26 @@ const testPostArchitectUsers = async () => {
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
         collegiateNumber: 98765,
-        memberType: "Miembro de número",
-        classification: "Docente",
-        DRONumber: "DRO98765",
+        memberType: 'Miembro de número',
+        classification: 'Docente',
+        DRONumber: 'DRO98765',
         authorizationToShareInfo: true,
-        gender: "Hombre",
+        gender: 'Hombre',
         cellphone: 5551112222,
         homePhone: 5553334444,
         officePhone: 5555556666,
-        emergencyContact: "Ana García 5557778888",
-        mainProfessionalActivity: "Ingeniero Civil",
-        dateOfAdmission: new Date("2010-02-15"),
-        dateOfBirth: new Date("1983-07-20"),
-        municipalityOfLabor: "Querétaro",
-        linkCV: "https://example.com/luisgarcia-cv",
-        university: "Universidad Autónoma de Querétaro",
-        professionalLicense: "P98765",
-        workAddress: "123 Avenida Principal, Querétaro",
-        homeAddress: "456 Calle Secundaria, Querétaro",
-        specialty: "Corresponsable en seguridad estructural",
-        positionsInCouncil: "15/12/2021 Vocal",
+        emergencyContact: 'Ana García 5557778888',
+        mainProfessionalActivity: 'Ingeniero Civil',
+        dateOfAdmission: new Date('2010-02-15'),
+        dateOfBirth: new Date('1983-07-20'),
+        municipalityOfLabor: 'Querétaro',
+        linkCV: 'https://example.com/luisgarcia-cv',
+        university: 'Universidad Autónoma de Querétaro',
+        professionalLicense: 'P98765',
+        workAddress: '123 Avenida Principal, Querétaro',
+        homeAddress: '456 Calle Secundaria, Querétaro',
+        specialty: 'Corresponsable en seguridad estructural',
+        positionsInCouncil: '15/12/2021 Vocal',
     });
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual(
@@ -75,26 +75,26 @@ const testPostArchitectUsers = async () => {
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaNOSegura',
         collegiateNumber: 98765,
-        memberType: "Miembro de número",
-        classification: "Docente",
-        DRONumber: "DRO98765",
+        memberType: 'Miembro de número',
+        classification: 'Docente',
+        DRONumber: 'DRO98765',
         authorizationToShareInfo: true,
-        gender: "Hombre",
+        gender: 'Hombre',
         cellphone: 5551112222,
         homePhone: 5553334444,
         officePhone: 5555556666,
-        emergencyContact: "Ana García 5557778888",
-        mainProfessionalActivity: "Ingeniero Civil",
-        dateOfAdmission: new Date("2010-02-15"),
-        dateOfBirth: new Date("1983-07-20"),
-        municipalityOfLabor: "Querétaro",
-        linkCV: "https://example.com/luisgarcia-cv",
-        university: "Universidad Autónoma de Querétaro",
-        professionalLicense: "P98765",
-        workAddress: "123 Avenida Principal, Querétaro",
-        homeAddress: "456 Calle Secundaria, Querétaro",
-        specialty: "Corresponsable en seguridad estructural",
-        positionsInCouncil: "15/12/2021 Vocal",
+        emergencyContact: 'Ana García 5557778888',
+        mainProfessionalActivity: 'Ingeniero Civil',
+        dateOfAdmission: new Date('2010-02-15'),
+        dateOfBirth: new Date('1983-07-20'),
+        municipalityOfLabor: 'Querétaro',
+        linkCV: 'https://example.com/luisgarcia-cv',
+        university: 'Universidad Autónoma de Querétaro',
+        professionalLicense: 'P98765',
+        workAddress: '123 Avenida Principal, Querétaro',
+        homeAddress: '456 Calle Secundaria, Querétaro',
+        specialty: 'Corresponsable en seguridad estructural',
+        positionsInCouncil: '15/12/2021 Vocal',
     });
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual(
@@ -109,28 +109,28 @@ const testRequiredFields = async (field, errorMessage) => {
         fullName: 'Roberto Ruiz',
         email: 'robert@gmail.com',
         password: 'contrasenaSegura',
-        passwordConfirm: 'contrasenaNOSegura',
+        passwordConfirm: 'contrasenaSegura',
         collegiateNumber: 98765,
-        memberType: "Miembro de número",
-        classification: "Docente",
-        DRONumber: "DRO98765",
+        memberType: 'Miembro de número',
+        classification: 'Docente',
+        DRONumber: 'DRO98765',
         authorizationToShareInfo: true,
-        gender: "Hombre",
+        gender: 'Hombre',
         cellphone: 5551112222,
         homePhone: 5553334444,
         officePhone: 5555556666,
-        emergencyContact: "Ana García 5557778888",
-        mainProfessionalActivity: "Ingeniero Civil",
-        dateOfAdmission: new Date("2010-02-15"),
-        dateOfBirth: new Date("1983-07-20"),
-        municipalityOfLabor: "Querétaro",
-        linkCV: "https://example.com/luisgarcia-cv",
-        university: "Universidad Autónoma de Querétaro",
-        professionalLicense: "P98765",
-        workAddress: "123 Avenida Principal, Querétaro",
-        homeAddress: "456 Calle Secundaria, Querétaro",
-        specialty: "Corresponsable en seguridad estructural",
-        positionsInCouncil: "15/12/2021 Vocal",
+        emergencyContact: 'Ana García 5557778888',
+        mainProfessionalActivity: 'Ingeniero Civil',
+        dateOfAdmission: new Date('2010-02-15'),
+        dateOfBirth: new Date('1983-07-20'),
+        municipalityOfLabor: 'Querétaro',
+        linkCV: 'https://example.com/luisgarcia-cv',
+        university: 'Universidad Autónoma de Querétaro',
+        professionalLicense: 'P98765',
+        workAddress: '123 Avenida Principal, Querétaro',
+        homeAddress: '456 Calle Secundaria, Querétaro',
+        specialty: 'Corresponsable en seguridad estructural',
+        positionsInCouncil: '15/12/2021 Vocal',
     };
 
     // Deletes the current required field from the body
@@ -140,16 +140,16 @@ const testRequiredFields = async (field, errorMessage) => {
     const res = await agent.post(endpoint).send(requestBody);
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual(errorMessage);
+    expect(res.body.message).toEqual('Datos inválidos: ' + errorMessage);
 };
 
 //List of required fields error messages
 const requiredErrorMessages = {
     fullName: 'Por favor dinos tu nombre!',
-    email: 'roberto@gmail.com',
-    password: 'contrasenaSegura',
-    passwordConfirm: 'contrasenaSegura',
-    collegiateNumber: 98765,
+    email: 'Por favor dinos tu correo!',
+    password: 'Por favor provee una contraseña.. Por favor ingresa la misma contraseña.',
+    passwordConfirm: 'Por favor confirma tu contraseña.',
+    collegiateNumber: 'Por favor dinos tu número de DRO!',
     memberType: 'Por favor dinos qué |tipo de miembro| eres!',
     classification: 'Por favor dinos tu clasificación!',
     DRONumber: 'Por favor dinos tu número de DRO!',
@@ -168,8 +168,8 @@ const requiredErrorMessages = {
     workAddress: 'Por favor dinos tu dirección de trabajo!',
     homeAddress: 'Por favor dinos tu dirección de casa!',
     specialty: 'Por favor dinos tu especialidad!',
-    positionsInCouncil:  'Por favor dinos tus cargos en el consejo directivo!',
-}
+    positionsInCouncil: 'Por favor dinos tus cargos en el consejo directivo!',
+};
 
 //List of required fields
 const requiredFields = [
@@ -207,7 +207,6 @@ describe('Architect User POST', () => {
     test('successful', () => testPostArchitectUsers());
 });
 
-
 describe('Architect User POST', () => {
     test.each(requiredFields)(
         'missing required field "%s" should return an error',
@@ -216,4 +215,3 @@ describe('Architect User POST', () => {
         }
     );
 });
-

@@ -11,7 +11,7 @@ const testGetAllArchitectUsers = async () => {
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.results).toEqual(20);
+    expect(res.body.results).toEqual(6);
 };
 
 const testGetAllArchitectUsersWithParams = (paramKey, paramValue) => async () => {
@@ -36,10 +36,8 @@ const testGetArchitectUser = async () => {
     expect(res.statusCode).toEqual(200);
 };
 
-
-
 const testPagination = async () => {
-    const page = 1; 
+    const page = 1;
     const limit = 10;
     const endpoint = `/architectusers?page=${page}&limit=${limit}`;
 
@@ -47,8 +45,6 @@ const testPagination = async () => {
 
     expect(res.statusCode).toEqual(200);
 };
-
-
 
 beforeAll(async () => {
     await connectDB();
@@ -58,7 +54,7 @@ beforeAll(async () => {
 describe('Architect User GET', () => {
     test('successful', () => testGetAllArchitectUsers());
     test('successful', () => testGetArchitectUser());
-    test('successful', testGetAllArchitectUsersWithParams('email', 'john@example.com'));
+    test('successful', testGetAllArchitectUsersWithParams('email', 'luis@example.com'));
     test('successful', testGetAllArchitectUsersWithParams('verified', false));
     test('pagination', () => testPagination());
 });

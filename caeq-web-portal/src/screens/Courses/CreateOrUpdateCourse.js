@@ -96,6 +96,20 @@ const CreateOrUpdateCourse = () => {
             return;
         }
 
+        if (data.courseName.length > 70) {
+            FireError('Se acepta un máximo de 70 caracteres para el nombre del curso');
+            return;
+        }
+
+        if (data.startDate && data.endDate) {
+            const startD = new Date(data.startDate);
+            const endD = new Date(data.endDate);
+            if (endD < startD) {
+                FireError('La fecha fin debe de ir después de la fecha de inicio');
+                return;
+            }
+        }
+
         // Build FormData
         const formData = new FormData();
         Object.entries(data).forEach(entry => formData.append(entry[0], entry[1]));
@@ -114,15 +128,15 @@ const CreateOrUpdateCourse = () => {
 
             if (!response._id)
                 throw 'Error: ' + response;
+            
+            swal.close();
+            FireSucess('Curso guardado');
+            navigate(`/Cursos/Curso/${response._id}`);
         }
         catch(error) {
             swal.close();
             FireError(error?.message);
         }
-
-        swal.close();
-        FireSucess('Curso guardado');
-        navigate(`/Cursos/Curso/${response._id}`);
     };
 
     return (
@@ -133,9 +147,7 @@ const CreateOrUpdateCourse = () => {
 
             <div className="create-course--row">
                 <div className="create-course--col create-course--mr-3">
-                    <div className="display-course-card">
-                        <CourseCard showMoreBtn={false} {...data} />
-                    </div>
+                    <CourseCard showMoreBtn={false} {...data} />
                     <NumberInput 
                         label="Capacidad de la sesión"
                         getVal={data.capacity}

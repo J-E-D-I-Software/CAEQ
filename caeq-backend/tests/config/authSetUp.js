@@ -20,6 +20,7 @@ const loginAdmin = async (agent, email, password) => {
 
     // Attach the authorization header to the agent object
     agent.set(authHeader);
+    return res.body;
 };
 
 module.exports = { loginUser, loginAdmin };

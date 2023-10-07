@@ -3,10 +3,12 @@ const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const Course = require('../../models/course.model');
 const app = require('../../app');
+const { loginAdmin } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
 const testDeleteCourse = async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = '/courses';
     let res = await agent.delete(`${endpoint}/3454534534`).send();
     expect(res.statusCode).toEqual(400);

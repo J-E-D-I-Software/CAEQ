@@ -17,7 +17,8 @@ const fileParser = require('../utils/multipartParser');
 router.route('/')
     .get(getAllCourses)
     .post(protect, restrictTo('caeq'), fileParser, filesController.formatImage, createCourse);
-router.route('/:id')
+
+    router.route('/:id')
     .get(getCourse)
     .patch(protect, restrictTo('caeq'), fileParser, filesController.formatImage, updateCourse)
     .delete(protect, restrictTo('caeq'), deleteCourse);

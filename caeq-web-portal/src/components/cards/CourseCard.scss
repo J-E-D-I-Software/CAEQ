@@ -13,6 +13,11 @@
         margin: 0;
     } 
 
+    h4 {
+        overflow-wrap: break-word;
+        inline-size: 220px;
+    }
+
     img { 
         max-width: 165px;
         border-radius: 10px;
@@ -52,10 +57,14 @@
     .mb-1 {
         margin-bottom: 0.5rem;
     }
-}
 
-@media only screen and (max-width: 1070px)  {
-    .course-card { 
+    @media only screen and (max-width: 1370px)  {
+        h4 {
+            inline-size: 150px;
+        }
+    }
+    
+    @media only screen and (max-width: 1070px)  {
         width: 100%;
         flex-direction: column;
 
@@ -67,5 +76,11 @@
             width: 100%;
             max-width: none;
         }
+
+        h4 {
+            overflow-wrap: break-word;
+            inline-size: 80vw;
+        }
     }
 }
+

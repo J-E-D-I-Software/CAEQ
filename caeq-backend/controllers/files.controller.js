@@ -61,13 +61,8 @@ exports.formatImage = catchAsync(async (req, res, next) => {
 
     req.body.imageUrl = await uploadImage(req.file, 'image');
 
-    res.status(200).json({
-        message: 'Imagen subida con exito',
-        imageDownloadUrl: req.body.imageUrl,
-    });
-
     // Use next when you need the url in the next controllers. Delete the response from above.
-    // next();
+    next();
 });
 
 exports.formatPDF = catchAsync(async (req, res, next) => {

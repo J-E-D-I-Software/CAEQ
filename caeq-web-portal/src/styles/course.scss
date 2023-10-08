@@ -29,6 +29,7 @@
 
     .course-details { 
         align-items: start;
+        justify-content: stretch;
 
         img {
             width: 50%;
@@ -54,6 +55,10 @@
                 font-weight: normal;
             }
         }
+    }
+
+    .text-area {
+        white-space: pre-line;
     }
 
 }

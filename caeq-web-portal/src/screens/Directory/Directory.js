@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import InteractiveTable from "../../components/table/InteractiveTable";
 import InputText from "../../components/inputs/TextInput/TextInput";
 import { getAllArchitectUsers } from "../../client/ArchitectUser/ArchitectUser.GET";
@@ -12,6 +13,13 @@ const Directory = () => {
   const [architectUsers, setArchitectUsers] = useState([]);
   const [getArchitect, setArchitect] = useState("");
   const [paginationPage, setPaginationPage] = useState(1);
+  const navigate = useNavigate();
+
+
+  const handleRowClick = (id) => {
+    // Utiliza navigate para redirigir a la página de detalles del directorio
+    navigate(`/Directorio/${id}`);
+  };
 
   /**
    * Efecto que se ejecuta al cargar el componente para obtener la lista completa de arquitectos.
@@ -49,6 +57,11 @@ const Directory = () => {
   // Filtrar los arquitectos en función del texto de búsqueda
   const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
+  // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
+  const tablefilteredArchitects = filteredArchitects
+  /*.map(
+    ({ _id, ...rest }) => rest
+  );*/
   const columnsToShow =
     filteredArchitects?.length > 0 ? Object.keys(filteredArchitects[0]) : [];
 
@@ -77,6 +90,7 @@ const Directory = () => {
   };
 
   return (
+    console.log("this is",tablefilteredArchitects[0]),
     <div className="directory">
       <div className="directory-row directory-header">
         <h1>Directorio de arquitectos</h1>
@@ -92,7 +106,7 @@ const Directory = () => {
       <div className="directory-row">
         {filteredArchitects.length > 0 ? (
           <div className="box-container">
-            <InteractiveTable data={filteredArchitects} />
+            <InteractiveTable data={filteredArchitects} onRowClick={handleRowClick} />
           </div>
         ) : (
           <p className="no-data-message">No hay colegiados disponibles</p>

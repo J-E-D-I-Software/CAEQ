@@ -10,7 +10,7 @@ import BaseButton from "../buttons/BaseButton";
  * @param {Object[]} data - Los datos para llenar la tabla.
  * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
  */
-const InteractiveTable = ({ data }) => {
+const InteractiveTable = ({ data, onRowClick}) => {
   // Obtiene las columnas que deben mostrarse en la tabla.
   const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
@@ -92,7 +92,7 @@ const InteractiveTable = ({ data }) => {
   const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
-        columnVisibility[column] && column !== "_id" ? (
+        columnVisibility[column] && column !== "_id" && column !== "_id"  ? (
           <th key={column} className="sticky-column">
             <div className="header-content">
               <span className="header-text">{headerMappings[column]}</span>
@@ -123,9 +123,15 @@ const InteractiveTable = ({ data }) => {
       </tr>
     );
   }
-
+  
   return data.map((row, rowIndex) => (
-    <tr key={rowIndex} className="fila-sombrada">
+    console.log("yep",data),
+    <tr 
+      key={rowIndex} 
+      className="fila-sombrada"
+      onClick={() => onRowClick(data[rowIndex]._id)}
+      >
+      
       {columnsToShow.map((column) =>
         columnVisibility[column] && column !== "_id" ? (
           <td key={column} className="sticky-column">

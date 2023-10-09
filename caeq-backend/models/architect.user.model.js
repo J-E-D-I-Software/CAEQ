@@ -6,6 +6,7 @@ const crypto = require('crypto');
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
+        unique: true,
         type: Number,
         required: [true, 'Por favor dinos tu número de DRO!'],
     },
@@ -77,7 +78,8 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [true, 'Por favor dinos tu actividad principal profesional!']
     },
     dateOfAdmission: {
-        type: Date,
+        type: Number,
+        minlength: [4, 'Deben ser cuatro digitos.'],
         required: [true, 'Por favor dinos tu fecha de admisión!']
     },
     dateOfBirth: {

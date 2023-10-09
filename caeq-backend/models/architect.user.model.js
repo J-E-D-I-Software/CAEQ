@@ -210,10 +210,10 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
         .digest('hex');
 
     // 10 hours
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+    this.tokenExpirationDate = Date.now() + 10 * 60 * 1000;
 
     // We return the reset token encrypted.
-    return resetToken;
+    return this.changedPasswordToken;
 };
 
 /* This method checks if the password has been changed after the token was issued. */

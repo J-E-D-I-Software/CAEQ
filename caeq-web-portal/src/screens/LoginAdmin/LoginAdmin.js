@@ -58,7 +58,9 @@ const LoginAdmin = () => {
             </form>
             <br />
             <div className='forgot-register-links'>
-                <a href='/forgot-password'>¿Olvidaste tu contraseña?</a> <br />
+                <Link to='/Forgot-password'>
+                    <p> ¿Olvidaste tu contraseña?</p>
+                </Link>
                 <Link to='/SignupAdmin'>
                     <p> Regístrate</p>
                 </Link>

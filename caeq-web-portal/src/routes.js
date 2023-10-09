@@ -11,6 +11,11 @@ import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 
+import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
+import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
+
+import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
+import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
@@ -118,7 +123,7 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-    
+
     {
         path: '/Directorio',
         name: 'Directorio',
@@ -127,7 +132,7 @@ const routes = [
         Component: Directory,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq']
+        roles: ['caeq'],
     },
     {
         path: '/Directorio/:id',
@@ -141,6 +146,34 @@ const routes = [
         path: '*',
         name: '404 Not Found',
         Component: Page404,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/Forgot-password',
+        name: 'Olvidar contraseña',
+        Component: ForgotPasswordAdmin,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/User-ForgotPassword',
+        name: 'Arquitecto Contraseña',
+        Component: ArquitecForgotPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/caeq/Reset-password/:token',
+        name: 'Restaurar contraseña',
+        Component: ResetPasswordAdmin,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/architect/Reset-password/:token',
+        name: 'Restaurar contraseña',
+        Component: ArchitecResetPassword,
         isPrivate: false,
         inNavbar: false,
     },

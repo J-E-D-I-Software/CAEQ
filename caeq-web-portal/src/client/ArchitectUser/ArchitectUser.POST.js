@@ -28,3 +28,14 @@ export async function postSignupArchitectUsers(data) {
     });
     return response.data;
 }
+
+export async function postForgotArchitect(email) {
+    const endpoint = `${baseApiEndpoint}/architectusers/forgot-password`;
+  
+    const body = {
+      email,
+    };
+    const response = await axios.post(endpoint, body);
+    return response.data;
+  }
+  

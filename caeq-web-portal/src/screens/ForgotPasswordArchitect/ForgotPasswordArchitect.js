@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import "./ForgotPasswordArchitect.scss";
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { FireError, FireSucess } from "../../utils/alertHandler";
-import { postForgotArchitect } from "../../client/ArchitectUser/ArchitectUser.POST";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import './ForgotPasswordArchitect.scss';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { FireError, FireSucess } from '../../utils/alertHandler';
+import { postForgotArchitect } from '../../client/ArchitectUser/ArchitectUser.POST';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ForgotPasswordArchitect = () => {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
 
     const handleForgotPasswordArchitect = async (e) => {
         e.preventDefault();
         try {
             const response = await postForgotArchitect(email);
-            if (response.status === "success") {
+            if (response.status === 'success') {
                 FireSucess(
-                    "Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo."
+                    'Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo.'
                 );
-                navigate("/LoginUser");
+                navigate('/LoginUser');
             }
         } catch (error) {
             FireError(error.response.data.message);

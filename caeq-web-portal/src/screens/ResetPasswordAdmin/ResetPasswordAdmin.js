@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import "./ResetPasswordAdmin.scss";
-import HiddenTextInput from "../../components/inputs/TextInput/HiddenTextInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { FireError, FireSucess } from "../../utils/alertHandler";
-import { patchResetPasswordAdmin } from "../../client/CaeqUser/CaeqUser.PATCH";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import './ResetPasswordAdmin.scss';
+import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { FireError, FireSucess } from '../../utils/alertHandler';
+import { patchResetPasswordAdmin } from '../../client/CaeqUser/CaeqUser.PATCH';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ResetPasswordAdmin = () => {
     const { token } = useParams();
-    const [newpassword, setPassword] = useState("");
-    const [newpasswordConfirm, setConfirmPassword] = useState("");
+    const [newpassword, setPassword] = useState('');
+    const [newpasswordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
     const handleResetPasswordAdmin = async (e) => {
@@ -20,11 +20,9 @@ const ResetPasswordAdmin = () => {
                 newpassword,
                 newpasswordConfirm
             );
-            if (response.status === "success") {
-                FireSucess(
-                    "Contraseña Restablecida con éxito, ya puede iniciar sesión"
-                );
-                navigate("/LoginAdmin");
+            if (response.status === 'success') {
+                FireSucess('Contraseña Restablecida con éxito, ya puede iniciar sesión');
+                navigate('/LoginAdmin');
             }
         } catch (error) {
             FireError(error.response.data.message);

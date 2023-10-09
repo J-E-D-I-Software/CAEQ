@@ -1,10 +1,10 @@
-require("dotenv").config();
-const CaeqUser = require("../models/caeq.user.model");
-const ArchitectUser = require("../models/architect.user.model");
-const Email = require("../utils/email");
-const AppError = require("../utils/appError");
-const catchAsync = require("../utils/catchAsync");
-const crypto = require("crypto");
+require('dotenv').config();
+const CaeqUser = require('../models/caeq.user.model');
+const ArchitectUser = require('../models/architect.user.model');
+const Email = require('../utils/email');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
+const crypto = require('crypto');
 const frontDomain = process.env.FRONT_DOMAIN;
 
 /**
@@ -18,7 +18,7 @@ const forgotPassword = async (type, email, req, userType, res) => {
     // 1 get user based on posted email
     const user = await type.findOne({ email });
     if (!user) {
-        throw new AppError("No existe un usuario con ese correo.", 404);
+        throw new AppError('No existe un usuario con ese correo.', 404);
     }
     // 2 generate random token
     const resetToken = user.createPasswordResetToken();
@@ -33,7 +33,7 @@ const forgotPassword = async (type, email, req, userType, res) => {
         user.passwordResetToken = undefined;
         await user.save({ validateBeforeSave: false });
         throw new AppError(
-            "Hubo un error enviando el correo de reset password. Intenta de nuevo",
+            'Hubo un error enviando el correo de reset password. Intenta de nuevo',
             500
         );
     }
@@ -59,7 +59,7 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
     // 2 if token has not expired and there is user set new password
     if (!user) {
-        throw new AppError("Token expirado o correo incorrecto", 400);
+        throw new AppError('Token expirado o correo incorrecto', 400);
     }
 
     // 3 update changedPasswordAt property for the user
@@ -73,13 +73,13 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
-    const resetToken = await forgotPassword(CaeqUser, req.body.email, req, "caeq", res);
+    const resetToken = await forgotPassword(CaeqUser, req.body.email, req, 'caeq', res);
     res.status(200).json({
-        status: "success",
+        status: 'success',
         data: {
             resetToken,
         },
-        message: "Correo para recuperar tu contraseña enviado.",
+        message: 'Correo para recuperar tu contraseña enviado.',
     });
 });
 
@@ -96,21 +96,27 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
     );
 
     res.status(200).json({
-        status: "success",
-        message: "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
+        status: 'success',
+        message: 'Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo',
     });
 });
 
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
-    const resetToken = await forgotPassword(ArchitectUser, req.body.email, req, "architect", res);
+    const resetToken = await forgotPassword(
+        ArchitectUser,
+        req.body.email,
+        req,
+        'architect',
+        res
+    );
 
     res.status(200).json({
-        status: "success",
+        status: 'success',
         data: {
             resetToken,
         },
-        message: "Correo para recuperar tu contraseña enviado.",
+        message: 'Correo para recuperar tu contraseña enviado.',
     });
 });
 
@@ -127,7 +133,7 @@ exports.resetPasswordArchitectUser = catchAsync(async (req, res, next) => {
     );
 
     res.status(200).json({
-        status: "success",
-        message: "Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo",
+        status: 'success',
+        message: 'Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo',
     });
 });

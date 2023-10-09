@@ -1,7 +1,7 @@
-const request = require("supertest");
-const app = require("../../app");
-const { connectDB } = require("../config/databaseTest");
-const { setUpDbWithMuckData } = require("../../models/testdata.setup");
+const request = require('supertest');
+const app = require('../../app');
+const { connectDB } = require('../config/databaseTest');
+const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const agent = request.agent(app);
 
 beforeAll(async () => {
@@ -9,15 +9,14 @@ beforeAll(async () => {
     await setUpDbWithMuckData();
 });
 
-const ForgotPasswordCaeq = async () => {
+const ForgotPasswordArchitect = async () => {
     // Request to endpoint
-    const resTest1 = await agent.post("/architectusers/forgot-password").send({
-        email: "fogawaf506@htoal.com",
+    const resTest1 = await agent.post('/architectusers/forgot-password').send({
+        email: 'relisib653@mugadget.com',
     });
 
-
-    const resTest2 = await agent.post("/architectusers/forgot-password").send({
-        email: "leo9ramosp@hotmail.com",
+    const resTest2 = await agent.post('/architectusers/forgot-password').send({
+        email: 'leo9ramosp@hotmail.com',
     });
 
     // Assertions
@@ -25,23 +24,21 @@ const ForgotPasswordCaeq = async () => {
     expect(resTest2.statusCode).toEqual(404);
 };
 
-const ResetPasswordCaeq = async () => {
-
-    let response = await agent.post("/architectusers/forgot-password").send({
-        email: "fogawaf506@htoal.com",
+const ResetPasswordArchitect = async () => {
+    let response = await agent.post('/architectusers/forgot-password').send({
+        email: 'relisib653@mugadget.com',
     });
     const token = response.body.data.resetToken;
 
     response = await agent.patch(`/architectusers/reset-password/${token}`).send({
         [token]: token,
-        password: "123456789",
-        passwordConfirm: "123456789",
-    }); 
-  expect(response.statusCode).toEqual(200);
-}
+        password: '123456789',
+        passwordConfirm: '123456789',
+    });
+    expect(response.statusCode).toEqual(200);
+};
 
-
-describe("Caeq forgot Password succesful", () => {
-    test("successful", () => ForgotPasswordCaeq());
-    test("successful", () => ResetPasswordCaeq());
+describe('Architect forgot Password succesful', () => {
+    test('successful', () => ForgotPasswordArchitect());
+    test('successful', () => ResetPasswordArchitect());
 });

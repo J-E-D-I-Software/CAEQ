@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import "./ResetPasswordArchitect.scss";
-import HiddenTextInput from "../../components/inputs/TextInput/HiddenTextInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { FireError, FireSucess } from "../../utils/alertHandler";
-import { patchResetPasswordArchitec } from "../../client/ArchitectUser/ArchitecUser.PATCH";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import './ResetPasswordArchitect.scss';
+import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { FireError, FireSucess } from '../../utils/alertHandler';
+import { patchResetPasswordArchitec } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ResetPasswordArchitec = () => {
-    const { token } = useParams(); 
-    const [newpassword, setPassword] = useState("");
-    const [newpasswordConfirm, setConfirmPassword] = useState("");
+    const { token } = useParams();
+    const [newpassword, setPassword] = useState('');
+    const [newpasswordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
     const handleResetPasswordArchitec = async (e) => {
@@ -20,11 +20,9 @@ const ResetPasswordArchitec = () => {
                 newpassword,
                 newpasswordConfirm
             );
-            if (response.status === "success") {
-                FireSucess(
-                    "Contraseña Restablecida con éxito, ya puede iniciar sesión"
-                );
-                navigate("/LoginUser");
+            if (response.status === 'success') {
+                FireSucess('Contraseña Restablecida con éxito, ya puede iniciar sesión');
+                navigate('/LoginUser');
             }
         } catch (error) {
             FireError(error.response.data.message);

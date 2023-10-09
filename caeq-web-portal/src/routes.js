@@ -11,12 +11,11 @@ import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 
-import ForgotPasswordAdmin from "./screens/ForgotPasswordAdmin/ForgotPasswordAdmin";
-import ResetPasswordAdmin from "./screens/ResetPasswordAdmin/ResetPasswordAdmin";
+import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
+import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
 
-import ArquitecForgotPassword from "./screens/ForgotPasswordArchitect/ForgotPasswordArchitect";
-import ArchitecResetPassword from "./screens/ResetPasswordArchitect/ResetPasswordArchitect";
-
+import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
+import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
@@ -25,14 +24,14 @@ import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
-import PrincipalIconWhite from "../src/components/icons/PrincipalIconWHite.png";
-import AdminIcon from "../src/components/icons/AdminIcon.png";
-import AdminIconWhite from "../src/components/icons/AdminIconWhite.png";
+import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
+import AdminIcon from '../src/components/icons/AdminIcon.png';
+import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
-        path: "/",
-        name: "Principal",
+        path: '/',
+        name: 'Principal',
         Component: Dasbboard,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
@@ -40,8 +39,8 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: "/Principal",
-        name: "Principal",
+        path: '/Principal',
+        name: 'Principal',
         Component: () => <div></div>,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
@@ -49,8 +48,8 @@ const routes = [
         inNavbar: true,
     },
     {
-        path: "/Cursos",
-        name: "Cursos",
+        path: '/Cursos',
+        name: 'Cursos',
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Courses,
@@ -58,8 +57,8 @@ const routes = [
         inNavbar: true,
     },
     {
-        path: "/Curso/:id",
-        name: "Curso",
+        path: '/Curso/:id',
+        name: 'Curso',
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Course,
@@ -94,86 +93,86 @@ const routes = [
         Component: AcceptAdmin,
         isPrivate: true,
         inNavbar: true,
-        roles: ["caeq"],
+        roles: ['caeq'],
     },
     {
-        path: "/LoginAdmin",
-        name: "LoginAdmin",
+        path: '/LoginAdmin',
+        name: 'LoginAdmin',
         Component: LoginAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/LoginUser",
-        name: "LoginUser",
+        path: '/LoginUser',
+        name: 'LoginUser',
         Component: LoginUser,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/SignupAdmin",
-        name: "Registrar Admin",
+        path: '/SignupAdmin',
+        name: 'Registrar Admin',
         Component: RegisterAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/SignupUser",
-        name: "Registrar User",
+        path: '/SignupUser',
+        name: 'Registrar User',
         Component: RegisterUser,
         isPrivate: false,
         inNavbar: false,
     },
 
     {
-        path: "/Directorio",
-        name: "Directorio",
+        path: '/Directorio',
+        name: 'Directorio',
         icon: DirectorioIcon,
         iconWhite: DirectorioIconWhite,
         Component: Directory,
         isPrivate: true,
         inNavbar: true,
-        roles: ["caeq"],
+        roles: ['caeq'],
     },
     {
-        path: "/Directorio/:id",
-        name: "Detalles de arquitecto",
+        path: '/Directorio/:id',
+        name: 'Detalles de arquitecto',
         Component: DirectoryArchitectDetails,
         isPrivate: true,
         inNavbar: false,
-        roles: ["caeq"],
+        roles: ['caeq'],
     },
     {
-        path: "*",
-        name: "404 Not Found",
+        path: '*',
+        name: '404 Not Found',
         Component: Page404,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/Forgot-password",
-        name: "Olvidar contraseña",
+        path: '/Forgot-password',
+        name: 'Olvidar contraseña',
         Component: ForgotPasswordAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/User-ForgotPassword",
-        name: "Arquitecto Contraseña",
+        path: '/User-ForgotPassword',
+        name: 'Arquitecto Contraseña',
         Component: ArquitecForgotPassword,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/caeq/Reset-password/:token",
-        name: "Restaurar contraseña",
+        path: '/caeq/Reset-password/:token',
+        name: 'Restaurar contraseña',
         Component: ResetPasswordAdmin,
         isPrivate: false,
         inNavbar: false,
     },
     {
-        path: "/architect/Reset-password/:token",
-        name: "Restaurar contraseña",
+        path: '/architect/Reset-password/:token',
+        name: 'Restaurar contraseña',
         Component: ArchitecResetPassword,
         isPrivate: false,
         inNavbar: false,

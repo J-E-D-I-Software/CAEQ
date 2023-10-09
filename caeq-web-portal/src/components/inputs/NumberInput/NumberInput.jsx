@@ -1,5 +1,5 @@
 import React from 'react';
-//import './NumberInput.scss';
+import './NumberInput.scss';
 
 /**
  * NumberInput component for a single-line number input.
@@ -65,7 +65,7 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
                 value={getVal}
                 required={isRequired}
                 onKeyDown={handleKeyPress}
-                onChange={e=> setVal(e.target.value)}
+                onChange={inputChange}
             />
         </label>
     );

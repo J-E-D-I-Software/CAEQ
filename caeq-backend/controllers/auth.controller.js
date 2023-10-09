@@ -91,7 +91,6 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  * @param {function} next - The next middleware function.
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
-    console.log("controller");
     const newUser = await ArchitectUser.create({
         fullName: req.body.fullName,
         email: req.body.email,
@@ -121,9 +120,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     });
 
     try {
-        console.log("controller");
         await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-        console.log("controller");
     } catch (error) {
         return next(
             new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)

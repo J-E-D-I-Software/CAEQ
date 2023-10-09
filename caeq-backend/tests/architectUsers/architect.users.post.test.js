@@ -24,7 +24,7 @@ const testPostArchitectUsers = async () => {
         officePhone: 5555556666,
         emergencyContact: 'Ana García 5557778888',
         mainProfessionalActivity: 'Ingeniero Civil',
-        dateOfAdmission: new Date('2010-02-15'),
+        dateOfAdmission: 2002,
         dateOfBirth: new Date('1983-07-20'),
         municipalityOfLabor: 'Querétaro',
         linkCV: 'https://example.com/luisgarcia-cv',
@@ -42,7 +42,7 @@ const testPostArchitectUsers = async () => {
         email: 'roberto@gmail.com',
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
-        collegiateNumber: 98765,
+        collegiateNumber: 98766,
         memberType: 'Miembro de número',
         classification: 'Docente',
         DRONumber: 'DRO98765',
@@ -53,7 +53,7 @@ const testPostArchitectUsers = async () => {
         officePhone: 5555556666,
         emergencyContact: 'Ana García 5557778888',
         mainProfessionalActivity: 'Ingeniero Civil',
-        dateOfAdmission: new Date('2010-02-15'),
+        dateOfAdmission: 2002,
         dateOfBirth: new Date('1983-07-20'),
         municipalityOfLabor: 'Querétaro',
         linkCV: 'https://example.com/luisgarcia-cv',
@@ -74,7 +74,7 @@ const testPostArchitectUsers = async () => {
         email: 'robert@gmail.com',
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaNOSegura',
-        collegiateNumber: 98765,
+        collegiateNumber: 98767,
         memberType: 'Miembro de número',
         classification: 'Docente',
         DRONumber: 'DRO98765',
@@ -85,7 +85,7 @@ const testPostArchitectUsers = async () => {
         officePhone: 5555556666,
         emergencyContact: 'Ana García 5557778888',
         mainProfessionalActivity: 'Ingeniero Civil',
-        dateOfAdmission: new Date('2010-02-15'),
+        dateOfAdmission: 2002,
         dateOfBirth: new Date('1983-07-20'),
         municipalityOfLabor: 'Querétaro',
         linkCV: 'https://example.com/luisgarcia-cv',
@@ -110,7 +110,7 @@ const testRequiredFields = async (field, errorMessage) => {
         email: 'robert@gmail.com',
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
-        collegiateNumber: 98765,
+        collegiateNumber: 98768,
         memberType: 'Miembro de número',
         classification: 'Docente',
         DRONumber: 'DRO98765',
@@ -121,7 +121,7 @@ const testRequiredFields = async (field, errorMessage) => {
         officePhone: 5555556666,
         emergencyContact: 'Ana García 5557778888',
         mainProfessionalActivity: 'Ingeniero Civil',
-        dateOfAdmission: new Date('2010-02-15'),
+        dateOfAdmission: 2002,
         dateOfBirth: new Date('1983-07-20'),
         municipalityOfLabor: 'Querétaro',
         linkCV: 'https://example.com/luisgarcia-cv',
@@ -215,3 +215,5 @@ describe('Architect User POST', () => {
         }
     );
 });
+
+

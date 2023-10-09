@@ -26,7 +26,7 @@ const architectUserTestData = [
     specialty: "Corresponsable en seguridad estructural",
     positionsInCouncil: "Vocal",
     capacitationHours: 90,
-    email: "fogawaf506@htoal.com",
+    email: "relisib653@mugadget.com",
     password: "password123",
     passwordConfirm: "password123",
   },

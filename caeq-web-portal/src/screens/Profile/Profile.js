@@ -68,10 +68,6 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Contacto de Emergencia: </span>
-                            {profile.emergencyContactName}
-                        </p>
-                        <p>
-                            <span>Número de Emergencia: </span>
                             {profile.emergencyContact}
                         </p>
                     </div>
@@ -109,8 +105,8 @@ const Profile = (props) => {
                             {profile.capacitationHours}
                         </p>
                         <p>
-                            <span>Fechas de Ingreso: </span>
-                            {startDate.toLocaleDateString()}
+                            <span>Fecha de Ingreso: </span>
+                            {profile.dateOfAdmission}
                         </p>
                         <p>.</p>
                     </div>
@@ -133,6 +129,10 @@ const Profile = (props) => {
                             <span>Universidad: </span>
                             {profile.university}
                         </p>
+                        <p>
+                            <span>Link CV: </span>
+                            <a href={profile.linkCV}>{profile.linkCV}</a>
+                        </p>
                     </div>
                     <div className="profile-col semi-col">
                         <p>
@@ -146,10 +146,6 @@ const Profile = (props) => {
                         <p>
                             <span>Municipio: </span>
                             {profile.municipalityOfLabor}
-                        </p>
-                        <p>
-                            <span>Link CV: </span>
-                            <a href={profile.linkCV}>{profile.linkCV}</a>
                         </p>
                     </div>
                 </WhiteContainer>

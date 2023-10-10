@@ -1,0 +1,43 @@
+.architect-detail {
+    align-self: center;
+
+    h1 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .architect-row {
+        display: flex;
+        width: 100%;
+
+        .button {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 20px;
+        }
+    }
+
+    .architect-col {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        margin-left: 20px;
+
+        .architect-row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .label-input {
+            margin-top: 20px;
+        }
+
+        .file-input {
+            padding: 20px;
+            width: 100%;
+        }
+    }
+}

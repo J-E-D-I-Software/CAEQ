@@ -1,10 +1,17 @@
+.file-input {
+  padding: 10px;
+}
+
 .file-input[type=file]::file-selector-button {
     font-family: Montserrat;
     font-size: 18px;
-    margin-right: 10px;
-    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-    padding: 10px 20px;
     border-radius: 20px;
+    width: 204px;
+    height: 62px;
+    flex-shrink: 0;
+    fill: var(--ffffff-white, #FFF);
+    box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.35);
+    stroke-width: 1.294px;
     border: none;
     cursor: pointer;
     transition: background .2s ease-in-out;

@@ -14,10 +14,10 @@ import './BaseButton.scss';
  *   <p>This content will be displayed within a white container.</p>
  * </WhiteContainer>
  */
-const BaseButton = ({ children, type, onClick }) => {
+const BaseButton = ({ children, type, onClick, className }) => {
     const buttonClassName = `button button-${type}`;
     return (
-        <button onClick={onClick} className={buttonClassName}>
+        <button onClick={onClick} className={`${buttonClassName} ${className}`}>
             {children}
         </button>
     );

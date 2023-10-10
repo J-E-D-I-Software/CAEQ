@@ -1,62 +1,40 @@
-/* Nodemailer is a module for Node.js applications to allow easy as cake email sending.*/
-/* Install nodemailer from json?*/
-const nodemailer = require('nodemailer');
-/* Pug is an easy-to-code template engine used to code HTML in a more readable fashion.*/
 const pug = require('pug');
+const dotenv = require('dotenv');
 const { htmlToText } = require('html-to-text');
+const sgMail = require('@sendgrid/mail');
+
+// Read env variables and save them
+dotenv.config({ path: '../.env' });
+
+if (process.env.NODE_ENV !== 'test') {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 /* Create a class called Email.*/
 module.exports = class Email {
     /**
-     * The constructor function is a special method for creating and initializing an object created
-     * within a class.
-     * @param user - The user object that contains the email and name of the user.
-     * @param url - The URL that the user will be sent to in order to reset their password.
+     * Create an Email instance.
+     * @param {object} user - The user object that contains the email and name of the user.
+     * @param {string} [url=''] - The URL that the user will be sent to in order to reset their password.
      */
-    /*The constructor is taking in two parameters, user and url.
-    The constructor is also setting the to, firstName, url, and from properties*/
-    constructor(user, url) {
+    constructor(user, url = '') {
         this.to = user.email;
-        this.firstName = user.name.split(' ')[0];
+        this.firstName = user.fullName.split(' ')[0];
         this.url = url;
-        this.from = `Colegio de Arquitectos del Estado de Querétaro - CAEQ <${process.env.EMAIL_FROM}>`;
+        this.from = { email: process.env.MAIL_USERNAME };
     }
 
     /**
-     * It creates a new transport object using the nodemailer library.
-     *
-     * The transport object is used to send emails.
-     *
-     * The transport object is created using the host, port, username, and password that we set in our
-     * .env file.
-     * @returns A new instance of the nodemailer transport object.
+     * Send an email using a template and subject.
+     * @param {string} template - The name of the template file that we want to use.
+     * @param {string} subject - The subject of the email.
+     * @returns {Promise} A promise that resolves when the email is sent.
      */
-
-    /* The newTransport method is creating a new transport object based on the environment. */
-    newTransport() {
-        return nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.MAIL_USERNAME,
-                pass: process.env.MAIL_PASSWORD,
-                clientId: process.env.OAUTH_CLIENTID,
-                clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-            },
-        });
-    }
-
-    /**
-     * The function takes in a template and a subject, renders the template using the data from the
-     * object, defines the email options, creates a new transport and sends the email.
-     * @param template - The name of the template file that we want to use.
-     * @param subject - The subject of the email
-     */
-
-    /* The send method is rendering the html based on the template and subject. 
-    The send method is also defining the mail options and sending the email. */
     async send(template, subject) {
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template
@@ -77,29 +55,68 @@ module.exports = class Email {
             text: htmlToText(html, { wordwrap: 130 }),
         };
 
-        //  create transport and send email
-        await this.newTransport().sendMail(mailOptions);
+        return sgMail.send(mailOptions);
     }
 
     /**
-     * The function sendWelcome() is an asynchronous function that sends a welcome message to the user.
+     * Send a welcome email to the user.
+     * @example
+     * const user = {
+     *     email: 'pablocesarjimenezvilleda@gmail.com',
+     *     fullName: 'Pablo Jimenez',
+     * };
+     * const email = new Email(user, 'www.google.com')
+     *     .sendWelcomeUser()
+     *     .then(() => {
+     *         console.log('Email sent');
+     *     })
+     *     .catch((err) => {
+     *         console.log(err);
+     *         console.log(err.response.body);
+     *     });
      */
-
-    /* The sendWelcome method is calling the send method and passing in the welcome template and subject.*/
-    async sendWelcome() {
+    async sendWelcomeUser() {
         // esto va a ser una pug template
-        await this.send('welcome', 'Bienvenido a la familia CAEQ!');
+        await this.send('welcomeUser', 'Bienvenido a la familia CAEQ!');
     }
 
     /**
-     * It sends a password reset email to the user.
+     * Send a welcome email to an administrator.
      */
-
-    /* The sendPasswordReset method is calling the send method and passing in the passwordReset template */
-    /*async sendPasswordReset() {
+    async sendWelcomeAdmin() {
+        // esto va a ser una pug template
         await this.send(
-            'passwordReset',
-            'Recuperar contraseña (válido por sólo 10 minutos)'
+            'welcomeAdmin',
+            'Bienvenido a la familia CAEQ! Un administrador revisará tu perfil.'
         );
-    }*/
+    }
+
+    /**
+     * Send an email to notify that an administrator's request is accepted.
+     */
+    async sendAdminAccepted() {
+        // esto va a ser una pug template
+        await this.send(
+            'adminAccepted',
+            'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
+        );
+    }
+
+    /**
+     * Send an email to notify that an administrator's request is rejected.
+     */
+    async sendAdminRejected() {
+        // esto va a ser una pug template
+        await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
+    }
+
+    /*
+     * Send a password reset email to the user.
+     * Note: This method is commented out in the original code.
+     */
+    
+    async sendPasswordReset() {
+        await this.send('passwordReset','Recuperar contraseña (válido por sólo 10 minutos)');
+    }
+
 };

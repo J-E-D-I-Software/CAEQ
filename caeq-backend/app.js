@@ -11,6 +11,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const morgan = require('morgan');
+const Email = require('./utils/email');
 
 // Read env variables and save them
 dotenv.config({ path: './.env' });

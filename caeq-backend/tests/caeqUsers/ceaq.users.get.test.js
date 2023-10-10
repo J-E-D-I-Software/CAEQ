@@ -12,7 +12,7 @@ const testGetAllCaeqUsers = async () => {
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.results).toEqual(10);
+    expect(res.body.results).toEqual(11);
 };
 
 const testGetAllCaeqUsersWithParams = (paramKey, paramValue) => async () => {

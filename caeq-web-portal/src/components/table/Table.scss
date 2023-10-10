@@ -6,61 +6,65 @@
 .tabla {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px; /* Espacio vertical entre filas */
+  border-spacing: 0 16px;
 }
 
 .tabla th,
 .tabla td {
-  padding: 8px;
+  padding: 24px;
   text-align: left;
-  border-radius: 10px; /* Bordes redondeados */
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
 .tabla th {
+  font-size: 16px;
+  font-weight: bold;
   background-color: #062E52;
   color: #fff;
+  min-width: 200px;
+  position: relative;
 }
 
-.fila-sombrada:nth-child(even) {
-  background: rgba(6, 46, 82, 0.15);/* Color de fondo para filas pares */
+.tabla td {
+  border-bottom: 1px solid #ccc;
 }
 
 .fila-sombrada {
-  background-color: #fff; /* Color de fondo para filas impares */
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2); /* Sombra entre filas */
-  transition: background-color 0.5s, transform 0.3s; /* Transición al pasar el ratón */
+  background-color: #F1F1F1;
+  transition: background-color 0.5s, transform 0.3s;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .fila-sombrada:hover {
-  background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
-  transform: translateY(-3px); /* Elevación al pasar el ratón */
+  background-color: #f0f0f0;
+  transform: translateY(-3px);
 }
+
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .hide-button {
-  background: transparent; /* Establece el fondo como transparente */
-  border: none; /* Elimina los bordes */
-  padding: 0; /* Elimina el relleno */
-  cursor: pointer; /* Cambia el cursor a un puntero al pasar el ratón */
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
 }
 
-.restablecer-button {
-  width: 200px;
-  height: 45px;
-  border-radius: 18px;
-  background-color: #eea300;
-  color: #ffffff;
-  padding: 15px;
-  /* Text Button CAEQ */
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 800;
-  /* line-height: normal; */
-  letter-spacing: 1.615px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: none; /* Elimina el borde */
-  outline: none;
+
+
+.hide-button-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
 }

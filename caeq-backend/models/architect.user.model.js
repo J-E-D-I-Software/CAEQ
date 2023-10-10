@@ -5,9 +5,131 @@ const crypto = require('crypto');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
+    collegiateNumber: {
+        unique: true,
+        type: Number,
+        required: [true, 'Por favor dinos tu número de DRO!'],
+    },
     fullName: {
         type: String,
         required: [true, 'Por favor dinos tu nombre!'],
+    },
+    memberType: {
+        type: String,
+        enum: [
+            "Miembro de número",
+            "Miembro Adherente",
+            "Miembro Pasante",
+            "Miembro Vitalicio",
+            "Miembro Honorario" ],
+        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'] //TODO: change to enum
+    },
+    classification: {
+        type: String,
+        enum: [
+            "Expresidente",
+            "Docente",
+            "Convenio"],
+        required: [true, 'Por favor dinos tu clasificación!'],
+    },
+    DRONumber: {
+        type: String,
+        required: [true, 'Por favor dinos tu número de DRO!'],
+    },
+    authorizationToShareInfo: {
+        type: Boolean,
+        required: [true, 'Por favor dinos si autorizas compartir tu información'],
+    },
+    lifeInsurance: {
+        type: Boolean,
+        required: [false]
+    },
+    lifeInsureID:{
+        type: String,
+        required: [false]
+    },
+    age: {
+        type: Number,
+        required: [false]
+    },
+    gender: {
+        type: String,
+        enum: ["Hombre", "Mujer", "Prefieron no decirlo"],
+        required: [true, 'Por favor dinos tu género!']
+    },
+    cellphone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de celular!']
+    },
+    homePhone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de casa!']
+    },
+    officePhone: {
+        type: Number,
+        required: [true, 'Por favor dinos tu número de oficina!']
+    },
+    emergencyContact: {
+        type: String,
+        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!']
+    },
+    mainProfessionalActivity: {
+        type: String,
+        required: [true, 'Por favor dinos tu actividad principal profesional!']
+    },
+    dateOfAdmission: {
+        type: Number,
+        minlength: [4, 'Deben ser cuatro digitos.'],
+        required: [true, 'Por favor dinos tu fecha de admisión!']
+    },
+    dateOfBirth: {
+        type: Date,
+        required: [true, 'Por favor dinos tu fecha de nacimiento!']
+    },
+    municipalityOfLabor: {
+        type: String,
+        required: [true, 'Por favor dinos tu municipio de labor!']
+    },
+    linkCV: {
+        type: String,
+        required: [false]
+    },
+    university: {
+        type: String,
+        required: [true, 'Por favor dinos tu universidad!']
+    },
+    professionalLicense: {
+        type: String,
+        required: [true, 'Por favor dinos tu cédula profesional!']
+    },
+    workAddress: {
+        type: String,
+        required: [true, 'Por favor dinos tu dirección de trabajo!']
+    },
+    homeAddress: {
+        type: String,
+        required: [true, 'Por favor dinos tu dirección de casa!']
+    },
+    specialty: {
+        type: String,
+        /*
+        enum: [ 
+            "Corresponsable en seguridad estructural", 
+            "Corresponsable en instalaciones",
+            "Corresponsable en instalaciones eléctricas",
+            "DUYA",
+            "Dictaminador estructural", 
+            "Revisor de bajo riesgo", ],
+        */
+        required: [true, 'Por favor dinos tu especialidad!']
+    },
+    positionsInCouncil: {
+        type: String,
+        required: [true, 'Por favor dinos tus cargos en el consejo directivo!']
+    },
+    capacitationHours: {
+        type: Number,
+        required: [false]
     },
     email: {
         type: String,
@@ -88,10 +210,10 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
         .digest('hex');
 
     // 10 hours
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+    this.tokenExpirationDate = Date.now() + 10 * 60 * 1000;
 
     // We return the reset token encrypted.
-    return resetToken;
+    return this.changedPasswordToken;
 };
 
 /* This method checks if the password has been changed after the token was issued. */

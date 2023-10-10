@@ -21,14 +21,14 @@ import './FileInput.scss';
  *   require={true}
  * />
  */
-const FileInput = ({ label, getVal, setVal, require = false }) => {
+const FileInput = ({ label, setVal, accept = '.pdf', require = false }) => {
     const isRequired = require;
     const onSelectFile = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
             setVal(undefined);
-            return;
+        } else {
+            setVal(e.target.files[0]);
         }
-        setVal(e.target.files[0]);
     };
 
     return (
@@ -40,7 +40,7 @@ const FileInput = ({ label, getVal, setVal, require = false }) => {
             <input
                 className='file-input'
                 type='file'
-                value={getVal}
+                accept={accept}
                 required={isRequired}
                 onChange={onSelectFile}
             />

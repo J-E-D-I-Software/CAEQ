@@ -91,12 +91,11 @@ CaeqUserSchema.methods.createPasswordResetToken = function () {
         .createHash('sha256')
         .update(resetToken)
         .digest('hex');
-
-    // 10 hours
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+    // 10 minuter from now.
+    this.tokenExpirationDate = Date.now() + 10 * 60 * 1000;
 
     // We return the reset token encrypted.
-    return resetToken;
+    return this.changedPasswordToken;
 };
 
 /* This method checks if the password has been changed after the token was issued. */

@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
+import RestrictByRole from '../restrictAccess/RestrictByRole';
 import './CourseCard.scss';
 
-const CourseCard = (props) => {
+const CourseCard = ({showMoreBtn=true, ...props}) => {
     const navigate = useNavigate();
 
     let description = props.description.slice(0, 130);
@@ -48,9 +49,21 @@ const CourseCard = (props) => {
                     <p className='card-price'>
                         {props.price ? `$${props.price}` : 'Gratuito'}
                     </p>
-                    <BaseButton type="primary" onClick={()=> navigate(`/curso/${props._id}`)}>
-                        Ver más
-                    </BaseButton>
+                    <div>
+                        {showMoreBtn &&
+                            <BaseButton className="mb-1" type="primary" onClick={()=> navigate(`/Curso/${props._id}`)}>
+                                Ver más
+                            </BaseButton>
+                        }
+                        {showMoreBtn &&
+                            <RestrictByRole allowedRoles={['caeq']}>
+                                <BaseButton type="primary" onClick={()=> navigate(`/Cursos/Curso/${props._id}`)}>
+                                    Modificar
+                                </BaseButton>
+                            </RestrictByRole>
+                        }
+
+                    </div>
                 </div>
             </div>
         </div>

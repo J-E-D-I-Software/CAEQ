@@ -26,26 +26,27 @@
 }
 
 .large-box-input {
-  font-family: Montserrat;
-  font-size: 18px;
-  border-radius: 20px;
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-  width: 100%;
-  height: 334px;
-  padding-left: 12px;
-  padding-top: 8px;
-  border: none;
-  resize: none;
-  font-family: Montserrat;
-  font-size: 20x;
-  border-radius: 20px;
-  box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
-  width: auto;
-  height: 334px;
-  padding-left: 12px;
-  padding-top: 8px;
-  border: none;
-  resize: none;
+    font-family: Montserrat;
+    font-size: 18px;
+    border-radius: 20px;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 140px;
+    padding-left: 12px;
+    padding-top: 8px;
+    border: none;
+    resize: none;
+}
+
+.date-input {
+    border-radius: 20px;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 30px;
+    letter-spacing: 1px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: none;
 }
 
 .fused-box-input {

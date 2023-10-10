@@ -6,6 +6,7 @@ import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
+import Profile from './screens/Profile/Profile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
@@ -21,6 +22,8 @@ import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
 import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
+import ProfileIcon from '../src/components/icons/ProfileIcon.png';
+import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
@@ -141,6 +144,15 @@ const routes = [
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
+    },
+    {
+        path: '/Perfil',
+        name: 'Perfil',
+        icon: ProfileIcon,
+        iconWhite: ProfileIconWhite,
+        Component: Profile,
+        isPrivate: true,
+        inNavbar: true,
     },
     {
         path: '*',

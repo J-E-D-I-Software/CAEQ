@@ -6,45 +6,13 @@ import TextInput from "../../components/inputs/TextInput/TextInput";
 import "./DirectoryArchitectDetail.scss";
 import FileInput from "../../components/inputs/FileInput/FileInput";
 import BaseButton from "../../components/buttons/BaseButton";
-
-/**
- * "fullName": "Luis Garc\u00EDa",
-      "collegiateNumber": 98765,
-      "hoursAttended": 10,
-      "memberType": "Miembro de n\u00FAmero",
-      "classification": "Docente",
-      "DRONumber": "DRO98765",
-      "authorizationToShareInfo": true,
-      "lifeInsurance": false,
-      "lifeInsureID": "",
-      "age": 40,
-      "gender": "Masculino",
-      "cellphone": 5551112222,
-      "homePhone": 5553334444,
-      "officePhone": 5555556666,
-      "emergencyContact": 5557778888,
-      "emergencyContactName": "Ana Garc\u00EDa",
-      "mainProfessionalActivity": "Ingeniero Civil",
-      "dateOfAdmission": "2010-02-15T00:00:00.000Z",
-      "dateOfBirth": "1983-07-20T00:00:00.000Z",
-      "municipalityOfLabor": "Quer\u00E9taro",
-      "linkCV": "https://example.com/luisgarcia-cv",
-      "university": "Universidad Aut\u00F3noma de Quer\u00E9taro",
-      "professionalLicense": "P98765",
-      "workAddress": "123 Avenida Principal, Quer\u00E9taro",
-      "homeAddress": "456 Calle Secundaria, Quer\u00E9taro",
-      "specialty": "Corresponsable en seguridad estructural",
-      "positionsInCouncil": "Vocal",
-      "capacitationHours": 90,
-      "email": "luis@example.com",
- *  
- * 
- */
+import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
+    const [editedData, setEditedData] = useState({});
 
     const dateOfAdmission = new Date(data.dateOfAdmission);
 
@@ -56,7 +24,23 @@ const ArchitectDetail = (props) => {
         console.log(data);
     }, []);
 
-    const today = new Date();
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedData({ ...editedData, [name]: value });
+    };
+
+    const handleSaveChanges = () => {
+
+        updateArchitectUserByID(searchParams.id, editedData)
+            .then((response) => {
+                console.log(response);
+                setData(response);
+            })
+            .catch((error) => {
+                console.log("Failed to update user:", error);
+            });
+
+    };
 
     return (
         <div className="architect-detail">

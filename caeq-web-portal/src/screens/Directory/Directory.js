@@ -24,7 +24,6 @@ const Directory = () => {
   /**
    * Efecto que se ejecuta al cargar el componente para obtener la lista completa de arquitectos.
    */
-
   useEffect(() => {
     (async () => {
       try {

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
+import { FireSucess } from "../../utils/alertHandler";
 
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import "./DirectoryArchitectDetail.scss";
 import FileInput from "../../components/inputs/FileInput/FileInput";
 import BaseButton from "../../components/buttons/BaseButton";
 import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
+import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
@@ -14,32 +16,34 @@ const ArchitectDetail = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
-    const dateOfAdmission = new Date(data.dateOfAdmission);
-
+    
     useEffect(() => {
         if (searchParams.id)
-            getArchitectUserById(searchParams.id)
-                .then((response) => setData(response))
-                .catch((error) => navigate("/404"));
-        console.log(data);
-    }, []);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedData({ ...editedData, [name]: value });
-    };
+        getArchitectUserById(searchParams.id)
+    .then((response) => {
+        setData(response)
+        setEditedData(response)
+    })
+    .catch((error) => navigate("/404"));
+    console.log(data);
+}, []);
 
     const handleSaveChanges = () => {
 
-        updateArchitectUserByID(searchParams.id, editedData)
-            .then((response) => {
-                console.log(response);
-                setData(response);
-            })
-            .catch((error) => {
-                console.log("Failed to update user:", error);
-            });
-
+        try{
+            updateArchitectUserByID(searchParams.id, editedData)
+                .then((response) => {
+                    console.log(response);
+                    setData(response);
+                })
+                .catch((error) => {
+                    console.log("Failed to update user:", error);
+                });
+            FireSucess('Los Cambios se han guardado correctamente')
+            navigate("/Directorio");
+        } catch (error) {
+            console.log(error);
+        };
     };
 
     return (
@@ -53,32 +57,33 @@ const ArchitectDetail = (props) => {
                     <TextInput
                         label="Fecha de Ingreso"
                         placeholder="FechaDeIngreso"
-                        getVal={dateOfAdmission.toLocaleDateString()}
-                        setVal={dateOfAdmission.toLocaleDateString()}
+                        getVal={editedData.dateOfAdmission}
+                        setVal={(value) => setEditedData({ ...editedData, dateOfAdmission: value })}
                     />
                     <TextInput
                         label="Número de Colegiado"
                         placeholder="Número de Colegiado"
-                        getVal={data.collegiateNumber}
-                        setVal={data.collegiateNumber}
+                        getVal={editedData.collegiateNumber}
+                        setVal={(value) => setEditedData({ ...editedData, collegiateNumber: value })}
                     />
                     <TextInput
                         label="Número de DRO"
                         placeholder="Número de DRO"
-                        getVal={data.DRONumber}
-                        setVal={data.DRONumber}
+                        getVal={editedData.DRONumber}
+                        setVal={(value) => setEditedData({ ...editedData, DRONumber: value })}
                     />
                     <TextInput
                         label="Tipo de Miembro"
                         placeholder="Tipo de Miembro"
-                        getVal={data.memberType}
-                        setVal={data.memberType}
+                        getVal={editedData.memberType}
+                        setVal={(value) => setEditedData({ ...editedData, memberType:value})}
                     />
+
                     <TextInput
                         label="Especialidad"
                         placeholder="Especialidad"
-                        getVal={data.specialty}
-                        setVal={data.specialty}
+                        getVal={editedData.specialty}
+                        setVal={(value) => setEditedData({ ...editedData, specialty: value })}
                     />
                 </div>
 
@@ -86,24 +91,26 @@ const ArchitectDetail = (props) => {
                     <TextInput
                         label="Horas Acreditadas"
                         placeholder="Horas Acreditadas"
-                        getVal={data.capacitationHours}
-                        setVal={data.capacitationHours}
+                        getVal={editedData.capacitationHours}
+                        setVal={(value) => setEditedData({ ...editedData, capacitationHours: value })}
                     />
                     <TextInput
                         label="Número de Asistencias a Asambleas"
                         placeholder="Número de Asistencias a Asambleas"
-                        getVal={data.hoursAttended}
-                        setVal={data.hoursAttended}
+                        getVal={editedData.hoursAttended}
+                        setVal={(value) => setEditedData({ ...editedData, hoursAttended: value })}
                     />
 
-                    <TextInput
+                    <DropdownInput
                         label="Pago de Anualidad"
+                        getVal={editedData.authorizationToShareInfo}
+                        setVal={(value) => setEditedData({...editedData, authorizationToShareInfo: value === "Si" ? true : false})}
+                        options={["Si", "No"]}
                         placeholder="Pago de Anualidad"
-                        getVal={data.uthorizationToShareInfo ? "Si" : "No"}
-                        setVal={data.authorizationToShareInfo}
                     />
+                    
 
-                    <FileInput label="CV" placeholder="CV" getVal={""} setVal={""} />
+                    <FileInput label="CV" placeholder="CV" getVal={data.linkCV} setVal={(value) => setEditedData({ ...editedData, linkCV: value})} />
                     <p>
                         Archivo Actual: <a href="{data.linkCV}">{data.linkCV}</a>
                     </p>
@@ -111,7 +118,9 @@ const ArchitectDetail = (props) => {
             </div>
 
             <div className="architect-row">
-                <BaseButton type="primary">Guardar Cambios</BaseButton>
+                <BaseButton type="primary" onClick={handleSaveChanges}>
+                    Guardar Cambios
+                </BaseButton>
             </div>
         </div>
     );

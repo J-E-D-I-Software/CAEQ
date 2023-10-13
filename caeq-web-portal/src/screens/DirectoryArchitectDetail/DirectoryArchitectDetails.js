@@ -44,6 +44,18 @@ const ArchitectDetail = (props) => {
         }
     };
 
+    const memberOptions = [
+        "Miembro de número",
+        "Miembro Adherente",
+        "Miembro Pasante",
+        "Miembro Honorario",
+        "Miembro Vitalicio",
+    ]
+    const getMemberOptions = () => {
+        const filteredOptions = memberOptions.filter((option) => option !== editedData.memberType);
+        return filteredOptions;
+    };
+
     return (
         <div className="architect-detail">
             <div className="architect-row">
@@ -78,13 +90,8 @@ const ArchitectDetail = (props) => {
                     />
                     <DropdownInput
                         label="Tipo de Miembro"
-                        options={[
-                            "Miembro de número",
-                            "Miembro Adherente",
-                            "Miembro Pasante",
-                            "Miembro Honorario",
-                            "Miembro Vitalicio",
-                        ]}
+                        placeholder={editedData.memberType}
+                        options={getMemberOptions()}
                         getVal={editedData.memberType}
                         setVal={(value) =>
                             setEditedData({ ...editedData, memberType: value })
@@ -120,14 +127,15 @@ const ArchitectDetail = (props) => {
 
                     <DropdownInput
                         label="Pago de Anualidad"
-                        getVal={editedData.authorizationToShareInfo}
+                        placeholder={editedData.authorizationToShareInfo}
+                        options={["Si", "No"]}
+                        getVal={editedData.authorizationToShareInfo ? "Si" : "No"}
                         setVal={(value) =>
                             setEditedData({
                                 ...editedData,
                                 authorizationToShareInfo: value === "Si" ? true : false,
                             })
                         }
-                        options={["Si", "No"]}
                     />
 
                     <FileInput

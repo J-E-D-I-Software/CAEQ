@@ -27,6 +27,7 @@ import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import LandingCAEQ from './screens/Landing/LandingCAEQ';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -174,6 +175,13 @@ const routes = [
         path: '/architect/Reset-password/:token',
         name: 'Restaurar contraseña',
         Component: ArchitecResetPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/welcomeAdmin',
+        name: 'Inicio CAEQ Admin',
+        Component: LandingCAEQ,
         isPrivate: false,
         inNavbar: false,
     },

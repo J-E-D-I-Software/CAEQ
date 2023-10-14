@@ -36,7 +36,11 @@ const Signup = () => {
             <h2>Registro</h2>
             <form onSubmit={handleSignup}>
                 <h3>Nombre</h3>
-                <TextInput placeholder='Nombre Completo' getVal={fullName} setVal={setfullName} />
+                <TextInput
+                    placeholder='Nombre Completo'
+                    getVal={fullName}
+                    setVal={setfullName}
+                />
                 <h3>Correo Electrónico</h3>
                 <TextInput
                     placeholder='Correo Electrónico'
@@ -49,7 +53,7 @@ const Signup = () => {
                     getVal={password}
                     setVal={setPassword}
                 />
-                <h3>Confirmar Contraseña</h3>
+                <h3>Confirmar Contraseñaaa</h3>
                 <HiddenTextInput
                     placeholder='Confirmar Contraseña'
                     getVal={passwordConfirm}

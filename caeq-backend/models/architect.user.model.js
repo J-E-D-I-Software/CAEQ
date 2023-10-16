@@ -54,7 +54,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ["Hombre", "Mujer", "Prefieron no decirlo"],
+        enum: ["Hombre", "Mujer", "Prefiero no decirlo"],
         required: [true, 'Por favor dinos tu género!']
     },
     cellphone: {
@@ -112,16 +112,13 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     specialty: {
         type: String,
-        /*
-        enum: [ 
-            "Corresponsable en seguridad estructural", 
-            "Corresponsable en instalaciones",
-            "Corresponsable en instalaciones eléctricas",
-            "DUYA",
-            "Dictaminador estructural", 
-            "Revisor de bajo riesgo", ],
-        */
-        required: [true, 'Por favor dinos tu especialidad!']
+        topics: [
+            {
+                type: mongoose.Schema.ObjectId,
+                ref: 'specialty',
+            },
+        ],
+        required: [false]
     },
     positionsInCouncil: {
         type: String,

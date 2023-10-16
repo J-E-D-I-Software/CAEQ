@@ -1,0 +1,207 @@
+.containercaeq {
+    /* Color del texto dentro del contenedor */
+    .welcome {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+        min-height: 100vh;
+        height: fit-content;
+        color: #000000;
+        background: url('../../components/images/backgroundCaeq.png')
+            center/cover no-repeat;
+        background-attachment: fixed;
+        color: #000000;
+    }
+    .infocaeq {
+        display: flex;
+        // padding: 20px;
+        // min-height: 100vh;
+        // height: fit-content;
+        // color: #000000;
+    }
+
+    .titleOne {
+        width: 566px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: right;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .descOne {
+        display: flex;
+        width: 664px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        text-align: right;
+        font-size: 35px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .titleTwo {
+        width: 566px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: left;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .descTwo {
+        display: flex;
+        width: 664px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        text-align: left;
+        font-size: 35px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .titleThree {
+        width: 354px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .descThree {
+        display: flex;
+        width: 1173px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #000;
+        text-align: center;
+        font-size: 35px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .column {
+        flex: 1;
+        padding: 20px; // Adjust the padding as needed
+        box-sizing: border-box;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: normal;
+
+        // background-color: rgba(
+        //     255,
+        //     255,
+        //     255,
+        //     0.8
+        // ); // Example background color for the left column
+    }
+
+    .button-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // For smaller screens, change to a single column layout
+            align-items: center;
+            text-align: center;
+        }
+        .button {
+            margin-top: 2rem;
+            margin-inline: 3rem;
+        }
+    }
+
+    /* Estilos para el logo */
+    .logo {
+        align-self: self-start;
+        height: 170px;
+        margin-right: 70pt;
+        margin-bottom: 35pt;
+
+        @media (max-width: 1000px) {
+            width: 300px;
+            background-color: transparent;
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            font-size: 1.5rem;
+            margin-bottom: 20px; // Add some space between the columns on smaller screens
+        }
+
+        // background-color: rgba(
+        //     255,
+        //     255,
+        //     255,
+        //     0.8
+        // ); // Example background color for the right column
+    }
+
+    .titlecaeq {
+        width: 656px;
+        height: 129px;
+        flex-shrink: 0;
+        align-self: self-start;
+        /* Title CAEQ */
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .subtitlecaeq {
+        display: flex;
+        width: 600px;
+        height: 180px;
+        align-self: self-start;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .directory {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}

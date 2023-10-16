@@ -1,7 +1,77 @@
 import React from 'react';
+import './landingArchitect.scss';
+import Logo from '../../components/images/caeqLogo.png';
+import Image1 from '../../components/images/imageCAEQhome.png';
+import Image2 from '../../components/images/imageCAEQ2.png';
+import Image3 from '../../components/images/imageCAEQ3.png';
+import { Link } from 'react-router-dom';
+import BaseButton from '../../components/buttons/BaseButton';
 
 const LandingArchitect = () => {
-    return <div>LandingArchitect</div>;
+    return (
+        <div className='containercaeq'>
+            <div className='welcome'>
+                <div className='column left-column'>
+                    <img src={Logo} alt='Logo' className='logo' />
+                    <div className='titlecaeq'>
+                        Bienvenidos al portal de colegiados
+                    </div>
+                    <p className='subtitlecaeq'>
+                        Consulta tu información, cursos, cotizaciones y
+                        servicios que se ofrecen en el CAEQ.
+                    </p>
+                    <div className='button-container'>
+                        <Link to='/LoginUser'>
+                            <BaseButton>Iniciar sesión</BaseButton>
+                        </Link>
+
+                        <Link to='/SignupUser'>
+                            <BaseButton type='primary'>Registrarse</BaseButton>
+                        </Link>
+                    </div>
+                </div>
+                <div className='column right-column'>
+                    <img src={Image1} alt='Image1' className='image1' />
+                </div>
+            </div>
+            <div className='infocaeq'>
+                <div className='column left-column'>
+                    <img src={Image3} alt='Image1' className='image1' />
+                </div>
+                <div className='column right-column'>
+                    <div className='titleOne'> C A E Q</div>
+                    <div className='descOne'>
+                        Espacio de expresión, opinión, colaboración y
+                        capacitación para promover e impulsar el mejoramiento
+                        arquitectónico y urbano de Querétaro.
+                    </div>
+                </div>
+            </div>
+            <div className='infocaeq'>
+                <div className='column left-column'>
+                    <div className='titleTwo'>Objetivos</div>
+                    <div className='descTwo'>
+                        Integrar a los profesionistas de la arquitectura,
+                        promoviendo, la participación dentro del gremio.
+                    </div>
+                </div>
+                <div className='column right-column'>
+                    <img src={Image2} alt='Image1' className='image1' />
+                </div>
+            </div>
+
+            <div className='directory'>
+                <div className='titleThree'>Valores</div>
+                <div className='descThree'>
+                    HONESTIDAD | LEALTAD | TRANSPARENCIA | PROFESIONALISMO
+                </div>
+            </div>
+
+            <div>
+                <p>Directorio de colegidos</p>
+            </div>
+        </div>
+    );
 };
 
 export default LandingArchitect;

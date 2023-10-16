@@ -28,6 +28,7 @@ import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 import LandingCAEQ from './screens/Landing/LandingCAEQ';
+import LandingArchitect from './screens/Landing/LandingArchitect';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -180,8 +181,15 @@ const routes = [
     },
     {
         path: '/welcomeAdmin',
-        name: 'Inicio CAEQ Admin',
+        name: 'Bienvenida Admin',
         Component: LandingCAEQ,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/welcomeCAEQ',
+        name: 'Bienvenida CAEQ',
+        Component: LandingArchitect,
         isPrivate: false,
         inNavbar: false,
     },

@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
 
 const specialtySchema = new mongoose.Schema({
-    specialty: {
+    name: {
         type: String,
-        required: [true] 
-    
-    }
-})
+        required: [true, 'Se necesita al menos una especialidad'],
+        unique: [true, 'Esta especialidad ya existe. Elige otro.'],
+    },
+});
 
-const Specialties = mongoose.model('Specialties', specialtySchema);
+const Specialty = mongoose.model('Specialty', specialtySchema);
 
-module.exports = Specialties;
+module.exports = Specialty;
+module.exports.specialtySchema = Specialty;

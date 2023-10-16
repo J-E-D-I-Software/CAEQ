@@ -34,9 +34,6 @@ const setUpArchitectUserData = catchAsync(async () => {
     ArchitectUserData[4].specialties = [specialties[0]._id, specialties[3]._id];
 
     await populateDb(ArchitectUser, ArchitectUserData);
-
-    const architects = await ArchitectUser.find();
-    console.log(architects[4]);
 });
 
 /**

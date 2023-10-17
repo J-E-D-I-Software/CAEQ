@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import InteractiveTable from "../../components/table/InteractiveTable";
 import InputText from "../../components/inputs/TextInput/TextInput";
 import { getAllArchitectUsers } from "../../client/ArchitectUser/ArchitectUser.GET";
@@ -15,6 +16,9 @@ const Directory = () => {
   const [filterSearchByName, setFilterSearchByName] = useState('');
   const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] = useState('');
   const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState('');
+  const [filtergender, setFiltergender] = useState('');
+  const [filterclassification, setFilterclassification] = useState('');
+  const [filtermemberType, setFiltermemberType] = useState('');
 
 
   const [paginationPage, setPaginationPage] = useState(1);
@@ -38,6 +42,11 @@ const Directory = () => {
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor) filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchByDRONumber) filters += `&DRONumber[regex]=${filterSearchByDRONumber}`;
+        if (filtergender) filters += `&gender=${filtergender}`;
+        if (filterclassification) filters += `&classification=${filterclassification}`;
+        if (filtermemberType) filters += `&memberType=${filtermemberType}`;
+
+
 
 
         const architects = await getAllArchitectUsers(paginationPage, filters);
@@ -45,7 +54,7 @@ const Directory = () => {
       } catch (error) {
       }
     })();
-  }, [paginationPage, filterSearchByName, filterSearchBymunicipalityOfLabor, filterSearchByDRONumber]);
+  }, [paginationPage, filterSearchByName, filterSearchBymunicipalityOfLabor, filterSearchByDRONumber, filtergender, filterclassification, filtermemberType]);
 
   /**
    * Función que filtra los arquitectos en función del texto de búsqueda.
@@ -103,51 +112,79 @@ const Directory = () => {
   };
 
   return (
-    console.log("this is",tablefilteredArchitects[0]),
-    <div className="directory">
-      <div className="directory-row directory-header">
-        <h1>Directorio de arquitectos</h1>
-      </div>
-      <label>
-        <InputText
-          placeholder='Nombre del colegiado'
-          getVal={filterSearchByName}
-          setVal={setFilterSearchByName}
-        />
-      </label>
-      <label>
-        <InputText
-          placeholder='Municipio'
-          getVal={filterSearchBymunicipalityOfLabor}
-          setVal={setFilterSearchBymunicipalityOfLabor}
-        />
-      </label>
-      <label>
-        <InputText
-          placeholder='Número de DRO'
-          getVal={filterSearchByDRONumber}
-          setVal={setFilterSearchByDRONumber}
-        />
-      </label>
+      console.log("this is", tablefilteredArchitects[0]),
+      (
+          <div className="directory">
+              <div className="directory-row directory-header">
+                  <h1>Directorio de arquitectos</h1>
+              </div>
 
-      <div className="directory-row">
-        {filteredArchitects.length > 0 ? (
-          <div className="box-container">
-            <InteractiveTable data={filteredArchitects} onRowClick={handleRowClick} />
+              <DropdownInput
+                  getVal={filtergender}
+                  setVal={setFiltergender}
+                  options={["Hombre", "Mujer", "Prefiero no decirlo"]}
+                  placeholder="Filtrar género"
+              />
+
+              <DropdownInput
+                  getVal={filterclassification}
+                  setVal={setFilterclassification}
+                  options={["Expresidente", "Docente", "Convenio"]}
+                  placeholder="Filtrar clasificación"
+              />
+
+              <DropdownInput
+                  getVal={filtermemberType}
+                  setVal={setFiltermemberType}
+                  options={[
+                      "Miembro de número",
+                      "Miembro Adherente",
+                      "Miembro Pasante",
+                      "Miembro Vitalicio",
+                      "Miembro Honorario",
+                  ]}
+                  placeholder="Filtrar tipo de miembro"
+              />
+
+              <InputText
+                  placeholder="Nombre del colegiado"
+                  getVal={filterSearchByName}
+                  setVal={setFilterSearchByName}
+              />
+
+              <InputText
+                  placeholder="Municipio"
+                  getVal={filterSearchBymunicipalityOfLabor}
+                  setVal={setFilterSearchBymunicipalityOfLabor}
+              />
+              <InputText
+                  placeholder="Número de DRO"
+                  getVal={filterSearchByDRONumber}
+                  setVal={setFilterSearchByDRONumber}
+              />
+
+              <div className="directory-row">
+                  {filteredArchitects.length > 0 ? (
+                      <div className="box-container">
+                          <InteractiveTable
+                              data={filteredArchitects}
+                              onRowClick={handleRowClick}
+                          />
+                      </div>
+                  ) : (
+                      <p className="no-data-message">No hay colegiados disponibles</p>
+                  )}
+              </div>
+
+              <div className="directory-row directory-pagination">
+                  <PaginationNav
+                      onClickBefore={handlePreviousPage}
+                      onClickAfter={handleNextPage}
+                      page={paginationPage}
+                  />
+              </div>
           </div>
-        ) : (
-          <p className="no-data-message">No hay colegiados disponibles</p>
-        )}
-      </div>
-
-      <div className="directory-row directory-pagination">
-        <PaginationNav
-          onClickBefore={handlePreviousPage}
-          onClickAfter={handleNextPage}
-          page={paginationPage}
-        />
-      </div>
-    </div>
+      )
   );
 };
 

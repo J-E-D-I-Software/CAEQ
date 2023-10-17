@@ -118,8 +118,6 @@ const InteractiveTable = ({ data, onRowClick }) => {
                                         formatDate(row[column])
                                     ) : column === 'specialties' && row[column] ? (
                                         row[column].map((val) => val.name).join(', ')
-                                    ) : column === 'dateOfAdmission' && row[column] ? (
-                                        formatDate(row[column])
                                     ) : (
                                         row[column]
                                     )}

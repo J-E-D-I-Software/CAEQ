@@ -49,11 +49,6 @@ const LandingArchitect = () => {
     // Filtrar los arquitectos en función del texto de búsqueda
     const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
-    // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
-    const tablefilteredArchitects = filteredArchitects;
-    /*.map(
-    ({ _id, ...rest }) => rest
-  );*/
     const columnsToShow =
         filteredArchitects?.length > 0
             ? Object.keys(filteredArchitects[0])

@@ -13,8 +13,8 @@ export async function getAllArchitectUsers(page = 1, filtersParams = '') {
     return response.data.data.documents;
 }
 
-export async function getAllPublicArchitectUsers() {
-    let endpoint = `${baseApiEndpoint}/architectusers/public`;
+export async function getAllPublicArchitectUsers(page = 1, filtersParams = '') {
+    let endpoint = `${baseApiEndpoint}/architectusers/public?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
 
     const response = await axios.get(endpoint);
 

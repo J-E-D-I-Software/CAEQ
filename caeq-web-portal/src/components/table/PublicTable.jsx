@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import './Table.scss';
-import CloseIcon from '../icons/Close.png';
+import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import BaseButton from '../buttons/BaseButton';
 
 /**
@@ -10,7 +10,7 @@ import BaseButton from '../buttons/BaseButton';
  * @param {Object[]} data - Los datos para llenar la tabla.
  * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
  */
-const PublicTable = ({ data, onRowClick }) => {
+const PublicTable = ({ data }) => {
     // Obtiene las columnas que deben mostrarse en la tabla.
     const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
@@ -21,30 +21,6 @@ const PublicTable = ({ data, onRowClick }) => {
             return visibility;
         }, {});
     });
-
-    /**
-     * Alternar la visibilidad de una columna.
-     * @param {string} columnKey - La clave de la columna a alternar.
-     */
-    const toggleColumnVisibility = (columnKey) => {
-        setColumnVisibility((prevVisibility) => ({
-            ...prevVisibility,
-            [columnKey]: !prevVisibility[columnKey],
-        }));
-    };
-
-    /**
-     * Restablecer la visibilidad de todas las columnas.
-     */
-    const resetColumnVisibility = () => {
-        setColumnVisibility((prevVisibility) => {
-            const resetVisibility = {};
-            columnsToShow.forEach((column) => {
-                resetVisibility[column] = true;
-            });
-            return resetVisibility;
-        });
-    };
 
     const headerMappings = {
         fullName: 'Nombre completo',
@@ -79,16 +55,6 @@ const PublicTable = ({ data, onRowClick }) => {
                             <span className='header-text'>
                                 {headerMappings[column]}
                             </span>
-                            <div className='hide-button-container'>
-                                <button
-                                    className='hide-button'
-                                    onClick={() =>
-                                        toggleColumnVisibility(column)
-                                    }
-                                >
-                                    <img src={CloseIcon} alt='Icono Ocultar' />
-                                </button>
-                            </div>
                         </div>
                     </th>
                 ) : null
@@ -115,11 +81,7 @@ const PublicTable = ({ data, onRowClick }) => {
             (row, rowIndex) => (
                 console.log('yep', data),
                 (
-                    <tr
-                        key={rowIndex}
-                        className='fila-sombrada'
-                        onClick={() => onRowClick(data[rowIndex]._id)}
-                    >
+                    <tr key={rowIndex} className='fila-sombrada'>
                         {columnsToShow.map((column) =>
                             columnVisibility[column] && column !== '_id' ? (
                                 <td key={column} className='sticky-column'>
@@ -164,14 +126,6 @@ const PublicTable = ({ data, onRowClick }) => {
 
     return (
         <div className='tabla-container'>
-            <BaseButton
-                type='primary'
-                className='restablecer-button'
-                onClick={resetColumnVisibility}
-            >
-                Resetear tabla
-            </BaseButton>
-
             <table className='tabla'>
                 <thead>{renderTableHeader()}</thead>
                 <tbody>{renderTableBody()}</tbody>

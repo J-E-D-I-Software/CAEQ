@@ -25,7 +25,14 @@ import './NumberInput.scss';
  *   require={true}
  * />
  */
-const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = false }) => {
+const NumberInput = ({
+    label,
+    getVal,
+    setVal,
+    placeholder,
+    maxDigits = 4,
+    require = false,
+}) => {
     const isRequired = require;
     const maxAllowedValue = 10 ** maxDigits - 1;
 
@@ -40,7 +47,7 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
     const inputChange = (e) => {
         const inputValue = e.target.value;
 
-        // Check if the input value is a valid number 
+        // Check if the input value is a valid number
         if (!isNaN(inputValue) && inputValue >= 0) {
             // If maxDigits is specified, check if it exceeds the maximum allowed value
             if (maxDigits && inputValue < maxAllowedValue) {
@@ -49,14 +56,11 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
         }
     };
 
-
     return (
         <label>
             <div className='label-input'>
                 {label}
-                {isRequired && (
-                    <span className='obligatorio'>*obligatorio</span>
-                )}
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <input
                 className='box-input'

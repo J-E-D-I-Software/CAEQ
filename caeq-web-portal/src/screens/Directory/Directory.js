@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import InteractiveTable from '../../components/table/InteractiveTable';
 import InputText from '../../components/inputs/TextInput/TextInput';
+import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import headerMappings from '../../components/table/HeaderMappings';
@@ -154,6 +155,16 @@ const Directory = () => {
             />
             <InputText
                 placeholder='Número de DRO'
+                getVal={filterSearchByDRONumber}
+                setVal={setFilterSearchByDRONumber}
+            />
+            <InputNumber
+                placeholder='Rango de año de nacimiento inicial'
+                getVal={filterSearchBymunicipalityOfLabor}
+                setVal={setFilterSearchBymunicipalityOfLabor}
+            />
+            <InputNumber
+                placeholder='Rango de año de nacimiento final'
                 getVal={filterSearchByDRONumber}
                 setVal={setFilterSearchByDRONumber}
             />

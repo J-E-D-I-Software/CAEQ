@@ -7,6 +7,7 @@ import Image1 from '../../components/images/imageCAEQhome.png';
 import Image2 from '../../components/images/imageCAEQ2.png';
 import Image3 from '../../components/images/imageCAEQ3.png';
 import { Link } from 'react-router-dom';
+import PaginationNav from '../../components/pagination/PaginationNav';
 import { getAllPublicArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import BaseButton from '../../components/buttons/BaseButton';
 
@@ -31,7 +32,12 @@ const LandingArchitect = () => {
             } catch (error) {}
         })();
     }, [paginationPage]);
-
+    /**
+     * Función que filtra los arquitectos en función del texto de búsqueda.
+     * @param {Object[]} data - La lista de arquitectos completa.
+     * @param {string} searchText - El texto de búsqueda.
+     * @returns {Object[]} - La lista de arquitectos filtrada.
+     */
     const filterArchitects = (data, searchText) => {
         // Filtrar los arquitectos en función del texto de búsqueda
         return data.filter((architect) => {
@@ -49,6 +55,9 @@ const LandingArchitect = () => {
     // Filtrar los arquitectos en función del texto de búsqueda
     const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
+    // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
+    const tablefilteredArchitects = filteredArchitects;
+
     const columnsToShow =
         filteredArchitects?.length > 0
             ? Object.keys(filteredArchitects[0])
@@ -60,6 +69,24 @@ const LandingArchitect = () => {
             delete architect[columnsToShow[columnsToShow.length - 1]];
         });
     }
+
+    /**
+     * Maneja la acción de retroceder a la página anterior en la paginación.
+     */
+
+    const handlePreviousPage = () => {
+        if (paginationPage > 1) {
+            setPaginationPage(paginationPage - 1);
+        }
+    };
+
+    /**
+     * Maneja la acción de avanzar a la siguiente página en la paginación.
+     */
+    const handleNextPage = () => {
+        setPaginationPage(paginationPage + 1);
+    };
+
     return (
         <div className='containercaeq'>
             <div className='welcome'>
@@ -141,6 +168,13 @@ const LandingArchitect = () => {
                             No hay colegiados disponibles
                         </p>
                     )}
+                </div>
+                <div className='directory-row directory-pagination'>
+                    <PaginationNav
+                        onClickBefore={handlePreviousPage}
+                        onClickAfter={handleNextPage}
+                        page={paginationPage}
+                    />
                 </div>
             </div>
         </div>

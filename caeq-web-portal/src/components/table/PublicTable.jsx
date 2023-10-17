@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import './Table.scss';
-import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import BaseButton from '../buttons/BaseButton';
 
 /**
@@ -28,8 +27,8 @@ const PublicTable = ({ data }) => {
         DRONumber: 'Número de DRO',
         specialty: 'Especialidad',
         cellphone: 'Número de celular',
-        email: 'Correo electrónico',
         linkCV: 'Link de CV',
+        email: 'Correo electrónico',
     };
 
     /**
@@ -38,6 +37,19 @@ const PublicTable = ({ data }) => {
      * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
      */
     const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
+
+    /**
+     * Restablecer la visibilidad de todas las columnas.
+     */
+    const resetColumnVisibility = () => {
+        setColumnVisibility((prevVisibility) => {
+            const resetVisibility = {};
+            columnsToShow.forEach((column) => {
+                resetVisibility[column] = true;
+            });
+            return resetVisibility;
+        });
+    };
 
     /**
      * Renderizar el encabezado de la tabla.

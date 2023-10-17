@@ -5,10 +5,12 @@ import InteractiveTable from '../../components/table/InteractiveTable';
 import InputText from '../../components/inputs/TextInput/TextInput';
 import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import headerMappings from '../../components/table/HeaderMappings';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
+import BaseButton from '../../components/buttons/BaseButton';
 import './directory.scss';
 
 const Directory = () => {
@@ -25,12 +27,27 @@ const Directory = () => {
     const [admisionFinal, setAdmisionFinal] = useState();
     const [birthInitial, setBirthInitial] = useState();
     const [birthFinal, setBirthFinal] = useState();
+    const [specialties, setSpecialties] = useState([]);
+    const [specialtiesName, setSpecialtiesName] = useState([]);
+    const [specialty, setSpecialty] = useState('');
+    const [specialtyName, setSpecialtyName] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * Handle a row click event by navigating to a directory page with the specified ID.
+     *
+     * @param {string} id - The ID of the directory item to navigate to.
+     * @returns {void}
+     */
     const handleRowClick = (id) => {
         navigate(`/Directorio/${id}`);
     };
 
+    /**
+     * Calculate filters for searching directory items.
+     *
+     * @returns {string} The query string containing filters.
+     */
     const calculateFilters = () => {
         let filters = '';
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
@@ -45,6 +62,7 @@ const Directory = () => {
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
+        if (specialty) filters += `&specialties=${specialty}`;
         return filters;
     };
 
@@ -70,18 +88,51 @@ const Directory = () => {
         admisionInitial,
         birthFinal,
         birthInitial,
+        specialty,
     ]);
 
+    useEffect(() => {
+        (async () => {
+            try {
+                const specialties = await getAllSpecialties();
+
+                setSpecialtiesName(specialties.map((val) => val.name));
+                setSpecialties(specialties);
+            } catch (error) {
+                // Handle error
+            }
+        })();
+    }, []);
+
+    /**
+     * Handle clicking the "Previous Page" button to navigate to the previous page of results.
+     * Decrements the pagination page if it's greater than 1.
+     *
+     * @returns {void}
+     */
     const handlePreviousPage = () => {
         if (paginationPage > 1) {
             setPaginationPage(paginationPage - 1);
         }
     };
 
+    /**
+     * Handle clicking the "Next Page" button to navigate to the next page of results.
+     * Increments the pagination page.
+     *
+     * @returns {void}
+     */
     const handleNextPage = () => {
         setPaginationPage(paginationPage + 1);
     };
 
+    /**
+     * Handle downloading data based on specified filters and export it to an Excel file.
+     * Calls the `getAllArchitectUsers` function to retrieve architects' data.
+     * Maps and processes the data and then exports it to Excel.
+     *
+     * @returns {Promise<void>} A Promise that resolves when the download is complete.
+     */
     const handleDownload = async () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
@@ -119,12 +170,34 @@ const Directory = () => {
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };
 
+    /**
+     * Handle a change in specialty selection.
+     *
+     * @param {string|null} specialty - The selected specialty name, or null if no specialty is selected.
+     * @returns {void}
+     */
+    const handleSpecialtyChange = (specialty) => {
+        if (!specialty) {
+            setSpecialty('');
+            setSpecialtyName('');
+            return;
+        }
+
+        setSpecialtyName(specialty);
+
+        const specialtyId = specialties.filter((val) => val.name === specialty)[0]._id;
+
+        setSpecialty(specialtyId);
+    };
+
     return (
         <div className='directory'>
             <div className='directory-row directory-header'>
                 <h1>Directorio de arquitectos</h1>
             </div>
-            <button onClick={() => handleDownload()}>Descargar arquitectos</button>
+            <BaseButton onClick={() => handleDownload()} type='primary'>
+                Descargar arquitectos
+            </BaseButton>
 
             <DropdownInput
                 getVal={filtergender}
@@ -151,6 +224,13 @@ const Directory = () => {
                     'Miembro Honorario',
                 ]}
                 placeholder='Filtrar tipo de miembro'
+            />
+
+            <DropdownInput
+                getVal={specialtyName}
+                setVal={(specialty) => handleSpecialtyChange(specialty)}
+                options={specialtiesName}
+                placeholder='Filtrar por especialidad'
             />
 
             <InputText

@@ -7,6 +7,7 @@ import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import headerMappings from '../../components/table/HeaderMappings';
+import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
 import './directory.scss';
 
@@ -20,6 +21,10 @@ const Directory = () => {
     const [filterclassification, setFilterclassification] = useState('');
     const [filtermemberType, setFiltermemberType] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const [admisionInitial, setAdmisionInitial] = useState();
+    const [admisionFinal, setAdmisionFinal] = useState();
+    const [birthInitial, setBirthInitial] = useState();
+    const [birthFinal, setBirthFinal] = useState();
     const navigate = useNavigate();
 
     const handleRowClick = (id) => {
@@ -36,6 +41,10 @@ const Directory = () => {
         if (filtergender) filters += `&gender=${filtergender}`;
         if (filterclassification) filters += `&classification=${filterclassification}`;
         if (filtermemberType) filters += `&memberType=${filtermemberType}`;
+        if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
+        if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
+        if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
+        if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         return filters;
     };
 
@@ -57,6 +66,10 @@ const Directory = () => {
         filtergender,
         filterclassification,
         filtermemberType,
+        admisionFinal,
+        admisionInitial,
+        birthFinal,
+        birthInitial,
     ]);
 
     const handlePreviousPage = () => {
@@ -72,8 +85,6 @@ const Directory = () => {
     const handleDownload = async () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
-
-        console.log(architects);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;
@@ -159,14 +170,24 @@ const Directory = () => {
                 setVal={setFilterSearchByDRONumber}
             />
             <InputNumber
-                placeholder='Rango de año de nacimiento inicial'
-                getVal={filterSearchBymunicipalityOfLabor}
-                setVal={setFilterSearchBymunicipalityOfLabor}
+                placeholder='Admitido después de:'
+                getVal={admisionInitial}
+                setVal={setAdmisionInitial}
             />
             <InputNumber
-                placeholder='Rango de año de nacimiento final'
-                getVal={filterSearchByDRONumber}
-                setVal={setFilterSearchByDRONumber}
+                placeholder='Admitido antes de:'
+                getVal={admisionFinal}
+                setVal={setAdmisionFinal}
+            />
+            <DateInput
+                label='Nacido después de:'
+                getVal={birthInitial}
+                setVal={setBirthInitial}
+            />
+            <DateInput
+                label='Nacido antes de:'
+                getVal={birthFinal}
+                setVal={setBirthFinal}
             />
 
             <div className='directory-row'>

@@ -32,8 +32,6 @@ class APIFeatures {
 
         this.query.find(JSON.parse(queryString));
 
-        console.log(this.query);
-
         return this;
     }
 

@@ -9,6 +9,7 @@ import PaginationNav from '../../components/pagination/PaginationNav';
 import headerMappings from '../../components/table/HeaderMappings';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
+import BaseButton from '../../components/buttons/BaseButton';
 import './directory.scss';
 
 const Directory = () => {
@@ -124,7 +125,9 @@ const Directory = () => {
             <div className='directory-row directory-header'>
                 <h1>Directorio de arquitectos</h1>
             </div>
-            <button onClick={() => handleDownload()}>Descargar arquitectos</button>
+            <BaseButton onClick={() => handleDownload()} type='primary'>
+                Descargar arquitectos
+            </BaseButton>
 
             <DropdownInput
                 getVal={filtergender}

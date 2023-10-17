@@ -27,6 +27,8 @@ const setUpCaeqUserData = catchAsync(async () => {
 const setUpArchitectUserData = catchAsync(async () => {
     const specialties = await Specialty.find();
 
+    console.log(specialties[0]._id);
+
     ArchitectUserData[0].specialties = [specialties[0]._id];
     ArchitectUserData[1].specialties = [specialties[1]._id];
     ArchitectUserData[2].specialties = [specialties[2]._id];

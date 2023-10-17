@@ -17,6 +17,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     memberType: {
         type: String,
         enum: [
+            "-",
             "Miembro de número",
             "Miembro Adherente",
             "Miembro Pasante",
@@ -27,6 +28,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     classification: {
         type: String,
         enum: [
+            "-",
             "Expresidente",
             "Docente",
             "Convenio"],
@@ -63,7 +65,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     homePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de casa!']
+        required: [false]
     },
     officePhone: {
         type: Number,
@@ -121,7 +123,7 @@ const ArchitectUserSchema = new mongoose.Schema({
             "Dictaminador estructural", 
             "Revisor de bajo riesgo", ],
         */
-        required: [true, 'Por favor dinos tu especialidad!']
+        required: [false]
     },
     positionsInCouncil: {
         type: String,

@@ -115,7 +115,7 @@ const LandingArchitect = () => {
             </div>
             <div className='infocaeq'>
                 <div className='column left-column'>
-                    <img src={Image3} alt='Image1' className='image1' />
+                    <img src={Image3} alt='Image3' className='image3' />
                 </div>
                 <div className='column right-column'>
                     <div className='titleOne'>C A E Q</div>
@@ -135,7 +135,7 @@ const LandingArchitect = () => {
                     </div>
                 </div>
                 <div className='column right-column'>
-                    <img src={Image2} alt='Image1' className='image1' />
+                    <img src={Image2} alt='Image2' className='image2' />
                 </div>
             </div>
 

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const Specialty = require('./specialty.model.js');
+const { specialtySchema } = require('./specialty.model.js');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
@@ -17,21 +19,18 @@ const ArchitectUserSchema = new mongoose.Schema({
     memberType: {
         type: String,
         enum: [
-            "-",
-            "Miembro de número",
-            "Miembro Adherente",
-            "Miembro Pasante",
-            "Miembro Vitalicio",
-            "Miembro Honorario" ],
-        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'] //TODO: change to enum
+            '-',
+            'Miembro de número',
+            'Miembro Adherente',
+            'Miembro Pasante',
+            'Miembro Vitalicio',
+            'Miembro Honorario',
+        ],
+        required: [true, 'Por favor dinos qué |tipo de miembro| eres!'], //TODO: change to enum
     },
     classification: {
         type: String,
-        enum: [
-            "-",
-            "Expresidente",
-            "Docente",
-            "Convenio"],
+        enum: ['-', 'Expresidente', 'Docente', 'Convenio'],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
@@ -44,24 +43,24 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     lifeInsurance: {
         type: Boolean,
-        required: [false]
+        required: [false],
     },
-    lifeInsureID:{
+    lifeInsureID: {
         type: String,
-        required: [false]
+        required: [false],
     },
     age: {
         type: Number,
-        required: [false]
+        required: [false],
     },
     gender: {
         type: String,
-        enum: ["Hombre", "Mujer", "Prefieron no decirlo"],
-        required: [true, 'Por favor dinos tu género!']
+        enum: ['Hombre', 'Mujer', 'Prefiero no decirlo'],
+        required: [true, 'Por favor dinos tu género!'],
     },
     cellphone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de celular!']
+        required: [true, 'Por favor dinos tu número de celular!'],
     },
     homePhone: {
         type: Number,
@@ -69,70 +68,63 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     officePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de oficina!']
+        required: [true, 'Por favor dinos tu número de oficina!'],
     },
     emergencyContact: {
         type: String,
-        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!']
+        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!'],
     },
     mainProfessionalActivity: {
         type: String,
-        required: [true, 'Por favor dinos tu actividad principal profesional!']
+        required: [true, 'Por favor dinos tu actividad principal profesional!'],
     },
     dateOfAdmission: {
         type: Number,
         minlength: [4, 'Deben ser cuatro digitos.'],
-        required: [true, 'Por favor dinos tu fecha de admisión!']
+        required: [true, 'Por favor dinos tu fecha de admisión!'],
     },
     dateOfBirth: {
         type: Date,
-        required: [true, 'Por favor dinos tu fecha de nacimiento!']
+        required: [true, 'Por favor dinos tu fecha de nacimiento!'],
     },
     municipalityOfLabor: {
         type: String,
-        required: [true, 'Por favor dinos tu municipio de labor!']
+        required: [true, 'Por favor dinos tu municipio de labor!'],
     },
     linkCV: {
         type: String,
-        required: [false]
+        required: [false],
     },
     university: {
         type: String,
-        required: [true, 'Por favor dinos tu universidad!']
+        required: [true, 'Por favor dinos tu universidad!'],
     },
     professionalLicense: {
         type: String,
-        required: [true, 'Por favor dinos tu cédula profesional!']
+        required: [true, 'Por favor dinos tu cédula profesional!'],
     },
     workAddress: {
         type: String,
-        required: [true, 'Por favor dinos tu dirección de trabajo!']
+        required: [true, 'Por favor dinos tu dirección de trabajo!'],
     },
     homeAddress: {
         type: String,
-        required: [true, 'Por favor dinos tu dirección de casa!']
-    },
-    specialty: {
-        type: String,
-        /*
-        enum: [ 
-            "Corresponsable en seguridad estructural", 
-            "Corresponsable en instalaciones",
-            "Corresponsable en instalaciones eléctricas",
-            "DUYA",
-            "Dictaminador estructural", 
-            "Revisor de bajo riesgo", ],
-        */
-        required: [false]
+        required: [true, 'Por favor dinos tu dirección de casa!'],
     },
     positionsInCouncil: {
         type: String,
-        required: [true, 'Por favor dinos tus cargos en el consejo directivo!']
+        required: [true, 'Por favor dinos tus cargos en el consejo directivo!'],
     },
     capacitationHours: {
         type: Number,
-        required: [false]
+        required: [false],
     },
+    specialties: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Specialty',
+        },
+    ],
     email: {
         type: String,
         required: [true, 'Por favor dinos tu correo!'],

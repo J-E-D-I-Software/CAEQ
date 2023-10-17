@@ -27,6 +27,7 @@ const headerMappings = {
     positionsInCouncil: 'Cargos en consejos directivos',
     capacitationHours: 'Horas asistidas',
     email: 'Correo electrónico',
+    specialties: 'Especialidades',
 };
 
 export default headerMappings;

@@ -91,7 +91,9 @@ const Directory = () => {
     };
 
     const handleDownload = async () => {
-        const architects = await getAllArchitectUsers(paginationPage, {}, 10000);
+        const architects = await getAllArchitectUsers(paginationPage, '', 10000);
+
+        console.log(architects);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;
@@ -112,12 +114,19 @@ const Directory = () => {
                         mappedObject[headerMappings[key]] === false
                     ) {
                         mappedObject[headerMappings[key]] = 'No';
+                    } else if (key === 'specialties') {
+                        mappedObject[headerMappings[key]] = val[key]
+                            .map((val) => val.name)
+                            .join(', ');
                     }
                 }
             }
 
             return mappedObject;
         });
+
+        console.log(architectsDownload);
+
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };
 

@@ -10,7 +10,7 @@ export async function getAllArchitectUsers(
     filtersParams = '',
     paginationPageLimit = 100
 ) {
-    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${paginationPageLimit}&${filtersParams}&sort=collegiateNumber`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;

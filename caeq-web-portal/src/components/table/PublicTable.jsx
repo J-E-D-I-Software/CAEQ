@@ -10,7 +10,7 @@ import BaseButton from '../buttons/BaseButton';
  * @param {Object[]} data - Los datos para llenar la tabla.
  * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
  */
-const InteractiveTable = ({ data, onRowClick }) => {
+const PublicTable = ({ data, onRowClick }) => {
     // Obtiene las columnas que deben mostrarse en la tabla.
     const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
@@ -49,32 +49,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
     const headerMappings = {
         fullName: 'Nombre completo',
         collegiateNumber: 'Número de colegiado',
-        memberType: 'Tipo de miembro',
-        classification: 'Clasificación',
         DRONumber: 'Número de DRO',
-        authorizationToShareInfo: 'Autorización para compartir información',
-        lifeInsurance: 'Seguro de vida',
-        lifeInsureID: 'Poliza de seguro de vida',
-        age: 'Edad',
-        gender: 'Género',
-        cellphone: 'Número de celular',
-        homePhone: 'Número de casa',
-        officePhone: 'Número de oficina',
-        emergencyContactName: 'Nombre de contacto de emergencia',
-        emergencyContact: 'Número de contacto de emergencia',
-        mainProfessionalActivity: 'Actividad profesional principal',
-        dateOfAdmission: 'Fecha de admisión',
-        dateOfBirth: 'Fecha de nacimiento',
-        municipalityOfLabor: 'Municipio de trabajo',
-        linkCV: 'Link de CV',
-        university: 'Universidad',
-        professionalLicense: 'Cédula profesional',
-        workAddress: 'Domicilio de trabajo',
-        homeAddress: 'Domicilio de particular',
         specialty: 'Especialidad',
-        positionsInCouncil: 'Cargos en consejos directivos',
-        capacitationHours: 'Horas asistidas',
+        cellphone: 'Número de celular',
         email: 'Correo electrónico',
+        linkCV: 'Link de CV',
     };
 
     /**
@@ -201,4 +180,4 @@ const InteractiveTable = ({ data, onRowClick }) => {
     );
 };
 
-export default InteractiveTable;
+export default PublicTable;

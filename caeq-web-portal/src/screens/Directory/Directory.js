@@ -11,7 +11,12 @@ import "./directory.scss";
  */
 const Directory = () => {
   const [architectUsers, setArchitectUsers] = useState([]);
-  const [getArchitect, setArchitect] = useState("");
+  const [getArchitect, setArchitect] = useState('');
+  const [filterSearchByName, setFilterSearchByName] = useState('');
+  const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] = useState('');
+  const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState('');
+
+
   const [paginationPage, setPaginationPage] = useState(1);
   const navigate = useNavigate();
 
@@ -25,15 +30,23 @@ const Directory = () => {
    * Efecto que se ejecuta al cargar el componente para obtener la lista completa de arquitectos.
    */
 
+
   useEffect(() => {
     (async () => {
       try {
         let filters = "";
+        if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
+        if (filterSearchBymunicipalityOfLabor) filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
+        if (filterSearchByDRONumber) filters += `&DRONumber[regex]=${filterSearchByDRONumber}`;
+
+
         const architects = await getAllArchitectUsers(paginationPage, filters);
         setArchitectUsers(architects);
-      } catch (error) {}
+      } catch (error) {
+      }
     })();
-  }, [paginationPage]);
+  }, [paginationPage, filterSearchByName, filterSearchBymunicipalityOfLabor, filterSearchByDRONumber]);
+
   /**
    * Función que filtra los arquitectos en función del texto de búsqueda.
    * @param {Object[]} data - La lista de arquitectos completa.
@@ -97,9 +110,23 @@ const Directory = () => {
       </div>
       <label>
         <InputText
-          getVal={getArchitect}
-          setVal={setArchitect}
-          placeholder="Buscar"
+          placeholder='Nombre del colegiado'
+          getVal={filterSearchByName}
+          setVal={setFilterSearchByName}
+        />
+      </label>
+      <label>
+        <InputText
+          placeholder='Municipio'
+          getVal={filterSearchBymunicipalityOfLabor}
+          setVal={setFilterSearchBymunicipalityOfLabor}
+        />
+      </label>
+      <label>
+        <InputText
+          placeholder='Número de DRO'
+          getVal={filterSearchByDRONumber}
+          setVal={setFilterSearchByDRONumber}
         />
       </label>
 

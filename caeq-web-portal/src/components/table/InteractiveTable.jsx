@@ -92,7 +92,7 @@ const InteractiveTable = ({ data, onRowClick}) => {
   const renderTableHeader = () => (
     <tr>
       {columnsToShow.map((column) =>
-        columnVisibility[column] && column !== "_id" && column !== "_id"  ? (
+        columnVisibility[column] && column !== "_id" ? (
           <th key={column} className="sticky-column">
             <div className="header-content">
               <span className="header-text">{headerMappings[column]}</span>

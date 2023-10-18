@@ -34,6 +34,14 @@ const ArchitectDetail = (props) => {
     }, []);
 
     // Pago de Anualidad pendiente
+    
+    /**
+     * Handles the save changes functionality for the DirectoryArchitectDetails screen.
+     * @async
+     * @function handleSaveChanges
+     * @param {Event} e - The event object.
+     * @returns {Promise<void>}
+     */
     const handleSaveChanges = async (e) => {
         const form = new FormData();
         if (editedData.authorizationToShareInfo === "Si") {
@@ -87,6 +95,12 @@ const ArchitectDetail = (props) => {
     ];
     const authorizationOptions = { Si: true, No: false };
 
+    /**
+     * Returns an array of member options excluding the currently edited member type.
+     *
+     * @function
+     * @returns {Array} An array of member options.
+     */
     const getMemberOptions = () => {
         const filteredOptions = memberOptions.filter(
             (option) => option !== editedData.memberType
@@ -94,6 +108,13 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
+    
+    /**
+     * Returns an array of authorization options, excluding the currently edited option.
+     *
+     * @function
+     * @returns {Array} An array of authorization options.
+     */
     const getAuthorizationOptions = () => {
         const filteredOptions = Object.keys(authorizationOptions).filter(
             (option) => option !== editedData.authorizationToShareInfo

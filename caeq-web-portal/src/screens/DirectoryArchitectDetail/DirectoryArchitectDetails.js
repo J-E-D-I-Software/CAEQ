@@ -25,6 +25,11 @@ const ArchitectDetail = (props) => {
                     } else {
                         response.authorizationToShareInfo = "Si";
                     }
+                    if (response.lifeInsurance !== true) {
+                        response.lifeInsurance = "No";
+                    } else {
+                        response.lifeInsurance = "Si";
+                    }
 
                     setData(response);
                     setEditedData(response);
@@ -49,6 +54,11 @@ const ArchitectDetail = (props) => {
         } else {
             editedData.authorizationToShareInfo = false;
         }
+        if (editedData.lifeInsurance === "Si") {
+            editedData.lifeInsurance = true;
+        } else {
+            editedData.lifeInsurance = false;
+        }
 
         form.append("DRONumber", editedData.DRONumber); //Ya esta
         form.append("collegiateNumber", editedData.collegiateNumber); //Ya esta
@@ -64,6 +74,9 @@ const ArchitectDetail = (props) => {
         form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
         form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
         form.append("file", editedData.linkCV); //Ya esta
+        form.append('lifeInsurance', editedData.lifeInsurance);
+        form.append('lifeInsureID', editedData.lifeInsureID);
+
         e.preventDefault();
 
         try {
@@ -122,6 +135,13 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
+    const getLifeInsuranceOptions = () => {
+        const filteredOptions = Object.keys(authorizationOptions).filter(
+            (option) => option !== editedData.lifeInsurance
+        );
+        return filteredOptions;
+    };
+
     return (
         <div className="architect-detail">
             <div className="architect-row">
@@ -170,7 +190,22 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, memberType: value })
                         }
                     />
-
+                     <TextInput
+                        label="Número de Asistencias a Asambleas"
+                        placeholder="Número de Asistencias a Asambleas"
+                        getVal={editedData.hoursAttended}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, hoursAttended: value })
+                        }
+                    />
+                    <TextInput
+                        label="Horas Acreditadas"
+                        placeholder="Horas Acreditadas"
+                        getVal={editedData.capacitationHours}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, capacitationHours: value })
+                        }
+                    />
                     <TextInput
                         label="Posiciones en Consejo"
                         placeholder="Posiciones en Consejo"
@@ -199,21 +234,24 @@ const ArchitectDetail = (props) => {
 
                 <div className="architect-col">
                     <TextInput
-                        label="Horas Acreditadas"
-                        placeholder="Horas Acreditadas"
-                        getVal={editedData.capacitationHours}
+                        label="Poliza de Seguro"
+                        placeholder="Poliza de Seguro"
+                        getVal={editedData.lifeInsureID}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, capacitationHours: value })
+                            setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
-                    <TextInput
-                        label="Número de Asistencias a Asambleas"
-                        placeholder="Número de Asistencias a Asambleas"
-                        getVal={editedData.hoursAttended}
+                     <DropdownInput
+                        label="Tiene Seguro de Vida"
+                        placeholder={editedData.lifeInsurance}
+                        options={getLifeInsuranceOptions()}
+                        getVal={editedData.lifeInsurance}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, hoursAttended: value })
+                            setEditedData({
+                                ...editedData, lifeInsurance: value })
                         }
                     />
+                   
                     <TextInput
                         label="Cédula Profesional"
                         placeholder="Cédula Profesional"

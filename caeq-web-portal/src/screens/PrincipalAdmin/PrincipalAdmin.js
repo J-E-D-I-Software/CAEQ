@@ -2,8 +2,14 @@ import React, { useEffect, useState, useRef }  from 'react';
 import { getSpecialties } from '../../client/stats';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+import './PrincipalAdmin.scss'
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
+const customColors = [
+  '#81C784','#FF7043','#7b0e87','#30a5c2',
+  '#BA68C8','#C5E1A5','#82bfd9','#a8275b'
+];
 
 var options = {
     responsive : true,
@@ -64,8 +70,7 @@ const PrincipalAdmin = () => {
             datasets: [
               {
                 data: counts,
-                backgroundColor: ['#18a3ad','#b97cbf','#BDBDBD','#F48FB1',
-                '#81C784','#FF7043','#7b0e87','#30a5c2','#BA68C8','#C5E1A5','#82bfd9','#a8275b'],
+                backgroundColor: customColors,
               },
             ],
           });
@@ -88,9 +93,8 @@ const PrincipalAdmin = () => {
             labels: labels,
             datasets: [
               {
-                data: counts,
-                backgroundColor: ['#18a3ad','#b97cbf','#BDBDBD','#F48FB1',
-                '#81C784','#FF7043','#7b0e87','#30a5c2','#BA68C8','#C5E1A5','#82bfd9','#a8275b'],
+                label: 'Especialidades',               data: counts,
+                backgroundColor: customColors,
               },
             ],
           });
@@ -104,25 +108,17 @@ const PrincipalAdmin = () => {
 
 
     return (
-        <div class="grid-container">
+        <div class="graph-container">
           <h1>Especialidades</h1>
-        <div className="column">
-          <p><b>Ejemplo #1:</b> Gráfico de Pastel</p>
-          <div className="bg-light mx-auto px-2 border border-2 border-primary" style={{ width: "450px", height: "230px" }}>
-            <div style={{ width: "100%", height: "100%", padding: "10px 0" }}>
+          <div class="grid-container">
+            <div class="pie-container">
               <Pie data={specialtyChartData} options={options} />
             </div>
-          </div>
-        </div>
-        <div className="column">
-          <p><b>Ejemplo #2:</b> Gráfico de Barras</p>
-          <div className="bg-light mx-auto px-2 border border-2 border-primary" style={{ width: "450px", height: "230px" }}>
-            <div style={{ width: "100%", height: "100%", padding: "10px 0" }}>
+            <div className="column">
               <Bar data={specialtyChartData2} options={barOptions} />
             </div>
           </div>
         </div>
-      </div>
     )
 };
 

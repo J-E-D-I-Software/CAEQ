@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
-import InteractiveTable from '../../components/table/InteractiveTable';
-import InputText from '../../components/inputs/TextInput/TextInput';
-import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
-import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
-import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import PaginationNav from '../../components/pagination/PaginationNav';
-import headerMappings from '../../components/table/HeaderMappings';
-import DateInput from '../../components/inputs/DateInput/DateInput';
-import { exportToExcel } from 'react-json-to-excel';
-import BaseButton from '../../components/buttons/BaseButton';
-import './directory.scss';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
+import InteractiveTable from "../../components/table/InteractiveTable";
+import InputText from "../../components/inputs/TextInput/TextInput";
+import InputNumber from "../../components/inputs/NumberInput/NumberInput.jsx";
+import { getAllArchitectUsers } from "../../client/ArchitectUser/ArchitectUser.GET";
+import { getAllSpecialties } from "../../client/Specialties/Specialties.GET";
+import PaginationNav from "../../components/pagination/PaginationNav";
+import headerMappings from "../../components/table/HeaderMappings";
+import DateInput from "../../components/inputs/DateInput/DateInput";
+import { exportToExcel } from "react-json-to-excel";
+import BaseButton from "../../components/buttons/BaseButton";
+import "./directory.scss";
 
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
-    const [filterSearchByName, setFilterSearchByName] = useState('');
+    const [filterSearchByName, setFilterSearchByName] = useState("");
     const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
-        useState('');
-    const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState('');
-    const [filtergender, setFiltergender] = useState('');
-    const [filterclassification, setFilterclassification] = useState('');
-    const [filtermemberType, setFiltermemberType] = useState('');
+        useState("");
+    const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState("");
+    const [filtergender, setFiltergender] = useState("");
+    const [filterclassification, setFilterclassification] = useState("");
+    const [filtermemberType, setFiltermemberType] = useState("");
     const [paginationPage, setPaginationPage] = useState(1);
     const [admisionInitial, setAdmisionInitial] = useState();
     const [admisionFinal, setAdmisionFinal] = useState();
@@ -29,8 +29,9 @@ const Directory = () => {
     const [birthFinal, setBirthFinal] = useState();
     const [specialties, setSpecialties] = useState([]);
     const [specialtiesName, setSpecialtiesName] = useState([]);
-    const [specialty, setSpecialty] = useState('');
-    const [specialtyName, setSpecialtyName] = useState('');
+    const [specialty, setSpecialty] = useState("");
+    const [specialtyName, setSpecialtyName] = useState("");
+    const [orderBy, setOrderBy] = useState("collegiateNumber");
     const navigate = useNavigate();
 
     /**
@@ -49,7 +50,7 @@ const Directory = () => {
      * @returns {string} The query string containing filters.
      */
     const calculateFilters = () => {
-        let filters = '';
+        let filters = "";
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
@@ -68,9 +69,14 @@ const Directory = () => {
 
     useEffect(() => {
         (async () => {
+            const effectiveOrderBy = orderBy || "collegiateNumber";
             try {
                 const filters = calculateFilters();
-                const architects = await getAllArchitectUsers(paginationPage, filters);
+                const architects = await getAllArchitectUsers(
+                    paginationPage,
+                    filters,
+                    effectiveOrderBy
+                );
                 setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
@@ -89,6 +95,7 @@ const Directory = () => {
         birthFinal,
         birthInitial,
         specialty,
+        orderBy,
     ]);
 
     useEffect(() => {
@@ -147,19 +154,19 @@ const Directory = () => {
                     mappedObject[headerMappings[key]] = val[key];
 
                     if (
-                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        typeof mappedObject[headerMappings[key]] === "boolean" &&
                         mappedObject[headerMappings[key]] === true
                     ) {
-                        mappedObject[headerMappings[key]] = 'Si';
+                        mappedObject[headerMappings[key]] = "Si";
                     } else if (
-                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        typeof mappedObject[headerMappings[key]] === "boolean" &&
                         mappedObject[headerMappings[key]] === false
                     ) {
-                        mappedObject[headerMappings[key]] = 'No';
-                    } else if (key === 'specialties') {
+                        mappedObject[headerMappings[key]] = "No";
+                    } else if (key === "specialties") {
                         mappedObject[headerMappings[key]] = val[key]
                             .map((val) => val.name)
-                            .join(', ');
+                            .join(", ");
                     }
                 }
             }
@@ -167,7 +174,7 @@ const Directory = () => {
             return mappedObject;
         });
 
-        exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
+        exportToExcel(architectsDownload, "seleccion-arquitectos", false);
     };
 
     /**
@@ -178,8 +185,8 @@ const Directory = () => {
      */
     const handleSpecialtyChange = (specialty) => {
         if (!specialty) {
-            setSpecialty('');
-            setSpecialtyName('');
+            setSpecialty("");
+            setSpecialtyName("");
             return;
         }
 
@@ -189,101 +196,117 @@ const Directory = () => {
 
         setSpecialty(specialtyId);
     };
-
     return (
-        <div className='directory'>
-            <div className='directory-row directory-header'>
-                <h1>Directorio de arquitectos</h1>
+        <div className="directory">
+            <div className="directory-header">
+                <h1 className="directory-title">Directorio de arquitectos</h1>
+                <BaseButton onClick={() => handleDownload()} type="primary">
+                    Descargar arquitectos
+                </BaseButton>
             </div>
-            <BaseButton onClick={() => handleDownload()} type='primary'>
-                Descargar arquitectos
-            </BaseButton>
 
-            <DropdownInput
-                getVal={filtergender}
-                setVal={setFiltergender}
-                options={['Hombre', 'Mujer', 'Prefiero no decirlo']}
-                placeholder='Filtrar género'
-            />
+            <div className="filter-container">
+                <div className="searchbars-column">
+                    <div className="inputText-filters">
+                        <InputText
+                            placeholder="Nombre del colegiado"
+                            getVal={filterSearchByName}
+                            setVal={setFilterSearchByName}
+                        />
+                        <InputText
+                            placeholder="Municipio"
+                            getVal={filterSearchBymunicipalityOfLabor}
+                            setVal={setFilterSearchBymunicipalityOfLabor}
+                        />
+                        <InputText
+                            placeholder="Número de DRO"
+                            getVal={filterSearchByDRONumber}
+                            setVal={setFilterSearchByDRONumber}
+                        />
+                    </div>
+                </div>
 
-            <DropdownInput
-                getVal={filterclassification}
-                setVal={setFilterclassification}
-                options={['Expresidente', 'Docente', 'Convenio']}
-                placeholder='Filtrar clasificación'
-            />
+                <div className="DropdownInputs-row">
+                    <DropdownInput
+                        getVal={filtergender}
+                        setVal={setFiltergender}
+                        options={["Hombre", "Mujer", "Prefiero no decirlo"]}
+                        placeholder="Género"
+                    />
+                    <DropdownInput
+                        getVal={filterclassification}
+                        setVal={setFilterclassification}
+                        options={["Expresidente", "Docente", "Convenio"]}
+                        placeholder="Clasificación"
+                    />
+                    <DropdownInput
+                        getVal={filtermemberType}
+                        setVal={setFiltermemberType}
+                        options={[
+                            "Miembro de número",
+                            "Miembro Adherente",
+                            "Miembro Pasante",
+                            "Miembro Vitalicio",
+                            "Miembro Honorario",
+                        ]}
+                        placeholder="Tipo de miembro"
+                    />
+                    <DropdownInput
+                        getVal={specialtyName}
+                        setVal={(specialty) => handleSpecialtyChange(specialty)}
+                        options={specialtiesName}
+                        placeholder="Especialidad"
+                    />
+                </div>
+            </div>
 
-            <DropdownInput
-                getVal={filtermemberType}
-                setVal={setFiltermemberType}
-                options={[
-                    'Miembro de número',
-                    'Miembro Adherente',
-                    'Miembro Pasante',
-                    'Miembro Vitalicio',
-                    'Miembro Honorario',
-                ]}
-                placeholder='Filtrar tipo de miembro'
-            />
+            <br />
+            
+            <div className="inputNumber-date-row">
+                <div className="inputNumber-row">
+                    <h3> Año de admisión </h3>
+                    <InputNumber
+                        placeholder="Admitido después de:"
+                        getVal={admisionInitial}
+                        setVal={setAdmisionInitial}
+                    />
+                    <InputNumber
+                        placeholder="Admitido antes de:"
+                        getVal={admisionFinal}
+                        setVal={setAdmisionFinal}
+                    />
+                </div>
+                <div className="DateInput-row">
+                    <h3> Fecha de nacimiento </h3>
+                    <DateInput
+                        placeholder="Nacido después de:"
+                        getVal={birthInitial}
+                        setVal={setBirthInitial}
+                    />
+                    <DateInput
+                        placeholder="Nacido antes de:"
+                        getVal={birthFinal}
+                        setVal={setBirthFinal}
+                    />
+                </div>
+            </div>
 
-            <DropdownInput
-                getVal={specialtyName}
-                setVal={(specialty) => handleSpecialtyChange(specialty)}
-                options={specialtiesName}
-                placeholder='Filtrar por especialidad'
-            />
+            <br />
 
-            <InputText
-                placeholder='Nombre del colegiado'
-                getVal={filterSearchByName}
-                setVal={setFilterSearchByName}
-            />
-
-            <InputText
-                placeholder='Municipio'
-                getVal={filterSearchBymunicipalityOfLabor}
-                setVal={setFilterSearchBymunicipalityOfLabor}
-            />
-            <InputText
-                placeholder='Número de DRO'
-                getVal={filterSearchByDRONumber}
-                setVal={setFilterSearchByDRONumber}
-            />
-            <InputNumber
-                placeholder='Admitido después de:'
-                getVal={admisionInitial}
-                setVal={setAdmisionInitial}
-            />
-            <InputNumber
-                placeholder='Admitido antes de:'
-                getVal={admisionFinal}
-                setVal={setAdmisionFinal}
-            />
-            <DateInput
-                label='Nacido después de:'
-                getVal={birthInitial}
-                setVal={setBirthInitial}
-            />
-            <DateInput
-                label='Nacido antes de:'
-                getVal={birthFinal}
-                setVal={setBirthFinal}
-            />
-
-            <div className='directory-row'>
+            <div className="directory-row">
                 {architectUsers.length > 0 ? (
-                    <div className='box-container'>
+                    <div className="box-container">
                         <InteractiveTable
                             data={architectUsers}
                             onRowClick={handleRowClick}
                         />
                     </div>
                 ) : (
-                    <p className='no-data-message'>No hay colegiados disponibles</p>
+                    <p className="no-data-message">No hay colegiados disponibles</p>
                 )}
             </div>
 
-            <div className='directory-row directory-pagination'>
+            <div className="directory-row directory-pagination">
                 <PaginationNav
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}

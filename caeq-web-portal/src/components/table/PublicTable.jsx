@@ -2,18 +2,17 @@
 
 import React, { useState } from 'react';
 import './Table.scss';
-import BaseButton from '../buttons/BaseButton';
 
 /**
- * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
- * @param {Object[]} data - Los datos para llenar la tabla.
- * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
+ * Public table component for displaying static data
+ * @param {Object[]} data - Data to fill table
+ * @returns {JSX.Element} - JSX element that represents the public table
  */
 const PublicTable = ({ data }) => {
-    // Obtiene las columnas que deben mostrarse en la tabla.
+    // Gets the columns that must be shown on the table.
     const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
-    // Estado para mantener la visibilidad de las columnas.
+    // State that mantains the visibility of the columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
         return columnsToShow.reduce((visibility, column) => {
             visibility[column] = true;
@@ -23,7 +22,6 @@ const PublicTable = ({ data }) => {
 
     const headerMappings = {
         fullName: 'Nombre completo',
-        collegiateNumber: 'Número de colegiado',
         DRONumber: 'Número de DRO',
         specialty: 'Especialidad',
         cellphone: 'Número de celular',
@@ -32,28 +30,15 @@ const PublicTable = ({ data }) => {
     };
 
     /**
-     * Función de formato para mostrar valores booleanos como "Sí" o "No".
-     * @param {boolean} value - El valor booleano a formatear.
-     * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
+     * Format function that shows boolean values as "Sí" o "No".
+     * @param {boolean} value - Boolean value to format.
+     * @returns {string} - "Sí" is the true value, "No" if it is false.
      */
     const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
 
     /**
-     * Restablecer la visibilidad de todas las columnas.
-     */
-    const resetColumnVisibility = () => {
-        setColumnVisibility((prevVisibility) => {
-            const resetVisibility = {};
-            columnsToShow.forEach((column) => {
-                resetVisibility[column] = true;
-            });
-            return resetVisibility;
-        });
-    };
-
-    /**
-     * Renderizar el encabezado de la tabla.
-     * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
+     * Render the table header
+     * @returns {JSX.Element} - JSX element that represents the table header.
      */
 
     const renderTableHeader = () => (
@@ -75,8 +60,8 @@ const PublicTable = ({ data }) => {
     );
 
     /**
-     * Renderizar el cuerpo de la tabla.
-     * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
+     * Render the table body
+     * @returns {JSX.Element} - JSX element that represents the table body
      */
     const renderTableBody = () => {
         if (!data || data.length === 0) {
@@ -127,9 +112,9 @@ const PublicTable = ({ data }) => {
     };
 
     /**
-     * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.
-     * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
-     * @returns {string} - La fecha formateada en "DD/MM/AAAA".
+     * Format the date "DD/MM/AAAA" using toLocaleDateString.
+     * @param {string} date - The date in string format (for example "AAAA-MM-DD").
+     * @returns {string} - The formated date in "DD/MM/AAAA".
      */
     const formatDate = (date) => {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };

@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import BaseButton from '../../components/buttons/BaseButton';
 
 const LandingCAEQ = () => {
-    //const navigate = useNavigate();
     return (
         <div class='container'>
             <div class='column left-column'>

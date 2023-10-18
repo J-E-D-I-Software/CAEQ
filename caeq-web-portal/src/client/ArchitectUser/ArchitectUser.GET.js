@@ -1,6 +1,6 @@
 import axios from 'axios';
 import baseApiEndpoint from '../backendConfig';
-const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 5;
+const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 100;
 
 /**
  * It makes a GET request to the endpoint `/architectusers` and returns the response data.

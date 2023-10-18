@@ -13,17 +13,13 @@ exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);
 exports.getAllPublicArchitectUsers = async (req, res, next) => {
     let query = ArchitectUser.find({
         authorizationToShareInfo: true,
-    }).select('fullName DRONumber cellphone specialty linkCV email');
+    }).select('fullName DRONumber cellphone specialty linkCV email password');
 
     const documents = await query;
 
-    if (!documents || documents.length === 0) {
-        const error = new AppError('No se encontraron', 404);
-        return next(error);
-    }
-
     res.status(200).json({
         status: 'success',
+        results: documents.length,
         data: {
             documents,
         },

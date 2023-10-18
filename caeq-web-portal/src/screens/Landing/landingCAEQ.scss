@@ -1,7 +1,5 @@
 /* landingCAEQ.scss*/
 
-/* Estilos para el contenedor principal */
-
 .container {
     display: flex;
     flex-direction: row;
@@ -90,13 +88,6 @@
     align-items: center;
     justify-content: center;
     line-height: normal;
-
-    // background-color: rgba(
-    //     255,
-    //     255,
-    //     255,
-    //     0.8
-    // ); // Example background color for the left column
 }
 
 .Logo {
@@ -124,10 +115,4 @@
         font-size: 1.5rem;
         margin-bottom: 20px; // Add some space between the columns on smaller screens
     }
-    // background-color: rgba(
-    //     255,
-    //     255,
-    //     255,
-    //     0.8
-    // ); // Example background color for the right column
 }

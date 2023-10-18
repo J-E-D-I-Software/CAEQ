@@ -11,8 +11,15 @@ import headerMappings from '../../components/table/HeaderMappings';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
 import BaseButton from '../../components/buttons/BaseButton';
+import { FireSucess, FireLoading, FireError } from '../../utils/alertHandler';
 import './directory.scss';
 
+/**
+ * The Directory component displays a directory of architects with filtering options and pagination.
+ * It allows users to search for architects, apply filters, and navigate through the results.
+ *
+ * @component
+ */
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState('');
@@ -134,6 +141,8 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
+        const swal = FireLoading('Generando archivo de excel...');
+
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
 
@@ -166,6 +175,9 @@ const Directory = () => {
 
             return mappedObject;
         });
+
+        swal.close();
+        FireSucess('Tu descarga iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };

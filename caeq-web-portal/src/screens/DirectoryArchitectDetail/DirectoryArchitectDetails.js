@@ -134,6 +134,11 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
+    /**
+     * Returns an array of life insurance options based on the authorization options and the currently edited data.
+     *
+     * @returns {Array} An array of life insurance options.
+     */
     const getLifeInsuranceOptions = () => {
         const filteredOptions = Object.keys(authorizationOptions).filter(
             (option) => option !== editedData.lifeInsurance

@@ -18,7 +18,7 @@ const Directory = () => {
     const [filterSearchByName, setFilterSearchByName] = useState("");
     const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
         useState("");
-    const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState("");
+    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] = useState("");
     const [filtergender, setFiltergender] = useState("");
     const [filterclassification, setFilterclassification] = useState("");
     const [filtermemberType, setFiltermemberType] = useState("");
@@ -54,8 +54,8 @@ const Directory = () => {
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
-        if (filterSearchByDRONumber)
-            filters += `&DRONumber[regex]=${filterSearchByDRONumber}`;
+        if (filterSearchBycollegiateNumber)
+            filters += `&DRONumber[regex]=${filterSearchBycollegiateNumber}`;
         if (filtergender) filters += `&gender=${filtergender}`;
         if (filterclassification) filters += `&classification=${filterclassification}`;
         if (filtermemberType) filters += `&memberType=${filtermemberType}`;
@@ -86,7 +86,7 @@ const Directory = () => {
         paginationPage,
         filterSearchByName,
         filterSearchBymunicipalityOfLabor,
-        filterSearchByDRONumber,
+        filterSearchBycollegiateNumber,
         filtergender,
         filterclassification,
         filtermemberType,
@@ -200,7 +200,7 @@ const Directory = () => {
     const clearFilters = () => {
         setFilterSearchByName("");
         setFilterSearchBymunicipalityOfLabor("");
-        setFilterSearchByDRONumber("");
+        setFilterSearchBycollegiateNumberr("");
         setFiltergender("");
         setFilterclassification("");
         setFiltermemberType("");
@@ -243,9 +243,9 @@ const Directory = () => {
                             setVal={setFilterSearchBymunicipalityOfLabor}
                         />
                         <InputText
-                            placeholder="Número de DRO"
-                            getVal={filterSearchByDRONumber}
-                            setVal={setFilterSearchByDRONumber}
+                            placeholder="Número de colegiado"
+                            getVal={filterSearchBycollegiateNumber}
+                            setVal={setFilterSearchBycollegiateNumberr}
                         />
                     </div>
                 </div>

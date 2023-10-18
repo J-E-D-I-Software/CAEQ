@@ -196,12 +196,36 @@ const Directory = () => {
 
         setSpecialty(specialtyId);
     };
+
+    const clearFilters = () => {
+        setFilterSearchByName("");
+        setFilterSearchBymunicipalityOfLabor("");
+        setFilterSearchByDRONumber("");
+        setFiltergender("");
+        setFilterclassification("");
+        setFiltermemberType("");
+        setAdmisionInitial("");
+        setAdmisionFinal("");
+        setBirthInitial("");
+        setBirthFinal("");
+        setSpecialty("");
+        setSpecialtyName("");
+        setOrderBy("collegiateNumber");
+    };
+
+    const handleClearFilters = () => {
+        clearFilters();
+    };
+
     return (
         <div className="directory">
             <div className="directory-header">
                 <h1 className="directory-title">Directorio de arquitectos</h1>
                 <BaseButton onClick={() => handleDownload()} type="primary">
                     Descargar arquitectos
+                </BaseButton>
+                <BaseButton onClick={() => handleClearFilters()} type="secondary">
+                    Limpiar filtros
                 </BaseButton>
             </div>
 
@@ -261,7 +285,7 @@ const Directory = () => {
             </div>
 
             <br />
-            
+
             <div className="inputNumber-date-row">
                 <div className="inputNumber-row">
                     <h3> Año de admisión </h3>

@@ -8,6 +8,7 @@ import { postLoginArchitectUsers } from '../../client/ArchitectUser/ArchitectUse
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 import BaseButton from '../../components/buttons/BaseButton';
+import PrevIcon from '../../components/icons/previous.png';
 
 const LoginUser = () => {
     const [email, setEmail] = useState('');
@@ -58,10 +59,11 @@ const LoginUser = () => {
 
             <br />
             <div className='forgot-register-links'>
-                <a href='/User-ForgotPassword'>¿Olvidaste tu contraseña?</a> <br />
-                <Link to='/SignupUser'>
-                    <p> Regístrate</p>
+                <Link to='/User-Forgot-password'>
+                    <p> ¿Olvidaste tu contraseña?</p>
                 </Link>
+
+                <Link to='/welcomeCAEQ'>Volver a página de inicio</Link>
             </div>
         </div>
     );

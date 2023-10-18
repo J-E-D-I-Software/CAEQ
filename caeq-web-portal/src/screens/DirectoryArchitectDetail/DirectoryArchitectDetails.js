@@ -22,7 +22,9 @@ const ArchitectDetail = (props) => {
                 .then((response) => {
                     if (response.authorizationToShareInfo !== true) {
                         response.authorizationToShareInfo = "No";
-                    } else { response.authorizationToShareInfo = "Si"; }
+                    } else {
+                        response.authorizationToShareInfo = "Si";
+                    }
 
                     setData(response);
                     setEditedData(response);
@@ -36,29 +38,31 @@ const ArchitectDetail = (props) => {
         const form = new FormData();
         if (editedData.authorizationToShareInfo === "Si") {
             editedData.authorizationToShareInfo = true;
-        } else { editedData.authorizationToShareInfo = false; }
+        } else {
+            editedData.authorizationToShareInfo = false;
+        }
 
-        form.append('DRONumber', editedData.DRONumber); //Ya esta
-        form.append('collegiateNumber', editedData.collegiateNumber); //Ya esta
-        form.append('memberType', editedData.memberType); //Ya esta
-        form.append('classification', editedData.classification); //Ya esta
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
-        form.append('specialty', editedData.specialty); //Ya esta
-        form.append('dateOfAdmission', editedData.dateOfAdmission); //Ya esta
-        form.append('professionalLicense', editedData.professionalLicense); //Ya esta
-        form.append('capacitationHours', editedData.capacitationHours); //Ya esta
-        form.append('hoursAttended', editedData.hoursAttended); //Ya esta
-        form.append('municipalityOfLabor', editedData.municipalityOfLabor); //Ya esta
-        form.append('positionsInCouncil', editedData.positionsInCouncil); //Ya esta
-        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo); //Ya esta
-        form.append('file', editedData.linkCV); //Ya esta
+        form.append("DRONumber", editedData.DRONumber); //Ya esta
+        form.append("collegiateNumber", editedData.collegiateNumber); //Ya esta
+        form.append("memberType", editedData.memberType); //Ya esta
+        form.append("classification", editedData.classification); //Ya esta
+        form.append("mainProfessionalActivity", editedData.mainProfessionalActivity);
+        form.append("specialty", editedData.specialty); //Ya esta
+        form.append("dateOfAdmission", editedData.dateOfAdmission); //Ya esta
+        form.append("professionalLicense", editedData.professionalLicense); //Ya esta
+        form.append("capacitationHours", editedData.capacitationHours); //Ya esta
+        form.append("hoursAttended", editedData.hoursAttended); //Ya esta
+        form.append("municipalityOfLabor", editedData.municipalityOfLabor); //Ya esta
+        form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
+        form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
+        form.append("file", editedData.linkCV); //Ya esta
         e.preventDefault();
-        
+
         try {
-            const swal = FireLoading('Guardando cambios... por favor espere')
-            const response = await updateArchitectUserByID(searchParams.id, form)
+            const swal = FireLoading("Guardando cambios... por favor espere");
+            const response = await updateArchitectUserByID(searchParams.id, form);
             console.log("his isddd", response);
-            if (response.status === 'success') {
+            if (response.status === "success") {
                 setData(response.data);
                 swal.close();
                 FireSucess("Los Cambios se han guardado correctamente");
@@ -67,31 +71,44 @@ const ArchitectDetail = (props) => {
                 swal.close();
                 FireError(response.message);
             }
-            
-        } catch (error) { 
+        } catch (error) {
             FireError(error.message);
-            navigate("/.")
+            navigate("/.");
             console.log(error);
         }
     };
 
-    const memberOptions = ["Miembro de número", "Miembro Adherente", "Miembro Pasante", "Miembro Honorario", "Miembro Vitalicio"]
-    const authorizationOptions = {'Si': true, 'No': false}
+    const memberOptions = [
+        "Miembro de número",
+        "Miembro Adherente",
+        "Miembro Pasante",
+        "Miembro Honorario",
+        "Miembro Vitalicio",
+    ];
+    const authorizationOptions = { Si: true, No: false };
 
     const getMemberOptions = () => {
-        const filteredOptions = memberOptions.filter((option) => option !== editedData.memberType);
+        const filteredOptions = memberOptions.filter(
+            (option) => option !== editedData.memberType
+        );
         return filteredOptions;
     };
 
     const getAuthorizationOptions = () => {
-        const filteredOptions = Object.keys(authorizationOptions).filter((option) => option !== editedData.authorizationToShareInfo);
+        const filteredOptions = Object.keys(authorizationOptions).filter(
+            (option) => option !== editedData.authorizationToShareInfo
+        );
         return filteredOptions;
     };
 
     return (
         <div className="architect-detail">
             <div className="architect-row">
-                <h2> (i) Modifica la información que sea necesaria. Al terminar, haz clic en guardar cambios.</h2>
+                <h2>
+                    {" "}
+                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
+                    en guardar cambios.
+                </h2>
             </div>
             <div className="architect-row">
                 <h1>{data.fullName}</h1>
@@ -184,7 +201,7 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, professionalLicense: value })
                         }
                     />
-                     <TextInput
+                    <TextInput
                         label="Municipio de Trabajo"
                         placeholder="Municipio de Trabajo"
                         getVal={editedData.municipalityOfLabor}
@@ -210,9 +227,11 @@ const ArchitectDetail = (props) => {
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, authorizationToShareInfo: value })
+                            setEditedData({
+                                ...editedData,
+                                authorizationToShareInfo: value,
+                            })
                         }
-
                     />
                     <FileInput
                         label="CV"
@@ -223,7 +242,10 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <p>
-                        Archivo Actual: <a href={editedData.linkCV}><span>Descargar CV</span></a>
+                        Archivo Actual:{" "}
+                        <a href={editedData.linkCV}>
+                            <span>Descargar CV</span>
+                        </a>
                     </p>
                 </div>
             </div>

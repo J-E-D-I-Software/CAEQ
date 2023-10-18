@@ -5,16 +5,24 @@
         width: 100%;
         text-align: center;
     }
+    h2 {
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+    a{
+        font-weight: bold;
+        color:  #eea300;
+    }
 
     .architect-row {
         display: flex;
         width: 100%;
 
-        .button {
-            display: flex;
-            position: fixed;
-            right: 0;
-            margin: 20px;
+        .button{
+            margin-left: 20px;
+            margin-top: 20px;
+            
         }
     }
 
@@ -31,12 +39,35 @@
         }
 
         .label-input {
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         .file-input {
             padding: 20px;
             width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        column-gap: 5px;
+        display: flex;
+        flex-direction: column;
+
+        .architect-row {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .architect-col {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-left: 0px;
+
+            .file-input {
+                width: 100%;
+                height: 10%;
+            }
         }
     }
 }

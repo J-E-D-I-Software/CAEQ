@@ -42,7 +42,10 @@ export async function patchResetPasswordArchitec(token, newPassword, passwordCon
 export async function updateArchitectUserByID(id, data) {
     let endpoint = `${baseApiEndpoint}/architectusers/${id}`;
 
-    const response = await axios.patch(endpoint, data);
-
+    const response = await axios.patch(endpoint, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
     return response.data;
 }

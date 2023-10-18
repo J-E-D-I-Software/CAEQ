@@ -39,7 +39,7 @@ const ArchitectDetail = (props) => {
     }, []);
 
     // Pago de Anualidad pendiente
-    
+
     /**
      * Handles the save changes functionality for the DirectoryArchitectDetails screen.
      * @async
@@ -74,8 +74,8 @@ const ArchitectDetail = (props) => {
         form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
         form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
         form.append("file", editedData.linkCV); //Ya esta
-        form.append('lifeInsurance', editedData.lifeInsurance);
-        form.append('lifeInsureID', editedData.lifeInsureID);
+        form.append("lifeInsurance", editedData.lifeInsurance);
+        form.append("lifeInsureID", editedData.lifeInsureID);
 
         e.preventDefault();
 
@@ -121,7 +121,6 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
-    
     /**
      * Returns an array of authorization options, excluding the currently edited option.
      *
@@ -190,7 +189,7 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, memberType: value })
                         }
                     />
-                     <TextInput
+                    <TextInput
                         label="Número de Asistencias a Asambleas"
                         placeholder="Número de Asistencias a Asambleas"
                         getVal={editedData.hoursAttended}
@@ -241,17 +240,19 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
-                     <DropdownInput
+                    <DropdownInput
                         label="Tiene Seguro de Vida"
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
                         setVal={(value) =>
                             setEditedData({
-                                ...editedData, lifeInsurance: value })
+                                ...editedData,
+                                lifeInsurance: value,
+                            })
                         }
                     />
-                   
+
                     <TextInput
                         label="Cédula Profesional"
                         placeholder="Cédula Profesional"

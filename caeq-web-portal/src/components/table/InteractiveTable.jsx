@@ -61,8 +61,8 @@ const InteractiveTable = ({ data, onRowClick }) => {
 
     const renderTableHeader = () => (
         <tr>
-            {columnsToShow.map((column) =>
-                columnVisibility[column] && column !== '_id' && column !== '_id' ? (
+            {Object.keys(headerMappings).map((column) =>
+                columnVisibility[column] && column !== '_id' ? (
                     <th key={column} className='sticky-column'>
                         <div className='header-content'>
                             <span className='header-text'>{headerMappings[column]}</span>
@@ -88,23 +88,21 @@ const InteractiveTable = ({ data, onRowClick }) => {
         if (!data || data.length === 0) {
             return (
                 <tr>
-                    <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
+                    <td colSpan={Object.keys(headerMappings).length}>No hay colegiados disponibles.</td>
                 </tr>
             );
         }
 
         return data.map(
             (row, rowIndex) => (
-                console.log('yep', data),
                 (
                     <tr
                         key={rowIndex}
                         className='fila-sombrada'
                         onClick={() => onRowClick(data[rowIndex]._id)}>
-                        {columnsToShow.map((column) =>
+                        {Object.keys(headerMappings).map((column)  =>
                             columnVisibility[column] && column !== '_id' ? (
                                 <td key={column} className='sticky-column'>
-                                    {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
                                     {typeof row[column] === 'boolean' ? (
                                         formatBooleanValue(row[column])
                                     ) : column === 'linkCV' && row[column] ? (

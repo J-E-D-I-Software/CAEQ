@@ -1,0 +1,321 @@
+.containercaeq {
+    /* Color del texto dentro del contenedor */
+    .welcome {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background: url('../../components/images/backgroundCaeq.png')
+            center/cover no-repeat;
+        background-attachment: fixed;
+        padding: 20px;
+        min-height: 100vh;
+        height: fit-content;
+        color: #000000;
+        position: relative;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // For smaller screens, change to a single column layout
+            align-items: center; // Center-align the content vertically
+        }
+
+        .adminbutton {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: lightgray;
+            margin-left: auto;
+            margin-bottom: 20%;
+        }
+    }
+    .infocaeq {
+        display: flex;
+        // height: fit-content;
+        // color: #000000;
+        @media (max-width: 768px) {
+            flex-direction: column; // For smaller screens, change to a single column layout
+            align-items: center; // Center-align the content vertically
+        }
+    }
+
+    .titleOne {
+        width: 354px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        display: flex;
+        // centering along main axis - X axis - Horizontal
+        justify-content: center;
+        // centering along cross axis - Y axis - Vertical
+        align-items: center;
+        @media (max-width: 768px) {
+            font-size: 32px; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+        }
+    }
+
+    .descOne {
+        display: flex;
+        width: 664px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        // centering along cross axis - Y axis - Vertical
+        align-items: center;
+        @media (max-width: 768px) {
+            font-size: 16px; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+            width: 100vw; // 100% view width
+            align-self: center;
+        }
+    }
+
+    .titleTwo {
+        width: 566px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: left;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        display: flex;
+        // centering along main axis - X axis - Horizontal
+        justify-content: center;
+        // centering along cross axis - Y axis - Vertical
+        align-items: center;
+        @media (max-width: 768px) {
+            font-size: 2em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+        }
+    }
+
+    .descTwo {
+        display: flex;
+        width: 664px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        @media (max-width: 768px) {
+            font-size: 1em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+            width: 100vw; // 100% view width
+            align-self: center;
+        }
+    }
+
+    .titleThree {
+        width: 354px;
+        height: 107px;
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        display: flex;
+        // centering along main axis - X axis - Horizontal
+        justify-content: center;
+        // centering along cross axis - Y axis - Vertical
+        align-items: center;
+        @media (max-width: 768px) {
+            font-size: 2em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+        }
+    }
+
+    .descThree {
+        display: flex;
+        width: 1173px;
+        height: 170px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #000;
+        text-align: center;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        @media (max-width: 768px) {
+            font-size: 1em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+            width: 100vw; // 100% view width
+            align-self: center;
+        }
+    }
+
+    .column {
+        flex: 1;
+        padding: 20px; // Adjust the padding as needed
+        box-sizing: border-box;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: normal;
+    }
+
+    .button-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // For smaller screens, change to a single column layout
+            align-items: center;
+            text-align: center;
+        }
+        .button {
+            margin-top: 2rem;
+            margin-inline: 3rem;
+        }
+    }
+
+    /* Estilos para el logo */
+    .logo {
+        align-self: self-start;
+        height: 170px;
+        margin-right: 70pt;
+        margin-bottom: 35pt;
+
+        @media (max-width: 1000px) {
+            width: 300px;
+            background-color: transparent;
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: normal;
+    }
+
+    .titlecaeq {
+        width: 656px;
+        height: 129px;
+        flex-shrink: 0;
+        align-self: self-start;
+        /* Title CAEQ */
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        @media (max-width: 768px) {
+            font-size: 2em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+            width: 100vw; // 100% view width
+            align-self: center;
+        }
+    }
+    .subtitlecaeq {
+        display: flex;
+        width: 600px;
+        height: 180px;
+        align-self: self-start;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        @media (max-width: 768px) {
+            font-size: 1.5em; // Adjust the font size for smaller screens
+            text-align: center; // Center-align the title on smaller screens
+            width: 100vw; // 100% view width
+            align-self: center;
+        }
+    }
+    .image1 {
+        @media (max-width: 768px) {
+            text-align: center; // Center-align the title on smaller screens
+            width: 70vw; // 100% view width
+            align-self: center;
+        }
+    }
+    .image2 {
+        @media (max-width: 768px) {
+            text-align: center; // Center-align the title on smaller screens
+            width: 70vw; // 100% view width
+            align-self: center;
+        }
+    }
+    .image3 {
+        @media (max-width: 768px) {
+            text-align: center; // Center-align the title on smaller screens
+            width: 70vw; // 100% view width
+            align-self: center;
+        }
+    }
+    .values {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .directory {
+        padding: 3rem;
+
+        .directory-row {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        label {
+            margin-right: 20px;
+        }
+    }
+
+    .InputText {
+        max-width: 10px;
+    }
+
+    .box-container {
+        border-radius: 8px;
+        overflow: auto;
+    }
+
+    .directory-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .directory-header {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .no-data-message {
+        color: red;
+        font-style: bold;
+        font-size: 24px;
+    }
+}

@@ -1,7 +1,7 @@
 import './WhiteCard.styles.scss';
 
 /**
- * WhiteContainer component for rendering content within a white container.
+ * GraphContainer component for rendering content within a white container.
  * @component
  *
  * @param {Object} props - The component's properties.
@@ -9,10 +9,10 @@ import './WhiteCard.styles.scss';
  * @returns {JSX.Element} JSX element representing the WhiteContainer.
  *
  * @example
- * // Example usage of WhiteContainer:
- * <WhiteContainer>
- *   <p>This content will be displayed within a white container.</p>
- * </WhiteContainer>
+ * // Example usage of GraphContainer:
+ * <GraphContainer>
+ *  <Pie data={specialtyChartData} options={pieOptions}
+ * </GraphContainer>
  */
 const GraphContainer = ({ children }) => {
     return (

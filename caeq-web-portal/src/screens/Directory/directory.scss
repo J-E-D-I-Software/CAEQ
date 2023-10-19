@@ -12,6 +12,7 @@
 .label {
   margin-right: 20px;
 }
+
 .filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -23,6 +24,7 @@
 .searchbars-column {
   flex: 1;
 }
+
 .inputText-filters {
   display: flex;
   flex-direction: column;
@@ -34,7 +36,7 @@
   height: 60%;
   background-color: #eea300;
   color: white;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .DropdownInputs-row {
@@ -44,13 +46,11 @@
   gap: 2rem;
 }
 
-
 .inputNumber-date-row {
   display: flex;
   flex-wrap: wrap;
   gap: 4.5rem;
 }
-
 
 .inputNumber-row,
 .DateInput-row {
@@ -74,6 +74,7 @@
   border-radius: 8px;
   overflow: auto;
 }
+
 .directory-pagination {
   display: flex;
   justify-content: center;
@@ -91,8 +92,41 @@
   margin-right: 20px;
 }
 
+.BaseButton {
+  max-width: 100%;
+  text-align: center;
+}
+
 .no-data-message {
   color: red;
   font-weight: bold;
   font-size: 24px;
 }
+
+@media (max-width: 768px) {
+  .directory-header {
+    flex-direction: column;
+  }
+
+  .BaseButton {
+    width: 70px;
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .searchbars-column {
+    flex: 1;
+  }
+
+  .inputText-filters {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .inputText-filters input {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+

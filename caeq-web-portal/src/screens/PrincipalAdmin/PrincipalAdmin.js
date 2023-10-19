@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef }  from 'react';
 import { getSpecialties } from '../../client/stats';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend, CategoryScale, LinearScale, BarElement, } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import './PrincipalAdmin.scss'
 
-ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const customColors = [
   '#81C784','#FF7043','#7b0e87','#30a5c2',
@@ -27,11 +27,21 @@ var options = {
           },
         },
       },
+      title: {
+        display: true,
+        text: 'Especialidades de los colegiados',
+      },
     },
 };
 
 var barOptions = {
   responsive: true,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Especialidades de los colegiados',
+    },
+  }
 };
 
 const PrincipalAdmin = () => {
@@ -88,12 +98,13 @@ const PrincipalAdmin = () => {
           const data = await getSpecialties(); // Fetch data from your server
           const labels = data.map((specialty) => specialty.name); // Extract specialty names
           const counts = data.map((specialty) => specialty.totalUsers); // Extract user counts
+          const Specialties = labels.join(', ');
   
           setSpecialtyChartData2({
             labels: labels,
             datasets: [
-              {
-                label: 'Especialidades',               data: counts,
+              {               
+                data: counts,
                 backgroundColor: customColors,
               },
             ],
@@ -109,13 +120,14 @@ const PrincipalAdmin = () => {
 
     return (
         <div class="graph-container">
-          <h1>Especialidades</h1>
           <div class="grid-container">
-            <div class="pie-container">
-              <Pie data={specialtyChartData} options={options} />
-            </div>
-            <div className="column">
+          <div>
               <Bar data={specialtyChartData2} options={barOptions} />
+            </div>
+            <div>
+              <div style={{width:"100%", height:"100%", padding:"10px 0"}}>
+                <Pie data={specialtyChartData} options={options} />
+              </div>
             </div>
           </div>
         </div>

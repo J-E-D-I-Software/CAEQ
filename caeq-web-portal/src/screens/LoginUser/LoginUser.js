@@ -8,7 +8,6 @@ import { postLoginArchitectUsers } from '../../client/ArchitectUser/ArchitectUse
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 import BaseButton from '../../components/buttons/BaseButton';
-import PrevIcon from '../../components/icons/previous.png';
 
 const LoginUser = () => {
     const [email, setEmail] = useState('');

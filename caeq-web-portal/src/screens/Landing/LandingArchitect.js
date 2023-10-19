@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import { getAllPublicArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import BaseButton from '../../components/buttons/BaseButton';
+import PrevIcon from '../../components/icons/previous.png';
 
 /**
  * LandingArchitect is a welcome screen for all architechts to get to know more about CAEQ and see public info
@@ -33,42 +34,27 @@ const LandingArchitect = () => {
         })();
     }, [paginationPage]);
     /**
-     * Función que filtra los arquitectos en función del texto de búsqueda.
-     * @param {Object[]} data - La lista de arquitectos completa.
-     * @param {string} searchText - El texto de búsqueda.
-     * @returns {Object[]} - La lista de arquitectos filtrada.
+     * Function that filters architects based on the search text.
+     * @param {Object[]} data - The complete list of architects.
+     * @param {string} searchText - The serach text.
+     * @returns {Object[]} - The filtered list of architects.
      */
     const filterArchitects = (data, searchText) => {
-        // Filtrar los arquitectos en función del texto de búsqueda
+        // Filter architects based on search text
         return data.filter((architect) => {
-            // Convertir todos los valores de los arquitectos en cadenas de texto
+            // Convert all architect values ​​to text strings
             const architectValues = Object.values(architect).map((value) =>
                 String(value).toLowerCase()
             );
-            // Verificar si algún valor contiene el texto de búsqueda
+            // Check if any value contains the search text
             return architectValues.some((value) =>
                 value.includes(searchText.toLowerCase())
             );
         });
     };
 
-    // Filtrar los arquitectos en función del texto de búsqueda
+    // Filter architects based on search text
     const filteredArchitects = filterArchitects(architectUsers, getArchitect);
-
-    // Filtrar y excluir la última columna antes de pasar los datos a InteractiveTable
-    const tablefilteredArchitects = filteredArchitects;
-
-    const columnsToShow =
-        filteredArchitects?.length > 0
-            ? Object.keys(filteredArchitects[0])
-            : [];
-
-    if (columnsToShow.length > 1) {
-        filteredArchitects.forEach((architect) => {
-            // Elimina la última propiedad de cada objeto arquitecto
-            delete architect[columnsToShow[columnsToShow.length - 1]];
-        });
-    }
 
     /**
      * Maneja la acción de retroceder a la página anterior en la paginación.
@@ -110,6 +96,13 @@ const LandingArchitect = () => {
                     </div>
                 </div>
                 <div className='column right-column'>
+                    <div className='adminbutton'>
+                        <Link to='/welcomeAdmin'>
+                            <BaseButton type='disabled'>
+                                Familia CAEQ
+                            </BaseButton>
+                        </Link>
+                    </div>
                     <img src={Image1} alt='Image1' className='image1' />
                 </div>
             </div>

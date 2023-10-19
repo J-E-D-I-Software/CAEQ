@@ -13,7 +13,7 @@ exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);
 exports.getAllPublicArchitectUsers = async (req, res, next) => {
     let query = ArchitectUser.find({
         authorizationToShareInfo: true,
-    }).select('fullName DRONumber cellphone specialty linkCV email password');
+    }).select('fullName DRONumber cellphone specialty linkCV email');
 
     const documents = await query;
 

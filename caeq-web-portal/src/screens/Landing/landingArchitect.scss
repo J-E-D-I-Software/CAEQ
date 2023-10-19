@@ -18,6 +18,16 @@
             flex-direction: column; // For smaller screens, change to a single column layout
             align-items: center; // Center-align the content vertically
         }
+
+        .adminbutton {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: lightgray;
+            margin-left: auto;
+            margin-bottom: 20%;
+        }
     }
     .infocaeq {
         display: flex;
@@ -165,13 +175,6 @@
         align-items: center;
         justify-content: center;
         line-height: normal;
-
-        // background-color: rgba(
-        //     255,
-        //     255,
-        //     255,
-        //     0.8
-        // ); // Example background color for the left column
     }
 
     .button-container {
@@ -211,13 +214,6 @@
         align-items: center;
         justify-content: center;
         line-height: normal;
-
-        // background-color: rgba(
-        //     255,
-        //     255,
-        //     255,
-        //     0.8
-        // ); // Example background color for the right column
     }
 
     .titlecaeq {

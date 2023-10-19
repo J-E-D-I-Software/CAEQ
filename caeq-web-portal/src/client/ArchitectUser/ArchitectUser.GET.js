@@ -1,23 +1,24 @@
-import axios from "axios";
-import baseApiEndpoint from "../backendConfig";
-const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 5;
+import axios from 'axios';
+import baseApiEndpoint from '../backendConfig';
 
 /**
  * It makes a GET request to the endpoint `/architectusers` and returns the response data.
  * @returns An array of objects.
  */
-export async function getAllArchitectUsers(page=1, filtersParams='') {
-    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
+export async function getAllArchitectUsers(
+    page = 1,
+    filtersParams = '',
+    paginationPageLimit = 100
+) {
+    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${paginationPageLimit}&${filtersParams}&sort=collegiateNumber`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
 
-
-
 /**
  *  It makes a GET request to the endpoint `/architectusers/:id` and returns the response data.
- * @param {string} id - The id of the architect user.  
+ * @param {string} id - The id of the architect user.
  * @returns An object.
  */
 export async function getArchitectUserById(id) {
@@ -28,14 +29,6 @@ export async function getArchitectUserById(id) {
     return response.data.data.document;
 }
 
-
-
-/**
- * Retrieves a list of architect users from the server.
- * @async
- * @function getArchitectUsers
- * @returns {Promise<Array>} A promise that resolves to an array of architect user documents.
- */
 export async function getArchitectUsers() {
     let endpoint = `${baseApiEndpoint}/architectusers`;
 

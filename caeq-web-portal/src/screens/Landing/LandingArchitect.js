@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import { getAllPublicArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import BaseButton from '../../components/buttons/BaseButton';
-import PrevIcon from '../../components/icons/previous.png';
 
 /**
  * LandingArchitect is a welcome screen for all architechts to get to know more about CAEQ and see public info
@@ -57,7 +56,7 @@ const LandingArchitect = () => {
     const filteredArchitects = filterArchitects(architectUsers, getArchitect);
 
     /**
-     * Maneja la acción de retroceder a la página anterior en la paginación.
+     * Handles the action of returning to the previous page in pagination.
      */
 
     const handlePreviousPage = () => {
@@ -67,7 +66,7 @@ const LandingArchitect = () => {
     };
 
     /**
-     * Maneja la acción de avanzar a la siguiente página en la paginación.
+     * Handles the action of advancing to the next page in pagination.
      */
     const handleNextPage = () => {
         setPaginationPage(paginationPage + 1);

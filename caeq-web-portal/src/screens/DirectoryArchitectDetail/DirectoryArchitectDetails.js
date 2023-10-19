@@ -49,16 +49,8 @@ const ArchitectDetail = (props) => {
      */
     const handleSaveChanges = async (e) => {
         const form = new FormData();
-        if (editedData.authorizationToShareInfo === "Si") {
-            editedData.authorizationToShareInfo = true;
-        } else {
-            editedData.authorizationToShareInfo = false;
-        }
-        if (editedData.lifeInsurance === "Si") {
-            editedData.lifeInsurance = true;
-        } else {
-            editedData.lifeInsurance = false;
-        }
+        editedData.authorizationToShareInfo = editedData.authorizationToShareInfo === "Si" ? true : false;
+        editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
 
         form.append("DRONumber", editedData.DRONumber); //Ya esta
         form.append("collegiateNumber", editedData.collegiateNumber); //Ya esta
@@ -68,8 +60,6 @@ const ArchitectDetail = (props) => {
         form.append("specialty", editedData.specialty); //Ya esta
         form.append("dateOfAdmission", editedData.dateOfAdmission); //Ya esta
         form.append("professionalLicense", editedData.professionalLicense); //Ya esta
-        form.append("capacitationHours", editedData.capacitationHours); //Ya esta
-        form.append("hoursAttended", editedData.hoursAttended); //Ya esta
         form.append("municipalityOfLabor", editedData.municipalityOfLabor); //Ya esta
         form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
         form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
@@ -82,7 +72,6 @@ const ArchitectDetail = (props) => {
         try {
             const swal = FireLoading("Guardando cambios... por favor espere");
             const response = await updateArchitectUserByID(searchParams.id, form);
-            console.log("his isddd", response);
             if (response.status === "success") {
                 setData(response.data);
                 swal.close();
@@ -150,7 +139,6 @@ const ArchitectDetail = (props) => {
         <div className="architect-detail">
             <div className="architect-row">
                 <h2>
-                    {" "}
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
@@ -161,7 +149,6 @@ const ArchitectDetail = (props) => {
 
             <div className="architect-row">
                 <div className="architect-col">
-                    
                     <TextInput
                         label="Número de Colegiado"
                         placeholder="Número de Colegiado"
@@ -208,7 +195,10 @@ const ArchitectDetail = (props) => {
                         placeholder="Actividad Profesional Principal"
                         getVal={editedData.mainProfessionalActivity}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, mainProfessionalActivity: value })
+                            setEditedData({
+                                ...editedData,
+                                mainProfessionalActivity: value,
+                            })
                         }
                     />
                     <TextInput
@@ -235,16 +225,9 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, municipalityOfLabor: value })
                         }
                     />
-                    
-                    
-                    
-                   
-                    
                 </div>
 
                 <div className="architect-col">
-                      
-                   
                     <DropdownInput
                         label="Autorización para compartir información"
                         placeholder={editedData.authorizationToShareInfo}
@@ -277,16 +260,8 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
-                     <TextInput
-                        label="Número de Asistencias a Asambleas"
-                        placeholder="Número de Asistencias a Asambleas"
-                        getVal={editedData.hoursAttended}
-                        setVal={(value) =>
-                            setEditedData({ ...editedData, hoursAttended: value })
-                        }
-                    />
-                     <TextInput
-                        label="Horas Acreditadas"
+                    <TextInput
+                        label="Horas de Capacitación"
                         placeholder="Horas Acreditadas"
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>

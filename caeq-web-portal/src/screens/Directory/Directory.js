@@ -16,12 +16,11 @@ import "./directory.scss";
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState("");
-    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
-        useState("");
+    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] = useState("");
     const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] = useState("");
-    const [filtergender, setFiltergender] = useState("");
-    const [filterclassification, setFilterclassification] = useState("");
-    const [filtermemberType, setFiltermemberType] = useState("");
+    const [filterGender, setfilterGender] = useState("");
+    const [filterClassification, setfilterClassification] = useState("");
+    const [FilterMemberType, setFilterMemberType] = useState("");
     const [paginationPage, setPaginationPage] = useState(1);
     const [admisionInitial, setAdmisionInitial] = useState();
     const [admisionFinal, setAdmisionFinal] = useState();
@@ -56,9 +55,9 @@ const Directory = () => {
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
             filters += `&DRONumber[regex]=${filterSearchBycollegiateNumber}`;
-        if (filtergender) filters += `&gender=${filtergender}`;
-        if (filterclassification) filters += `&classification=${filterclassification}`;
-        if (filtermemberType) filters += `&memberType=${filtermemberType}`;
+        if (filterGender) filters += `&gender=${filterGender}`;
+        if (filterClassification) filters += `&classification=${filterClassification}`;
+        if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
         if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
@@ -87,9 +86,9 @@ const Directory = () => {
         filterSearchByName,
         filterSearchBymunicipalityOfLabor,
         filterSearchBycollegiateNumber,
-        filtergender,
-        filterclassification,
-        filtermemberType,
+        filterGender,
+        filterClassification,
+        FilterMemberType,
         admisionFinal,
         admisionInitial,
         birthFinal,
@@ -102,7 +101,6 @@ const Directory = () => {
         (async () => {
             try {
                 const specialties = await getAllSpecialties();
-
                 setSpecialtiesName(specialties.map((val) => val.name));
                 setSpecialties(specialties);
             } catch (error) {
@@ -197,13 +195,14 @@ const Directory = () => {
         setSpecialty(specialtyId);
     };
 
+
     const clearFilters = () => {
         setFilterSearchByName("");
         setFilterSearchBymunicipalityOfLabor("");
         setFilterSearchBycollegiateNumberr("");
-        setFiltergender("");
-        setFilterclassification("");
-        setFiltermemberType("");
+        setfilterGender("");
+        setfilterClassification("");
+        setFilterMemberType("");
         setAdmisionInitial("");
         setAdmisionFinal("");
         setBirthInitial("");
@@ -211,10 +210,12 @@ const Directory = () => {
         setSpecialty("");
         setSpecialtyName("");
         setOrderBy("collegiateNumber");
+        window.location.reload();
     };
 
     const handleClearFilters = () => {
         clearFilters();
+        window.location.reload();
     };
 
     return (
@@ -252,20 +253,20 @@ const Directory = () => {
 
                 <div className="DropdownInputs-row">
                     <DropdownInput
-                        getVal={filtergender}
-                        setVal={setFiltergender}
+                        getVal={filterGender}
+                        setVal={setfilterGender}
                         options={["Hombre", "Mujer", "Prefiero no decirlo"]}
                         placeholder="Género"
                     />
                     <DropdownInput
-                        getVal={filterclassification}
-                        setVal={setFilterclassification}
+                        getVal={filterClassification}
+                        setVal={setfilterClassification}
                         options={["Expresidente", "Docente", "Convenio"]}
                         placeholder="Clasificación"
                     />
                     <DropdownInput
-                        getVal={filtermemberType}
-                        setVal={setFiltermemberType}
+                        getVal={FilterMemberType}
+                        setVal={setFilterMemberType}
                         options={[
                             "Miembro de número",
                             "Miembro Adherente",

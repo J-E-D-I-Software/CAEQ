@@ -121,19 +121,6 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Por favor dinos tu dirección de casa!'],
     },
-    specialty: {
-        type: String,
-        /*
-        enum: [ 
-            "Corresponsable en seguridad estructural", 
-            "Corresponsable en instalaciones",
-            "Corresponsable en instalaciones eléctricas",
-            "DUYA",
-            "Dictaminador estructural", 
-            "Revisor de bajo riesgo", ],
-        */
-        required: [true, 'Por favor dinos tu especialidad!'],
-    },
     positionsInCouncil: {
         type: String,
         required: [true, 'Por favor dinos tus cargos en el consejo directivo!'],
@@ -250,6 +237,18 @@ ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     // false means the password did not change
     return false;
 };
+
+/* This method defines a virtual property "annuity" */
+ArchitectUserSchema.virtual('currentRights').get(function () {
+    const capacitationHours = this.capacitationHours || 0;
+    const annuity = this.annuity || false;
+
+    // Check if capacitationHours are from 40 to beyond and annuity is true
+    if (capacitationHours >= 40 && annuity) {
+        return true;
+    }
+    return false;
+});
 
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
 

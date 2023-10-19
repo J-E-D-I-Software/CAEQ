@@ -25,6 +25,7 @@ const headerMappings = {
     emergencyContactName: 'Nombre de contacto de emergencia',
     linkCV: 'Link de CV',
     positionsInCouncil: 'Cargos en consejos directivos',
+    annuity: 'Anualidad pagada',
     capacitationHours: 'Horas de capacitación',
 };
 

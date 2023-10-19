@@ -16,6 +16,14 @@ exports.getSpecialties = catchAsync(async (req, res) => {
         },
     ]);
 
+    if (specialtyData.length === 0) {
+        
+        return res.status(404).json({
+            status: 'error',
+            message: 'No hay arquitectos registrados'
+        });
+    }
+
     // Extract the _id values from the aggregation result
     const specialtyIds = specialtyData.map((s) => s._id);
 

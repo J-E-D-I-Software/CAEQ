@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const Specialty = require('./specialty.model.js');
+const { specialtySchema } = require('./specialty.model.js');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
@@ -56,6 +58,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     gender: {
         type: String,
         enum: ['Hombre', 'Mujer', 'Prefieron no decirlo'],
+        enum: ['Hombre', 'Mujer', 'Prefiero no decirlo'],
         required: [true, 'Por favor dinos tu género!'],
     },
     cellphone: {
@@ -72,6 +75,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     emergencyContact: {
         type: String,
+        required: [
+            true,
+            'Por favor dinos tu contacto de emergencia (nombre y número)!',
+        ],
         required: [
             true,
             'Por favor dinos tu contacto de emergencia (nombre y número)!',
@@ -139,6 +146,12 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: Boolean,
         required: [false],
     },
+    specialties: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Specialty',
+        },
+    ],
     email: {
         type: String,
         required: [true, 'Por favor dinos tu correo!'],

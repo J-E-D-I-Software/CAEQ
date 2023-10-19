@@ -1,41 +1,64 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
-import { FireError, FireLoading, FireSucess } from "../../utils/alertHandler";
-
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import "./DirectoryArchitectDetail.scss";
-import FileInput from "../../components/inputs/FileInput/FileInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
+import Select from 'react-select';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import './DirectoryArchitectDetail.scss';
+import FileInput from '../../components/inputs/FileInput/FileInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
+    const [specialties, setSpecialties] = useState([]);
+    const [specialtiesName, setSpecialtiesName] = useState([]);
 
     useEffect(() => {
         if (searchParams.id)
             getArchitectUserById(searchParams.id)
                 .then((response) => {
                     if (response.authorizationToShareInfo !== true) {
-                        response.authorizationToShareInfo = "No";
+                        response.authorizationToShareInfo = 'No';
                     } else {
-                        response.authorizationToShareInfo = "Si";
+                        response.authorizationToShareInfo = 'Si';
                     }
                     if (response.lifeInsurance !== true) {
-                        response.lifeInsurance = "No";
+                        response.lifeInsurance = 'No';
                     } else {
-                        response.lifeInsurance = "Si";
+                        response.lifeInsurance = 'Si';
                     }
 
                     setData(response);
                     setEditedData(response);
                 })
-                .catch((error) => navigate("/404"));
+                .catch((error) => navigate('/404'));
         console.log(data);
+    }, []);
+
+    //Recupera las especialidades de los arquitectos
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const specialties = await getAllSpecialties();
+
+                // Mapea las especialidades a un formato que react-select espera
+                const specialtyOptions = specialties.map((specialty) => ({
+                    label: specialty.name,
+                    value: specialty.name,
+                }));
+
+                setSpecialties(specialtyOptions);
+            } catch (error) {
+                // Handle error
+            }
+        })();
     }, []);
 
     // Pago de Anualidad pendiente
@@ -49,62 +72,62 @@ const ArchitectDetail = (props) => {
      */
     const handleSaveChanges = async (e) => {
         const form = new FormData();
-        if (editedData.authorizationToShareInfo === "Si") {
+        if (editedData.authorizationToShareInfo === 'Si') {
             editedData.authorizationToShareInfo = true;
         } else {
             editedData.authorizationToShareInfo = false;
         }
-        if (editedData.lifeInsurance === "Si") {
+        if (editedData.lifeInsurance === 'Si') {
             editedData.lifeInsurance = true;
         } else {
             editedData.lifeInsurance = false;
         }
 
-        form.append("DRONumber", editedData.DRONumber); //Ya esta
-        form.append("collegiateNumber", editedData.collegiateNumber); //Ya esta
-        form.append("memberType", editedData.memberType); //Ya esta
-        form.append("classification", editedData.classification); //Ya esta
-        form.append("mainProfessionalActivity", editedData.mainProfessionalActivity);
-        form.append("specialty", editedData.specialty); //Ya esta
-        form.append("dateOfAdmission", editedData.dateOfAdmission); //Ya esta
-        form.append("professionalLicense", editedData.professionalLicense); //Ya esta
-        form.append("capacitationHours", editedData.capacitationHours); //Ya esta
-        form.append("hoursAttended", editedData.hoursAttended); //Ya esta
-        form.append("municipalityOfLabor", editedData.municipalityOfLabor); //Ya esta
-        form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
-        form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
-        form.append("file", editedData.linkCV); //Ya esta
-        form.append("lifeInsurance", editedData.lifeInsurance);
-        form.append("lifeInsureID", editedData.lifeInsureID);
+        form.append('DRONumber', editedData.DRONumber); //Ya esta
+        form.append('collegiateNumber', editedData.collegiateNumber); //Ya esta
+        form.append('memberType', editedData.memberType); //Ya esta
+        form.append('classification', editedData.classification); //Ya esta
+        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append('specialty', editedData.specialty); //Ya esta
+        form.append('dateOfAdmission', editedData.dateOfAdmission); //Ya esta
+        form.append('professionalLicense', editedData.professionalLicense); //Ya esta
+        form.append('capacitationHours', editedData.capacitationHours); //Ya esta
+        form.append('hoursAttended', editedData.hoursAttended); //Ya esta
+        form.append('municipalityOfLabor', editedData.municipalityOfLabor); //Ya esta
+        form.append('positionsInCouncil', editedData.positionsInCouncil); //Ya esta
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo); //Ya esta
+        form.append('file', editedData.linkCV); //Ya esta
+        form.append('lifeInsurance', editedData.lifeInsurance);
+        form.append('lifeInsureID', editedData.lifeInsureID);
 
         e.preventDefault();
 
         try {
-            const swal = FireLoading("Guardando cambios... por favor espere");
+            const swal = FireLoading('Guardando cambios... por favor espere');
             const response = await updateArchitectUserByID(searchParams.id, form);
-            console.log("his isddd", response);
-            if (response.status === "success") {
+            console.log('his isddd', response);
+            if (response.status === 'success') {
                 setData(response.data);
                 swal.close();
-                FireSucess("Los Cambios se han guardado correctamente");
-                navigate("/Directorio");
+                FireSucess('Los Cambios se han guardado correctamente');
+                navigate('/Directorio');
             } else {
                 swal.close();
                 FireError(response.message);
             }
         } catch (error) {
             FireError(error.message);
-            navigate("/.");
+            navigate('/.');
             console.log(error);
         }
     };
 
     const memberOptions = [
-        "Miembro de número",
-        "Miembro Adherente",
-        "Miembro Pasante",
-        "Miembro Honorario",
-        "Miembro Vitalicio",
+        'Miembro de número',
+        'Miembro Adherente',
+        'Miembro Pasante',
+        'Miembro Honorario',
+        'Miembro Vitalicio',
     ];
     const authorizationOptions = { Si: true, No: false };
 
@@ -150,7 +173,7 @@ const ArchitectDetail = (props) => {
         <div className="architect-detail">
             <div className="architect-row">
                 <h2>
-                    {" "}
+                    {' '}
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
@@ -226,14 +249,24 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
-                    <TextInput
-                        label="Especialidad"
-                        placeholder="Especialidad"
-                        getVal={editedData.specialty}
-                        setVal={(value) =>
-                            setEditedData({ ...editedData, specialty: value })
-                        }
-                    />
+
+                    <div className="architect-col">
+                        <label>Especialidad</label>
+                        <Select
+                            options={specialties}
+                            value={specialties.find(
+                                (option) => option.value === editedData.specialty
+                            )}
+                            onChange={(selectedOption) =>
+                                setEditedData({
+                                    ...editedData,
+                                    specialty: selectedOption.value,
+                                })
+                            }
+                            isSearchable
+                            placeholder="Selecciona una especialidad"
+                        />
+                    </div>
                 </div>
 
                 <div className="architect-col">
@@ -307,7 +340,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <p>
-                        Archivo Actual:{" "}
+                        Archivo Actual:{' '}
                         <a href={editedData.linkCV}>
                             <span>Descargar CV</span>
                         </a>

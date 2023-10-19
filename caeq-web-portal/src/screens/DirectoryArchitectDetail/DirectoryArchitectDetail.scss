@@ -1,6 +1,6 @@
 .architect-detail {
     align-self: center;
-
+    
     h1 {
         width: 100%;
         text-align: center;
@@ -8,6 +8,7 @@
     h2 {
         margin-left: 20px;
         margin-top: 20px;
+        
         
     }
     a{
@@ -18,10 +19,13 @@
     .architect-row {
         display: flex;
         width: 100%;
-
+        justify-content: end;
+        padding-right: 20px;
+        padding-left: 20px;
+        column-gap: 20px;
         .button{
-            margin-left: 20px;
-            margin-top: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px;
             
         }
     }
@@ -30,7 +34,8 @@
         display: flex;
         flex-direction: column;
         width: 50%;
-        margin-left: 20px;
+        margin-left: 0px;
+        
 
         .architect-row {
             display: flex;
@@ -39,7 +44,7 @@
         }
 
         .label-input {
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
         .file-input {

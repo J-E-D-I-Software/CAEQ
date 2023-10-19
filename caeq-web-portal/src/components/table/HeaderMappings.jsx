@@ -7,7 +7,7 @@ const headerMappings = {
     specialties: 'Especialidades',
     mainProfessionalActivity: 'Actividad profesional principal',
     professionalLicense: 'Cédula profesional',
-    dateOfAdmission: 'Fecha de INGRESO (antes admisión)',
+    dateOfAdmission: 'Fecha de ingreso',
     gender: 'Género',
     dateOfBirth: 'Fecha de nacimiento',
     age: 'Edad',

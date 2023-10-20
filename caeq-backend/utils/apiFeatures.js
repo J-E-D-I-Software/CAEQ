@@ -26,7 +26,7 @@ class APIFeatures {
         let queryString = JSON.stringify(queryObj);
         queryString = queryString.replace(
             // To allow more mongoose commands add the name of the command to the regular expression
-            /\b(gte|gt|lte|lt|regex|np|in )\b/g,
+            /\b(gte|gt|lte|lt|regex|np )\b/g,
             (match) => `$${match}`
         );
 

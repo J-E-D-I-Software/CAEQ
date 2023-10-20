@@ -16,8 +16,10 @@ import "./directory.scss";
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState("");
-    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] = useState("");
-    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] = useState("");
+    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
+        useState("");
+    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] =
+        useState("");
     const [filterGender, setfilterGender] = useState("");
     const [filterClassification, setfilterClassification] = useState("");
     const [FilterMemberType, setFilterMemberType] = useState("");
@@ -194,7 +196,6 @@ const Directory = () => {
 
         setSpecialty(specialtyId);
     };
-
 
     const clearFilters = () => {
         setFilterSearchByName("");

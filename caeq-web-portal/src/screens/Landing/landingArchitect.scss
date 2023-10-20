@@ -15,8 +15,8 @@
         position: relative;
 
         @media (max-width: 768px) {
-            flex-direction: column; // For smaller screens, change to a single column layout
-            align-items: center; // Center-align the content vertically
+            flex-direction: column;
+            align-items: center;
         }
 
         .adminbutton {
@@ -31,11 +31,9 @@
     }
     .infocaeq {
         display: flex;
-        // height: fit-content;
-        // color: #000000;
         @media (max-width: 768px) {
-            flex-direction: column; // For smaller screens, change to a single column layout
-            align-items: center; // Center-align the content vertically
+            flex-direction: column;
+            align-items: center;
         }
     }
 
@@ -49,13 +47,11 @@
         font-weight: 700;
         line-height: normal;
         display: flex;
-        // centering along main axis - X axis - Horizontal
         justify-content: center;
-        // centering along cross axis - Y axis - Vertical
         align-items: center;
         @media (max-width: 768px) {
-            font-size: 32px; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
+            font-size: 32px;
+            text-align: center;
         }
     }
 
@@ -71,13 +67,11 @@
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-
-        // centering along cross axis - Y axis - Vertical
         align-items: center;
         @media (max-width: 768px) {
-            font-size: 16px; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-            width: 100vw; // 100% view width
+            font-size: 16px;
+            text-align: center;
+            width: 100vw;
             align-self: center;
         }
     }
@@ -92,13 +86,11 @@
         font-weight: 700;
         line-height: normal;
         display: flex;
-        // centering along main axis - X axis - Horizontal
         justify-content: center;
-        // centering along cross axis - Y axis - Vertical
         align-items: center;
         @media (max-width: 768px) {
-            font-size: 2em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
+            font-size: 2em;
+            text-align: center;
         }
     }
 
@@ -115,9 +107,9 @@
         font-weight: 400;
         line-height: normal;
         @media (max-width: 768px) {
-            font-size: 1em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-            width: 100vw; // 100% view width
+            font-size: 1em;
+            text-align: center;
+            width: 100vw;
             align-self: center;
         }
     }
@@ -132,13 +124,12 @@
         font-weight: 700;
         line-height: normal;
         display: flex;
-        // centering along main axis - X axis - Horizontal
+
         justify-content: center;
-        // centering along cross axis - Y axis - Vertical
         align-items: center;
         @media (max-width: 768px) {
-            font-size: 2em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
+            font-size: 2em;
+            text-align: center;
         }
     }
 
@@ -156,16 +147,17 @@
         font-weight: 400;
         line-height: normal;
         @media (max-width: 768px) {
-            font-size: 1em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-            width: 100vw; // 100% view width
+            font-size: 1em;
+            text-align: center;
+            width: 100vw;
             align-self: center;
         }
     }
 
     .column {
+        display: flex;
         flex: 1;
-        padding: 20px; // Adjust the padding as needed
+        padding: 20px;
         box-sizing: border-box;
     }
 
@@ -185,7 +177,7 @@
         flex-wrap: wrap;
 
         @media (max-width: 768px) {
-            flex-direction: column; // For smaller screens, change to a single column layout
+            flex-direction: column;
             align-items: center;
             text-align: center;
         }
@@ -227,9 +219,9 @@
         font-weight: 700;
         line-height: normal;
         @media (max-width: 768px) {
-            font-size: 2em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-            width: 100vw; // 100% view width
+            font-size: 2em;
+            text-align: center;
+            width: 100vw;
             align-self: center;
         }
     }
@@ -246,30 +238,18 @@
         font-weight: 500;
         line-height: normal;
         @media (max-width: 768px) {
-            font-size: 1.5em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-            width: 100vw; // 100% view width
+            font-size: 1.5em;
+            text-align: center;
+            width: 100vw;
             align-self: center;
         }
     }
-    .image1 {
-        @media (max-width: 768px) {
-            text-align: center; // Center-align the title on smaller screens
-            width: 70vw; // 100% view width
-            align-self: center;
-        }
-    }
-    .image2 {
-        @media (max-width: 768px) {
-            text-align: center; // Center-align the title on smaller screens
-            width: 70vw; // 100% view width
-            align-self: center;
-        }
-    }
+    .image1,
+    .image2,
     .image3 {
         @media (max-width: 768px) {
-            text-align: center; // Center-align the title on smaller screens
-            width: 70vw; // 100% view width
+            text-align: center;
+            width: 70vw;
             align-self: center;
         }
     }

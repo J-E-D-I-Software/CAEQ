@@ -1,4 +1,4 @@
-/* landingCAEQ.scss*/
+/* landingCAEQ.scss */
 
 .container {
     display: flex;
@@ -12,107 +12,87 @@
     min-height: 100vh;
     height: fit-content;
     color: #ffffff;
-    position: relative;
 
     @media (max-width: 768px) {
-        flex-direction: column; // For smaller screens, change to a single column layout
-        align-items: center; // Center-align the content vertically
-    }
-}
-
-.column {
-    flex: 1;
-    padding: 20px; // Adjust the padding as needed
-    box-sizing: border-box;
-}
-
-.title {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin-bottom: 140pt;
-    @media (max-width: 768px) {
-        margin-bottom: 20px; // Add some space between the columns on smaller screens
-    }
-    /* Title CAEQ */
-    .main {
-        font-size: 48px;
-        display: flex;
-        width: 635px;
-        height: 59px;
         flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        @media (max-width: 768px) {
-            font-size: 2em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-        }
-    }
-
-    /* Subtitle CAEQ */
-    .subtitle {
-        font-size: 36px;
-        display: flex;
-        width: 635px;
-        height: 59px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        @media (max-width: 768px) {
-            font-size: 1.5em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
-        }
-    }
-}
-
-.button-container {
-    margin-top: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    @media (max-width: 768px) {
-        flex-direction: column; // For smaller screens, change to a single column layout
-        align-items: center;
         text-align: center;
     }
-    .button {
-        margin-top: 2rem;
+
+    .column {
+        flex: 1;
+        padding: 20px;
+        box-sizing: border-box;
     }
-}
 
-.left-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: normal;
-}
+    .title {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-bottom: 20px;
 
-.Logo {
-    width: 600px;
-    height: auto;
-    margin-right: 70pt;
-    margin-bottom: 35pt;
-    @media (max-width: 1000px) {
-        width: 300px;
-        background-color: transparent;
+        /* Title CAEQ */
+        .main {
+            font-size: 3em;
+            text-align: center;
+        }
+
+        /* Subtitle CAEQ */
+        .subtitle {
+            font-size: 1.5em;
+            text-align: center;
+        }
     }
-}
 
-.right-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+    .button-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
 
-    @media (max-width: 768px) {
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .button {
+            margin-top: 1rem;
+        }
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .Logo {
+        width: 80%;
+        max-width: 600px;
+        height: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+
+        @media (max-width: 1000px) {
+            max-width: 300px;
+            margin-right: 0;
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         font-size: 1.5rem;
-        margin-bottom: 20px; // Add some space between the columns on smaller screens
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            margin-bottom: 20px;
+        }
     }
 }

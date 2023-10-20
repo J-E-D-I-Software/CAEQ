@@ -1,5 +1,14 @@
 .directory {
   padding: 3rem;
+
+  .dropdown-input {
+    width: 350px;
+    height: 60%;
+    background-color: #eea300;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
 }
 
 .directory-row {
@@ -31,13 +40,7 @@
   gap: 12px;
 }
 
-.dropdown-input {
-  width: 350px;
-  height: 60%;
-  background-color: #eea300;
-  color: white;
-  margin-bottom: 20px;
-}
+
 
 .DropdownInputs-row {
   display: flex;

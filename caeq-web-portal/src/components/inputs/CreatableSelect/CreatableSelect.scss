@@ -1,0 +1,18 @@
+/* CreatableSelect.scss */
+
+.Creatable-Select {
+    /* Agrega tus estilos personalizados aquí */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 20px;
+  }
+  
+  /* Agrega estilos adicionales según sea necesario */
+  
+
+.creatable-select:hover {
+    cursor: pointer;
+    transform: translateY(-3px); /* Elevación al pasar el ratón */
+}
+

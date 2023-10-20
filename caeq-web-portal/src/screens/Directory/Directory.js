@@ -18,7 +18,7 @@ const Directory = () => {
     const [filterSearchByName, setFilterSearchByName] = useState("");
     const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
         useState("");
-    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] =
+    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
         useState("");
     const [filterGender, setfilterGender] = useState("");
     const [filterClassification, setfilterClassification] = useState("");
@@ -56,7 +56,8 @@ const Directory = () => {
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
-            filters += `&DRONumber[regex]=${filterSearchBycollegiateNumber}`;
+            filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
+
         if (filterGender) filters += `&gender=${filterGender}`;
         if (filterClassification) filters += `&classification=${filterClassification}`;
         if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
@@ -200,7 +201,7 @@ const Directory = () => {
     const clearFilters = () => {
         setFilterSearchByName("");
         setFilterSearchBymunicipalityOfLabor("");
-        setFilterSearchBycollegiateNumberr("");
+        setFilterSearchBycollegiateNumber("");
         setfilterGender("");
         setfilterClassification("");
         setFilterMemberType("");
@@ -247,7 +248,7 @@ const Directory = () => {
                         <InputText
                             placeholder="Número de colegiado"
                             getVal={filterSearchBycollegiateNumber}
-                            setVal={setFilterSearchBycollegiateNumberr}
+                            setVal={setFilterSearchBycollegiateNumber}
                         />
                     </div>
                 </div>

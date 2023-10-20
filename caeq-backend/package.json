@@ -3,15 +3,15 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "update-env": "node ./utils/updateEnv.js",
         "test": "cross-env NODE_ENV=dev && jest --forceExit --runInBand",
         "start": "cross-env NODE_ENV=production node index.js",
         "start:test": "cross-env NODE_ENV=testing nodemon index.js",
-        "start:dev": "cross-env NODE_ENV=development nodemon index.js",
+        "start:dev": "cross-env NODE_ENV=development nodemon index.js --saveImportErrors --importGatherings",
         "start:prod": "cross-env NODE_ENV=production nodemon index.js",
         "deploy-prod": "npm run update-env production && firebase deploy --only functions:prod",
         "deploy-test": "npm run update-env testing && firebase deploy --only functions:test",
-        "import-data": "node ./utils/importArchitectUsers.js"
+        "update-env": "node ./commands/updateEnv.js",
+        "import-data": "node ./commands/importCaeqSSheet.js --saveImportErrors --importGatherings"
     },
     "dependencies": {
         "@google-cloud/storage": "^5.8.5",

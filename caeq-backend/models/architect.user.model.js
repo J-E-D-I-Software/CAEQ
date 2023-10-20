@@ -35,10 +35,11 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     DRONumber: {
         type: String,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [false],
     },
     authorizationToShareInfo: {
         type: Boolean,
+        default: false,
         required: [true, 'Por favor dinos si autorizas compartir tu información'],
     },
     lifeInsurance: {
@@ -60,7 +61,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     cellphone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de celular!'],
+        required: [false],
     },
     homePhone: {
         type: Number,
@@ -68,7 +69,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     officePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de oficina!'],
+        required: [false],
     },
     emergencyContact: {
         type: String,

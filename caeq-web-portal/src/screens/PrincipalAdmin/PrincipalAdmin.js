@@ -138,15 +138,15 @@ const PrincipalAdmin = () => {
 
 
     return (
-        <div class="graph-container">
+        <div class='graph-container'>
           <h1>Gráficas de Especialidades</h1>
-          <div class="grid-container">
-            <div class= "column">
+          <div class='grid-container'>
+            <div class= 'column'>
               <GraphContainer>
                   <Bar data={specialtyChartData2} options={barOptions} />
               </GraphContainer>
               </div>
-            <div class= "column">
+            <div class= 'column'>
               <GraphContainer>
                   <Pie data={specialtyChartData} options={pieOptions} />
               </GraphContainer>

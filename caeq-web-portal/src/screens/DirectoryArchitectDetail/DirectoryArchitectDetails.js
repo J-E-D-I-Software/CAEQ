@@ -20,17 +20,8 @@ const ArchitectDetail = (props) => {
         if (searchParams.id)
             getArchitectUserById(searchParams.id)
                 .then((response) => {
-                    if (response.authorizationToShareInfo !== true) {
-                        response.authorizationToShareInfo = "No";
-                    } else {
-                        response.authorizationToShareInfo = "Si";
-                    }
-                    if (response.lifeInsurance !== true) {
-                        response.lifeInsurance = "No";
-                    } else {
-                        response.lifeInsurance = "Si";
-                    }
-
+                    response.authorizationToShareInfo = response.authorizationToShareInfo !== true ? "No" : "Si";
+                    response.lifeInsurance = response.lifeInsurance !== true ? "No" : "Si";
                     setData(response);
                     setEditedData(response);
                 })
@@ -49,21 +40,22 @@ const ArchitectDetail = (props) => {
      */
     const handleSaveChanges = async (e) => {
         const form = new FormData();
-        editedData.authorizationToShareInfo = editedData.authorizationToShareInfo === "Si" ? true : false;
+        editedData.authorizationToShareInfo =
+            editedData.authorizationToShareInfo === "Si" ? true : false;
         editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
 
-        form.append("DRONumber", editedData.DRONumber); //Ya esta
-        form.append("collegiateNumber", editedData.collegiateNumber); //Ya esta
-        form.append("memberType", editedData.memberType); //Ya esta
-        form.append("classification", editedData.classification); //Ya esta
+        form.append("DRONumber", editedData.DRONumber); 
+        form.append("collegiateNumber", editedData.collegiateNumber); 
+        form.append("memberType", editedData.memberType); 
+        form.append("classification", editedData.classification); 
         form.append("mainProfessionalActivity", editedData.mainProfessionalActivity);
-        form.append("specialty", editedData.specialty); //Ya esta
-        form.append("dateOfAdmission", editedData.dateOfAdmission); //Ya esta
-        form.append("professionalLicense", editedData.professionalLicense); //Ya esta
-        form.append("municipalityOfLabor", editedData.municipalityOfLabor); //Ya esta
-        form.append("positionsInCouncil", editedData.positionsInCouncil); //Ya esta
-        form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); //Ya esta
-        form.append("file", editedData.linkCV); //Ya esta
+        form.append("specialty", editedData.specialty); 
+        form.append("dateOfAdmission", editedData.dateOfAdmission); 
+        form.append("professionalLicense", editedData.professionalLicense); 
+        form.append("municipalityOfLabor", editedData.municipalityOfLabor); 
+        form.append("positionsInCouncil", editedData.positionsInCouncil); 
+        form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); 
+        form.append("file", editedData.linkCV); 
         form.append("lifeInsurance", editedData.lifeInsurance);
         form.append("lifeInsureID", editedData.lifeInsureID);
 
@@ -136,37 +128,37 @@ const ArchitectDetail = (props) => {
     };
 
     return (
-        <div className="architect-detail">
-            <div className="architect-row">
+        <div className='architect-detail'>
+            <div className='architect-row'>
                 <h2>
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
             </div>
-            <div className="architect-row">
+            <div className='architect-row'>
                 <h1>{data.fullName}</h1>
             </div>
 
-            <div className="architect-row">
-                <div className="architect-col">
+            <div className='architect-row'>
+                <div className='architect-col'>
                     <TextInput
-                        label="Número de Colegiado"
-                        placeholder="Número de Colegiado"
+                        label='Número de Colegiado'
+                        placeholder='Número de Colegiado'
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, collegiateNumber: value })
                         }
                     />
                     <TextInput
-                        label="Número de DRO"
-                        placeholder="Número de DRO"
+                        label='Número de DRO'
+                        placeholder='Número de DRO'
                         getVal={editedData.DRONumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, DRONumber: value })
                         }
                     />
                     <DropdownInput
-                        label="Tipo de Miembro"
+                        label='Tipo de Miembro'
                         placeholder={editedData.memberType}
                         options={getMemberOptions()}
                         getVal={editedData.memberType}
@@ -175,24 +167,24 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label="Clasificación"
-                        placeholder="Clasificación"
+                        label='Clasificación'
+                        placeholder='Clasificación'
                         getVal={editedData.classification}
                         setVal={(value) =>
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
                     <TextInput
-                        label="Especialidad"
-                        placeholder="Especialidad"
+                        label='Especialidad'
+                        placeholder='Especialidad'
                         getVal={editedData.specialty}
                         setVal={(value) =>
                             setEditedData({ ...editedData, specialty: value })
                         }
                     />
                     <TextInput
-                        label="Actividad Profesional Principal"
-                        placeholder="Actividad Profesional Principal"
+                        label='Actividad Profesional Principal'
+                        placeholder='Actividad Profesional Principal'
                         getVal={editedData.mainProfessionalActivity}
                         setVal={(value) =>
                             setEditedData({
@@ -202,24 +194,24 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label="Cédula Profesional"
-                        placeholder="Cédula Profesional"
+                        label='Cédula Profesional'
+                        placeholder='Cédula Profesional'
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
                             setEditedData({ ...editedData, professionalLicense: value })
                         }
                     />
                     <TextInput
-                        label="Fecha de Ingreso"
-                        placeholder="FechaDeIngreso"
+                        label='Fecha de Ingreso'
+                        placeholder='FechaDeIngreso'
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfAdmission: value })
                         }
                     />
                     <TextInput
-                        label="Municipio de Trabajo"
-                        placeholder="Municipio de Trabajo"
+                        label='Municipio de Trabajo'
+                        placeholder='Municipio de Trabajo'
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
                             setEditedData({ ...editedData, municipalityOfLabor: value })
@@ -227,9 +219,9 @@ const ArchitectDetail = (props) => {
                     />
                 </div>
 
-                <div className="architect-col">
+                <div className='architect-col'>
                     <DropdownInput
-                        label="Autorización para compartir información"
+                        label='Autorización para compartir información'
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -241,7 +233,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label="Seguro de Vida"
+                        label='Seguro de Vida'
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
@@ -253,23 +245,23 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label="Poliza de Seguro"
-                        placeholder="Poliza de Seguro"
+                        label='Poliza de Seguro'
+                        placeholder='Poliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
                     <TextInput
-                        label="Horas de Capacitación"
-                        placeholder="Horas Acreditadas"
+                        label='Horas de Capacitación'
+                        placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
                             setEditedData({ ...editedData, capacitationHours: value })
                         }
                     />
                     <DropdownInput
-                        label="Pago de Anualidad"
+                        label='Pago de Anualidad'
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -281,16 +273,16 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label="Posiciones en Consejo"
-                        placeholder="Posiciones en Consejo"
+                        label='Posiciones en Consejo'
+                        placeholder='Posiciones en Consejo'
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
                             setEditedData({ ...editedData, positionsInCouncil: value })
                         }
                     />
                     <FileInput
-                        label="Curriculum Vitae"
-                        placeholder="CV"
+                        label='Curriculum Vitae'
+                        placeholder='CV'
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -305,8 +297,8 @@ const ArchitectDetail = (props) => {
                 </div>
             </div>
 
-            <div className="architect-row">
-                <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
+            <div className='architect-row'>
+                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
             </div>

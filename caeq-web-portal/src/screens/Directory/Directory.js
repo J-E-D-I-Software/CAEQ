@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
-import InteractiveTable from "../../components/table/InteractiveTable";
-import InputText from "../../components/inputs/TextInput/TextInput";
-import InputNumber from "../../components/inputs/NumberInput/NumberInput.jsx";
-import { getAllArchitectUsers } from "../../client/ArchitectUser/ArchitectUser.GET";
-import { getAllSpecialties } from "../../client/Specialties/Specialties.GET";
-import PaginationNav from "../../components/pagination/PaginationNav";
-import headerMappings from "../../components/table/HeaderMappings";
-import DateInput from "../../components/inputs/DateInput/DateInput";
-import { exportToExcel } from "react-json-to-excel";
-import BaseButton from "../../components/buttons/BaseButton";
-import "./directory.scss";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import InteractiveTable from '../../components/table/InteractiveTable';
+import InputText from '../../components/inputs/TextInput/TextInput';
+import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
+import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
+import PaginationNav from '../../components/pagination/PaginationNav';
+import headerMappings from '../../components/table/HeaderMappings';
+import DateInput from '../../components/inputs/DateInput/DateInput';
+import { exportToExcel } from 'react-json-to-excel';
+import BaseButton from '../../components/buttons/BaseButton';
+import { FireSucess, FireLoading, FireError } from '../../utils/alertHandler';
+import './directory.scss';
 
+/**
+ * The Directory component displays a directory of architects with filtering options and pagination.
+ * It allows users to search for architects, apply filters, and navigate through the results.
+ *
+ * @component
+ */
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState("");
@@ -142,6 +149,8 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
+        const swal = FireLoading('Generando archivo de excel...');
+
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
 
@@ -174,6 +183,9 @@ const Directory = () => {
 
             return mappedObject;
         });
+
+        swal.close();
+        FireSucess('Tu descarga iniciará en breve.');
 
         exportToExcel(architectsDownload, "seleccion-arquitectos", false);
     };
@@ -212,7 +224,6 @@ const Directory = () => {
         setSpecialty("");
         setSpecialtyName("");
         setOrderBy("collegiateNumber");
-        window.location.reload();
     };
 
     const handleClearFilters = () => {

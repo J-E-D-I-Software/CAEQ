@@ -19,6 +19,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     memberType: {
         type: String,
         enum: [
+            '-',
             'Miembro de número',
             'Miembro Adherente',
             'Miembro Pasante',
@@ -29,15 +30,16 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     classification: {
         type: String,
-        enum: ['Expresidente', 'Docente', 'Convenio'],
+        enum: ['-', 'Expresidente', 'Docente', 'Convenio'],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
         type: String,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [false],
     },
     authorizationToShareInfo: {
         type: Boolean,
+        default: false,
         required: [true, 'Por favor dinos si autorizas compartir tu información'],
     },
     lifeInsurance: {
@@ -59,15 +61,15 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     cellphone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de celular!'],
+        required: [false],
     },
     homePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de casa!'],
+        required: [false]
     },
     officePhone: {
         type: Number,
-        required: [true, 'Por favor dinos tu número de oficina!'],
+        required: [false],
     },
     emergencyContact: {
         type: String,

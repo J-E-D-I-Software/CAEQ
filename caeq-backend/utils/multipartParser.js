@@ -12,9 +12,9 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
             allowedMethods.includes(req.method) &&
             type &&
             type.startsWith('multipart/form-data')
-            ) {
-                getRawBody(
-                    req,
+        ) {
+            getRawBody(
+                req,
                 Object.assign(
                     {
                         length: req.headers['content-length'],
@@ -31,7 +31,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     }
                 }
             );
-            console.log("FILE PARSER");
+            console.log('FILE PARSER');
         } else {
             next();
         }
@@ -58,11 +58,11 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 if (!req.body) req.body = {};
                 if (fieldname.includes('[')) {
                     const field = fieldname.split('[')[0];
-                    req.body[field] =[]
+
                     if (req.body[field]) {
                         req.body[field].push(value);
                     } else {
-                        req.body[field] = value;
+                        req.body[field] = [value];
                     }
                 } else req.body[fieldname] = value;
             });

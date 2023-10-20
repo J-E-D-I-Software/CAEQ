@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import Select from 'react-select';
+import { createSpecialty } from '../../client/Specialties/Specialties.GET';
+import CreatableSelect from 'react-select/creatable';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
@@ -16,47 +17,58 @@ const ArchitectDetail = (props) => {
     const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
-    const [specialties, setSpecialties] = useState([]);
-    const [specialtiesName, setSpecialtiesName] = useState([]);
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-    const [availableSpecialties, setAvailableSpecialties] = useState(specialties);
+    const [availableSpecialties, setAvailableSpecialties] = useState([]);
 
     useEffect(() => {
-        if (searchParams.id)
-            getArchitectUserById(searchParams.id)
-                .then((response) => {
-                    if (response.authorizationToShareInfo !== true) {
-                        response.authorizationToShareInfo = 'No';
-                    } else {
-                        response.authorizationToShareInfo = 'Si';
-                    }
-                    if (response.lifeInsurance !== true) {
-                        response.lifeInsurance = 'No';
-                    } else {
-                        response.lifeInsurance = 'Si';
-                    }
+        (async () => {
+            try {
+                const architect = await getArchitectUserById(searchParams.id);
 
-                    setData(response);
-                    setEditedData(response);
-                })
-                .catch((error) => navigate('/404'));
-        console.log(data);
+                if (architect.authorizationToShareInfo !== true) {
+                    architect.authorizationToShareInfo = 'No';
+                } else {
+                    architect.authorizationToShareInfo = 'Si';
+                }
+                if (architect.lifeInsurance !== true) {
+                    architect.lifeInsurance = 'No';
+                } else {
+                    architect.lifeInsurance = 'Si';
+                }
+
+                setData(architect);
+                setEditedData(architect);
+
+                let specialties = await getAllSpecialties();
+
+                specialties = specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setAvailableSpecialties(specialties);
+
+                setSelectedSpecialties(
+                    specialties.filter((specialty) =>
+                        architect.specialties.includes(specialty.value)
+                    )
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     }, []);
 
     useEffect(() => {
         (async () => {
             try {
-                const specialties = await getAllSpecialties();
+                let specialties = await getAllSpecialties();
 
-                // Mapea las especialidades a un formato que react-select espera
-                const specialtyOptions = specialties.map((specialty) => ({
-                    label: specialty.name,
-                    value: specialty.name,
-                    id: specialty._id,
-                }));
+                specialties = specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
 
-                setSpecialties(specialtyOptions);
+                setAvailableSpecialties(specialties);
             } catch (error) {
                 // Handle error
             }
@@ -82,7 +94,7 @@ const ArchitectDetail = (props) => {
                 )
             );
         }
-    }, [editedData.specialty, specialties]);
+    }, [editedData.specialty, selectedSpecialties]);
 
     // Pago de Anualidad pendiente
 
@@ -93,62 +105,57 @@ const ArchitectDetail = (props) => {
      * @param {Event} e - The event object.
      * @returns {Promise<void>}
      */
-const handleSaveChanges = async (e) => {
-    if (editedData.authorizationToShareInfo === 'Si') {
-        editedData.authorizationToShareInfo = true;
-    } else {
-        editedData.authorizationToShareInfo = false;
-    }
-    if (editedData.lifeInsurance === 'Si') {
-        editedData.lifeInsurance = true;
-    } else {
-        editedData.lifeInsurance = false;
-    }
-
-    const form = new FormData();
-    const selectedSpecialtyValues = selectedSpecialties.map((s) => s.value);console.log("selectedSpecialtyValues",specialties);
-    specialties.map((specialty,i) => { form.append(`specialties[]`, specialty.id); });
-    form.append('DRONumber', editedData.DRONumber);
-    form.append('collegiateNumber', editedData.collegiateNumber);
-    form.append('memberType', editedData.memberType);
-    form.append('classification', editedData.classification);
-    form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
-    // En lugar de enviar un array de objetos, envía un array de valores de especialidades
-    form.append('specialties', selectedSpecialtyValues);
-    console.log("NOU",selectedSpecialtyValues);
-    form.append('dateOfAdmission', editedData.dateOfAdmission);
-    form.append('professionalLicense', editedData.professionalLicense);
-    form.append('capacitationHours', editedData.capacitationHours);
-    form.append('hoursAttended', editedData.hoursAttended);
-    form.append('municipalityOfLabor', editedData.municipalityOfLabor);
-    form.append('positionsInCouncil', editedData.positionsInCouncil);
-    form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
-    form.append('file', editedData.linkCV);
-    form.append('lifeInsurance', editedData.lifeInsurance);
-    form.append('lifeInsureID', editedData.lifeInsureID);
-   
-
-    e.preventDefault();
-
-    try {
-        const swal = FireLoading('Guardando cambios... por favor espere');
-        const response = await updateArchitectUserByID(searchParams.id, form);
-        if (response.status === 'success') {
-            console.log("neta?", response);
-            setData(response.data);
-            swal.close();
-            FireSucess('Los Cambios se han guardado correctamente');
-            navigate('/Directorio');
+    const handleSaveChanges = async (e) => {
+        if (editedData.authorizationToShareInfo === 'Si') {
+            editedData.authorizationToShareInfo = true;
         } else {
-            swal.close();
-            FireError(response.message);
+            editedData.authorizationToShareInfo = false;
         }
-    } catch (error) {
-        FireError(error.message);
-        console.log(error);
-    }
-};
+        if (editedData.lifeInsurance === 'Si') {
+            editedData.lifeInsurance = true;
+        } else {
+            editedData.lifeInsurance = false;
+        }
 
+        const form = new FormData();
+        selectedSpecialties.forEach((specialty, i) => {
+            form.append(`specialties[${i}]`, specialty.value);
+        });
+        console.log(selectedSpecialties);
+        form.append('DRONumber', editedData.DRONumber);
+        form.append('collegiateNumber', editedData.collegiateNumber);
+        form.append('memberType', editedData.memberType);
+        form.append('classification', editedData.classification);
+        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append('dateOfAdmission', editedData.dateOfAdmission);
+        form.append('professionalLicense', editedData.professionalLicense);
+        form.append('capacitationHours', editedData.capacitationHours);
+        form.append('hoursAttended', editedData.hoursAttended);
+        form.append('municipalityOfLabor', editedData.municipalityOfLabor);
+        form.append('positionsInCouncil', editedData.positionsInCouncil);
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append('file', editedData.linkCV);
+        form.append('lifeInsurance', editedData.lifeInsurance);
+        form.append('lifeInsureID', editedData.lifeInsureID);
+
+        e.preventDefault();
+
+        try {
+            const swal = FireLoading('Guardando cambios... por favor espere');
+            const response = await updateArchitectUserByID(searchParams.id, form);
+            if (response.status === 'success') {
+                setData(response.data);
+                swal.close();
+                FireSucess('Los Cambios se han guardado correctamente');
+                navigate('/Directorio');
+            } else {
+                swal.close();
+                FireError(response.message);
+            }
+        } catch (error) {
+            FireError(error.message);
+        }
+    };
 
     const memberOptions = [
         'Miembro de número',
@@ -198,46 +205,46 @@ const handleSaveChanges = async (e) => {
     };
 
     return (
-        <div className="architect-detail">
-            <div className="architect-row">
+        <div className='architect-detail'>
+            <div className='architect-row'>
                 <h2>
                     {' '}
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
             </div>
-            <div className="architect-row">
+            <div className='architect-row'>
                 <h1>{data.fullName}</h1>
             </div>
 
-            <div className="architect-row">
-                <div className="architect-col">
+            <div className='architect-row'>
+                <div className='architect-col'>
                     <TextInput
-                        label="Fecha de Ingreso"
-                        placeholder="FechaDeIngreso"
+                        label='Fecha de Ingreso'
+                        placeholder='FechaDeIngreso'
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfAdmission: value })
                         }
                     />
                     <TextInput
-                        label="Número de Colegiado"
-                        placeholder="Número de Colegiado"
+                        label='Número de Colegiado'
+                        placeholder='Número de Colegiado'
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, collegiateNumber: value })
                         }
                     />
                     <TextInput
-                        label="Número de DRO"
-                        placeholder="Número de DRO"
+                        label='Número de DRO'
+                        placeholder='Número de DRO'
                         getVal={editedData.DRONumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, DRONumber: value })
                         }
                     />
                     <DropdownInput
-                        label="Tipo de Miembro"
+                        label='Tipo de Miembro'
                         placeholder={editedData.memberType}
                         options={getMemberOptions()}
                         getVal={editedData.memberType}
@@ -246,32 +253,32 @@ const handleSaveChanges = async (e) => {
                         }
                     />
                     <TextInput
-                        label="Número de Asistencias a Asambleas"
-                        placeholder="Número de Asistencias a Asambleas"
+                        label='Número de Asistencias a Asambleas'
+                        placeholder='Número de Asistencias a Asambleas'
                         getVal={editedData.hoursAttended}
                         setVal={(value) =>
                             setEditedData({ ...editedData, hoursAttended: value })
                         }
                     />
                     <TextInput
-                        label="Horas Acreditadas"
-                        placeholder="Horas Acreditadas"
+                        label='Horas Acreditadas'
+                        placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
                             setEditedData({ ...editedData, capacitationHours: value })
                         }
                     />
                     <TextInput
-                        label="Posiciones en Consejo"
-                        placeholder="Posiciones en Consejo"
+                        label='Posiciones en Consejo'
+                        placeholder='Posiciones en Consejo'
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
                             setEditedData({ ...editedData, positionsInCouncil: value })
                         }
                     />
                     <TextInput
-                        label="Clasificación"
-                        placeholder="Clasificación"
+                        label='Clasificación'
+                        placeholder='Clasificación'
                         getVal={editedData.classification}
                         setVal={(value) =>
                             setEditedData({ ...editedData, classification: value })
@@ -279,28 +286,29 @@ const handleSaveChanges = async (e) => {
                     />
 
                     <label>Especialidad</label>
-                    <Select
+                    <CreatableSelect
                         isMulti
-                        options={specialties}
+                        options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
+                            console.log(selectedOptions);
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder="Selecciona especialidades..."
+                        placeholder='Selecciona una especialidad'
                     />
                 </div>
 
-                <div className="architect-col">
+                <div className='architect-col'>
                     <TextInput
-                        label="Poliza de Seguro"
-                        placeholder="Poliza de Seguro"
+                        label='Poliza de Seguro'
+                        placeholder='Poliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
                     <DropdownInput
-                        label="Tiene Seguro de Vida"
+                        label='Tiene Seguro de Vida'
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
@@ -313,23 +321,23 @@ const handleSaveChanges = async (e) => {
                     />
 
                     <TextInput
-                        label="Cédula Profesional"
-                        placeholder="Cédula Profesional"
+                        label='Cédula Profesional'
+                        placeholder='Cédula Profesional'
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
                             setEditedData({ ...editedData, professionalLicense: value })
                         }
                     />
                     <TextInput
-                        label="Municipio de Trabajo"
-                        placeholder="Municipio de Trabajo"
+                        label='Municipio de Trabajo'
+                        placeholder='Municipio de Trabajo'
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
                             setEditedData({ ...editedData, municipalityOfLabor: value })
                         }
                     />
                     <DropdownInput
-                        label="Pago de Anualidad"
+                        label='Pago de Anualidad'
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -341,7 +349,7 @@ const handleSaveChanges = async (e) => {
                         }
                     />
                     <DropdownInput
-                        label="Autorización para compartir información"
+                        label='Autorización para compartir información'
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -353,8 +361,8 @@ const handleSaveChanges = async (e) => {
                         }
                     />
                     <FileInput
-                        label="CV"
-                        placeholder="CV"
+                        label='CV'
+                        placeholder='CV'
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -369,8 +377,8 @@ const handleSaveChanges = async (e) => {
                 </div>
             </div>
 
-            <div className="architect-row">
-                <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
+            <div className='architect-row'>
+                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
             </div>

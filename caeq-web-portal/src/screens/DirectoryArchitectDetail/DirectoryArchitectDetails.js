@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import { createSpecialty } from '../../client/Specialties/Specialties.GET';
+import { createSpecialty } from '../../client/Specialties/Specialties.POST';
 import CreatableSelect from 'react-select/creatable';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
@@ -284,14 +284,14 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
-
-                    <label>Especialidad</label>
-                    <CreatableSelect
+                    <br />
+                    <label className='label-input'>Especialidad</label>
+                    <CreatableSelect 
+                        className="creatable-select"
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
-                            console.log(selectedOptions);
                             setSelectedSpecialties(selectedOptions);
                         }}
                         placeholder='Selecciona una especialidad'

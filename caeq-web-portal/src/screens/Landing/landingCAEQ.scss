@@ -14,12 +14,13 @@
     color: #ffffff;
 
     @media (max-width: 768px) {
-        flex-direction: column; /* For smaller screens, change to a single column layout */
+        flex-direction: column;
+        text-align: center;
     }
 
     .column {
         flex: 1;
-        padding: 20px; /* Adjust the padding as needed */
+        padding: 20px;
         box-sizing: border-box;
     }
 
@@ -28,19 +29,18 @@
         font-style: normal;
         font-weight: 700;
         line-height: normal;
-        text-align: left;
-        margin-bottom: 20px; /* Adjust margin for smaller screens */
+        margin-bottom: 20px;
 
         /* Title CAEQ */
         .main {
-            font-size: 2em; /* Adjust the font size for smaller screens */
-            text-align: center; /* Center-align the title on smaller screens */
+            font-size: 3em;
+            text-align: center;
         }
 
         /* Subtitle CAEQ */
         .subtitle {
-            font-size: 1.5em; /* Adjust the font size for smaller screens */
-            text-align: center; /* Center-align the subtitle on smaller screens */
+            font-size: 1.5em;
+            text-align: center;
         }
     }
 
@@ -52,7 +52,7 @@
         flex-wrap: wrap;
 
         @media (max-width: 768px) {
-            flex-direction: column; /* For smaller screens, change to a single column layout */
+            flex-direction: column;
             align-items: center;
             text-align: center;
         }
@@ -65,18 +65,19 @@
     .left-column {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .Logo {
-        width: 100%; /* Make the logo responsive to the container's width */
-        max-width: 600px; /* Limit the maximum width for larger screens */
+        width: 80%;
+        max-width: 600px;
         height: auto;
-        margin-right: 40px; /* Adjust margin for smaller screens */
-        margin-bottom: 40px; /* Adjust margin for smaller screens */
+        margin-right: 20px;
+        margin-bottom: 20px;
 
         @media (max-width: 1000px) {
-            max-width: 300px; /* Further reduce the max width for even smaller screens */
-            margin-right: 0; /* Remove right margin for smaller screens */
+            max-width: 300px;
+            margin-right: 0;
         }
     }
 
@@ -91,7 +92,7 @@
         line-height: normal;
 
         @media (max-width: 768px) {
-            margin-bottom: 20px; /* Add some space between the columns on smaller screens */
+            margin-bottom: 20px;
         }
     }
 }

@@ -1,9 +1,8 @@
 /* landingCAEQ.scss */
 
-.container {
+.landing-admin-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
     background: url('../../components/images/backgroundAdmin.png') center/cover
         no-repeat;
@@ -30,17 +29,30 @@
         font-weight: 700;
         line-height: normal;
         margin-bottom: 20px;
-
+        @media (max-width: 768px) {
+            flex-direction: column;
+            text-align: center;
+        }
         /* Title CAEQ */
         .main {
-            font-size: 3em;
+            font-size: 50px;
             text-align: center;
+            @media (max-width: 768px) {
+                font-size: large;
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         /* Subtitle CAEQ */
         .subtitle {
-            font-size: 1.5em;
+            font-size: 25px;
             text-align: center;
+            @media (max-width: 768px) {
+                font-size: small;
+                flex-direction: column;
+                text-align: center;
+            }
         }
     }
 
@@ -48,8 +60,7 @@
         margin-top: 20px;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
-        flex-wrap: wrap;
+        justify-content: space-around; /* Distribute buttons equally in horizontal space */
 
         @media (max-width: 768px) {
             flex-direction: column;
@@ -59,18 +70,25 @@
 
         .button {
             margin-top: 1rem;
+            @media (max-width: 768px) {
+                font-size: small;
+            }
         }
     }
 
     .left-column {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
     }
 
     .Logo {
         width: 80%;
-        max-width: 600px;
+        max-width: 400px;
         height: auto;
         margin-right: 20px;
         margin-bottom: 20px;
@@ -84,7 +102,6 @@
     .right-column {
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
         font-size: 1.5rem;
         font-style: normal;
@@ -92,7 +109,7 @@
         line-height: normal;
 
         @media (max-width: 768px) {
-            margin-bottom: 20px;
+            font-size: small;
         }
     }
 }

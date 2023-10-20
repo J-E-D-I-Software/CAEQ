@@ -58,7 +58,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 if (!req.body) req.body = {};
                 if (fieldname.includes('[')) {
                     const field = fieldname.split('[')[0];
-
+                    req.body[field] =[]
                     if (req.body[field]) {
                         req.body[field].push(value);
                     } else {

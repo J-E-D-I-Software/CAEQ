@@ -1,15 +1,24 @@
 const specialtyTestData = [
     {
-        name: 'Experto en seguridad estructural',
+        name: 'DRO',
     },
     {
-        name: 'Prefabricaod de concreto',
+        name: 'Corresponsable en seguridad estructural',
     },
     {
-        name: 'Arquitectura solar',
+        name: 'Dictaminador estructural',
     },
     {
-        name: 'Monumentos',
+        name: 'Corresponsable en instalaciones',
+    },
+    {
+        name: 'Corresponsable en instalaciones eléctricas',
+    },
+    {
+        name: 'Revisor de bajo riesgo para micronegocios',
+    },
+    {
+        name: 'DUYA',
     },
 ];
 

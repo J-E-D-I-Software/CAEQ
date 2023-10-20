@@ -19,6 +19,9 @@ const ArchitectDetail = (props) => {
     const [specialties, setSpecialties] = useState([]);
     const [specialtiesName, setSpecialtiesName] = useState([]);
 
+    const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+    const [availableSpecialties, setAvailableSpecialties] = useState(specialties);
+
     useEffect(() => {
         if (searchParams.id)
             getArchitectUserById(searchParams.id)
@@ -41,8 +44,6 @@ const ArchitectDetail = (props) => {
         console.log(data);
     }, []);
 
-    //Recupera las especialidades de los arquitectos
-
     useEffect(() => {
         (async () => {
             try {
@@ -52,6 +53,7 @@ const ArchitectDetail = (props) => {
                 const specialtyOptions = specialties.map((specialty) => ({
                     label: specialty.name,
                     value: specialty.name,
+                    id: specialty._id,
                 }));
 
                 setSpecialties(specialtyOptions);
@@ -60,6 +62,27 @@ const ArchitectDetail = (props) => {
             }
         })();
     }, []);
+
+    //Recupera las especialidades de los arquitectos
+    useEffect(() => {
+        // Mapea las especialidades actuales del arquitecto y quítalas de las disponibles.
+        if (editedData.specialty) {
+            const selectedSpecialties = editedData.specialty.map((s) => ({
+                value: s,
+                label: s,
+            }));
+
+            setSelectedSpecialties(selectedSpecialties);
+            setAvailableSpecialties((prevSpecialties) =>
+                prevSpecialties.filter(
+                    (specialty) =>
+                        !selectedSpecialties.some(
+                            (selected) => selected.value === specialty.value
+                        )
+                )
+            );
+        }
+    }, [editedData.specialty, specialties]);
 
     // Pago de Anualidad pendiente
 
@@ -70,57 +93,62 @@ const ArchitectDetail = (props) => {
      * @param {Event} e - The event object.
      * @returns {Promise<void>}
      */
-    const handleSaveChanges = async (e) => {
-        const form = new FormData();
-        if (editedData.authorizationToShareInfo === 'Si') {
-            editedData.authorizationToShareInfo = true;
+const handleSaveChanges = async (e) => {
+    if (editedData.authorizationToShareInfo === 'Si') {
+        editedData.authorizationToShareInfo = true;
+    } else {
+        editedData.authorizationToShareInfo = false;
+    }
+    if (editedData.lifeInsurance === 'Si') {
+        editedData.lifeInsurance = true;
+    } else {
+        editedData.lifeInsurance = false;
+    }
+
+    const form = new FormData();
+    const selectedSpecialtyValues = selectedSpecialties.map((s) => s.value);console.log("selectedSpecialtyValues",specialties);
+    specialties.map((specialty,i) => { form.append(`specialties[]`, specialty.id); });
+    form.append('DRONumber', editedData.DRONumber);
+    form.append('collegiateNumber', editedData.collegiateNumber);
+    form.append('memberType', editedData.memberType);
+    form.append('classification', editedData.classification);
+    form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+    // En lugar de enviar un array de objetos, envía un array de valores de especialidades
+    form.append('specialties', selectedSpecialtyValues);
+    console.log("NOU",selectedSpecialtyValues);
+    form.append('dateOfAdmission', editedData.dateOfAdmission);
+    form.append('professionalLicense', editedData.professionalLicense);
+    form.append('capacitationHours', editedData.capacitationHours);
+    form.append('hoursAttended', editedData.hoursAttended);
+    form.append('municipalityOfLabor', editedData.municipalityOfLabor);
+    form.append('positionsInCouncil', editedData.positionsInCouncil);
+    form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+    form.append('file', editedData.linkCV);
+    form.append('lifeInsurance', editedData.lifeInsurance);
+    form.append('lifeInsureID', editedData.lifeInsureID);
+   
+
+    e.preventDefault();
+
+    try {
+        const swal = FireLoading('Guardando cambios... por favor espere');
+        const response = await updateArchitectUserByID(searchParams.id, form);
+        if (response.status === 'success') {
+            console.log("neta?", response);
+            setData(response.data);
+            swal.close();
+            FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
         } else {
-            editedData.authorizationToShareInfo = false;
+            swal.close();
+            FireError(response.message);
         }
-        if (editedData.lifeInsurance === 'Si') {
-            editedData.lifeInsurance = true;
-        } else {
-            editedData.lifeInsurance = false;
-        }
+    } catch (error) {
+        FireError(error.message);
+        console.log(error);
+    }
+};
 
-        form.append('DRONumber', editedData.DRONumber); //Ya esta
-        form.append('collegiateNumber', editedData.collegiateNumber); //Ya esta
-        form.append('memberType', editedData.memberType); //Ya esta
-        form.append('classification', editedData.classification); //Ya esta
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
-        form.append('specialty', editedData.specialty); //Ya esta
-        form.append('dateOfAdmission', editedData.dateOfAdmission); //Ya esta
-        form.append('professionalLicense', editedData.professionalLicense); //Ya esta
-        form.append('capacitationHours', editedData.capacitationHours); //Ya esta
-        form.append('hoursAttended', editedData.hoursAttended); //Ya esta
-        form.append('municipalityOfLabor', editedData.municipalityOfLabor); //Ya esta
-        form.append('positionsInCouncil', editedData.positionsInCouncil); //Ya esta
-        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo); //Ya esta
-        form.append('file', editedData.linkCV); //Ya esta
-        form.append('lifeInsurance', editedData.lifeInsurance);
-        form.append('lifeInsureID', editedData.lifeInsureID);
-
-        e.preventDefault();
-
-        try {
-            const swal = FireLoading('Guardando cambios... por favor espere');
-            const response = await updateArchitectUserByID(searchParams.id, form);
-            console.log('his isddd', response);
-            if (response.status === 'success') {
-                setData(response.data);
-                swal.close();
-                FireSucess('Los Cambios se han guardado correctamente');
-                navigate('/Directorio');
-            } else {
-                swal.close();
-                FireError(response.message);
-            }
-        } catch (error) {
-            FireError(error.message);
-            navigate('/.');
-            console.log(error);
-        }
-    };
 
     const memberOptions = [
         'Miembro de número',
@@ -250,23 +278,16 @@ const ArchitectDetail = (props) => {
                         }
                     />
 
-                    <div className="architect-col">
-                        <label>Especialidad</label>
-                        <Select
-                            options={specialties}
-                            value={specialties.find(
-                                (option) => option.value === editedData.specialty
-                            )}
-                            onChange={(selectedOption) =>
-                                setEditedData({
-                                    ...editedData,
-                                    specialty: selectedOption.value,
-                                })
-                            }
-                            isSearchable
-                            placeholder="Selecciona una especialidad"
-                        />
-                    </div>
+                    <label>Especialidad</label>
+                    <Select
+                        isMulti
+                        options={specialties}
+                        value={selectedSpecialties}
+                        onChange={(selectedOptions) => {
+                            setSelectedSpecialties(selectedOptions);
+                        }}
+                        placeholder="Selecciona especialidades..."
+                    />
                 </div>
 
                 <div className="architect-col">

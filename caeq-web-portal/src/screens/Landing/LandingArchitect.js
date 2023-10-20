@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './landingArchitect.scss';
 import Logo from '../../components/images/caeqLogo.png';
-import PublicTable from '../../components/table/PublicTable';
-import InputText from '../../components/inputs/TextInput/TextInput';
 import Image1 from '../../components/images/imageCAEQhome.png';
 import Image2 from '../../components/images/imageCAEQ2.png';
 import Image3 from '../../components/images/imageCAEQ3.png';
 import { Link } from 'react-router-dom';
-import PaginationNav from '../../components/pagination/PaginationNav';
-import { getAllPublicArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import BaseButton from '../../components/buttons/BaseButton';
 
 /**
@@ -16,49 +12,17 @@ import BaseButton from '../../components/buttons/BaseButton';
  * @returns Landing Architect page
  */
 const LandingArchitect = () => {
-    const [architectUsers, setArchitectUsers] = useState([]);
-    const [getArchitect, setArchitect] = useState('');
-    const [paginationPage, setPaginationPage] = useState(1);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                let filters = '';
-                filters += `fullName[regex]=${getArchitect}`;
-                let architects = await getAllPublicArchitectUsers(
-                    paginationPage,
-                    filters
-                );
-                setArchitectUsers(architects);
-            } catch (error) {}
-        })();
-    }, [paginationPage, getArchitect]);
-
-    /**
-     * Handles the action of returning to the previous page in pagination.
-     */
-    const handlePreviousPage = () => {
-        if (paginationPage > 1) {
-            setPaginationPage(paginationPage - 1);
-        }
-    };
-
-    /**
-     * Handles the action of advancing to the next page in pagination.
-     */
-    const handleNextPage = () => {
-        setPaginationPage(paginationPage + 1);
-    };
-
     return (
         <div className='containercaeq'>
             <div className='welcome'>
                 <div className='column left-column'>
                     <img src={Logo} alt='Logo' className='logo' />
-                    <div className='titlecaeq'>Bienvenidos al portal de colegiados</div>
+                    <div className='titlecaeq'>
+                        Bienvenidos al portal de colegiados
+                    </div>
                     <p className='subtitlecaeq'>
-                        Consulta tu información, cursos, cotizaciones y servicios que se
-                        ofrecen en el CAEQ.
+                        Consulta tu información, cursos, cotizaciones y
+                        servicios que se ofrecen en el CAEQ.
                     </p>
                     <div className='button-container'>
                         <Link to='/LoginUser'>
@@ -73,7 +37,9 @@ const LandingArchitect = () => {
                 <div className='column right-column'>
                     <div className='adminbutton'>
                         <Link to='/welcomeAdmin'>
-                            <BaseButton type='disabled'>Familia CAEQ</BaseButton>
+                            <BaseButton type='disabled'>
+                                Familia CAEQ
+                            </BaseButton>
                         </Link>
                     </div>
                     <img src={Image1} alt='Image1' className='image1' />
@@ -86,9 +52,9 @@ const LandingArchitect = () => {
                 <div className='column right-column'>
                     <div className='titleOne'>C A E Q</div>
                     <div className='descOne'>
-                        Espacio de expresión, opinión, colaboración y capacitación para
-                        promover e impulsar el mejoramiento arquitectónico y urbano de
-                        Querétaro.
+                        Espacio de expresión, opinión, colaboración y
+                        capacitación para promover e impulsar el mejoramiento
+                        arquitectónico y urbano de Querétaro.
                     </div>
                 </div>
             </div>
@@ -96,8 +62,8 @@ const LandingArchitect = () => {
                 <div className='column left-column'>
                     <div className='titleTwo'>Objetivos</div>
                     <div className='descTwo'>
-                        Integrar a los profesionistas de la arquitectura, promoviendo, la
-                        participación dentro del gremio.
+                        Integrar a los profesionistas de la arquitectura,
+                        promoviendo, la participación dentro del gremio.
                     </div>
                 </div>
                 <div className='column right-column'>
@@ -109,36 +75,6 @@ const LandingArchitect = () => {
                 <div className='titleThree'>Valores</div>
                 <div className='descThree'>
                     HONESTIDAD | LEALTAD | TRANSPARENCIA | PROFESIONALISMO
-                </div>
-            </div>
-
-            <div className='directory'>
-                <div className='directory-row directory-header'>
-                    <h1>Directorio de arquitectos</h1>
-                </div>
-                <label>
-                    <InputText
-                        getVal={getArchitect}
-                        setVal={setArchitect}
-                        placeholder='Buscar'
-                    />
-                </label>
-
-                <div className='directory-row'>
-                    {architectUsers.length > 0 ? (
-                        <div className='box-container'>
-                            <PublicTable data={architectUsers} />
-                        </div>
-                    ) : (
-                        <p className='no-data-message'>No hay colegiados disponibles</p>
-                    )}
-                </div>
-                <div className='directory-row directory-pagination'>
-                    <PaginationNav
-                        onClickBefore={handlePreviousPage}
-                        onClickAfter={handleNextPage}
-                        page={paginationPage}
-                    />
                 </div>
             </div>
         </div>

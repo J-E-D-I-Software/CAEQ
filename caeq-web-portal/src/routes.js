@@ -1,4 +1,3 @@
-import Dasbboard from './screens/Dasboard';
 import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
@@ -11,6 +10,7 @@ import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
+import LandingArchitect from './screens/Landing/LandingArchitect';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -31,13 +31,14 @@ import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
 import LandingCAEQ from './screens/Landing/LandingCAEQ';
-import LandingArchitect from './screens/Landing/LandingArchitect';
+import PublicDirectory from './screens/Directory/PublicDirectory';
+
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
         path: '/',
         name: 'Principal',
-        Component: Dasbboard,
+        Component: LandingArchitect,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: false,
@@ -199,9 +200,9 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/welcomeCAEQ',
-        name: 'Bienvenida CAEQ',
-        Component: LandingArchitect,
+        path: '/Directorio-Publico',
+        name: 'Directorio público',
+        Component: PublicDirectory,
         isPrivate: false,
         inNavbar: false,
     },

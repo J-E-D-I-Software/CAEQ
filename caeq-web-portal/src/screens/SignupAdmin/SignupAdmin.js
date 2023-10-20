@@ -8,11 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { postSignupCaeqUsers } from '../../client/CaeqUser/CaeqUser.POST';
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 
-/**
- * The Signup component provides a user interface for user registration and handles the signup process.
- *
- * @component
- */
 const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,13 +15,6 @@ const Signup = () => {
     const [passwordConfirm, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
-    /**
-     * Handles the user signup process, sending a registration request to the server.
-     *
-     * @async
-     * @param {Event} e - The form submit event.
-     * @returns {Promise<void>} A Promise that resolves when the signup process is complete.
-     */
     const handleSignup = async (e) => {
         const data = { fullName, email, password, passwordConfirm };
         e.preventDefault();

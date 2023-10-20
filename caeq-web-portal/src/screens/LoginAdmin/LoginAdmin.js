@@ -28,7 +28,7 @@ const LoginAdmin = () => {
             }
             swal.close();
             FireSucess('Has iniciado sesión con éxito');
-            navigate('/PrincipalAdmin');
+            navigate('/Principal');
         } catch (error) {
             console.error(error);
             FireError(error.response.data.message);

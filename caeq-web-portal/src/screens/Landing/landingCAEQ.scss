@@ -1,4 +1,4 @@
-/* landingCAEQ.scss*/
+/* landingCAEQ.scss */
 
 .container {
     display: flex;
@@ -12,107 +12,86 @@
     min-height: 100vh;
     height: fit-content;
     color: #ffffff;
-    position: relative;
 
     @media (max-width: 768px) {
-        flex-direction: column; // For smaller screens, change to a single column layout
-        align-items: center; // Center-align the content vertically
+        flex-direction: column; /* For smaller screens, change to a single column layout */
     }
-}
 
-.column {
-    flex: 1;
-    padding: 20px; // Adjust the padding as needed
-    box-sizing: border-box;
-}
-
-.title {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin-bottom: 140pt;
-    @media (max-width: 768px) {
-        margin-bottom: 20px; // Add some space between the columns on smaller screens
+    .column {
+        flex: 1;
+        padding: 20px; /* Adjust the padding as needed */
+        box-sizing: border-box;
     }
-    /* Title CAEQ */
-    .main {
-        font-size: 48px;
-        display: flex;
-        width: 635px;
-        height: 59px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        @media (max-width: 768px) {
-            font-size: 2em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
+
+    .title {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-align: left;
+        margin-bottom: 20px; /* Adjust margin for smaller screens */
+
+        /* Title CAEQ */
+        .main {
+            font-size: 2em; /* Adjust the font size for smaller screens */
+            text-align: center; /* Center-align the title on smaller screens */
+        }
+
+        /* Subtitle CAEQ */
+        .subtitle {
+            font-size: 1.5em; /* Adjust the font size for smaller screens */
+            text-align: center; /* Center-align the subtitle on smaller screens */
         }
     }
 
-    /* Subtitle CAEQ */
-    .subtitle {
-        font-size: 36px;
+    .button-container {
+        margin-top: 20px;
         display: flex;
-        width: 635px;
-        height: 59px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
         @media (max-width: 768px) {
-            font-size: 1.5em; // Adjust the font size for smaller screens
-            text-align: center; // Center-align the title on smaller screens
+            flex-direction: column; /* For smaller screens, change to a single column layout */
+            align-items: center;
+            text-align: center;
+        }
+
+        .button {
+            margin-top: 1rem;
         }
     }
-}
 
-.button-container {
-    margin-top: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    @media (max-width: 768px) {
-        flex-direction: column; // For smaller screens, change to a single column layout
+    .left-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Logo {
+        width: 100%; /* Make the logo responsive to the container's width */
+        max-width: 600px; /* Limit the maximum width for larger screens */
+        height: auto;
+        margin-right: 40px; /* Adjust margin for smaller screens */
+        margin-bottom: 40px; /* Adjust margin for smaller screens */
+
+        @media (max-width: 1000px) {
+            max-width: 300px; /* Further reduce the max width for even smaller screens */
+            margin-right: 0; /* Remove right margin for smaller screens */
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        text-align: center;
-    }
-    .button {
-        margin-top: 2rem;
-    }
-}
-
-.left-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: normal;
-}
-
-.Logo {
-    width: 600px;
-    height: auto;
-    margin-right: 70pt;
-    margin-bottom: 35pt;
-    @media (max-width: 1000px) {
-        width: 300px;
-        background-color: transparent;
-    }
-}
-
-.right-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-    @media (max-width: 768px) {
+        justify-content: center;
         font-size: 1.5rem;
-        margin-bottom: 20px; // Add some space between the columns on smaller screens
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            margin-bottom: 20px; /* Add some space between the columns on smaller screens */
+        }
     }
 }

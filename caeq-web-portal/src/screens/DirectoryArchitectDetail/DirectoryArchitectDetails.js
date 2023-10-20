@@ -118,10 +118,21 @@ const ArchitectDetail = (props) => {
         }
 
         const form = new FormData();
+
+        const newSpecialty = selectedSpecialties.find((specialty) => specialty.__isNew__);
+        if (newSpecialty){
+            try{
+                const newSpecialtyResponse = await createSpecialty({ name: newSpecialty.value });
+                console.log('Nueva especialidad creada:', newSpecialtyResponse);
+                selectedSpecialties.pop();
+            }
+            catch (error) {
+                FireError('Error al crear la nueva especialidad');
+            }
+        }
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
         });
-        console.log(selectedSpecialties);
         form.append('DRONumber', editedData.DRONumber);
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
@@ -205,46 +216,46 @@ const ArchitectDetail = (props) => {
     };
 
     return (
-        <div className='architect-detail'>
-            <div className='architect-row'>
+        <div className="architect-detail">
+            <div className="architect-row">
                 <h2>
                     {' '}
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
             </div>
-            <div className='architect-row'>
+            <div className="architect-row">
                 <h1>{data.fullName}</h1>
             </div>
 
-            <div className='architect-row'>
-                <div className='architect-col'>
+            <div className="architect-row">
+                <div className="architect-col">
                     <TextInput
-                        label='Fecha de Ingreso'
-                        placeholder='FechaDeIngreso'
+                        label="Fecha de Ingreso"
+                        placeholder="FechaDeIngreso"
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfAdmission: value })
                         }
                     />
                     <TextInput
-                        label='Número de Colegiado'
-                        placeholder='Número de Colegiado'
+                        label="Número de Colegiado"
+                        placeholder="Número de Colegiado"
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, collegiateNumber: value })
                         }
                     />
                     <TextInput
-                        label='Número de DRO'
-                        placeholder='Número de DRO'
+                        label="Número de DRO"
+                        placeholder="Número de DRO"
                         getVal={editedData.DRONumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, DRONumber: value })
                         }
                     />
                     <DropdownInput
-                        label='Tipo de Miembro'
+                        label="Tipo de Miembro"
                         placeholder={editedData.memberType}
                         options={getMemberOptions()}
                         getVal={editedData.memberType}
@@ -253,62 +264,61 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Número de Asistencias a Asambleas'
-                        placeholder='Número de Asistencias a Asambleas'
+                        label="Número de Asistencias a Asambleas"
+                        placeholder="Número de Asistencias a Asambleas"
                         getVal={editedData.hoursAttended}
                         setVal={(value) =>
                             setEditedData({ ...editedData, hoursAttended: value })
                         }
                     />
                     <TextInput
-                        label='Horas Acreditadas'
-                        placeholder='Horas Acreditadas'
+                        label="Horas Acreditadas"
+                        placeholder="Horas Acreditadas"
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
                             setEditedData({ ...editedData, capacitationHours: value })
                         }
                     />
                     <TextInput
-                        label='Posiciones en Consejo'
-                        placeholder='Posiciones en Consejo'
+                        label="Posiciones en Consejo"
+                        placeholder="Posiciones en Consejo"
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
                             setEditedData({ ...editedData, positionsInCouncil: value })
                         }
                     />
                     <TextInput
-                        label='Clasificación'
-                        placeholder='Clasificación'
+                        label="Clasificación"
+                        placeholder="Clasificación"
                         getVal={editedData.classification}
                         setVal={(value) =>
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
                     <br />
-                    <label className='label-input'>Especialidad</label>
-                    <CreatableSelect 
-                        className="creatable-select"
+                    <label className="label-input">Especialidad</label>
+                    <CreatableSelect className="creatable-select"
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder='Selecciona una especialidad'
+                        placeholder="Selecciona una especialidad"
                     />
                 </div>
 
-                <div className='architect-col'>
+                <div className="architect-col">
                     <TextInput
-                        label='Poliza de Seguro'
-                        placeholder='Poliza de Seguro'
+                        label="Poliza de Seguro"
+                        placeholder="Poliza de Seguro"
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
                     <DropdownInput
-                        label='Tiene Seguro de Vida'
+                        label="Tiene Seguro de Vida"
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
@@ -321,23 +331,23 @@ const ArchitectDetail = (props) => {
                     />
 
                     <TextInput
-                        label='Cédula Profesional'
-                        placeholder='Cédula Profesional'
+                        label="Cédula Profesional"
+                        placeholder="Cédula Profesional"
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
                             setEditedData({ ...editedData, professionalLicense: value })
                         }
                     />
                     <TextInput
-                        label='Municipio de Trabajo'
-                        placeholder='Municipio de Trabajo'
+                        label="Municipio de Trabajo"
+                        placeholder="Municipio de Trabajo"
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
                             setEditedData({ ...editedData, municipalityOfLabor: value })
                         }
                     />
                     <DropdownInput
-                        label='Pago de Anualidad'
+                        label="Pago de Anualidad"
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -349,7 +359,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Autorización para compartir información'
+                        label="Autorización para compartir información"
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -361,8 +371,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <FileInput
-                        label='CV'
-                        placeholder='CV'
+                        label="CV"
+                        placeholder="CV"
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -377,8 +387,8 @@ const ArchitectDetail = (props) => {
                 </div>
             </div>
 
-            <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
+            <div className="architect-row">
+                <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
             </div>

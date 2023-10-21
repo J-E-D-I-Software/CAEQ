@@ -6,11 +6,9 @@
         align-items: center;
         justify-content: center;
         background: url('../../components/images/backgroundCaeq.png')
-            center/cover no-repeat;
-        background-attachment: fixed;
+            center/cover no-repeat fixed;
         padding: 20px;
         min-height: 100vh;
-        height: fit-content;
         color: #000000;
         position: relative;
 
@@ -26,7 +24,7 @@
             justify-content: space-between;
             background-color: lightgray;
             margin-left: auto;
-            margin-bottom: 20%;
+            margin-bottom: 20px;
         }
     }
     .infocaeq {
@@ -37,125 +35,42 @@
         }
     }
 
-    .titleOne {
-        width: 354px;
-        height: 107px;
-        flex-shrink: 0;
-        text-align: center;
-        font-size: 60px;
-        font-style: normal;
+    .titleOne,
+    .titleTwo,
+    .titleThree {
         font-weight: 700;
-        line-height: normal;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        @media (max-width: 768px) {
-            font-size: 32px;
-            text-align: center;
-        }
-    }
-
-    .descOne {
-        display: flex;
-        width: 664px;
-        height: 170px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        text-align: center;
-        font-size: 25px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        align-items: center;
-        @media (max-width: 768px) {
-            font-size: 16px;
-            text-align: center;
-            width: 100vw;
-            align-self: center;
-        }
-    }
-
-    .titleTwo {
         width: 566px;
         height: 107px;
-        flex-shrink: 0;
-        text-align: left;
-        font-size: 60px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
+        font-size: 70px;
+        text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
+
         @media (max-width: 768px) {
-            font-size: 2em;
+            font-size: 2rem;
             text-align: center;
+            width: 100%;
         }
     }
 
-    .descTwo {
-        display: flex;
-        width: 664px;
-        height: 170px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        text-align: center;
-        font-size: 25px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        @media (max-width: 768px) {
-            font-size: 1em;
-            text-align: center;
-            width: 100vw;
-            align-self: center;
-        }
-    }
-
-    .titleThree {
-        width: 354px;
-        height: 107px;
-        flex-shrink: 0;
-        text-align: center;
-        font-size: 60px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        display: flex;
-
-        justify-content: center;
-        align-items: center;
-        @media (max-width: 768px) {
-            font-size: 2em;
-            text-align: center;
-        }
-    }
-
+    .descOne,
+    .descTwo,
     .descThree {
-        display: flex;
-        width: 1173px;
-        height: 170px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        color: #000;
         text-align: center;
+        display: flex;
         font-size: 25px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
+        justify-content: center;
+        align-items: center;
+
         @media (max-width: 768px) {
-            font-size: 1em;
+            font-size: 1rem;
             text-align: center;
-            width: 100vw;
-            align-self: center;
+            width: 100%;
         }
     }
 
     .column {
-        display: flex;
         flex: 1;
         padding: 20px;
         box-sizing: border-box;
@@ -166,7 +81,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        line-height: normal;
     }
 
     .button-container {
@@ -179,8 +93,8 @@
         @media (max-width: 768px) {
             flex-direction: column;
             align-items: center;
-            text-align: center;
         }
+
         .button {
             margin-top: 2rem;
             margin-inline: 3rem;
@@ -189,10 +103,10 @@
 
     /* Estilos para el logo */
     .logo {
-        align-self: self-start;
-        height: 170px;
-        margin-right: 70pt;
-        margin-bottom: 35pt;
+        align-self: flex-start;
+        max-width: 100%; /* Adjust to responsive max-width */
+        margin-right: 20px; /* Adjust margin */
+        margin-bottom: 20px; /* Adjust margin */
 
         @media (max-width: 1000px) {
             width: 300px;
@@ -205,58 +119,45 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        line-height: normal;
     }
 
     .titlecaeq {
-        width: 656px;
-        height: 129px;
         flex-shrink: 0;
-        align-self: self-start;
-        /* Title CAEQ */
+        text-align: center;
         font-size: 48px;
-        font-style: normal;
         font-weight: 700;
         line-height: normal;
+
         @media (max-width: 768px) {
             font-size: 2em;
-            text-align: center;
-            width: 100vw;
-            align-self: center;
         }
     }
+
     .subtitlecaeq {
-        display: flex;
-        width: 600px;
-        height: 180px;
-        align-self: self-start;
-        flex-direction: column;
-        justify-content: center;
         flex-shrink: 0;
+        text-align: center;
         font-size: 24px;
-        font-style: normal;
         font-weight: 500;
         line-height: normal;
+
         @media (max-width: 768px) {
             font-size: 1.5em;
-            text-align: center;
-            width: 100vw;
-            align-self: center;
         }
     }
+
     .image1,
     .image2,
     .image3 {
         @media (max-width: 768px) {
-            text-align: center;
-            width: 70vw;
-            align-self: center;
+            max-width: 100%;
         }
     }
+
     .values {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 40px;
         justify-content: center;
     }
 }

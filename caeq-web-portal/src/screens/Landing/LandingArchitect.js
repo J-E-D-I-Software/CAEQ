@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './landingArchitect.scss';
 import Logo from '../../components/images/caeqLogo.png';
+import PublicTable from '../../components/table/PublicTable';
+import InputText from '../../components/inputs/TextInput/TextInput';
 import Image1 from '../../components/images/imageCAEQhome.png';
 import Image2 from '../../components/images/imageCAEQ2.png';
 import Image3 from '../../components/images/imageCAEQ3.png';
 import { Link } from 'react-router-dom';
+import PaginationNav from '../../components/pagination/PaginationNav';
+import { getAllPublicArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import BaseButton from '../../components/buttons/BaseButton';
 
 /**
@@ -12,6 +16,40 @@ import BaseButton from '../../components/buttons/BaseButton';
  * @returns Landing Architect page
  */
 const LandingArchitect = () => {
+    const [architectUsers, setArchitectUsers] = useState([]);
+    const [getArchitect, setArchitect] = useState('');
+    const [paginationPage, setPaginationPage] = useState(1);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                let filters = '';
+                filters += `fullName[regex]=${getArchitect}`;
+                let architects = await getAllPublicArchitectUsers(
+                    paginationPage,
+                    filters
+                );
+                setArchitectUsers(architects);
+            } catch (error) {}
+        })();
+    }, [paginationPage, getArchitect]);
+
+    /**
+     * Handles the action of returning to the previous page in pagination.
+     */
+    const handlePreviousPage = () => {
+        if (paginationPage > 1) {
+            setPaginationPage(paginationPage - 1);
+        }
+    };
+
+    /**
+     * Handles the action of advancing to the next page in pagination.
+     */
+    const handleNextPage = () => {
+        setPaginationPage(paginationPage + 1);
+    };
+
     return (
         <div className='containercaeq'>
             <div className='welcome'>

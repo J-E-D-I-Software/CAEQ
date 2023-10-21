@@ -5,6 +5,7 @@ import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 import { createSpecialty } from '../../client/Specialties/Specialties.POST';
 import CreatableSelect from '../../components/inputs/CreatableSelect/CreatableSelect';
+import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
@@ -119,25 +120,7 @@ const ArchitectDetail = (props) => {
 
         const form = new FormData();
 
-        const newSpecialty = selectedSpecialties.find((specialty) => specialty.__isNew__);
-
-        (async () => {
-            try {
-                if (newSpecialty) {
-                    try {
-                        const newSpecialtyResponse = await createSpecialty({
-                            name: newSpecialty.value,
-                        });
-                        console.log('Nueva especialidad creada:', newSpecialtyResponse);
-                        selectedSpecialties.pop();
-                    } catch (error) {
-                        FireError('Error al crear la nueva especialidad');
-                    }
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        })();
+       
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -306,8 +289,9 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <br />
-                    <CreatableSelect
-                        label="Especialidad"
+                     <SelectInputComponent 
+                        label="Especialidades"
+                        isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {

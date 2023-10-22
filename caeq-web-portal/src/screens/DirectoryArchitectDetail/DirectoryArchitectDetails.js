@@ -78,7 +78,7 @@ const ArchitectDetail = (props) => {
 
     //Recupera las especialidades de los arquitectos
     useEffect(() => {
-        // Mapea las especialidades actuales del arquitecto y quítalas de las disponibles.
+        // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
         if (editedData.specialty) {
             const selectedSpecialties = editedData.specialty.map((s) => ({
                 value: s,
@@ -119,8 +119,6 @@ const ArchitectDetail = (props) => {
         }
 
         const form = new FormData();
-
-       
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -288,17 +286,6 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
-                    <br />
-                     <SelectInputComponent 
-                        label="Especialidades"
-                        isMulti
-                        options={availableSpecialties}
-                        value={selectedSpecialties}
-                        onChange={(selectedOptions) => {
-                            setSelectedSpecialties(selectedOptions);
-                        }}
-                        placeholder="Selecciona una especialidad"
-                    />
                 </div>
 
                 <div className="architect-col">
@@ -362,6 +349,17 @@ const ArchitectDetail = (props) => {
                                 authorizationToShareInfo: value,
                             })
                         }
+                    />
+                    <br />
+                    <SelectInputComponent
+                        label="Especialidades"
+                        isMulti
+                        options={availableSpecialties}
+                        value={selectedSpecialties}
+                        onChange={(selectedOptions) => {
+                            setSelectedSpecialties(selectedOptions);
+                        }}
+                        placeholder="Selecciona una especialidad"
                     />
                     <FileInput
                         label="CV"

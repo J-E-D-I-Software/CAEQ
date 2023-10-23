@@ -7,12 +7,14 @@ import BaseButton from "../../components/buttons/BaseButton";
 import "./Anouncements.scss"
 import WhiteContainer from "../../components/containers/WhiteCard/WhiteCard";
 import placeholder from "../../components/images/Caeq_foto.jpg";
+import { FireError, FireQuestion, FireSucess, FireLoading } from "../../utils/alertHandler";
+import { sendEmailToEveryone } from "../../client/Email/email.POST";
 
 function Anouncements() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
     const [image, setImage] = useState(null);
-    const [sendMode, setSendMode] = useState("Enviar correo a todos los usuarios");
+    const [sendMode, setSendMode] = useState('Enviar correo a todos los usuarios');
     const [preview, setPreview] = useState({placeholder});
 
     useEffect(() => {
@@ -24,12 +26,29 @@ function Anouncements() {
         setPreview(objectUrl);
     }, [image]);
 
-    const handleSubmit = () => {
-        console.log("subject", subject);
-        console.log("message", message);
-        console.log("image", image);
-        console.log("sendMode", sendMode);
-    }
+    const handleSubmit = async (e) => {
+       
+        try {
+            const confirmation = await  FireQuestion('¿Estás seguro de enviar el anuncio?', 'Esta acción no se puede deshacer. Se enviará un correo a todos los usuarios.');
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+            const swal = FireLoading('Enviando anuncio...');
+            const form = new FormData();
+            form.append("subject", subject);
+            form.append("message", message);
+            form.append("emailImage", image);
+            e.preventDefault();
+
+            const response = await sendEmailToEveryone(form);
+            
+            swal.close();
+            FireSucess(response.message)
+        } catch (error) {
+            FireError(error.response.data.message);
+        }
+    };
 
     return (
         <div className='anouncement-container'>

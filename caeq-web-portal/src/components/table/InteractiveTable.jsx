@@ -1,9 +1,10 @@
 //
 
-import React, { useState } from "react";
-import "./Table.scss";
-import CloseIcon from "../icons/Close.png";
-import BaseButton from "../buttons/BaseButton";
+import React, { useState } from 'react';
+import './Table.scss';
+import CloseIcon from '../icons/Close.png';
+import BaseButton from '../buttons/BaseButton';
+import headerMappings from './HeaderMappings';
 
 /**
  * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
@@ -46,43 +47,12 @@ const InteractiveTable = ({ data, onRowClick }) => {
         });
     };
 
-    const headerMappings = {
-        fullName: "Nombre completo",
-        collegiateNumber: "Número de colegiado",
-        memberType: "Tipo de miembro",
-        classification: "Clasificación",
-        DRONumber: "Número de DRO",
-        authorizationToShareInfo: "Autorización para compartir información",
-        lifeInsurance: "Seguro de vida",
-        lifeInsureID: "Poliza de seguro de vida",
-        age: "Edad",
-        gender: "Género",
-        cellphone: "Número de celular",
-        homePhone: "Número de casa",
-        officePhone: "Número de oficina",
-        emergencyContactName: "Nombre de contacto de emergencia",
-        emergencyContact: "Número de contacto de emergencia",
-        mainProfessionalActivity: "Actividad profesional principal",
-        dateOfAdmission: "Fecha de admisión",
-        dateOfBirth: "Fecha de nacimiento",
-        municipalityOfLabor: "Municipio de trabajo",
-        linkCV: "Link de CV",
-        university: "Universidad",
-        professionalLicense: "Cédula profesional",
-        workAddress: "Domicilio de trabajo",
-        homeAddress: "Domicilio de particular",
-        specialty: "Especialidad",
-        positionsInCouncil: "Cargos en consejos directivos",
-        capacitationHours: "Horas asistidas",
-        email: "Correo electrónico",
-    };
-
     /**
      * Función de formato para mostrar valores booleanos como "Sí" o "No".
      * @param {boolean} value - El valor booleano a formatear.
      * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
      */
-    const formatBooleanValue = (value) => (value ? "Sí" : "No");
+    const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
 
     /**
      * Renderizar el encabezado de la tabla.
@@ -92,16 +62,15 @@ const InteractiveTable = ({ data, onRowClick }) => {
     const renderTableHeader = () => (
         <tr>
             {columnsToShow.map((column) =>
-                columnVisibility[column] && column !== "_id" && column !== "_id" ? (
-                    <th key={column} className="sticky-column">
-                        <div className="header-content">
-                            <span className="header-text">{headerMappings[column]}</span>
-                            <div className="hide-button-container">
+                columnVisibility[column] && column !== '_id' && column !== '_id' ? (
+                    <th key={column} className='sticky-column'>
+                        <div className='header-content'>
+                            <span className='header-text'>{headerMappings[column]}</span>
+                            <div className='hide-button-container'>
                                 <button
-                                    className="hide-button"
-                                    onClick={() => toggleColumnVisibility(column)}
-                                >
-                                    <img src={CloseIcon} alt="Icono Ocultar" />
+                                    className='hide-button'
+                                    onClick={() => toggleColumnVisibility(column)}>
+                                    <img src={CloseIcon} alt='Icono Ocultar' />
                                 </button>
                             </div>
                         </div>
@@ -124,38 +93,41 @@ const InteractiveTable = ({ data, onRowClick }) => {
             );
         }
 
-        return data.map((row, rowIndex) => (
-            <tr
-                key={rowIndex}
-                className="fila-sombrada"
-                onClick={() => onRowClick(data[rowIndex]._id)}
-            >
-                {columnsToShow.map((column) =>
-                    columnVisibility[column] && column !== "_id" ? (
-                        <td key={column} className="sticky-column">
-                            {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-                            {typeof row[column] === "boolean" ? (
-                                formatBooleanValue(row[column])
-                            ) : column === "linkCV" && row[column] ? (
-                                <a
-                                    href={row[column]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Descargar
-                                </a>
-                            ) : column === "dateOfBirth" && row[column] ? (
-                                formatDate(row[column])
-                            ) : column === "dateOfAdmission" && row[column] ? (
-                                formatDate(row[column])
-                            ) : (
-                                row[column]
-                            )}
-                        </td>
-                    ) : null
-                )}
-            </tr>
-        ));
+        return data.map(
+            (row, rowIndex) => (
+                console.log('yep', data),
+                (
+                    <tr
+                        key={rowIndex}
+                        className='fila-sombrada'
+                        onClick={() => onRowClick(data[rowIndex]._id)}>
+                        {columnsToShow.map((column) =>
+                            columnVisibility[column] && column !== '_id' ? (
+                                <td key={column} className='sticky-column'>
+                                    {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
+                                    {typeof row[column] === 'boolean' ? (
+                                        formatBooleanValue(row[column])
+                                    ) : column === 'linkCV' && row[column] ? (
+                                        <a
+                                            href={row[column]}
+                                            target='_blank'
+                                            rel='noopener noreferrer'>
+                                            Descargar
+                                        </a>
+                                    ) : column === 'dateOfBirth' && row[column] ? (
+                                        formatDate(row[column])
+                                    ) : column === 'specialties' && row[column] ? (
+                                        row[column].map((val) => val.name).join(', ')
+                                    ) : (
+                                        row[column]
+                                    )}
+                                </td>
+                            ) : null
+                        )}
+                    </tr>
+                )
+            )
+        );
     };
 
     /**
@@ -164,21 +136,20 @@ const InteractiveTable = ({ data, onRowClick }) => {
      * @returns {string} - La fecha formateada en "DD/MM/AAAA".
      */
     const formatDate = (date) => {
-        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString(undefined, options);
     };
 
     return (
-        <div className="tabla-container">
+        <div className='tabla-container'>
             <BaseButton
-                type="primary"
-                className="restablecer-button"
-                onClick={resetColumnVisibility}
-            >
+                type='primary'
+                className='restablecer-button'
+                onClick={resetColumnVisibility}>
                 Resetear tabla
             </BaseButton>
 
-            <table className="tabla">
+            <table className='tabla'>
                 <thead>{renderTableHeader()}</thead>
                 <tbody>{renderTableBody()}</tbody>
             </table>

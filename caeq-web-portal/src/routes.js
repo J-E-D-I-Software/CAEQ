@@ -12,6 +12,7 @@ import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
+import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin'
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -50,6 +51,17 @@ const routes = [
         iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
+        roles: ['architect']
+    },
+    {
+        path: '/PrincipalAdmin',
+        name: 'Principal',
+        Component: PrincipalAdmin,
+        icon: PrincipalIcon,
+        iconWhite: PrincipalIconWhite,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq']
     },
     {
         path: '/Cursos',

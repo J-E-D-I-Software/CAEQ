@@ -67,3 +67,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpArchitectUserData();
     console.log('Test data uploaded to DB');
 });
+
+exports.setUpCaeqUserData = catchAsync(async () => {
+    await setUpCaeqUserData();
+});

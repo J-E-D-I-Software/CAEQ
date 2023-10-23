@@ -41,11 +41,14 @@ function Anouncements() {
             form.append("emailImage", image);
             e.preventDefault();
 
+            console.log(form)
             const response = await sendEmailToEveryone(form);
+            console.log(response);
             
             swal.close();
             FireSucess(response.message)
         } catch (error) {
+            console.log(error);
             FireError(error.response.data.message);
         }
     };

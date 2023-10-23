@@ -36,9 +36,9 @@ module.exports = class Email {
      * @returns {Promise} A promise that resolves when the email is sent.
      */
     async send(template, subject) {
-        if (process.env.NODE_ENV === 'test') {
-            return;
-        }
+        // if (process.env.NODE_ENV !== 'test') {
+        //     return;
+        // }
 
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
@@ -127,7 +127,7 @@ module.exports = class Email {
     }
 
 
-    static async sendToEveryone(users, subject, message, image) {
+    static async sendAnouncementToEveryone(users, subject, message, image) {
         const promises = users.map(async (user) => {
             const email = new Email(user, subject, image, message)
             return email.send('sendToEveryone', subject);

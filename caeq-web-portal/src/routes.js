@@ -164,6 +164,7 @@ const routes = [
         Component: Anouncements,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq']
     },
     {
         path: '*',

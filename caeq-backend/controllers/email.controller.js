@@ -1,36 +1,29 @@
-const catchAsync = require('../utils/catchAsync');
-const factory = require('./handlerFactory.controller');
-const AppError = require('../utils/appError');
-const Email = require('../utils/email');
-const Architect = require('../models/architect.user.model');
+const catchAsync = require("../utils/catchAsync");
+const factory = require("./handlerFactory.controller");
+const AppError = require("../utils/appError");
+const Email = require("../utils/email");
+const Architect = require("../models/architect.user.model");
 
 
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
-    const addressee = await factory.getAll(Architect)
+    console.log("req.body", req.body); //Ya llegamos a
     const { subject, message, emailImage } = req.body; // Asunto, Cuerpo, Imagen
-    const { user } = req;
 
     if (!subject || !message) {
-        return next(new AppError('Por favor ingresa un asunto y un mensaje.', 400));
+        return next(new AppError("Por favor ingresa un asunto y un mensaje.", 400));
     }
-
-    const email = new Email({
-        addressee,
-        subject,
-        message,
-        emailImage,
-    });
 
     try {
-        await email.sendToEveryone();
+        const addressee = await Architect.find({ email: { $ne: null } });
+        console.log("addressee", addressee);
+        await Email.sendAnouncementToEveryone(addressee, subject, message, emailImage);
     } catch (error) {
-        console.log("error email controller",error);
-        return next(new AppError('Hubo un error al enviar los correos.', 500));
-    }
-    
+        console.log("error email controller", error);
+        return next(new AppError("Hubo un error al enviar los correos.", 500));
+    }   
 
     res.status(200).json({
-        status: 'success',
-        message: 'Correo enviado a todos los usuarios.',
+        status: "success",
+        message: "Correo enviado a todos los usuarios.",
     });
 });

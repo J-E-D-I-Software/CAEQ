@@ -7,6 +7,7 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import Profile from './screens/Profile/Profile';
+import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
@@ -153,6 +154,14 @@ const routes = [
         Component: Profile,
         isPrivate: true,
         inNavbar: true,
+        roles: ['architect'],
+    },
+    {
+        path: '/Perfil/:id',
+        name: 'Editar perfil',
+        Component: EditProfile,
+        isPrivate: true,
+        inNavbar: false,
         roles: ['architect'],
     },
     {

@@ -4,6 +4,7 @@ import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.G
 import { getArchitectUserSaved } from "../../utils/auth";
 
 import WhiteContainer from "../../components/containers/WhiteCard/WhiteCard";
+import BaseButton from "../../components/buttons/BaseButton";
 import "./Profile.scss";
 
 /**
@@ -19,6 +20,10 @@ const Profile = (props) => {
     const date = new Date(profile.dateOfBirth);
     const startDate = new Date(profile.dateOfAdmission);
 
+    const handleRoute = (id) => {
+        navigate(`/Perfil/${SavedUser._id}`);
+    }
+
     useEffect(() => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
@@ -28,8 +33,13 @@ const Profile = (props) => {
 
     return (
         <div className="profile">
-            <h1>Datos Personales</h1>
 
+            <h1>Datos Personales</h1>
+            <div className="profile-row">
+                <BaseButton type="primary" onClick={handleRoute}>
+                    Editar Datos Personales
+                </BaseButton>
+            </div>
             <div className="profile-row">
                 <WhiteContainer>
                     <div className="profile-col">

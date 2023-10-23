@@ -1,0 +1,46 @@
+.anouncement-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h2{
+        margin-top: 30px;
+        margin-bottom: -20px;
+    }
+    .anouncement-form{
+        margin: 30px;
+
+        .label-input{
+            margin-top: 10px;
+        }
+    }
+    
+    .container-white{
+        align-self: center;
+        min-width: 800px;
+        min-height: 600px;
+    }
+    
+    .button{
+        width: fit-content;
+        align-self: flex-end;
+        margin: 30px;
+    }
+
+    .anouncement-preview{
+        h3{
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        p{
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        img{
+            width: 720px;
+            height: 600px;
+        }
+    }
+}

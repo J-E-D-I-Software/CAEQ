@@ -17,12 +17,17 @@ module.exports = class Email {
      * @param {object} user - The user object that contains the email and name of the user.
      * @param {string} [url=''] - The URL that the user will be sent to in order to reset their password.
      */
-    constructor(user, url = '') {
+    constructor(user, url = '', subject = '', message = '', image = '') {
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
         this.url = url;
+        this.subject = subject;
+        this.message = message;
+        this.image = image;
         this.from = { email: process.env.MAIL_USERNAME };
     }
+
+    
 
     /**
      * Send an email using a template and subject.
@@ -42,6 +47,8 @@ module.exports = class Email {
                 firstName: this.firstName,
                 url: this.url,
                 subject,
+                message: this.message,
+                image: this.image,
             }
         );
 
@@ -118,5 +125,16 @@ module.exports = class Email {
     async sendPasswordReset() {
         await this.send('passwordReset','Recuperar contraseña (válido por sólo 10 minutos)');
     }
+
+
+    static async sendToEveryone(users, subject, message, image) {
+        const promises = users.map(async (user) => {
+            const email = new Email(user, subject, image, message)
+            return email.send('sendToEveryone', subject);
+        });
+        await Promise.all(promises);
+    }
+    
+    
 
 };

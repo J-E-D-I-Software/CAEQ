@@ -59,7 +59,7 @@ const ArchitectDetail = (props) => {
             }
         })();
     }, []);
-
+/*
     useEffect(() => {
         (async () => {
             try {
@@ -75,7 +75,8 @@ const ArchitectDetail = (props) => {
             }
         })();
     }, []);
-
+*/
+    /*
     //Recupera las especialidades de los arquitectos
     useEffect(() => {
         // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
@@ -96,7 +97,7 @@ const ArchitectDetail = (props) => {
             );
         }
     }, [editedData.specialty, selectedSpecialties]);
-
+*/ 
     // Pago de Anualidad pendiente
 
     /**

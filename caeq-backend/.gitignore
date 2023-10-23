@@ -67,4 +67,4 @@ node_modules/
 node_modules
 
 # Other files
-*importErrors.csv
+*.csv

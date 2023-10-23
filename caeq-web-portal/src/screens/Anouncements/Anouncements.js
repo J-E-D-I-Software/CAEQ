@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LargeTextInput from "../../components/inputs/TextInput/LargeTextInput";
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
@@ -11,6 +12,7 @@ import { FireError, FireQuestion, FireSucess, FireLoading } from "../../utils/al
 import { sendEmailToEveryone } from "../../client/Email/email.POST";
 
 function Anouncements() {
+    const navigate = useNavigate();
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
     const [image, setImage] = useState(null);
@@ -47,6 +49,8 @@ function Anouncements() {
             
             swal.close();
             FireSucess(response.message)
+            navigate('/Anouncements');
+            
         } catch (error) {
             console.log(error);
             FireError(error.response.data.message);

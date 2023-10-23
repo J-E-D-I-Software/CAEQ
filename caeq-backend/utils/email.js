@@ -17,13 +17,13 @@ module.exports = class Email {
      * @param {object} user - The user object that contains the email and name of the user.
      * @param {string} [url=''] - The URL that the user will be sent to in order to reset their password.
      */
-    constructor(user, url = '', subject = '', message = '', image = '') {
+    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
         this.url = url;
         this.subject = subject;
         this.message = message;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.from = { email: process.env.MAIL_USERNAME };
     }
 
@@ -40,6 +40,8 @@ module.exports = class Email {
         //     return;
         // }
 
+        console.log('subject', subject);
+        console.log('URL de la imagen:', this.imageUrl);    
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template
@@ -48,7 +50,7 @@ module.exports = class Email {
                 url: this.url,
                 subject,
                 message: this.message,
-                image: this.image,
+                imageUrl: this.imageUrl,
             }
         );
 
@@ -127,9 +129,11 @@ module.exports = class Email {
     }
 
 
-    static async sendAnouncementToEveryone(users, subject, message, image) {
+    static async sendAnouncementToEveryone(users, subject, message, imageUrl) {
         const promises = users.map(async (user) => {
-            const email = new Email(user, subject, image, message)
+            const email = new Email(user, '',subject, message,imageUrl, imageUrl);
+            console.log('email', email);
+            console.log('email', this.imageUrl);
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);

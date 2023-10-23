@@ -19,9 +19,9 @@
         }
     }
     
-    .container-white{
+    .container-white{   
         align-self: center;
-        width: 800px;
+        min-width: 800px;
         min-height: 600px;
     }
     
@@ -65,8 +65,8 @@
 
         .anouncement-preview{
             img{
-                width: 300px;
-                height: 500px;
+                min-width: 300px;
+                min-height: 500px;
             }
         }
     }

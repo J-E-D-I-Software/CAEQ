@@ -44,7 +44,7 @@ const Profile = (props) => {
                 <WhiteContainer>
                     <div className="profile-col">
                         <p>
-                            <span>Nombre: </span> {profile.fullName}
+                            <span>Nombre Completo: </span> {profile.fullName}
                         </p>
                         <p>
                             <span>Fecha de Nacimiento: </span>

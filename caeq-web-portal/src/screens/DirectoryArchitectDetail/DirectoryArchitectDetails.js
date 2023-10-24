@@ -98,7 +98,7 @@ const ArchitectDetail = (props) => {
             editedData.authorizationToShareInfo === "Si" ? true : false;
         editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
 
-        const form = new FormData();
+
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -124,6 +124,7 @@ const ArchitectDetail = (props) => {
 
         try {
             const swal = FireLoading('Guardando cambios... por favor espere');
+            console.log(form);
             const response = await updateArchitectUserByID(searchParams.id, form);
             if (response.status === 'success') {
                 setData(response.data);
@@ -233,9 +234,16 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
-                </div>
-
-                <div className="architect-col">
+                    <SelectInputComponent
+                        label="Especialidades"
+                        isMulti
+                        options={availableSpecialties}
+                        value={selectedSpecialties}
+                        onChange={(selectedOptions) => {
+                            setSelectedSpecialties(selectedOptions);
+                        }}
+                        placeholder="Selecciona una especialidad"
+                    />
                     <TextInput
                         label='Actividad Profesional Principal'
                         placeholder='Actividad Profesional Principal'
@@ -326,17 +334,6 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-                    <br />
-                    <SelectInputComponent
-                        label="Especialidades"
-                        isMulti
-                        options={availableSpecialties}
-                        value={selectedSpecialties}
-                        onChange={(selectedOptions) => {
-                            setSelectedSpecialties(selectedOptions);
-                        }}
-                        placeholder="Selecciona una especialidad"
-                    />
                     <TextInput
                         label='Posiciones en Consejo'
                         placeholder='Posiciones en Consejo'
@@ -354,7 +351,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <p>
-                        Archivo Actual:{' '}
+                        Archivo Actual:{" "}
                         <a href={editedData.linkCV}>
                             <span>Descargar CV</span>
                         </a>

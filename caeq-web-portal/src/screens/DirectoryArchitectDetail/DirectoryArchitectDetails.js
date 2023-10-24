@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
-import { FireError, FireLoading, FireSucess } from "../../utils/alertHandler";
-
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import "./DirectoryArchitectDetail.scss";
-import FileInput from "../../components/inputs/FileInput/FileInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
+import { createSpecialty } from '../../client/Specialties/Specialties.POST';
+import CreatableSelect from '../../components/inputs/CreatableSelect/CreatableSelect';
+import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import './DirectoryArchitectDetail.scss';
+import FileInput from '../../components/inputs/FileInput/FileInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
@@ -16,19 +19,70 @@ const ArchitectDetail = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
+    const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+    const [availableSpecialties, setAvailableSpecialties] = useState([]);
+
     useEffect(() => {
-        if (searchParams.id)
-            getArchitectUserById(searchParams.id)
-                .then((response) => {
-                    response.authorizationToShareInfo = response.authorizationToShareInfo !== true ? "No" : "Si";
-                    response.lifeInsurance = response.lifeInsurance !== true ? "No" : "Si";
-                    setData(response);
-                    setEditedData(response);
-                })
-                .catch((error) => navigate("/404"));
-        console.log(data);
+        (async () => {
+            try {
+                const architect = await getArchitectUserById(searchParams.id);
+
+                if (architect.authorizationToShareInfo !== true) {
+                    architect.authorizationToShareInfo = 'No';
+                } else {
+                    architect.authorizationToShareInfo = 'Si';
+                }
+                if (architect.lifeInsurance !== true) {
+                    architect.lifeInsurance = 'No';
+                } else {
+                    architect.lifeInsurance = 'Si';
+                }
+
+                setData(architect);
+                setEditedData(architect);
+
+                let specialties = await getAllSpecialties();
+
+                specialties = specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setAvailableSpecialties(specialties);
+
+                setSelectedSpecialties(
+                    specialties.filter((specialty) =>
+                        architect.specialties.includes(specialty.value)
+                    )
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     }, []);
 
+
+    
+    //Recupera las especialidades de los arquitectos
+    useEffect(() => {
+        // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
+        if (editedData.specialty) {
+            const selectedSpecialties = editedData.specialty.map((s) => ({
+                value: s,
+                label: s,
+            }));
+
+            setSelectedSpecialties(selectedSpecialties);
+            setAvailableSpecialties((prevSpecialties) =>
+                prevSpecialties.filter(
+                    (specialty) =>
+                        !selectedSpecialties.some(
+                            (selected) => selected.value === specialty.value
+                        )
+                )
+            );
+        }
+    }, [editedData.specialty, selectedSpecialties]);
+ 
     // Pago de Anualidad pendiente
 
     /**
@@ -44,48 +98,54 @@ const ArchitectDetail = (props) => {
             editedData.authorizationToShareInfo === "Si" ? true : false;
         editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
 
-        form.append("DRONumber", editedData.DRONumber); 
-        form.append("collegiateNumber", editedData.collegiateNumber); 
-        form.append("memberType", editedData.memberType); 
-        form.append("classification", editedData.classification); 
-        form.append("mainProfessionalActivity", editedData.mainProfessionalActivity);
-        form.append("specialty", editedData.specialty); 
-        form.append("dateOfAdmission", editedData.dateOfAdmission); 
-        form.append("professionalLicense", editedData.professionalLicense); 
-        form.append("municipalityOfLabor", editedData.municipalityOfLabor); 
-        form.append("positionsInCouncil", editedData.positionsInCouncil); 
-        form.append("authorizationToShareInfo", editedData.authorizationToShareInfo); 
-        form.append("file", editedData.linkCV); 
-        form.append("lifeInsurance", editedData.lifeInsurance);
-        form.append("lifeInsureID", editedData.lifeInsureID);
+
+
+        selectedSpecialties.forEach((specialty, i) => {
+            form.append(`specialties[${i}]`, specialty.value);
+        });
+
+        form.append('DRONumber', editedData.DRONumber);
+        form.append('collegiateNumber', editedData.collegiateNumber);
+        form.append('memberType', editedData.memberType);
+        form.append('classification', editedData.classification);
+        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append('dateOfAdmission', editedData.dateOfAdmission);
+        form.append('professionalLicense', editedData.professionalLicense);
+        form.append('capacitationHours', editedData.capacitationHours);
+        form.append('hoursAttended', editedData.hoursAttended);
+        form.append('municipalityOfLabor', editedData.municipalityOfLabor);
+        form.append('positionsInCouncil', editedData.positionsInCouncil);
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append('file', editedData.linkCV);
+        form.append('lifeInsurance', editedData.lifeInsurance);
+        form.append('lifeInsureID', editedData.lifeInsureID);
 
         e.preventDefault();
 
         try {
-            const swal = FireLoading("Guardando cambios... por favor espere");
+            const swal = FireLoading('Guardando cambios... por favor espere');
+            console.log(form);
             const response = await updateArchitectUserByID(searchParams.id, form);
-            if (response.status === "success") {
+            if (response.status === 'success') {
                 setData(response.data);
                 swal.close();
-                FireSucess("Los Cambios se han guardado correctamente");
-                navigate("/Directorio");
+                FireSucess('Los Cambios se han guardado correctamente');
+                navigate('/Directorio');
             } else {
                 swal.close();
                 FireError(response.message);
             }
         } catch (error) {
             FireError(error.message);
-            navigate("/.");
-            console.log(error);
         }
     };
 
     const memberOptions = [
-        "Miembro de número",
-        "Miembro Adherente",
-        "Miembro Pasante",
-        "Miembro Honorario",
-        "Miembro Vitalicio",
+        'Miembro de número',
+        'Miembro Adherente',
+        'Miembro Pasante',
+        'Miembro Honorario',
+        'Miembro Vitalicio',
     ];
     const authorizationOptions = { Si: true, No: false };
 
@@ -174,13 +234,15 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, classification: value })
                         }
                     />
-                    <TextInput
-                        label='Especialidad'
-                        placeholder='Especialidad'
-                        getVal={editedData.specialty}
-                        setVal={(value) =>
-                            setEditedData({ ...editedData, specialty: value })
-                        }
+                    <SelectInputComponent
+                        label="Especialidades"
+                        isMulti
+                        options={availableSpecialties}
+                        value={selectedSpecialties}
+                        onChange={(selectedOptions) => {
+                            setSelectedSpecialties(selectedOptions);
+                        }}
+                        placeholder="Selecciona una especialidad"
                     />
                     <TextInput
                         label='Actividad Profesional Principal'

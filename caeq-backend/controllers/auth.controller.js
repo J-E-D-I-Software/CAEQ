@@ -115,7 +115,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         professionalLicense: req.body.professionalLicense,
         workAddress: req.body.workAddress,
         homeAddress: req.body.homeAddress,
-        specialty: req.body.specialty,
+        specialties: req.body.specialties,
         positionsInCouncil: req.body.positionsInCouncil,    
     });
 

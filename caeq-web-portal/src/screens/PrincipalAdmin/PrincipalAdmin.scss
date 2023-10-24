@@ -1,35 +1,32 @@
 .graph-container {
 
-    margin-bottom: 10px !important;
     padding-top: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
     display: flex;
     flex-direction: column;
     height: 100%;
 
     .grid-container {
             display: grid;
-            align-items: center;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            height: auto;
+            height: 100%;
         
-            .column {
-                margin: 20px;
-                display: flex;
-                flex-direction: column;
-
-            }
-            .column-2 {
-                margin: 20px;
-                display: flex;
-                flex-direction: column;
-            }
         }
     
         @media (max-width: 768px) {
             .grid-container {
                 display: block;
+                padding-top: 20px;
+
+                .column {
+                    padding-bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+                }
             }
+
         }
 
     

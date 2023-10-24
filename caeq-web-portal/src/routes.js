@@ -1,4 +1,3 @@
-import Dasbboard from './screens/Dasboard';
 import LoginAdmin from './screens/LoginAdmin/LoginAdmin';
 import LoginUser from './screens/LoginUser/LoginUser';
 import RegisterAdmin from './screens/SignupAdmin/SignupAdmin';
@@ -7,15 +6,16 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import Profile from './screens/Profile/Profile';
+import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
-import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin'
+import LandingArchitect from './screens/Landing/LandingArchitect';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
-
+import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 
@@ -31,12 +31,15 @@ import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import LandingCAEQ from './screens/Landing/LandingCAEQ';
+import PublicDirectory from './screens/Directory/PublicDirectory';
+import Anouncements from './screens/Anouncements/Anouncements';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
         path: '/',
         name: 'Principal',
-        Component: Dasbboard,
+        Component: LandingArchitect,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: false,
@@ -168,6 +171,25 @@ const routes = [
         roles: ['architect'],
     },
     {
+        path: '/Perfil/:id',
+        name: 'Editar perfil',
+        Component: EditProfile,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['architect'],
+        roles: ['architect'],
+    },
+    {
+        path: '/Anouncements',
+        name: 'Anuncios',
+        icon: ProfileIcon,
+        iconWhite: ProfileIconWhite,
+        Component: Anouncements,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq']
+    },
+    {
         path: '*',
         name: '404 Not Found',
         Component: Page404,
@@ -199,6 +221,20 @@ const routes = [
         path: '/architect/Reset-password/:token',
         name: 'Restaurar contraseña',
         Component: ArchitecResetPassword,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/welcomeAdmin',
+        name: 'Bienvenida Admin',
+        Component: LandingCAEQ,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/Directorio-Publico',
+        name: 'Directorio público',
+        Component: PublicDirectory,
         isPrivate: false,
         inNavbar: false,
     },

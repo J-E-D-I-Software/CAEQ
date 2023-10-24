@@ -13,7 +13,7 @@ const connectDB = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    console.log('Connection to local MongoDB successful');
+    console.log(`Connection to local MongoDB successful on ${uri}`);
 };
 
 /**

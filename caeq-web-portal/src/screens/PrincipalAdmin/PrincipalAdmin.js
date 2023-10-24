@@ -1,17 +1,22 @@
-import React, { useEffect, useState, useRef }  from 'react';
+import React, { useEffect, useState}  from 'react';
 import { getSpecialties } from '../../client/stats';
-import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend, CategoryScale, LinearScale, BarElement, } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import './PrincipalAdmin.scss'
+import GraphContainer from "../../components/containers/WhiteCard/GraphCard";
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+/**
+ * Array of colors that match colors of  both specialty graphs
+ */
 const customColors = [
   '#81C784','#FF7043','#7b0e87','#30a5c2',
   '#BA68C8','#C5E1A5','#82bfd9','#a8275b'
 ];
 
-var options = {
+
+var pieOptions = {
     responsive : true,
     maintainAspectRatio: true,
     plugins: {
@@ -30,6 +35,9 @@ var options = {
       title: {
         display: true,
         text: 'Especialidades de los colegiados',
+        font: {
+          size: 30
+        }
       },
     },
 };
@@ -40,7 +48,16 @@ var barOptions = {
     title: {
       display: true,
       text: 'Especialidades de los colegiados',
+      font: {
+        size: 30
+      }
     },
+    legend: {
+      labels: {
+        display: false,
+        boxWidth: 0
+    }
+    }
   }
 };
 
@@ -63,7 +80,7 @@ const PrincipalAdmin = () => {
           data: [],
           label: 'Especialidades de colegiados',
           fill: true,
-          lineTension: 0.7,
+          lineTension: 0.1,
         },
       ],
     });
@@ -98,14 +115,16 @@ const PrincipalAdmin = () => {
           const data = await getSpecialties(); // Fetch data from your server
           const labels = data.map((specialty) => specialty.name); // Extract specialty names
           const counts = data.map((specialty) => specialty.totalUsers); // Extract user counts
-          const Specialties = labels.join(', ');
   
           setSpecialtyChartData2({
             labels: labels,
             datasets: [
               {               
                 data: counts,
+                label: '',
                 backgroundColor: customColors,
+                fill: false,
+                lineTension: 1,
               },
             ],
           });
@@ -119,15 +138,18 @@ const PrincipalAdmin = () => {
 
 
     return (
-        <div class="graph-container">
-          <div class="grid-container">
-          <div>
-              <Bar data={specialtyChartData2} options={barOptions} />
-            </div>
-            <div>
-              <div style={{width:"100%", height:"100%", padding:"10px 0"}}>
-                <Pie data={specialtyChartData} options={options} />
+        <div class='graph-container'>
+          <h1>Gráficas de Especialidades</h1>
+          <div class='grid-container'>
+            <div class= 'column'>
+              <GraphContainer>
+                  <Bar data={specialtyChartData2} options={barOptions} />
+              </GraphContainer>
               </div>
+            <div class= 'column'>
+              <GraphContainer>
+                  <Pie data={specialtyChartData} options={pieOptions} />
+              </GraphContainer>
             </div>
           </div>
         </div>

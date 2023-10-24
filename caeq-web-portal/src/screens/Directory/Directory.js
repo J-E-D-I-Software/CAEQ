@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import InteractiveTable from '../../components/table/InteractiveTable';
@@ -11,9 +11,15 @@ import headerMappings from '../../components/table/HeaderMappings';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
 import BaseButton from '../../components/buttons/BaseButton';
-import ToggleSlider from '../../components/ToggleSlider/ToggleSlider';
+import { FireSucess, FireLoading, FireError } from '../../utils/alertHandler';
 import './directory.scss';
 
+/**
+ * The Directory component displays a directory of architects with filtering options and pagination.
+ * It allows users to search for architects, apply filters, and navigate through the results.
+ *
+ * @component
+ */
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState('');
@@ -38,16 +44,15 @@ const Directory = () => {
     const [currentRights, setCurrentRights] = useState('');
     const [orderBy, setOrderBy] = useState('collegiateNumber');
     const navigate = useNavigate();
-
     /**
      * Handle a row click event by navigating to a directory page with the specified ID.
      *
      * @param {string} id - The ID of the directory item to navigate to.
      * @returns {void}
      */
-    const handleRowClick = (id) => {
-        navigate(`/Directorio/${id}`);
-    };
+      const handleRowClick = (id) => {
+                navigate(`/Directorio/${id}`);
+      };
 
     /**
      * Calculate filters for searching directory items.
@@ -132,15 +137,15 @@ const Directory = () => {
         }
     };
 
-    /**
-     * Handle clicking the "Next Page" button to navigate to the next page of results.
+      /**
+       * Handle clicking the "Next Page" button to navigate to the next page of results.
      * Increments the pagination page.
      *
      * @returns {void}
-     */
-    const handleNextPage = () => {
-        setPaginationPage(paginationPage + 1);
-    };
+       */
+      const handleNextPage = () => {
+            setPaginationPage(paginationPage + 1);
+      };
 
     /**
      * Handle downloading data based on specified filters and export it to an Excel file.
@@ -150,6 +155,8 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
+        const swal = FireLoading('Generando archivo de excel...');
+
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(
             paginationPage,
@@ -188,6 +195,9 @@ const Directory = () => {
 
             return mappedObject;
         });
+
+        swal.close();
+        FireSucess('Tu descarga iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };
@@ -363,15 +373,15 @@ const Directory = () => {
                 )}
             </div>
 
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handlePreviousPage}
-                    onClickAfter={handleNextPage}
-                    page={paginationPage}
-                />
+                  <div className='directory-row directory-pagination'>
+                        <PaginationNav
+                              onClickBefore={handlePreviousPage}
+                              onClickAfter={handleNextPage}
+                              page={paginationPage}
+                        />
+                  </div>
             </div>
-        </div>
-    );
+      );
 };
 
 export default Directory;

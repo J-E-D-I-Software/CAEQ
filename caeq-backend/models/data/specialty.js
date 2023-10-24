@@ -3,7 +3,7 @@ const specialtyTestData = [
         name: 'Experto en seguridad estructural',
     },
     {
-        name: 'Prefabricaod de concreto',
+        name: 'Prefabricado de concreto',
     },
     {
         name: 'Arquitectura solar',

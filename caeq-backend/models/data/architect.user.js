@@ -29,7 +29,6 @@ const architectUserTestData = [
         email: 'relisib653@mugadget.com',
         password: 'password123',
         passwordConfirm: 'password123',
-        // specialties: [new mongoose.mongo.ObjectId('Prefabricaod de concreto')],
     },
     {
         collegiateNumber: 54321,

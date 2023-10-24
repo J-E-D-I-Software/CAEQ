@@ -27,8 +27,6 @@ const setUpCaeqUserData = catchAsync(async () => {
 const setUpArchitectUserData = catchAsync(async () => {
     const specialties = await Specialty.find();
 
-    console.log(specialties[0]._id);
-
     ArchitectUserData[0].specialties = [specialties[0]._id];
     ArchitectUserData[1].specialties = [specialties[1]._id];
     ArchitectUserData[2].specialties = [specialties[2]._id];
@@ -68,4 +66,8 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpCourseData();
     await setUpArchitectUserData();
     console.log('Test data uploaded to DB');
+});
+
+exports.setUpCaeqUserData = catchAsync(async () => {
+    await setUpCaeqUserData();
 });

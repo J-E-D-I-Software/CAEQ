@@ -26,6 +26,7 @@ const caeqRouter = require('./routes/caeq.user.route');
 const architectRouter = require('./routes/architect.user.route');
 const courseRouter = require('./routes/course.route');
 const specialtyRouter = require('./routes/specialty.route');
+const aggregationsRouter = require('./routes/aggregations.route');
 
 const app = express();
 
@@ -94,6 +95,7 @@ app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
 app.use('/courses', courseRouter);
 app.use('/specialties', specialtyRouter);
+app.use('/aggregations', aggregationsRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

@@ -57,7 +57,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['Hombre', 'Mujer', 'Prefieron no decirlo'],
         enum: ['Hombre', 'Mujer', 'Prefiero no decirlo'],
         required: [true, 'Por favor dinos tu género!'],
     },

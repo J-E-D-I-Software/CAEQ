@@ -15,7 +15,7 @@ import LandingArchitect from './screens/Landing/LandingArchitect';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
-
+import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 

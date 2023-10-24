@@ -1,0 +1,163 @@
+.containercaeq {
+    /* Color del texto dentro del contenedor */
+    .welcome {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background: url('../../components/images/backgroundCaeq.png')
+            center/cover no-repeat fixed;
+        padding: 20px;
+        min-height: 100vh;
+        color: #000000;
+        position: relative;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .adminbutton {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: lightgray;
+            margin-left: auto;
+            margin-bottom: 20px;
+        }
+    }
+    .infocaeq {
+        display: flex;
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .titleOne,
+    .titleTwo,
+    .titleThree {
+        font-weight: 700;
+        width: 566px;
+        height: 107px;
+        font-size: 70px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            font-size: 2rem;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    .descOne,
+    .descTwo,
+    .descThree {
+        text-align: center;
+        display: flex;
+        font-size: 25px;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    .column {
+        flex: 1;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            margin-top: 2rem;
+            margin-inline: 3rem;
+        }
+    }
+
+    /* Estilos para el logo */
+    .logo {
+        align-self: flex-start;
+        max-width: 100%; /* Adjust to responsive max-width */
+        margin-right: 20px; /* Adjust margin */
+        margin-bottom: 20px; /* Adjust margin */
+
+        @media (max-width: 1000px) {
+            width: 300px;
+            background-color: transparent;
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .titlecaeq {
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            font-size: 2em;
+        }
+    }
+
+    .subtitlecaeq {
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            font-size: 1.5em;
+        }
+    }
+
+    .image1,
+    .image2,
+    .image3 {
+        @media (max-width: 768px) {
+            max-width: 100%;
+        }
+    }
+
+    .values {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 40px;
+        justify-content: center;
+    }
+}

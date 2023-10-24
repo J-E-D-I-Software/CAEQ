@@ -67,10 +67,12 @@ const InteractiveTable = ({ data, onRowClick }) => {
                             <span className="header-text">{headerMappings[column]}</span>
                             <div className="hide-button-container">
                                 <button
-                                    className="hide-button"
-                                    onClick={() => toggleColumnVisibility(column)}
+                                    className='hide-button'
+                                    onClick={() =>
+                                        toggleColumnVisibility(column)
+                                    }
                                 >
-                                    <img src={CloseIcon} alt="Icono Ocultar" />
+                                    <img src={CloseIcon} alt='Icono Ocultar' />
                                 </button>
                             </div>
                         </div>
@@ -139,10 +141,10 @@ const InteractiveTable = ({ data, onRowClick }) => {
     };
 
     return (
-        <div className="tabla-container">
+        <div className='tabla-container'>
             <BaseButton
-                type="primary"
-                className="restablecer-button"
+                type='primary'
+                className='restablecer-button'
                 onClick={resetColumnVisibility}
             >
                 Resetear tabla

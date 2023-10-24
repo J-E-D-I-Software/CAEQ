@@ -135,11 +135,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
 
         return data.map(
             (row, rowIndex) => (
-                console.log('yep', data),
                 (
                     <tr
                         key={rowIndex}
                         className='fila-sombrada'
+
                         onClick={() => onRowClick(data[rowIndex]._id)}
                     >
                         {columnsToShow.map((column) =>
@@ -162,6 +162,8 @@ const InteractiveTable = ({ data, onRowClick }) => {
                                     ) : column === 'dateOfAdmission' &&
                                       row[column] ? (
                                         formatDate(row[column])
+                                    ) : column === 'specialties' && row[column] ? (
+                                        row[column].map((val) => val.name).join(', ')
                                     ) : (
                                         row[column]
                                     )}

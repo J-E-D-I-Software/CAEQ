@@ -3,6 +3,7 @@ const functions = require('firebase-functions');
 const mongoose = require('mongoose');
 const { setUpDbWithMuckData } = require('./models/testdata.setup');
 const { connectDB, dropCollections, dropDB } = require('./tests/config/databaseTest');
+const importArchitectData = require('./utils/importArchitectUsers');
 
 // Read env variables and save them
 dotenv.config({ path: './.env' });
@@ -16,9 +17,13 @@ process.on('unhandledException', (err) => {
 });
 
 // Connection to muckdb
+const achitectsDataFilePath = process.env.ARCHITECTS_DATA_FILEPATH || './models/data/RELACION CAEQ 2022-2023.csv';
+const saveImportErrors = process.argv.includes('--saveImportErrors');
+const importGatherings = process.argv.includes('--importGatherings');
 if (process.env.NODE_ENV === 'development') {
     connectDB()
         .then(() => setUpDbWithMuckData())
+        .then(() => importArchitectData(achitectsDataFilePath, importGatherings, saveImportErrors))
         .then('Muck data loaded into db');
 
     // Connect using mongoose

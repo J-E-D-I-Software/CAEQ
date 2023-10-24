@@ -11,7 +11,9 @@ import Logo from '../../components/images/caeqLogo.png';
 import BaseButton from '../../components/buttons/BaseButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import { FireError, FireSucess, FireLoading, FireQuestion } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 
 /**
@@ -91,21 +93,52 @@ const Signup = () => {
         form.append('password', password);
         form.append('passwordConfirm',passwordConfirm);     
         e.preventDefault();
-        try {
-            const swal = FireLoading('Registrando arquitecto...');
-            const response = await postSignupArchitectUsers(form);
-            if (response.status === 'success') {
-                const token = response.token;
 
-                setUserType(token);
-                setToken(token);
-                setArchitectUserSaved(response.data.user);
-            }
-            swal.close();
-            FireSucess('Te has registrado con éxito');
-            navigate('/Principal');
+        // Validate if user already exists
+        let user = null;
+        try {
+            user = await getArchitectUserByColegiateNumber(collegiateNumber);
         } catch (error) {
-            FireError(error.message);
+            FireError('Sucedió un error, por favor intente de nuevo');
+        }
+        if (user) {
+            const continueSignUp = await FireQuestion(
+                'Arquitecto ya existente',
+                `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
+                ¿Es usted ${user.fullName}?
+                ¿Desea continuar y actualizar con la información proporcionada?`,
+            );
+            if (!continueSignUp.isConfirmed) return;
+
+            // Patch user
+            const swal = FireLoading('Actualizando información...');
+            try {
+                await updateArchitectUserByID(user._id, form);
+                swal.close();
+                FireSucess('Te has registrado con éxito');
+                navigate('/Principal');
+            } catch (error) {
+                swal.close();
+                FireError(error.message);
+            }
+        } else {
+            // Post user
+            try {
+                const swal = FireLoading('Registrando arquitecto...');
+                const response = await postSignupArchitectUsers(form);
+                if (response.status === 'success') {
+                    const token = response.token;
+    
+                    setUserType(token);
+                    setToken(token);
+                    setArchitectUserSaved(response.data.user);
+                }
+                swal.close();
+                FireSucess('Te has registrado con éxito');
+                navigate('/Principal');
+            } catch (error) {
+                FireError(error.message);
+            }
         }
     };
 
@@ -113,10 +146,17 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h1 class="h1-A">Regístrate para acceder</h1>
+                <h1 className="h1-A">Regístrate para acceder</h1>
                 <form onSubmit={handleSignup}>
-                    <div class="grid-container">
-                        <div class="column">
+                    <div className="grid-container">
+                        <div className="column">
+                            <TextInput
+                                label="Número de colegiado"
+                                placeholder='Número de colegiado'
+                                getVal={collegiateNumber}
+                                setVal={setCollegiateNumber}
+                                require={true}
+                            />
                             <TextInput 
                                 label="Nombre completo"
                                 placeholder='Nombre / Apellido paterno / Apellido materno' 
@@ -149,13 +189,6 @@ const Signup = () => {
                                 placeholder='Número de DRO'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
-                                require={true}
-                            />
-                            <TextInput
-                                label="Número de colegiado"
-                                placeholder='Número de colegiado'
-                                getVal={collegiateNumber}
-                                setVal={setCollegiateNumber}
                                 require={true}
                             />
                             <DropdownInput

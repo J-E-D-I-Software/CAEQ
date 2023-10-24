@@ -95,7 +95,6 @@ const Signup = () => {
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
         });
-        console.log('Se seleccionan?', selectedSpecialties);
         form.append('fullName', fullName);
         form.append('email', email);
         form.append('DRONumber', DRONumber);
@@ -134,7 +133,7 @@ const Signup = () => {
             }
             swal.close();
             FireSucess('Te has registrado con éxito');
-            //navigate('/Principal');
+            navigate('/Principal');
         } catch (error) {
             FireError(error.message);
         }

@@ -25,8 +25,21 @@ export async function getArchitectUserById(id) {
     let endpoint = `${baseApiEndpoint}/architectusers/${id}`;
 
     const response = await axios.get(endpoint);
-    console.log('Response:', response.data.data.document);
     return response.data.data.document;
+}
+
+/**
+ *  It makes a GET request to the endpoint `/architectusers?collegiateNumber={num}` and returns the response data.
+ * @param {string} collegiateNumber - The id of the architect collegiate Number.
+ * @returns An object.
+ */
+export async function getArchitectUserByColegiateNumber(collegiateNumber) {
+    let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}`;
+
+    const response = await axios.get(endpoint);
+    if (response.data.data.documents.length === 1)
+        return response.data.data.documents[0];
+    return null;
 }
 
 export async function getArchitectUsers() {

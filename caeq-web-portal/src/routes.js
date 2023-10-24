@@ -165,6 +165,7 @@ const routes = [
         Component: Profile,
         isPrivate: true,
         inNavbar: true,
+        roles: ['architect'],
     },
     {
         path: '*',

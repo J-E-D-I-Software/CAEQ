@@ -23,7 +23,7 @@ import './TextInput.scss';
  *   require={true}
  * />
  */
-const TextInput = ({ label, getVal, setVal, placeholder, require = false }) => {
+const TextInput = ({ label, getVal, setVal, placeholder,require = false }) => {
     const isRequired = require;
 
     return (

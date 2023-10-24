@@ -28,7 +28,7 @@ router.route("/").get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route("/:id")
     .get(getArchitectUser)
-    .patch(updateArchitectUser)
+    .patch(fileParser, filesController.formatCV, updateArchitectUser)
     .delete(deleteArchitectUser);
 
 module.exports = router;

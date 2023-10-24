@@ -95,7 +95,12 @@ const Signup = () => {
         e.preventDefault();
 
         // Validate if user already exists
-        const user = await getArchitectUserByColegiateNumber(collegiateNumber);
+        let user = null;
+        try {
+            user = await getArchitectUserByColegiateNumber(collegiateNumber);
+        } catch (error) {
+            FireError('Sucedió un error, por favor intente de nuevo');
+        }
         if (user) {
             const continueSignUp = await FireQuestion(
                 'Arquitecto ya existente',
@@ -110,6 +115,8 @@ const Signup = () => {
             try {
                 await updateArchitectUserByID(user._id, form);
                 swal.close();
+                FireSucess('Te has registrado con éxito');
+                navigate('/Principal');
             } catch (error) {
                 swal.close();
                 FireError(error.message);

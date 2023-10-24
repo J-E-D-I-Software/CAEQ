@@ -1,0 +1,115 @@
+/* landingCAEQ.scss */
+
+.landing-admin-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: url('../../components/images/backgroundAdmin.png') center/cover
+        no-repeat;
+    background-attachment: fixed;
+    padding: 20px;
+    min-height: 100vh;
+    height: fit-content;
+    color: #ffffff;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .column {
+        flex: 1;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .title {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-bottom: 20px;
+        @media (max-width: 768px) {
+            flex-direction: column;
+            text-align: center;
+        }
+        /* Title CAEQ */
+        .main {
+            font-size: 50px;
+            text-align: center;
+            @media (max-width: 768px) {
+                font-size: large;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Subtitle CAEQ */
+        .subtitle {
+            font-size: 25px;
+            text-align: center;
+            @media (max-width: 768px) {
+                font-size: small;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    }
+
+    .button-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around; /* Distribute buttons equally in horizontal space */
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .button {
+            margin-top: 1rem;
+            @media (max-width: 768px) {
+                font-size: small;
+            }
+        }
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .Logo {
+        width: 80%;
+        max-width: 400px;
+        height: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+
+        @media (max-width: 1000px) {
+            max-width: 300px;
+            margin-right: 0;
+        }
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        @media (max-width: 768px) {
+            font-size: small;
+        }
+    }
+}

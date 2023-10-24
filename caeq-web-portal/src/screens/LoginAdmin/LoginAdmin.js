@@ -61,8 +61,8 @@ const LoginAdmin = () => {
                 <Link to='/Forgot-password'>
                     <p> ¿Olvidaste tu contraseña?</p>
                 </Link>
-                <Link to='/SignupAdmin'>
-                    <p> Regístrate</p>
+                <Link to='/welcomeAdmin'>
+                    <p>Volver a página de inicio</p>
                 </Link>
             </div>
         </div>

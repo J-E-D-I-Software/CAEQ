@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './Table.scss';
 import CloseIcon from '../icons/Close.png';
 import BaseButton from '../buttons/BaseButton';
+import headerMappings from './HeaderMappings';
 
 /**
  * Un componente de tabla interactivo que permite mostrar u ocultar columnas.

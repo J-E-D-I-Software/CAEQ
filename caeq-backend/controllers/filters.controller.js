@@ -2,6 +2,11 @@ const Arquitect = require('../models/architect.user.model');
 const Specialty = require('../models/specialty.model');
 const catchAsync = require('../utils/catchAsync');
 
+/**
+ * 
+ * An aggregation that retrieves a list of specialty names 
+ * that match the specialties associated with the architects
+ */
 exports.getSpecialties = catchAsync(async (req, res) => {
     
     const specialtyData = await Arquitect.aggregate([
@@ -24,19 +29,19 @@ exports.getSpecialties = catchAsync(async (req, res) => {
         });
     }
 
-    // Extract the _id values from the aggregation result
+    /** Extract the _id values from the agrregation */
     const specialtyIds = specialtyData.map((s) => s._id);
 
-    // Use $lookup to fetch the names of the specialties
+    /** Gets all specialty names from Specialty that match the values in specialtyIds */
     const specialties = await Specialty.find({ _id: { $in: specialtyIds } });
 
-    // Create a mapping from _id to specialty name
+    /** Creates a mapping from _id to specialty name */
     const specialtyNameMap = specialties.reduce((acc, specialty) => {
         acc[specialty._id] = specialty.name;
         return acc;
     }, {});
 
-    // Add the specialty names to the specialtyData
+    /** Adds the specialty names to the specialtyData */
     specialtyData.forEach((s) => {
         s.name = specialtyNameMap[s._id];
     });

@@ -21,7 +21,15 @@ import './DropdownInput.scss';
  *   require={true}
  * />
  */
-const DropdownInput = ({ label, getVal, setVal, options, onChange, placeholder = 'Elige una opción', require = false}) => {
+const DropdownInput = ({
+    label,
+    getVal,
+    setVal,
+    options,
+    onChange,
+    placeholder = 'Elige una opción',
+    require = false,
+}) => {
     const isRequired = require;
 
     const [selectedOption, setSelected] = useState(getVal);
@@ -39,22 +47,31 @@ const DropdownInput = ({ label, getVal, setVal, options, onChange, placeholder =
         }
     };
 
+    // Define boolean values into labels
+    const booleanToLabel = {
+        true: 'Sí',
+        false: 'No',
+    };
+
     return (
         <div className='dropdown-'>
             <label>
                 <div className='label-input'>
                     {label}
-                    {isRequired && <span className='obligatorio'>*obligatorio</span>}
+                    {isRequired && (
+                        <span className='obligatorio'>*obligatorio</span>
+                    )}
                 </div>
-                <select 
-                className='dropdown-input'
-                value={selectedOption} 
-                onChange={changeOption}
-                required={isRequired}>
-                <option value="">{placeholder}</option>
+                <select
+                    className='dropdown-input'
+                    value={selectedOption}
+                    onChange={changeOption}
+                    required={isRequired}
+                >
+                    <option value=''>{placeholder}</option>
                     {options.map((option) => (
                         <option key={option} value={option}>
-                            {option}
+                            {booleanToLabel[option] || option}
                         </option>
                     ))}
                 </select>

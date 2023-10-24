@@ -32,6 +32,7 @@ import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import Anouncements from './screens/Anouncements/Anouncements';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -175,6 +176,17 @@ const routes = [
         isPrivate: true,
         inNavbar: false,
         roles: ['architect'],
+        roles: ['architect'],
+    },
+    {
+        path: '/Anouncements',
+        name: 'Anuncios',
+        icon: ProfileIcon,
+        iconWhite: ProfileIconWhite,
+        Component: Anouncements,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq']
     },
     {
         path: '*',

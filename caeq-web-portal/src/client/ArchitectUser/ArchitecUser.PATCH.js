@@ -26,7 +26,6 @@ export async function patchResetPasswordArchitec(token, newPassword, passwordCon
 }
 
 
-
 /**
  * Updates an architect user by ID.
  *

@@ -91,34 +91,26 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  * @param {function} next - The next middleware function.
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
-    const newUser = await ArchitectUser.create({
-        fullName: req.body.fullName,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        collegiateNumber: req.body.collegiateNumber,
-        memberType: req.body.memberType,
-        classification: req.body.classification,
-        DRONumber: req.body.DRONumber,
-        authorizationToShareInfo: req.body.authorizationToShareInfo,
-        gender: req.body.gender,
-        cellphone: req.body.cellphone,
-        homePhone: req.body.homePhone,
-        officePhone: req.body.officePhone,
-        emergencyContact: req.body.emergencyContact,
-        mainProfessionalActivity: req.body.mainProfessionalActivity,
-        dateOfAdmission: req.body.dateOfAdmission,
-        dateOfBirth: req.body.dateOfBirth,
-        municipalityOfLabor: req.body.municipalityOfLabor,
-        linkCV: req.body.linkCV,
-        university: req.body.university,
-        professionalLicense: req.body.professionalLicense,
-        workAddress: req.body.workAddress,
-        homeAddress: req.body.homeAddress,
-        specialties: req.body.specialties,
-        positionsInCouncil: req.body.positionsInCouncil,    
-    });
+    const { collegiateNumber } = req.body;
+    let newUser;
 
+    // Check if user already exists
+    const existingUser = await ArchitectUser.findOne({ collegiateNumber });
+
+    if (existingUser) {
+        // Update existing user
+        delete req.body.password;
+        delete req.body.passwordConfirm;
+        newUser = await ArchitectUser.findByIdAndUpdate(existingUser._id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+    } else {
+        // Create new user
+        newUser = await ArchitectUser.create(req.body);
+    }
+
+    // Send welcome email
     try {
         await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
     } catch (error) {
@@ -127,6 +119,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         );
     }
 
+    // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);
 });
 

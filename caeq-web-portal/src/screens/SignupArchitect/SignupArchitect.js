@@ -63,7 +63,7 @@ const Signup = () => {
         'Miembro de número',
         'Miembro Adherente',
         'Miembro Pasante',
-        'Miembro vitalicio',
+        'Miembro Vitalicio',
         'Miembro Honorario',
     ];
     const classif = ['Expresidente', 'Docente', 'Convenio'];
@@ -124,51 +124,22 @@ const Signup = () => {
         form.append('passwordConfirm', passwordConfirm);
         e.preventDefault();
 
-        // Validate if user already exists
-        let user = null;
+        // Post user
         try {
-            user = await getArchitectUserByColegiateNumber(collegiateNumber);
-        } catch (error) {
-            FireError('Sucedió un error, por favor intente de nuevo');
-        }
-        if (user) {
-            const continueSignUp = await FireQuestion(
-                'Arquitecto ya existente',
-                `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
-                ¿Es usted ${user.fullName}?
-                ¿Desea continuar y actualizar con la información proporcionada?`,
-            );
-            if (!continueSignUp.isConfirmed) return;
+            const swal = FireLoading('Registrando arquitecto...');
+            const response = await postSignupArchitectUsers(form);
+            if (response.status === 'success') {
+                const token = response.token;
 
-            // Patch user
-            const swal = FireLoading('Actualizando información...');
-            try {
-                await updateArchitectUserByID(user._id, form);
-                swal.close();
-                FireSucess('Te has registrado con éxito');
-                navigate('/Principal');
-            } catch (error) {
-                swal.close();
-                FireError(error.message);
+                setUserType(token);
+                setToken(token);
+                setArchitectUserSaved(response.data.user);
             }
-        } else {
-            // Post user
-            try {
-                const swal = FireLoading('Registrando arquitecto...');
-                const response = await postSignupArchitectUsers(form);
-                if (response.status === 'success') {
-                    const token = response.token;
-    
-                    setUserType(token);
-                    setToken(token);
-                    setArchitectUserSaved(response.data.user);
-                }
-                swal.close();
-                FireSucess('Te has registrado con éxito');
-                navigate('/Principal');
-            } catch (error) {
-                FireError(error.message);
-            }
+            swal.close();
+            FireSucess('Te has registrado con éxito');
+            navigate('/Principal');
+        } catch (error) {
+            FireError(error.message);
         }
     };
 

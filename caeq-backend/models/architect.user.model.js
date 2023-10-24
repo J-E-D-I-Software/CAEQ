@@ -158,7 +158,7 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Por favor confirma tu contraseña.'],
         validate: {
-            // queremos contraseñas iguales
+            // we want equal passwords
             validator: function (value) {
                 return value === this.password;
             },
@@ -174,7 +174,7 @@ const ArchitectUserSchema = new mongoose.Schema({
 ArchitectUserSchema.index({ email: 1 });
 
 // MIDDLEWARES
-/* This is a middleware that runs before the save() or create() method. It hashes the password and sets
+/** This is a middleware that runs before the save() or create() method. It hashes the password and sets
 the passwordConfirm to undefined. */
 ArchitectUserSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
@@ -185,7 +185,7 @@ ArchitectUserSchema.pre('save', async function (next) {
     return next();
 });
 
-/* This is a middleware that runs before the save() or create() method. Checks if the password has changed
+/** This is a middleware that runs before the save() or create() method. Checks if the password has changed
 and updates the passwordChangedAt attribute. */
 ArchitectUserSchema.pre('save', async function (next) {
     if (!this.isModified('password') || this.isNew) return next();
@@ -198,7 +198,7 @@ ArchitectUserSchema.pre('save', async function (next) {
 // INSTANCE METHODS
 // Instance methods will be available in all document instances.
 
-/* This is a method that compares the candidate password with the user password. */
+/** This is a method that compares the candidate password with the user password. */
 ArchitectUserSchema.methods.correctPassword = async function (
     candidatePassword,
     userPassword
@@ -207,7 +207,7 @@ ArchitectUserSchema.methods.correctPassword = async function (
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-/* Creating a password reset token and saving it in the database. */
+/** Creating a password reset token and saving it in the database. */
 ArchitectUserSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -224,7 +224,7 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
     return this.changedPasswordToken;
 };
 
-/* This method checks if the password has been changed after the token was issued. */
+/** This method checks if the password has been changed after the token was issued. */
 ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt(
@@ -238,7 +238,7 @@ ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     return false;
 };
 
-/* This method defines a virtual property "annuity" */
+/** This method defines a virtual property "annuity" for the architects user model*/
 ArchitectUserSchema.virtual('currentRights').get(function () {
     const capacitationHours = this.capacitationHours || 0;
     const annuity = this.annuity || false;

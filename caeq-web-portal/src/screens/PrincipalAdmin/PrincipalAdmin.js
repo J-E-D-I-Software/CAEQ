@@ -1,6 +1,6 @@
 import React, { useEffect, useState}  from 'react';
 import { getSpecialties } from '../../client/stats';
-import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend, CategoryScale, LinearScale, BarElement, datalabels } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import './PrincipalAdmin.scss'
 import GraphContainer from "../../components/containers/WhiteCard/GraphCard";

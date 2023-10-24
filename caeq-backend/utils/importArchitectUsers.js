@@ -6,6 +6,9 @@ const importArchitectGatheringsData = require('./importArchitectGatherings');
 
 /**
  * Imports architect data from a CSV file and saves it to a MongoDB collection.
+ * @param {string} csvFilePath - The path to the CSV file.
+ * @param {boolean} [importGatherings=true] - Whether to import the gatherings data or not.
+ * @param {boolean} [saveErrors=false] - Whether to save the errors to a CSV file or not.
  *
  * @returns {void}
  */

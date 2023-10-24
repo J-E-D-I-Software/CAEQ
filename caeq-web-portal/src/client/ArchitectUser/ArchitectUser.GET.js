@@ -42,6 +42,12 @@ export async function getArchitectUserByColegiateNumber(collegiateNumber) {
     return null;
 }
 
+/**
+ * Retrieves a list of architect users from the server.
+ * @async
+ * @function getArchitectUsers
+ * @returns {Promise<Array>} A promise that resolves to an array of architect user documents.
+ */
 export async function getArchitectUsers() {
     let endpoint = `${baseApiEndpoint}/architectusers`;
 

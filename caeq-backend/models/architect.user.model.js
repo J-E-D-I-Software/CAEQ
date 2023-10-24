@@ -78,10 +78,6 @@ const ArchitectUserSchema = new mongoose.Schema({
             true,
             'Por favor dinos tu contacto de emergencia (nombre y número)!',
         ],
-        required: [
-            true,
-            'Por favor dinos tu contacto de emergencia (nombre y número)!',
-        ],
     },
     mainProfessionalActivity: {
         type: String,

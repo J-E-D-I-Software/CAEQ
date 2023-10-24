@@ -7,6 +7,7 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import Profile from './screens/Profile/Profile';
+import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
 import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
@@ -31,6 +32,7 @@ import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
 import AdminIconWhite from '../src/components/icons/AdminIconWhite.png';
+import Anouncements from './screens/Anouncements/Anouncements';
 const routes = [
     // TO-DO: CORREGIR ESTAS RUTAS
     {
@@ -166,6 +168,25 @@ const routes = [
         isPrivate: true,
         inNavbar: true,
         roles: ['architect'],
+    },
+    {
+        path: '/Perfil/:id',
+        name: 'Editar perfil',
+        Component: EditProfile,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['architect'],
+        roles: ['architect'],
+    },
+    {
+        path: '/Anouncements',
+        name: 'Anuncios',
+        icon: ProfileIcon,
+        iconWhite: ProfileIconWhite,
+        Component: Anouncements,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq']
     },
     {
         path: '*',

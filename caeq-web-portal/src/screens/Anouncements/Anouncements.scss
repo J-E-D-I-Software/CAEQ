@@ -1,0 +1,73 @@
+.anouncement-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h2{
+        font-size: 32px;
+        margin-top: 40px;
+    }
+
+    .anouncement-form{
+        
+        margin-bottom: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+
+        .label-input{
+            margin-top: 10px;
+        }
+    }
+    
+    .container-white{   
+        align-self: center;
+        min-width: 800px;
+        min-height: 600px;
+    }
+    
+    .button{
+        width: fit-content;
+        align-self: flex-end;
+        margin: 30px;
+    }
+
+    .anouncement-preview{
+        h3{
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        p{
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        img{
+            width: 720px;
+            height: 600px;
+        }
+    }
+
+    @media only screen and (max-width: 700px)  {
+        text-align: left;
+       
+        .anouncement-form{
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .container-white{
+           min-width: 100%;
+           min-height: 100%;
+           margin-left: 30px;
+           margin-right: 30px; 
+        }
+
+        .anouncement-preview{
+            img{
+                min-width: 300px;
+                min-height: 500px;
+            }
+        }
+    }
+}

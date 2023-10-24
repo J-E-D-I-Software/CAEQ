@@ -22,16 +22,14 @@ import './directory.scss';
  */
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
-    const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [
-        filterSearchBymunicipalityOfLabor,
-        setFilterSearchBymunicipalityOfLabor,
-    ] = useState('');
-    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumberr] =
-        useState('');
-    const [filterGender, setfilterGender] = useState('');
-    const [filterClassification, setfilterClassification] = useState('');
-    const [FilterMemberType, setFilterMemberType] = useState('');
+    const [filterSearchByName, setFilterSearchByName] = useState("");
+    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
+        useState("");
+    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
+        useState("");
+    const [filterGender, setfilterGender] = useState("");
+    const [filterClassification, setfilterClassification] = useState("");
+    const [FilterMemberType, setFilterMemberType] = useState("");
     const [paginationPage, setPaginationPage] = useState(1);
     const [admisionInitial, setAdmisionInitial] = useState();
     const [admisionFinal, setAdmisionFinal] = useState();
@@ -66,7 +64,8 @@ const Directory = () => {
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
-            filters += `&DRONumber[regex]=${filterSearchBycollegiateNumber}`;
+            filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
+
         if (filterGender) filters += `&gender=${filterGender}`;
         if (filterClassification)
             filters += `&classification=${filterClassification}`;
@@ -225,21 +224,19 @@ const Directory = () => {
     };
 
     const clearFilters = () => {
-        setFilterSearchByName('');
-        setFilterSearchBymunicipalityOfLabor('');
-        setFilterSearchBycollegiateNumberr('');
-        setfilterGender('');
-        setfilterClassification('');
-        setFilterMemberType('');
-        setAdmisionInitial('');
-        setAdmisionFinal('');
-        setBirthInitial('');
-        setBirthFinal('');
-        setSpecialty('');
-        setSpecialtyName('');
-        currentRights('');
-        setOrderBy('collegiateNumber');
-        window.location.reload();
+        setFilterSearchByName("");
+        setFilterSearchBymunicipalityOfLabor("");
+        setFilterSearchBycollegiateNumber("");
+        setfilterGender("");
+        setfilterClassification("");
+        setFilterMemberType("");
+        setAdmisionInitial("");
+        setAdmisionFinal("");
+        setBirthInitial("");
+        setBirthFinal("");
+        setSpecialty("");
+        setSpecialtyName("");
+        setOrderBy("collegiateNumber");
     };
 
     const handleClearFilters = () => {
@@ -278,7 +275,7 @@ const Directory = () => {
                         <InputText
                             placeholder='Número de colegiado'
                             getVal={filterSearchBycollegiateNumber}
-                            setVal={setFilterSearchBycollegiateNumberr}
+                            setVal={setFilterSearchBycollegiateNumber}
                         />
                     </div>
                 </div>

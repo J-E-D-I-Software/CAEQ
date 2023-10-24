@@ -1,21 +1,21 @@
 //
 
-import React, { useState } from 'react';
-import './Table.scss';
-import CloseIcon from '../icons/Close.png';
-import BaseButton from '../buttons/BaseButton';
-import headerMappings from './HeaderMappings';
+import React, { useState } from "react";
+import "./Table.scss";
+import CloseIcon from "../icons/Close.png";
+import BaseButton from "../buttons/BaseButton";
+import headerMappings from "./HeaderMappings";
 
 /**
- * Un componente de tabla interactivo que permite mostrar u ocultar columnas.
- * @param {Object[]} data - Los datos para llenar la tabla.
- * @returns {JSX.Element} - Un elemento JSX que representa la tabla interactiva.
+ * An interactive table component that allows showing or hiding columns.
+ * @param {Object[]} data - The data to populate the table.
+ * @returns {JSX.Element} - A JSX element representing the interactive table.
  */
 const InteractiveTable = ({ data, onRowClick }) => {
-    // Obtiene las columnas que deben mostrarse en la tabla.
+    // Get the columns to be displayed in the table.
     const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
 
-    // Estado para mantener la visibilidad de las columnas.
+    // State to maintain the visibility of columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
         return columnsToShow.reduce((visibility, column) => {
             visibility[column] = true;
@@ -24,8 +24,8 @@ const InteractiveTable = ({ data, onRowClick }) => {
     });
 
     /**
-     * Alternar la visibilidad de una columna.
-     * @param {string} columnKey - La clave de la columna a alternar.
+     * Toggle the visibility of a column.
+     * @param {string} columnKey - The key of the column to toggle.
      */
     const toggleColumnVisibility = (columnKey) => {
         setColumnVisibility((prevVisibility) => ({
@@ -35,7 +35,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
     };
 
     /**
-     * Restablecer la visibilidad de todas las columnas.
+     * Reset the visibility of all columns.
      */
     const resetColumnVisibility = () => {
         setColumnVisibility((prevVisibility) => {
@@ -47,61 +47,25 @@ const InteractiveTable = ({ data, onRowClick }) => {
         });
     };
 
-    const headerMappings = {
-        fullName: 'Nombre completo',
-        collegiateNumber: 'Número de colegiado',
-        memberType: 'Tipo de miembro',
-        classification: 'Clasificación',
-        DRONumber: 'Número de DRO',
-        authorizationToShareInfo: 'Autorización para compartir información',
-        lifeInsurance: 'Seguro de vida',
-        lifeInsureID: 'Poliza de seguro de vida',
-        age: 'Edad',
-        gender: 'Género',
-        cellphone: 'Número de celular',
-        homePhone: 'Número de casa',
-        officePhone: 'Número de oficina',
-        emergencyContactName: 'Nombre de contacto de emergencia',
-        emergencyContact: 'Número de contacto de emergencia',
-        mainProfessionalActivity: 'Actividad profesional principal',
-        dateOfAdmission: 'Fecha de admisión',
-        dateOfBirth: 'Fecha de nacimiento',
-        municipalityOfLabor: 'Municipio de trabajo',
-        linkCV: 'Link de CV',
-        university: 'Universidad',
-        professionalLicense: 'Cédula profesional',
-        workAddress: 'Domicilio de trabajo',
-        homeAddress: 'Domicilio de particular',
-        specialty: 'Especialidad',
-        positionsInCouncil: 'Cargos en consejos directivos',
-        capacitationHours: 'Horas asistidas',
-        email: 'Correo electrónico',
-    };
+    /**
+     * Format function to display boolean values as "Yes" or "No".
+     * @param {boolean} value - The boolean value to format.
+     * @returns {string} - "Yes" if the value is true, "No" if it's false.
+     */
+    const formatBooleanValue = (value) => (value ? "Sí" : "No");
 
     /**
-     * Función de formato para mostrar valores booleanos como "Sí" o "No".
-     * @param {boolean} value - El valor booleano a formatear.
-     * @returns {string} - "Sí" si el valor es verdadero, "No" si es falso.
+     * Render the table header.
+     * @returns {JSX.Element} - A JSX element representing the table header.
      */
-    const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
-
-    /**
-     * Renderizar el encabezado de la tabla.
-     * @returns {JSX.Element} - Un elemento JSX que representa el encabezado de la tabla.
-     */
-
     const renderTableHeader = () => (
         <tr>
-            {columnsToShow.map((column) =>
-                columnVisibility[column] &&
-                column !== '_id' &&
-                column !== '_id' ? (
-                    <th key={column} className='sticky-column'>
-                        <div className='header-content'>
-                            <span className='header-text'>
-                                {headerMappings[column]}
-                            </span>
-                            <div className='hide-button-container'>
+            {Object.keys(headerMappings).map((column) =>
+                columnVisibility[column] && column !== "_id" ? (
+                    <th key={column} className="sticky-column">
+                        <div className="header-content">
+                            <span className="header-text">{headerMappings[column]}</span>
+                            <div className="hide-button-container">
                                 <button
                                     className='hide-button'
                                     onClick={() =>
@@ -119,70 +83,60 @@ const InteractiveTable = ({ data, onRowClick }) => {
     );
 
     /**
-     * Renderizar el cuerpo de la tabla.
-     * @returns {JSX.Element} - Un elemento JSX que representa el cuerpo de la tabla.
+     * Render the table body.
+     * @returns {JSX.Element} - A JSX element representing the table body.
      */
     const renderTableBody = () => {
         if (!data || data.length === 0) {
             return (
                 <tr>
-                    <td colSpan={columnsToShow.length}>
+                    <td colSpan={Object.keys(headerMappings).length}>
                         No hay colegiados disponibles.
                     </td>
                 </tr>
             );
         }
 
-        return data.map(
-            (row, rowIndex) => (
-                (
-                    <tr
-                        key={rowIndex}
-                        className='fila-sombrada'
-
-                        onClick={() => onRowClick(data[rowIndex]._id)}
-                    >
-                        {columnsToShow.map((column) =>
-                            columnVisibility[column] && column !== '_id' ? (
-                                <td key={column} className='sticky-column'>
-                                    {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-                                    {typeof row[column] === 'boolean' ? (
-                                        formatBooleanValue(row[column])
-                                    ) : column === 'linkCV' && row[column] ? (
-                                        <a
-                                            href={row[column]}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
-                                        >
-                                            Descargar
-                                        </a>
-                                    ) : column === 'dateOfBirth' &&
-                                      row[column] ? (
-                                        formatDate(row[column])
-                                    ) : column === 'dateOfAdmission' &&
-                                      row[column] ? (
-                                        formatDate(row[column])
-                                    ) : column === 'specialties' && row[column] ? (
-                                        row[column].map((val) => val.name).join(', ')
-                                    ) : (
-                                        row[column]
-                                    )}
-                                </td>
-                            ) : null
-                        )}
-                    </tr>
-                )
-            )
-        );
+        return data.map((row, rowIndex) => (
+            <tr
+                key={rowIndex}
+                className="fila-sombrada"
+                onClick={() => onRowClick(data[rowIndex]._id)}
+            >
+                {Object.keys(headerMappings).map((column) =>
+                    columnVisibility[column] && column !== "_id" ? (
+                        <td key={column} className="sticky-column">
+                            {typeof row[column] === "boolean" ? (
+                                formatBooleanValue(row[column])
+                            ) : column === "linkCV" && row[column] ? (
+                                <a
+                                    href={row[column]}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Descargar
+                                </a>
+                            ) : column === "dateOfBirth" && row[column] ? (
+                                formatDate(row[column])
+                            ) : column === "specialties" && row[column] ? (
+                                row[column].map((val) => val.name).join(", ")
+                            ) : (
+                                row[column]
+                            )}
+                        </td>
+                    ) : null
+                )}
+            </tr>
+        ));
     };
 
     /**
-     * Formatear la fecha en el formato "DD/MM/AAAA" utilizando toLocaleDateString.
-     * @param {string} date - La fecha en formato de cadena (por ejemplo, "AAAA-MM-DD").
-     * @returns {string} - La fecha formateada en "DD/MM/AAAA".
+     * Format the date in the "DD/MM/YYYY" format using toLocaleDateString.
+     * @param {string} date - The date in string format (e.g., "YYYY-MM-DD").
+     * @returns {string} - The date formatted as "DD/MM/YYYY".
      */
     const formatDate = (date) => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
         return new Date(date).toLocaleDateString(undefined, options);
     };
 
@@ -196,7 +150,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 Resetear tabla
             </BaseButton>
 
-            <table className='tabla'>
+            <table className="tabla">
                 <thead>{renderTableHeader()}</thead>
                 <tbody>{renderTableBody()}</tbody>
             </table>

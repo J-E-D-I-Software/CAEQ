@@ -91,6 +91,7 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  * @param {function} next - The next middleware function.
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
+    console.log("LLegada de datos",req.body);
     const newUser = await ArchitectUser.create({
         fullName: req.body.fullName,
         email: req.body.email,
@@ -115,11 +116,12 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         professionalLicense: req.body.professionalLicense,
         workAddress: req.body.workAddress,
         homeAddress: req.body.homeAddress,
-        specialty: req.body.specialty,
+        specialties: req.body.specialties,
         positionsInCouncil: req.body.positionsInCouncil,    
     });
 
     try {
+        console.log("Salida de new user",newUser);
         await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
     } catch (error) {
         return next(

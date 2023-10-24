@@ -30,6 +30,9 @@ import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 const Signup = () => {
     const [fullName, setfullName] = useState('');
     const [email, setEmail] = useState('');
+    const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+    const [availableSpecialties, setAvailableSpecialties] = useState([]);
+
     const [DRONumber, setDRONumber] = useState('');
     const [collegiateNumber, setCollegiateNumber] = useState('');
     const [memberType, setMemberType] = useState('');
@@ -42,7 +45,6 @@ const Signup = () => {
     const [workAddress, setWorkAddress] = useState('');
     const [emergencyContact, setEmergencyContact] = useState('');
     const [mainProfessionalActivity, setMainProfessionalActivity] = useState('');
-    // const [specialty, setSpecialty] = useState('');
     const [dateOfAdmission, setDateOfAdmission] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [university, setUniversity] = useState('');
@@ -53,9 +55,6 @@ const Signup = () => {
     const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
-
-    const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-    const [availableSpecialties, setAvailableSpecialties] = useState([]);
 
     const options = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
     const member = [
@@ -77,20 +76,14 @@ const Signup = () => {
     useEffect(() => {
         (async () => {
             try {
+                const specialties = await getAllSpecialties();
 
-                let specialties = await getAllSpecialties();
+                const specialtiesOptions = specialties.map((specialty) => ({
+                    label: specialty.name,
+                    value: specialty._id,
+                }));
 
-                specialties = specialties.map((specialty) => {
-                    return { label: specialty.name, value: specialty._id };
-                });
-
-                setAvailableSpecialties(specialties);
-
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        specialties.includes(specialty.value)
-                    )
-                );
+                setAvailableSpecialties(specialtiesOptions);
             } catch (error) {
                 console.log(error);
             }
@@ -277,7 +270,7 @@ const Signup = () => {
                                 onChange={(selectedOptions) => {
                                     setSelectedSpecialties(selectedOptions);
                                 }}
-                                placeholder="Selecciona una especialidad"
+                                placeholder="Selecciona tus especialidades"
                             />
                             <NumberInput
                                 label="Fecha de ingreso al colegio"

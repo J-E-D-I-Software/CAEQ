@@ -237,7 +237,6 @@ const Directory = () => {
         setSpecialty("");
         setSpecialtyName("");
         setOrderBy("collegiateNumber");
-        window.location.reload();
     };
 
     const handleClearFilters = () => {

@@ -139,7 +139,7 @@ const Directory = () => {
     }, []);
 
     /**
-     * Handle clicking the "Previous Page" button to navigate to the previous page of results.
+     * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
      * Decrements the pagination page if it's greater than 1.
      *
      * @returns {void}
@@ -151,7 +151,7 @@ const Directory = () => {
     };
 
     /**
-     * Handle clicking the "Next Page" button to navigate to the next page of results.
+     * Handle clicking the 'Next Page' button to navigate to the next page of results.
      * Increments the pagination page.
      *
      * @returns {void}

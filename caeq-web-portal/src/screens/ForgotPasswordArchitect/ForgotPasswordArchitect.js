@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ForgotPasswordArchitect.scss';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import BaseButton from '../../components/buttons/BaseButton';
-import { FireError, FireSucess } from '../../utils/alertHandler';
+import { FireError, FireSucess , FireLoading } from '../../utils/alertHandler';
 import { postForgotArchitect } from '../../client/ArchitectUser/ArchitectUser.POST';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -13,11 +13,13 @@ const ForgotPasswordArchitect = () => {
     const handleForgotPasswordArchitect = async (e) => {
         e.preventDefault();
         try {
+            const swal = FireLoading('Enviando Correo...');
             const response = await postForgotArchitect(email);
             if (response.status === 'success') {
                 FireSucess(
                     'Te hemos enviado las instrucciones sobre cómo restablecer tu contraseña a tu correo.'
                 );
+                swal.close();
                 navigate('/LoginUser');
             }
         } catch (error) {

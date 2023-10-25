@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const Specialty = require('./specialty.model.js');
-const { specialtySchema } = require('./specialty.model.js');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
@@ -65,7 +63,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     homePhone: {
         type: Number,
-        required: [false]
+        required: [false],
     },
     officePhone: {
         type: Number,
@@ -73,10 +71,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     emergencyContact: {
         type: String,
-        required: [
-            true,
-            'Por favor dinos tu contacto de emergencia (nombre y número)!',
-        ],
+        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!'],
     },
     mainProfessionalActivity: {
         type: String,
@@ -221,10 +216,7 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
 /** This method checks if the password has been changed after the token was issued. */
 ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
-        const changedTimestamp = parseInt(
-            this.changedPassword.getTime() / 1000,
-            10
-        );
+        const changedTimestamp = parseInt(this.changedPassword.getTime() / 1000, 10);
         return JWTTimestamp < changedTimestamp;
     }
 

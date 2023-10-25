@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ResetPasswordArchitect.scss';
 import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
 import BaseButton from '../../components/buttons/BaseButton';
-import { FireError, FireSucess } from '../../utils/alertHandler';
+import { FireError, FireSucess , FireLoading } from '../../utils/alertHandler';
 import { patchResetPasswordArchitec } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ const ResetPasswordArchitec = () => {
     const handleResetPasswordArchitec = async (e) => {
         e.preventDefault();
         try {
+            const swal = FireLoading('Restableciendo Contraseña...');
             const response = await patchResetPasswordArchitec(
                 token,
                 newpassword,
@@ -24,6 +25,7 @@ const ResetPasswordArchitec = () => {
                 FireSucess('Contraseña Restablecida con éxito, ya puede iniciar sesión');
                 navigate('/LoginUser');
             }
+            swal.close();
         } catch (error) {
             FireError(error.response.data.message);
         }

@@ -14,7 +14,12 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
 import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
-import { FireError, FireSucess, FireLoading, FireQuestion } from '../../utils/alertHandler';
+import {
+    FireError,
+    FireSucess,
+    FireLoading,
+    FireQuestion,
+} from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 
@@ -155,7 +160,7 @@ const Signup = () => {
             FireSucess('Te has registrado con éxito');
             // navigate('/Principal');
         } catch (error) {
-            FireError(error.message);
+            FireError(error.response.data.message);
         }
     };
 
@@ -163,104 +168,104 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h1 className="h1-A">Regístrate para acceder</h1>
+                <h1 className='h1-A'>Regístrate para acceder</h1>
                 <form onSubmit={handleSignup}>
-                    <div className="grid-container">
-                        <div className="column">
+                    <div className='grid-container'>
+                        <div className='column'>
                             <TextInput
-                                label="Número de colegiado"
+                                label='Número de colegiado'
                                 placeholder='Número de colegiado'
                                 getVal={collegiateNumber}
                                 setVal={setCollegiateNumber}
                                 require={true}
                             />
-                            <TextInput 
-                                label="Nombre completo"
-                                placeholder="Nombre / Apellido paterno / Apellido materno"
+                            <TextInput
+                                label='Nombre completo'
+                                placeholder='Nombre / Apellido paterno / Apellido materno'
                                 getVal={fullName}
                                 setVal={setfullName}
                                 require={true}
                             />
                             <TextInput
-                                label="Correo Electrónico"
-                                placeholder="Correo Electrónico"
+                                label='Correo Electrónico'
+                                placeholder='Correo Electrónico'
                                 getVal={email}
                                 setVal={setEmail}
                                 require={true}
                             />
                             <HiddenTextInput
-                                label="Contraseña"
-                                placeholder="Tu contraseña debe contar con al menos 8 caracteres"
+                                label='Contraseña'
+                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
                                 getVal={password}
                                 setVal={setPassword}
                                 require={true}
                             />
                             <HiddenTextInput
-                                label="Confirmar contraseña"
-                                placeholder="Tu contraseña debe contar con al menos 8 caracteres"
+                                label='Confirmar contraseña'
+                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
                                 getVal={passwordConfirm}
                                 setVal={setConfirmPassword}
                                 require={true}
                             />
                             <TextInput
-                                label="Número de DRO"
-                                placeholder="Número de DRO"
+                                label='Número de DRO'
+                                placeholder='Número de DRO'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
                                 require={true}
                             />
                             <DropdownInput
-                                label="Tipo de miembro"
+                                label='Tipo de miembro'
                                 options={member}
                                 getVal={memberType}
                                 setVal={setMemberType}
                                 require={true}
                             />
                             <DropdownInput
-                                label="Clasificación"
+                                label='Clasificación'
                                 options={classif}
                                 getVal={classification}
                                 setVal={setClassification}
                                 require={true}
                             />
                             <DropdownInput
-                                label="Género"
+                                label='Género'
                                 options={options}
                                 getVal={gender}
                                 setVal={setGender}
                                 require={true}
                             />
                             <TextInput
-                                label="Número de teléfono celular"
-                                placeholder="Número de teléfono celular"
+                                label='Número de teléfono celular'
+                                placeholder='Número de teléfono celular'
                                 getVal={cellphone}
                                 setVal={setCellphone}
                                 require={true}
                             />
                             <TextInput
-                                label="Número de teléfono de casa"
-                                placeholder="Número de teléfono de casa"
+                                label='Número de teléfono de casa'
+                                placeholder='Número de teléfono de casa'
                                 getVal={homePhone}
                                 setVal={setHomePhone}
                                 require={true}
                             />
                             <TextInput
-                                label="Número de teléfono de oficina"
-                                placeholder="Número de teléfono de oficina"
+                                label='Número de teléfono de oficina'
+                                placeholder='Número de teléfono de oficina'
                                 getVal={officePhone}
                                 setVal={setOfficePhone}
                                 require={true}
                             />
                             <LargeTextInput
-                                label="Domicilio particular"
-                                placeholder="Calle, Número, Colonia, Código postal"
+                                label='Domicilio particular'
+                                placeholder='Calle, Número, Colonia, Código postal'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
-                                label="Domicilio de trabajo"
-                                placeholder="Calle, Número, Colonia, Código postal"
+                                label='Domicilio de trabajo'
+                                placeholder='Calle, Número, Colonia, Código postal'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -268,78 +273,78 @@ const Signup = () => {
                         </div>
                         <div className="column-2">
                             <TextInput
-                                label="Contacto de emergencia (nombre completo y teléfono)"
-                                placeholder="Contacto de emergencia (nombre completo y teléfono)"
+                                label='Contacto de emergencia (nombre completo y teléfono)'
+                                placeholder='Contacto de emergencia (nombre completo y teléfono)'
                                 getVal={emergencyContact}
                                 setVal={setEmergencyContact}
                                 require={true}
                             />
                             <TextInput
-                                label="Actividad Principal Preponderante"
-                                placeholder="Actividad Principal Preponderante"
+                                label='Actividad Principal Preponderante'
+                                placeholder='Actividad Principal Preponderante'
                                 getVal={mainProfessionalActivity}
                                 setVal={setMainProfessionalActivity}
                                 require={true}
                             />
                             <SelectInputComponent
-                                label="Especialidades"
+                                label='Especialidades'
                                 isMulti
                                 options={availableSpecialties}
                                 value={selectedSpecialties}
                                 onChange={(selectedOptions) => {
                                     setSelectedSpecialties(selectedOptions);
                                 }}
-                                placeholder="Selecciona tus especialidades"
+                                placeholder='Selecciona tus especialidades'
                             />
                             <NumberInput
-                                label="Fecha de ingreso al colegio"
-                                placeholder="Año (aaaa)"
+                                label='Fecha de ingreso al colegio'
+                                placeholder='Año (aaaa)'
                                 getVal={dateOfAdmission}
                                 setVal={setDateOfAdmission}
                                 maxDigits={4}
                                 require={true}
                             />
                             <DateInput
-                                label="Fecha de nacimiento"
+                                label='Fecha de nacimiento'
                                 getVal={dateOfBirth}
                                 setVal={setDateOfBirth}
                                 require={true}
                             />
                             <TextInput
-                                label="Universidad"
-                                placeholder="¿En que universidad te graduaste?"
+                                label='Universidad'
+                                placeholder='¿En que universidad te graduaste?'
                                 getVal={university}
                                 setVal={setUniversity}
                                 require={true}
                             />
                             <TextInput
-                                label="Cédula profesional"
-                                placeholder="Cédula profesional"
+                                label='Cédula profesional'
+                                placeholder='Cédula profesional'
                                 getVal={professionalLicense}
                                 setVal={setProfessionalLicense}
                                 require={true}
                             />
                             <TextInput
-                                label="Municipio"
-                                placeholder="Municipio de residencia"
+                                label='Municipio'
+                                placeholder='Municipio de residencia'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}
                             />
                             <TextInput
-                                label="Cargos en consejo directivo (fecha y nombre del cargo)"
-                                placeholder="Cargos en consejo directivo (año y nombre del cargo)"
+                                label='Cargos en consejo directivo (fecha y nombre del cargo)'
+                                placeholder='Cargos en consejo directivo (año y nombre del cargo)'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                                 require={true}
                             />
                             <FileInput
-                                label="Suba su curriculum"
+                                label='Suba su curriculum'
                                 getVal={linkCV}
                                 setVal={setLinkCV}
                             />
                             <DropdownInput
-                                label="¿Autoriza compartir su información?"
+                                label='¿Autoriza compartir su información?'
                                 options={decide}
                                 getVal={authorizationToShareInfo}
                                 setVal={setAuthorizationToShareInfo}
@@ -347,17 +352,17 @@ const Signup = () => {
                             />
                         </div>
                     </div>
-                    <div className="button-container">
-                        <BaseButton type="primary" onClick={handleSignup}>
+                    <div className='button-container'>
+                        <BaseButton type='primary' onClick={handleSignup}>
                             Registrarse
                         </BaseButton>
-                        <Link to="/LoginUser">
-                            <BaseButton type="cancel">Cancelar</BaseButton>
+                        <Link to='/LoginUser'>
+                            <BaseButton type='cancel'>Cancelar</BaseButton>
                         </Link>
                     </div>
                 </form>
             </div>
-            <div className="signup-image"></div>
+            <div className='signup-image'></div>
         </div>
     );
 };

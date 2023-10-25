@@ -6,6 +6,7 @@ const CourseSchema = new mongoose.Schema(
         courseName: {
             type: String,
             required: [true, 'Nombre de curso requerido'],
+            maxLength: [70, 'El nombre del curso no puede exeder 40 letras.'],
         },
         modality: {
             type: String,
@@ -32,31 +33,35 @@ const CourseSchema = new mongoose.Schema(
             type: Date,
         },
         description: {
-            type: String
+            type: String,
         },
         objective: {
-            type: String
+            type: String,
         },
         schedule: {
-            type: String
+            type: String,
+            maxLength: [20, 'El horario del curso no puede exceder 30 letras.'],
         },
         daysOfSession: {
-            type: String
+            type: String,
+            maxLength: [25, 'Los días del curso no puede exceder 30 letras.'],
         },
         temario: {
-            type: String
+            type: String,
         },
         includes: {
-            type: String
+            type: String,
         },
         place: {
-            type: String
+            type: String,
+            maxLength: [25, 'El lugar del curso no puede exceder 30 letras.'],
         },
         price: {
             type: Number,
         },
         teacherName: {
             type: String,
+            maxLength: [30, 'El nombre del profesor no puede exceder 30 letras.'],
         },
         teacherReview: {
             type: String,
@@ -66,7 +71,7 @@ const CourseSchema = new mongoose.Schema(
         },
         imageUrl: {
             type: String,
-        }
+        },
     },
     { timestamps: true }
 );
@@ -81,10 +86,10 @@ CourseSchema.index({ postalCode: 1 });
    It adds a custom pre-save middleware to validate startDate and endDate */
 CourseSchema.pre('validate', function (next) {
     if (this.startDate && this.endDate && this.startDate >= this.endDate) {
-      throw new AppError('La fecha fin debe de ir después de la fecha de inicio', 400);
+        throw new AppError('La fecha fin debe de ir después de la fecha de inicio', 400);
     }
     return next();
-  });
+});
 
 const Course = mongoose.model('Course', CourseSchema);
 module.exports = Course;

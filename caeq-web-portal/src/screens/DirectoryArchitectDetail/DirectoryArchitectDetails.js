@@ -3,8 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import { createSpecialty } from '../../client/Specialties/Specialties.POST';
-import CreatableSelect from '../../components/inputs/CreatableSelect/CreatableSelect';
 import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';

@@ -49,7 +49,7 @@ const Directory = () => {
      * @returns {void}
      */
       const handleRowClick = (id) => {
-                navigate(`/Directorio/${id}`);
+            navigate(`/Directorio/${id}`);
       };
 
     /**

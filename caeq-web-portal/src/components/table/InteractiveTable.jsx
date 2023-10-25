@@ -5,6 +5,7 @@ import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
 import BaseButton from "../buttons/BaseButton";
 import headerMappings from "./HeaderMappings";
+import { Navigate } from "react-router-dom";
 
 /**
  * An interactive table component that allows showing or hiding columns.
@@ -32,6 +33,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
             ...prevVisibility,
             [columnKey]: !prevVisibility[columnKey],
         }));
+    };
+
+    const handleButtonClick = (e, url) => {
+        e.preventDefault()
+        window.open(url, "_blank");
     };
 
     /**
@@ -109,13 +115,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
                             {typeof row[column] === "boolean" ? (
                                 formatBooleanValue(row[column])
                             ) : column === "linkCV" && row[column] ? (
-                                <a
-                                    href={row[column]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Descargar
-                                </a>
+
+                                <BaseButton type='primary'>
+                                    
+                                </BaseButton>
+                               
                             ) : column === "dateOfBirth" && row[column] ? (
                                 formatDate(row[column])
                             ) : column === "specialties" && row[column] ? (

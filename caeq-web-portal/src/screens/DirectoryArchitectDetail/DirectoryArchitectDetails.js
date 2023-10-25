@@ -348,16 +348,16 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, linkCV: value })
                         }
                     />
-                    (if editedData.linkCV !== null{
-                        <p>
-                        Archivo Actual:{" "}
+                    
+                    
+                    <p>
+                        Archivo Actual:
                         <a href={editedData.linkCV}>
                             <span>Descargar CV</span>
                         </a>
                     </p>
-                    }) : (
-                        <p>No hay archivo disponible.</p>
-                    )
+
+                    
                     
                 </div>
             </div>

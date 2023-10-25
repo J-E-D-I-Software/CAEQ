@@ -15,6 +15,24 @@
   text-align: left;
   border-radius: 10px;
   white-space: nowrap;
+  
+}
+
+
+.fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+.tabla thead {
+  margin-top: 40px; 
+}
+
+
+.sticky-header {
+  position: sticky;
 }
 
 .tabla th {

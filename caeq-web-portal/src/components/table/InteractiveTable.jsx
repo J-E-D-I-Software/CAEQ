@@ -13,16 +13,17 @@ import headerMappings from "./HeaderMappings";
  */
 const InteractiveTable = ({ data, onRowClick }) => {
     // Get the columns to be displayed in the table.
-    const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
+    const allColumns = Object.keys(headerMappings);
+
 
     // State to maintain the visibility of columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
-        return columnsToShow.reduce((visibility, column) => {
-            visibility[column] = true;
-            return visibility;
-        }, {});
+        const initialVisibility = {};
+        allColumns.forEach((column) => {
+            initialVisibility[column] = true;
+        });
+        return initialVisibility;
     });
-
     /**
      * Toggle the visibility of a column.
      * @param {string} columnKey - The key of the column to toggle.
@@ -40,7 +41,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
     const resetColumnVisibility = () => {
         setColumnVisibility((prevVisibility) => {
             const resetVisibility = {};
-            columnsToShow.forEach((column) => {
+            allColumns.forEach((column) => {
                 resetVisibility[column] = true;
             });
             return resetVisibility;

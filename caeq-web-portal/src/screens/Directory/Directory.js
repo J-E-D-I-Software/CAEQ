@@ -31,8 +31,8 @@ const Directory = () => {
     const [filterClassification, setfilterClassification] = useState('');
     const [FilterMemberType, setFilterMemberType] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
-    const [admisionInitial, setAdmisionInitial] = useState();
-    const [admisionFinal, setAdmisionFinal] = useState();
+    const [admisionInitial, setAdmisionInitial] = useState(0);
+    const [admisionFinal, setAdmisionFinal] = useState(2024);
     const [birthInitial, setBirthInitial] = useState();
     const [birthFinal, setBirthFinal] = useState();
     const [specialties, setSpecialties] = useState([]);
@@ -58,6 +58,23 @@ const Directory = () => {
      * @returns {string} The query string containing filters.
      */
     const calculateFilters = () => {
+        if (
+            admisionFinal < admisionInitial ||
+            birthFinal === null ||
+            birthInitial === null
+        ) {
+            FireError(
+                'No puedes ingresar un rango de fecha de admisión con la fecha limite menor a la de inicio.'
+            );
+            return '';
+        }
+        if (birthFinal < birthInitial) {
+            FireError(
+                'No puedes ingresar un rango de fecha de nacimiento con la fecha limite menor a la de inicio.'
+            );
+            return '';
+        }
+
         let filters = '';
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)

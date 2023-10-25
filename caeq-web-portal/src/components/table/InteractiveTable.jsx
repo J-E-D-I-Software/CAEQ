@@ -103,22 +103,27 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 </tr>
             );
         }
-
+        const classLink= "link-cv-column"
         return data.map((row, rowIndex) => (
             <tr
                 key={rowIndex}
                 className="fila-sombrada"
-                onClick={() => onRowClick(data[rowIndex]._id)}
+                onClick={(e) => {
+                    const target = e.target;
+                    if (!target.classList.contains("link-cv-column")) {
+                        onRowClick(data[rowIndex]._id);
+                    }
+                }}
             >
                 {Object.keys(headerMappings).map((column) =>
                     columnVisibility[column] && column !== "_id" ? (
-                        <td key={column} className="sticky-column">
+                        <td key={column} className={column === "linkCV" ? "sticky-column link-cv-column" : "sticky-column"}>
                             {typeof row[column] === "boolean" ? (
                                 formatBooleanValue(row[column])
                             ) : column === "linkCV" && row[column] ? (
 
-                                <BaseButton type='primary'>
-                                    
+                                <BaseButton type='primary' className="link-cv-column" onClick={(e) => handleButtonClick(e,row[column])}>
+                                    Descargar CV
                                 </BaseButton>
                                
                             ) : column === "dateOfBirth" && row[column] ? (

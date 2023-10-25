@@ -1,5 +1,6 @@
 const architectUserTestData = [
     {
+        collegiateNumber: 98765,
         fullName: 'Luis García',
         memberType: 'Miembro de número',
         classification: 'Docente',

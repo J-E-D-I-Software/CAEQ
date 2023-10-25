@@ -42,6 +42,7 @@ const ArchitectPersonalData = (props) => {
     }
 
     const handleSaveChanges = async (e) => {
+        e.preventDefault();
         const form = new FormData();
         form.append("fullName", editedData.fullName); //Ya esta
         form.append("dateOfBirth", editedData.dateOfBirth); //Ya esta
@@ -70,9 +71,8 @@ const ArchitectPersonalData = (props) => {
                 FireError(response.message);
             }
         } catch (error) {
-            FireError(error.message);
-            navigate("/.");
-            console.log(error);
+            FireError(error.response.data.message);
+            navigate("/Perfil");
         }
     };
 

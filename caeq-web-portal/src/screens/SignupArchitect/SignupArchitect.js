@@ -14,7 +14,6 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
 import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
-import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import {
     FireError,
     FireSucess,
@@ -129,6 +128,23 @@ const Signup = () => {
         form.append('passwordConfirm', passwordConfirm);
         e.preventDefault();
 
+        // Check if user exists
+        let user = null;
+        try {
+            user = await getArchitectUserByColegiateNumber(collegiateNumber);
+        } catch (error) {
+            FireError('Sucedió un error, por favor intente de nuevo');
+        }
+        if (user) {
+            const continueSignUp = await FireQuestion(
+                'Arquitecto ya existente',
+                `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
+                ¿Es usted ${user.fullName}?
+                ¿Desea continuar y actualizar con la información proporcionada?`,
+            );
+            if (!continueSignUp.isConfirmed) return;
+        }
+
         // Post user
         try {
             const swal = FireLoading('Registrando arquitecto...');
@@ -142,7 +158,7 @@ const Signup = () => {
             }
             swal.close();
             FireSucess('Te has registrado con éxito');
-            navigate('/Principal');
+            // navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
         }
@@ -255,7 +271,7 @@ const Signup = () => {
                                 require={true}
                             />
                         </div>
-                        <div class='column-2'>
+                        <div className="column-2">
                             <TextInput
                                 label='Contacto de emergencia (nombre completo y teléfono)'
                                 placeholder='Contacto de emergencia (nombre completo y teléfono)'

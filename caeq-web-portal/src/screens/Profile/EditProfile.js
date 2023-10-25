@@ -41,18 +41,18 @@ const ArchitectPersonalData = (props) => {
     }
 
     const handleSaveChanges = async (e) => {
-        const form = new FormData();
-        form.append("fullName", editedData.fullName); //Ya esta
-        form.append("dateOfBirth", editedData.dateOfBirth); //Ya esta
-        form.append("age", editedData.age); //Ya esta
-        form.append("gender", editedData.gender); //Ya esta
-        form.append("homeAddress", editedData.homeAddress); //Ya esta
-        form.append("cellphone", editedData.cellphone); //Ya esta
-        form.append("homePhone", editedData.homePhone); //Ya esta
-        form.append("email", editedData.email); //Ya esta
-        form.append("emergencyContact", editedData.emergencyContact); //Ya esta
-
         e.preventDefault();
+        const form = new FormData();
+        form.append("fullName", editedData.fullName); 
+        form.append("dateOfBirth", editedData.dateOfBirth); 
+        form.append("age", editedData.age);
+        form.append("gender", editedData.gender);
+        form.append("homeAddress", editedData.homeAddress);
+        form.append("cellphone", editedData.cellphone);
+        form.append("homePhone", editedData.homePhone);
+        form.append("email", editedData.email);
+        form.append("emergencyContact", editedData.emergencyContact);
+
 
         try {
             const swal = FireLoading("Guardando cambios... por favor espere");
@@ -68,9 +68,8 @@ const ArchitectPersonalData = (props) => {
                 FireError(response.message);
             }
         } catch (error) {
-            FireError(error.message);
-            navigate("/.");
-            console.log(error);
+            FireError(error.response.data.message);
+            navigate("/Perfil");
         }
     };
 

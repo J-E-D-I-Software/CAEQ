@@ -52,11 +52,13 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
+        min: [0, 'Debes ser mayor de 0 años  para registrarte.'],
+        max: [100, 'Debes ser menor de 100 años para registrarte.'],
         required: [false],
     },
     gender: {
         type: String,
-        enum: ['Hombre', 'Mujer', 'Prefiero no decirlo'],
+        enum: ['Hombre', 'Mujer', 'Otro', 'Prefiero no decirlo'],
         required: [true, 'Por favor dinos tu género!'],
     },
     cellphone: {
@@ -65,10 +67,12 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     homePhone: {
         type: Number,
+        maxlength: [10, 'El número de teléfono debe ser de 10 dígitos.'],
         required: [false]
     },
     officePhone: {
         type: Number,
+        maxlength: [10, 'El número de teléfono debe ser de 10 dígitos.'],
         required: [false],
     },
     emergencyContact: {
@@ -191,6 +195,13 @@ ArchitectUserSchema.pre('save', async function (next) {
 
 // INSTANCE METHODS
 // Instance methods will be available in all document instances.
+
+ArchitectUserSchema.pre('validate', function (next) {
+    if (this.age < 0 && this.age > 100) {
+      throw new AppError('La edad debe estar entre 0 y 100', 400);
+    }
+    return next();
+  });
 
 /** This is a method that compares the candidate password with the user password. */
 ArchitectUserSchema.methods.correctPassword = async function (

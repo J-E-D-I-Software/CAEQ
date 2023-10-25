@@ -3,8 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import { createSpecialty } from '../../client/Specialties/Specialties.POST';
-import CreatableSelect from '../../components/inputs/CreatableSelect/CreatableSelect';
 import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
@@ -350,12 +348,17 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, linkCV: value })
                         }
                     />
-                    <p>
+                    (if editedData.linkCV !== null{
+                        <p>
                         Archivo Actual:{" "}
                         <a href={editedData.linkCV}>
                             <span>Descargar CV</span>
                         </a>
                     </p>
+                    }) : (
+                        <p>No hay archivo disponible.</p>
+                    )
+                    
                 </div>
             </div>
 

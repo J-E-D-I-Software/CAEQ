@@ -12,6 +12,7 @@ import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
+import Principal from './screens/Principal/Principal';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -48,7 +49,7 @@ const routes = [
     {
         path: '/Principal',
         name: 'Principal',
-        Component: () => <div></div>,
+        Component: Principal,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: true,

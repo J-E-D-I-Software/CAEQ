@@ -11,6 +11,7 @@ import {
     FireLoading,
     FireQuestion,
 } from '../../utils/alertHandler';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * AcceptAdmin component for managing the approval or rejection of administrator accounts.
@@ -24,6 +25,7 @@ import {
  */
 const AcceptAdmin = () => {
     const [admins, setAdmins] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -61,6 +63,12 @@ const AcceptAdmin = () => {
             FireSucess(response.message);
         } catch (error) {
             FireError(error.response.data.message);
+            if (
+                error.response.data.message ===
+                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.'
+            ) {
+                setAdmins(admins.filter((admin) => admin._id !== id));
+            }
         }
     };
 
@@ -88,6 +96,12 @@ const AcceptAdmin = () => {
             FireSucess(response.message);
         } catch (error) {
             FireError(error.response.data.message);
+            if (
+                error.response.data.message ===
+                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
+            ) {
+                setAdmins(admins.filter((admin) => admin._id !== id));
+            }
         }
     };
 

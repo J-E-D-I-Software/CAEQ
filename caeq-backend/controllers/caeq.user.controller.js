@@ -85,7 +85,7 @@ exports.rejectCaeqUser = catchAsync(async (req, res, next) => {
     } catch (error) {
         return next(
             new AppError(
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
+                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.',
                 500
             )
         );

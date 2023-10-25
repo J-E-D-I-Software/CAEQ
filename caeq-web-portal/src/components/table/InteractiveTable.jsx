@@ -5,6 +5,7 @@ import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
 import BaseButton from "../buttons/BaseButton";
 import headerMappings from "./HeaderMappings";
+import { Navigate } from "react-router-dom";
 
 /**
  * An interactive table component that allows showing or hiding columns.
@@ -33,6 +34,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
             ...prevVisibility,
             [columnKey]: !prevVisibility[columnKey],
         }));
+    };
+
+    const handleButtonClick = (e, url) => {
+        e.preventDefault()
+        window.open(url, "_blank");
     };
 
     /**
@@ -97,26 +103,29 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 </tr>
             );
         }
-
+        const classLink= "link-cv-column"
         return data.map((row, rowIndex) => (
             <tr
                 key={rowIndex}
                 className="fila-sombrada"
-                onClick={() => onRowClick(data[rowIndex]._id)}
+                onClick={(e) => {
+                    const target = e.target;
+                    if (!target.classList.contains("link-cv-column")) {
+                        onRowClick(data[rowIndex]._id);
+                    }
+                }}
             >
                 {Object.keys(headerMappings).map((column) =>
                     columnVisibility[column] && column !== "_id" ? (
-                        <td key={column} className="sticky-column">
+                        <td key={column} className={column === "linkCV" ? "sticky-column link-cv-column" : "sticky-column"}>
                             {typeof row[column] === "boolean" ? (
                                 formatBooleanValue(row[column])
                             ) : column === "linkCV" && row[column] ? (
-                                <a
-                                    href={row[column]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Descargar
-                                </a>
+
+                                <BaseButton type='primary' className="link-cv-column" onClick={(e) => handleButtonClick(e,row[column])}>
+                                    Descargar CV
+                                </BaseButton>
+                               
                             ) : column === "dateOfBirth" && row[column] ? (
                                 formatDate(row[column])
                             ) : column === "specialties" && row[column] ? (

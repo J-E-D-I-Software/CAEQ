@@ -122,7 +122,7 @@ const Directory = () => {
     }, []);
 
     /**
-     * Handle clicking the "Previous Page" button to navigate to the previous page of results.
+     * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
      * Decrements the pagination page if it's greater than 1.
      *
      * @returns {void}
@@ -134,7 +134,7 @@ const Directory = () => {
     };
 
     /**
-     * Handle clicking the "Next Page" button to navigate to the next page of results.
+     * Handle clicking the 'Next Page' button to navigate to the next page of results.
      * Increments the pagination page.
      *
      * @returns {void}
@@ -234,50 +234,50 @@ const Directory = () => {
     };
 
     return (
-        <div className="directory">
-            <div className="directory-header">
-                <h1 className="directory-title">Directorio de arquitectos</h1>
-                <BaseButton onClick={() => handleDownload()} type="primary">
+        <div className='directory'>
+            <div className='directory-header'>
+                <h1 className='directory-title'>Directorio de arquitectos</h1>
+                <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos
                 </BaseButton>
-                <BaseButton onClick={() => handleClearFilters()} type="secondary">
+                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
                     Limpiar filtros
                 </BaseButton>
             </div>
 
-            <div className="filter-container">
-                <div className="searchbars-column">
-                    <div className="inputText-filters">
+            <div className='filter-container'>
+                <div className='searchbars-column'>
+                    <div className='inputText-filters'>
                         <InputText
-                            placeholder="Nombre del colegiado"
+                            placeholder='Nombre del colegiado'
                             getVal={filterSearchByName}
                             setVal={setFilterSearchByName}
                         />
                         <InputText
-                            placeholder="Municipio"
+                            placeholder='Municipio'
                             getVal={filterSearchBymunicipalityOfLabor}
                             setVal={setFilterSearchBymunicipalityOfLabor}
                         />
                         <InputText
-                            placeholder="Número de colegiado"
+                            placeholder='Número de colegiado'
                             getVal={filterSearchBycollegiateNumber}
                             setVal={setFilterSearchBycollegiateNumber}
                         />
                     </div>
                 </div>
 
-                <div className="DropdownInputs-row">
+                <div className='DropdownInputs-row'>
                     <DropdownInput
                         getVal={filterGender}
                         setVal={setfilterGender}
                         options={['Hombre', 'Mujer', 'Prefiero no decirlo']}
-                        placeholder="Género"
+                        placeholder='Género'
                     />
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
                         options={['Expresidente', 'Docente', 'Convenio']}
-                        placeholder="Clasificación"
+                        placeholder='Clasificación'
                     />
                     <DropdownInput
                         getVal={FilterMemberType}
@@ -289,72 +289,72 @@ const Directory = () => {
                             'Miembro Vitalicio',
                             'Miembro Honorario',
                         ]}
-                        placeholder="Tipo de miembro"
+                        placeholder='Tipo de miembro'
                     />
                     <DropdownInput
                         getVal={specialtyName}
                         setVal={(specialty) => handleSpecialtyChange(specialty)}
                         options={specialtiesName}
-                        placeholder="Especialidad"
+                        placeholder='Especialidad'
                     />
                 </div>
             </div>
 
             <br />
 
-            <div className="inputNumber-date-row">
-                <div className="inputNumber-row">
+            <div className='inputNumber-date-row'>
+                <div className='inputNumber-row'>
                     <h3> Año de admisión </h3>
                     <InputNumber
-                        placeholder="Admitido después de:"
+                        placeholder='Admitido después de:'
                         getVal={admisionInitial}
                         setVal={setAdmisionInitial}
                     />
                     <InputNumber
-                        placeholder="Admitido antes de:"
+                        placeholder='Admitido antes de:'
                         getVal={admisionFinal}
                         setVal={setAdmisionFinal}
                     />
                 </div>
-                <div className="DateInput-row">
+                <div className='DateInput-row'>
                     <h3> Fecha de nacimiento </h3>
                     <DateInput
-                        placeholder="Nacido después de:"
+                        placeholder='Nacido después de:'
                         getVal={birthInitial}
                         setVal={setBirthInitial}
                     />
                     <DateInput
-                        placeholder="Nacido antes de:"
+                        placeholder='Nacido antes de:'
                         getVal={birthFinal}
                         setVal={setBirthFinal}
                     />
                 </div>
-                <div className="DateInput-row">
+                <div className='DateInput-row'>
                     <DropdownInput
                         getVal={currentRights}
                         setVal={setCurrentRights}
                         options={[true, false]}
-                        placeholder="Derechos vigentes"
+                        placeholder='Derechos vigentes'
                     />
                 </div>
             </div>
 
             <br />
 
-            <div className="directory-row">
+            <div className='directory-row'>
                 {architectUsers.length > 0 ? (
-                    <div className="box-container">
+                    <div className='box-container'>
                         <InteractiveTable
                             data={architectUsers}
                             onRowClick={handleRowClick}
                         />
                     </div>
                 ) : (
-                    <p className="no-data-message">No hay colegiados disponibles</p>
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
             </div>
 
-            <div className="directory-row directory-pagination">
+            <div className='directory-row directory-pagination'>
                 <PaginationNav
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}

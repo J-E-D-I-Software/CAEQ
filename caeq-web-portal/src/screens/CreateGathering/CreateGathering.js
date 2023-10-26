@@ -10,6 +10,11 @@ import GatheringCard from '../../components/cards/GatheringCard';
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 
+/**
+ * CreateGathering component for creating or modifying gatherings.
+ *
+ * @function
+ */
 const CreateGathering = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
@@ -22,6 +27,11 @@ const CreateGathering = () => {
         moreInfo: null,
     });
 
+    /**
+     * Fetches gathering data when the component mounts.
+     *
+     * @function
+     */
     useEffect(() => {
         if (searchParams.id)
             getGathering(searchParams.id)

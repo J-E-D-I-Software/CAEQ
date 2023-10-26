@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
 import RestrictByRole from '../restrictAccess/RestrictByRole';
@@ -10,6 +9,12 @@ import DownloadActive from '../../components/images/download-active.png';
 import DownloadInactive from '../../components/images/download-inactive.png';
 import './GatheringCard.scss';
 
+/**
+ * Represents a card for displaying gathering information.
+ *
+ * @param {Object} props - The component's properties.
+ * @param {Object} data - The gathering data to be displayed.
+ */
 const GatheringCard = ({ data, ...props }) => {
     const navigate = useNavigate();
 

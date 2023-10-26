@@ -105,6 +105,7 @@ const Directory = () => {
                     effectiveOrderBy
                 );
                 setArchitectUsers(architects);
+                console.log(setArchitectUsers)
             } catch (error) {
                 // Handle error
             }

@@ -226,7 +226,7 @@ const Signup = () => {
                                 options={classif}
                                 getVal={classification}
                                 setVal={setClassification}
-                                require={true}
+                                require={false}
                             />
                             <DropdownInput
                                 label='Género'
@@ -247,14 +247,14 @@ const Signup = () => {
                                 placeholder='Número de teléfono de casa'
                                 getVal={homePhone}
                                 setVal={setHomePhone}
-                                require={true}
+                                require={false}
                             />
                             <TextInput
                                 label='Número de teléfono de oficina'
                                 placeholder='Número de teléfono de oficina'
                                 getVal={officePhone}
                                 setVal={setOfficePhone}
-                                require={true}
+                                require={false}
                             />
                             <LargeTextInput
                                 label='Domicilio particular'
@@ -268,7 +268,7 @@ const Signup = () => {
                                 placeholder='Calle, Número, Colonia, Código postal'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
-                                require={true}
+                                require={false}
                             />
                         </div>
                         <div className="column-2">
@@ -326,7 +326,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Municipio'
-                                placeholder='Municipio de residencia'
+                                placeholder='Municipio de labor'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}

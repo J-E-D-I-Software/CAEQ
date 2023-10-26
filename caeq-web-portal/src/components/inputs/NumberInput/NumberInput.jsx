@@ -64,7 +64,7 @@ const NumberInput = ({
             </div>
             <input
                 className='box-input'
-                type='number'
+                type='text'
                 placeholder={placeholder}
                 value={getVal}
                 required={isRequired}

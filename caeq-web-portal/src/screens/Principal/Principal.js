@@ -1,5 +1,6 @@
 import React, { useEffect, useState}  from 'react';
 import '../PrincipalAdmin/PrincipalAdmin.scss'
+import { Slider } from 'rsuite';
 
 const Principal = () => {
     return (
@@ -9,6 +10,14 @@ const Principal = () => {
           <p>En esta sección podras visualizar los proximos cursos impartidos por el Colegio. Además, tendrás la oportunidad de acceder a los detalles de cada curso, incluyendo información sobre la fecha, ubicación, costos. </p>
           <h3>Perfil</h3>
           <p>En esta sección podras visualizar tus datos personales, tu información del CAEQ y tu información profesional. Además, tendrás la oportunidad de editar tu información personal.</p>
+          <Slider 
+            max={100} 
+            min={10} 
+            step={10} 
+            defaultValue={50} 
+            graduated 
+            progress 
+          /> 
         </div>
     )
 };

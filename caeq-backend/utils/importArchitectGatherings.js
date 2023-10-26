@@ -90,9 +90,9 @@ async function importArchitectGatheringsData(csvFilePath) {
                     );
                     if (!gathering) {
                         const newGathering = new GatheringSchema(filter);
-                        await newGathering.save();
                         gathering = newGathering;
                     }
+                    await gathering.save();
                     const attendee = new AttendeeSchema({
                         idGathering: gathering._id,
                         attended: true,

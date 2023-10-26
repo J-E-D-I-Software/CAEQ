@@ -67,13 +67,13 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     });
 
-    try {
-        await new Email(newUser).sendWelcomeAdmin();
-    } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-        );
-    }
+    // try {
+    //     await new Email(newUser).sendWelcomeAdmin();
+    // } catch (error) {
+    //     return next(
+    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+    //     );
+    // }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -110,14 +110,14 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         newUser = await ArchitectUser.create(req.body);
     }
 
-    // Send welcome email
-    try {
-        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-    } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-        );
-    }
+    // // Send welcome email
+    // try {
+    //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+    // } catch (error) {
+    //     return next(
+    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+    //     );
+    // }
 
     // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);
@@ -137,7 +137,7 @@ exports.logout = (req, res, next) => {
 };
 
 /**
-* Logs in an architect user.
+ * Logs in an architect user.
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.

@@ -82,7 +82,17 @@ exports.formatPDF = catchAsync(async (req, res, next) => {
 
 exports.formatCV = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
+    console.log(req.file);
     req.body.linkCV = await uploadPDF(req.file, 'cv');
+
+    // Use next when you need the url in the next controllers. Delete the response from above.
+    next();
+});
+
+exports.formatMoreInfo = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+    console.log(req.file);
+    req.body.moreInfo = await uploadPDF(req.file, 'info');
 
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();

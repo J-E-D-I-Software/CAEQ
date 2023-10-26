@@ -10,7 +10,7 @@ import createCourse from '../../client/Course/Course.POST';
 import updateCourse from '../../client/Course/Course.PATCH';
 import BaseButton from '../../components/buttons/BaseButton';
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
-import '../../styles/createCourse.scss';
+import './createCourse.scss';
 
 /**
  * Page that if it receives a course id it will display an "Edit" mode

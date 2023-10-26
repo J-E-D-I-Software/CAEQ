@@ -126,6 +126,11 @@ const InteractiveTable = ({ data, onRowClick }) => {
                                     Descargar CV
                                 </BaseButton>
                                
+                            ) : column === "linkCV" && row[column] !== ' ' ? (
+                                <BaseButton type='primary' className="link-cv-column">
+                                    No hay CV registrado
+                                </BaseButton>
+
                             ) : column === "dateOfBirth" && row[column] ? (
                                 formatDate(row[column])
                             ) : column === "specialties" && row[column] ? (

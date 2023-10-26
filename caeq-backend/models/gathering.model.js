@@ -7,14 +7,14 @@ const GatheringSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        maxLength: [60, 'El nombre de la asamblea no puede exeder 40 letras.'],
+        maxLength: [60, 'El nombre de la asamblea no puede exceder 40 letras.'],
     },
     meetingLink: {
         type: String,
     },
     meetingTime: {
         type: String,
-        maxLength: [20, 'El tiempo de la asamblea no puede exeder 20 letras.'],
+        maxLength: [20, 'El tiempo de la asamblea no puede exceder 20 letras.'],
     },
     moreInfo: {
         type: String,

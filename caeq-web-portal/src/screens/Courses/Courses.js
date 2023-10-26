@@ -3,7 +3,7 @@ import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import CourseCard from '../../components/cards/CourseCard';
 import PaginationNav from '../../components/pagination/PaginationNav';
-import '../../styles/courses.scss';
+import './courses.scss';
 import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getAllCourses } from '../../client/Course/Course.GET';

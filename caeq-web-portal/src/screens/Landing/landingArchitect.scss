@@ -1,5 +1,4 @@
 .containercaeq {
-    /* Color del texto dentro del contenedor */
     .welcome {
         display: flex;
         flex-direction: row;
@@ -57,11 +56,10 @@
     .descOne,
     .descTwo,
     .descThree {
+        flex-shrink: 0;
         text-align: center;
-        display: flex;
-        font-size: 25px;
-        justify-content: center;
-        align-items: center;
+        font-size: 24px;
+        line-height: normal;
 
         @media (max-width: 768px) {
             font-size: 1rem;
@@ -70,17 +68,20 @@
         }
     }
 
-    .column {
-        flex: 1;
+    .left-column,
+    .right-column {
+        flex: 1; // Distribute space equally between columns
         padding: 20px;
         box-sizing: border-box;
-    }
-
-    .left-column {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 768px) {
+            padding: 10px;
+            text-align: center;
+        }
     }
 
     .button-container {
@@ -101,24 +102,16 @@
         }
     }
 
-    /* Estilos para el logo */
     .logo {
         align-self: flex-start;
-        max-width: 100%; /* Adjust to responsive max-width */
-        margin-right: 20px; /* Adjust margin */
-        margin-bottom: 20px; /* Adjust margin */
+        max-width: 100%;
+        margin-right: 20px;
+        margin-bottom: 20px;
 
         @media (max-width: 1000px) {
             width: 300px;
             background-color: transparent;
         }
-    }
-
-    .right-column {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 
     .titlecaeq {
@@ -148,6 +141,8 @@
     .image1,
     .image2,
     .image3 {
+        max-width: 100%;
+        height: auto;
         @media (max-width: 768px) {
             max-width: 100%;
         }

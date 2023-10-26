@@ -22,7 +22,7 @@ const headerMappings = {
     email: 'Correo electrónico',
     homeAddress: 'Domicilio de particular',
     workAddress: 'Domicilio de trabajo',
-    emergencyContactName: 'Nombre de contacto de emergencia',
+    emergencyContact: 'Nombre de contacto de emergencia',
     linkCV: 'Link de CV',
     positionsInCouncil: 'Cargos en consejos directivos',
     annuity: 'Anualidad pagada',

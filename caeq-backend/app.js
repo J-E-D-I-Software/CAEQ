@@ -33,7 +33,6 @@ const attendeesRouter = require('./routes/attendees.route');
 
 const app = express();
 
-app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
 

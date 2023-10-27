@@ -98,13 +98,37 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const existingUser = await ArchitectUser.findOne({ collegiateNumber });
 
     if (existingUser) {
-        // Update existing user
+        const password = req.body.password;
+        const passwordConfirm = req.body.passwordConfirm;
+
+        if (password !== passwordConfirm) {
+            return next(new AppError('Tus contraseñas deben coincidir.'));
+        }
+
         delete req.body.password;
         delete req.body.passwordConfirm;
-        newUser = await ArchitectUser.findByIdAndUpdate(existingUser._id, req.body, {
-            new: true,
-            runValidators: true,
-        });
+
+        // Update existing user
+        newUser = await ArchitectUser.findOneAndUpdate(
+            { _id: existingUser._id },
+            { $set: req.body },
+            {
+                new: true,
+                runValidators: true,
+                useFindAndModify: true,
+            }
+        );
+
+        // Update password
+        newUser = await ArchitectUser.findOneAndUpdate(
+            { _id: existingUser._id },
+            { $set: { password: password } },
+            {
+                new: true,
+                runValidators: false,
+                useFindAndModify: true,
+            }
+        );
     } else {
         // Create new user
         newUser = await ArchitectUser.create(req.body);

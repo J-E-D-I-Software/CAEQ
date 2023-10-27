@@ -31,7 +31,7 @@ exports.updateOne = (Model) =>
     catchAsync(async (req, res, next) => {
         const document = await Model.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            { $set: req.body },
             {
                 new: true,
                 runValidators: true,

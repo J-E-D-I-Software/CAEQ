@@ -67,7 +67,7 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: Number,
         required: [false],
         maxlength: [10, 'El número de teléfono debe ser de 10 dígitos.'],
-        required: [false]
+        required: [false],
     },
     officePhone: {
         type: Number,
@@ -194,10 +194,10 @@ ArchitectUserSchema.pre('save', async function (next) {
 
 ArchitectUserSchema.pre('validate', function (next) {
     if (this.age < 0 || this.age > 100) {
-      throw new AppError('La edad debe estar entre 0 y 100', 400);
+        throw new AppError('La edad debe estar entre 0 y 100', 400);
     }
     return next();
-  });
+});
 
 /** This is a method that compares the candidate password with the user password. */
 ArchitectUserSchema.methods.correctPassword = async function (

@@ -7,7 +7,7 @@ import './Gatherings.scss';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 
-// Componente reutilizable para el filtro de búsqueda por nombre
+
 const FilterByName = ({ filterValue, setFilterValue, placeholder }) => {
     return (
         <div className="filter-by-name">

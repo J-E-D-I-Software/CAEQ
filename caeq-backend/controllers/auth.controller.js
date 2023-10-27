@@ -98,37 +98,63 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const existingUser = await ArchitectUser.findOne({ collegiateNumber });
 
     if (existingUser) {
-        const password = req.body.password;
-        const passwordConfirm = req.body.passwordConfirm;
+        if (existingUser.isLegacy === true && existingUser.isOverwritten === false) {
+            const password = req.body.password;
+            const passwordConfirm = req.body.passwordConfirm;
 
-        if (password !== passwordConfirm) {
-            return next(new AppError('Tus contraseñas deben coincidir.'));
+            if (password !== passwordConfirm) {
+                return next(new AppError('Tus contraseñas deben coincidir.'));
+            }
+
+            delete req.body.password;
+            delete req.body.passwordConfirm;
+
+            // Update existing user
+            newUser = await ArchitectUser.findOneAndUpdate(
+                { _id: existingUser._id },
+                { $set: req.body },
+                {
+                    new: true,
+                    runValidators: true,
+                    useFindAndModify: true,
+                }
+            );
+
+            // Update password
+            newUser = await ArchitectUser.findOneAndUpdate(
+                { _id: existingUser._id },
+                { $set: { password: password, isOverwritten: true } },
+                {
+                    new: true,
+                    runValidators: false,
+                    useFindAndModify: true,
+                }
+            );
+        } else if (
+            existingUser.isLegacy === true &&
+            existingUser.isOverwritten === true
+        ) {
+            return next(
+                new AppError(
+                    'Una persona ya se ha inscrito en el portal con estos datos. Crea una nueva cuenta o si crees que es un error contacta a gerencia.'
+                )
+            );
+        } else if (
+            existingUser.isLegacy === false &&
+            existingUser.isOverwritten === true
+        ) {
+            return next(
+                new AppError(
+                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.'
+                )
+            );
+        } else {
+            return next(
+                new AppError(
+                    'Algo salió muy mal.No hemos podido sobreescribir los datos.'
+                )
+            );
         }
-
-        delete req.body.password;
-        delete req.body.passwordConfirm;
-
-        // Update existing user
-        newUser = await ArchitectUser.findOneAndUpdate(
-            { _id: existingUser._id },
-            { $set: req.body },
-            {
-                new: true,
-                runValidators: true,
-                useFindAndModify: true,
-            }
-        );
-
-        // Update password
-        newUser = await ArchitectUser.findOneAndUpdate(
-            { _id: existingUser._id },
-            { $set: { password: password } },
-            {
-                new: true,
-                runValidators: false,
-                useFindAndModify: true,
-            }
-        );
     } else {
         // Create new user
         newUser = await ArchitectUser.create(req.body);

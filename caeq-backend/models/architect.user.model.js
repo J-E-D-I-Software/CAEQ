@@ -162,6 +162,14 @@ const ArchitectUserSchema = new mongoose.Schema({
     changedPassword: Date,
     changedPasswordToken: String,
     tokenExpirationDate: Date,
+    isLegacy: {
+        type: Boolean,
+        default: false,
+    },
+    isOverwritten: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 // Indexing admin properties for optimized search

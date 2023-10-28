@@ -49,10 +49,8 @@ const uploadPDF = async (file, resource) => {
     const pdfRef = storage.child(fileName);
 
     const snapshot = await pdfRef.put(buffer);
-    console.log('after upload');
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    console.log('after downloadurl');
 
     return downloadURL;
 };

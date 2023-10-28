@@ -89,7 +89,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     dateOfBirth: {
         type: Date,
-        required: [true, 'Por favor dinos tu fecha de nacimiento!'],
     },
     municipalityOfLabor: {
         type: String,
@@ -121,7 +120,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     capacitationHours: {
         type: Number,
-        required: [false],
+        default: 0,
     },
     annuity: {
         type: Boolean,

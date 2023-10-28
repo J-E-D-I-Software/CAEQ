@@ -18,7 +18,6 @@ export async function getAllPublicArchitectUsers(page = 1, filtersParams = '') {
 
     const response = await axios.get(endpoint);
 
-    console.log(response.data.data.documents);
     return response.data.data.documents;
 }
 
@@ -34,7 +33,6 @@ export async function getArchitectUserById(id) {
     return response.data.data.document;
 }
 
-
 /**
  *  It makes a GET request to the endpoint `/architectusers?collegiateNumber={num}` and returns the response data.
  * @param {string} collegiateNumber - The id of the architect collegiate Number.
@@ -44,8 +42,7 @@ export async function getArchitectUserByColegiateNumber(collegiateNumber) {
     let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}`;
 
     const response = await axios.get(endpoint);
-    if (response.data.data.documents.length === 1)
-        return response.data.data.documents[0];
+    if (response.data.data.documents.length === 1) return response.data.data.documents[0];
     return null;
 }
 

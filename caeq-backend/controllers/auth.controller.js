@@ -160,6 +160,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         newUser = await ArchitectUser.create(req.body);
     }
 
+    // Uncomment after emails atre payed
     // // Send welcome email
     // try {
     //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();

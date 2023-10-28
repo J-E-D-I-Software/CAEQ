@@ -67,6 +67,7 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     });
 
+    // Uncomment after emails after payed
     // try {
     //     await new Email(newUser).sendWelcomeAdmin();
     // } catch (error) {
@@ -160,7 +161,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         newUser = await ArchitectUser.create(req.body);
     }
 
-    // Uncomment after emails atre payed
+    // Uncomment after emails after payed
     // // Send welcome email
     // try {
     //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();

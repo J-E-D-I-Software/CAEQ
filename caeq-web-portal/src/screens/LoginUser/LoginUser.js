@@ -58,11 +58,11 @@ const LoginUser = () => {
 
             <br />
             <div className='forgot-register-links'>
-                <Link to='/User-Forgot-password'>
+                <Link to='/User-ForgotPassword'>
                     <p> ¿Olvidaste tu contraseña?</p>
                 </Link>
 
-                <Link to='/welcomeCAEQ'>Volver a página de inicio</Link>
+                <Link to='/'>Volver a página de inicio</Link>
             </div>
         </div>
     );

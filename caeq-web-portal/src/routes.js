@@ -5,6 +5,7 @@ import RegisterUser from './screens/SignupArchitect/SignupArchitect';
 import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
+import CreateGathering from './screens/CreateGathering/CreateGathering';
 import Profile from './screens/Profile/Profile';
 import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
@@ -12,6 +13,7 @@ import Page404 from './screens/404';
 import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/DirectoryArchitectDetails';
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
+import Principal from './screens/Principal/Principal';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -48,12 +50,12 @@ const routes = [
     {
         path: '/Principal',
         name: 'Principal',
-        Component: () => <div></div>,
+        Component: Principal,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
-        roles: ['architect']
+        roles: ['architect'],
     },
     {
         path: '/PrincipalAdmin',
@@ -63,7 +65,7 @@ const routes = [
         iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq']
+        roles: ['caeq'],
     },
     {
         path: '/Cursos',
@@ -99,6 +101,26 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: CreateOrUpdateCourse,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asamblea',
+        name: 'Crear Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asamblea/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateGathering,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -187,7 +209,7 @@ const routes = [
         Component: Anouncements,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq']
+        roles: ['caeq'],
     },
     {
         path: '*',

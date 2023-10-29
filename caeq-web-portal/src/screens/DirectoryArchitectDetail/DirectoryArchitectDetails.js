@@ -3,8 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
-import { createSpecialty } from '../../client/Specialties/Specialties.POST';
-import CreatableSelect from '../../components/inputs/CreatableSelect/CreatableSelect';
 import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
@@ -12,6 +10,7 @@ import FileInput from '../../components/inputs/FileInput/FileInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import {memberOptions, authorizationOptions, classificationOptions, lifeInsuranceOptions, anuuityOptions} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions'
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
@@ -140,15 +139,6 @@ const ArchitectDetail = (props) => {
         }
     };
 
-    const memberOptions = [
-        'Miembro de número',
-        'Miembro Adherente',
-        'Miembro Pasante',
-        'Miembro Honorario',
-        'Miembro Vitalicio',
-    ];
-    const authorizationOptions = { Si: true, No: false };
-
     /**
      * Returns an array of member options excluding the currently edited member type.
      *
@@ -161,6 +151,13 @@ const ArchitectDetail = (props) => {
         );
         return filteredOptions;
     };
+    
+    const getClassificationOptions = () => {
+        const filteredOptions = classificationOptions.filter(
+            (option) => option !== editedData.classification
+        );
+        return filteredOptions;
+    }
 
     /**
      * Returns an array of authorization options, excluding the currently edited option.
@@ -181,11 +178,20 @@ const ArchitectDetail = (props) => {
      * @returns {Array} An array of life insurance options.
      */
     const getLifeInsuranceOptions = () => {
-        const filteredOptions = Object.keys(authorizationOptions).filter(
+        const filteredOptions = Object.keys(lifeInsuranceOptions).filter(
             (option) => option !== editedData.lifeInsurance
         );
         return filteredOptions;
     };
+
+    const getAnuuityOptions = () => {
+        const filteredOptions = Object.keys(anuuityOptions).filter(
+            (option) => option !== editedData.anuuity
+        );
+        return filteredOptions;
+    };
+
+
 
     return (
         <div className='architect-detail'>
@@ -209,6 +215,7 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, collegiateNumber: value })
                         }
                     />
+                    
                     <TextInput
                         label='Número de DRO'
                         placeholder='Número de DRO'
@@ -226,13 +233,13 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, memberType: value })
                         }
                     />
-                    <TextInput
+                    <DropdownInput
                         label='Clasificación'
-                        placeholder='Clasificación'
+                        placeholder={editedData.classification}
                         getVal={editedData.classification}
-                        setVal={(value) =>
-                            setEditedData({ ...editedData, classification: value })
-                        }
+                        options={getClassificationOptions()}
+                        setVal={(value) => 
+                            setEditedData({ ...editedData, classification: value})}
                     />
                     <SelectInputComponent
                         label="Especialidades"
@@ -301,8 +308,7 @@ const ArchitectDetail = (props) => {
                         getVal={editedData.lifeInsurance}
                         setVal={(value) =>
                             setEditedData({
-                                ...editedData,
-                                lifeInsurance: value,
+                                ...editedData, lifeInsurance: value,
                             })
                         }
                     />
@@ -324,13 +330,13 @@ const ArchitectDetail = (props) => {
                     />
                     <DropdownInput
                         label='Pago de Anualidad'
-                        placeholder={editedData.authorizationToShareInfo}
-                        options={getAuthorizationOptions()}
-                        getVal={editedData.authorizationToShareInfo}
+                        placeholder={editedData.anuuity}
+                        options={getAnuuityOptions()}
+                        getVal={editedData.anuuity}
                         setVal={(value) =>
                             setEditedData({
                                 ...editedData,
-                                authorizationToShareInfo: value,
+                                anuuity: value,
                             })
                         }
                     />
@@ -350,12 +356,16 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, linkCV: value })
                         }
                     />
-                    <p>
-                        Archivo Actual:{" "}
-                        <a href={editedData.linkCV}>
-                            <span>Descargar CV</span>
-                        </a>
-                    </p>
+                    {editedData.linkCV ? (
+                        <p>
+                            Archivo Actual:<a href={editedData.linkCV}>
+                                <span>Descargar CV</span>
+                             </a>
+                        </p>
+                    ) : <p>
+                          <span>No hay CV registrado. ¡Sube uno!</span>
+                        </p> 
+                    }
                 </div>
             </div>
 

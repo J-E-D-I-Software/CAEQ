@@ -5,6 +5,7 @@ import "./Table.scss";
 import CloseIcon from "../icons/Close.png";
 import BaseButton from "../buttons/BaseButton";
 import headerMappings from "./HeaderMappings";
+import { Navigate } from "react-router-dom";
 
 /**
  * An interactive table component that allows showing or hiding columns.
@@ -13,16 +14,17 @@ import headerMappings from "./HeaderMappings";
  */
 const InteractiveTable = ({ data, onRowClick }) => {
     // Get the columns to be displayed in the table.
-    const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
+    const allColumns = Object.keys(headerMappings);
+
 
     // State to maintain the visibility of columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
-        return columnsToShow.reduce((visibility, column) => {
-            visibility[column] = true;
-            return visibility;
-        }, {});
+        const initialVisibility = {};
+        allColumns.forEach((column) => {
+            initialVisibility[column] = true;
+        });
+        return initialVisibility;
     });
-
     /**
      * Toggle the visibility of a column.
      * @param {string} columnKey - The key of the column to toggle.
@@ -34,13 +36,18 @@ const InteractiveTable = ({ data, onRowClick }) => {
         }));
     };
 
+    const handleButtonClick = (e, url) => {
+        e.preventDefault()
+        window.open(url, "_blank");
+    };
+
     /**
      * Reset the visibility of all columns.
      */
     const resetColumnVisibility = () => {
         setColumnVisibility((prevVisibility) => {
             const resetVisibility = {};
-            columnsToShow.forEach((column) => {
+            allColumns.forEach((column) => {
                 resetVisibility[column] = true;
             });
             return resetVisibility;
@@ -96,26 +103,34 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 </tr>
             );
         }
-
+        const classLink= "link-cv-column"
         return data.map((row, rowIndex) => (
             <tr
                 key={rowIndex}
                 className="fila-sombrada"
-                onClick={() => onRowClick(data[rowIndex]._id)}
+                onClick={(e) => {
+                    const target = e.target;
+                    if (!target.classList.contains("link-cv-column")) {
+                        onRowClick(data[rowIndex]._id);
+                    }
+                }}
             >
                 {Object.keys(headerMappings).map((column) =>
                     columnVisibility[column] && column !== "_id" ? (
-                        <td key={column} className="sticky-column">
+                        <td key={column} className={column === "linkCV" ? "sticky-column link-cv-column" : "sticky-column"}>
                             {typeof row[column] === "boolean" ? (
                                 formatBooleanValue(row[column])
                             ) : column === "linkCV" && row[column] ? (
-                                <a
-                                    href={row[column]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Descargar
-                                </a>
+
+                                <BaseButton type='primary' className="link-cv-column" onClick={(e) => handleButtonClick(e,row[column])}>
+                                    Descargar CV
+                                </BaseButton>
+                               
+                            ) : column === "linkCV" && row[column] !== ' ' ? (
+                                <BaseButton type='primary' className="link-cv-column">
+                                    No hay CV registrado
+                                </BaseButton>
+
                             ) : column === "dateOfBirth" && row[column] ? (
                                 formatDate(row[column])
                             ) : column === "specialties" && row[column] ? (

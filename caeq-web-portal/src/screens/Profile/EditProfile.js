@@ -6,6 +6,7 @@ import { FireError, FireLoading, FireSucess } from "../../utils/alertHandler";
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import "../DirectoryArchitectDetail/DirectoryArchitectDetail.scss";
 import BaseButton from "../../components/buttons/BaseButton";
+import FileInput from "../../components/inputs/FileInput/FileInput";
 import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
 import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
 import DateInput from "../../components/inputs/DateInput/DateInput";
@@ -41,6 +42,7 @@ const ArchitectPersonalData = (props) => {
     }
 
     const handleSaveChanges = async (e) => {
+        e.preventDefault();
         const form = new FormData();
         form.append("fullName", editedData.fullName); //Ya esta
         form.append("dateOfBirth", editedData.dateOfBirth); //Ya esta
@@ -51,6 +53,7 @@ const ArchitectPersonalData = (props) => {
         form.append("homePhone", editedData.homePhone); //Ya esta
         form.append("email", editedData.email); //Ya esta
         form.append("emergencyContact", editedData.emergencyContact); //Ya esta
+        form.append('file', editedData.linkCV);
 
         e.preventDefault();
 
@@ -68,16 +71,14 @@ const ArchitectPersonalData = (props) => {
                 FireError(response.message);
             }
         } catch (error) {
-            FireError(error.message);
-            navigate("/.");
-            console.log(error);
+            FireError(error.response.data.message);
+            navigate("/Perfil");
         }
     };
 
     const gender = [
         "Hombre",
         "Mujer",
-        "Otro",
         "Prefiero no decirlo",
     ];
 
@@ -189,6 +190,20 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, emergencyContact: value })
                         }
                     />
+                    <FileInput
+                        label='Curriculum Vitae'
+                        placeholder='CV'
+                        getVal={editedData.linkCV}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCV: value })
+                        }
+                    />
+                    <p>
+                        Archivo Actual:{" "}
+                        <a href={editedData.linkCV}>
+                            <span>Descargar CV</span>
+                        </a>
+                    </p>
                 </div>
             </div>
             <div className="architect-row">

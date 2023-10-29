@@ -141,7 +141,7 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Link CV: </span>
-                            <a href={profile.linkCV}>{profile.linkCV}</a>
+                            <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
                     <div className="profile-col semi-col">

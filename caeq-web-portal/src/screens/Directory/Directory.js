@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import InteractiveTable from '../../components/table/InteractiveTable';
@@ -22,17 +22,17 @@ import './directory.scss';
  */
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
-    const [filterSearchByName, setFilterSearchByName] = useState("");
+    const [filterSearchByName, setFilterSearchByName] = useState('');
     const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
-        useState("");
+        useState('');
     const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
-        useState("");
-    const [filterGender, setfilterGender] = useState("");
-    const [filterClassification, setfilterClassification] = useState("");
-    const [FilterMemberType, setFilterMemberType] = useState("");
+        useState('');
+    const [filterGender, setfilterGender] = useState('');
+    const [filterClassification, setfilterClassification] = useState('');
+    const [FilterMemberType, setFilterMemberType] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
-    const [admisionInitial, setAdmisionInitial] = useState();
-    const [admisionFinal, setAdmisionFinal] = useState();
+    const [admisionInitial, setAdmisionInitial] = useState(0);
+    const [admisionFinal, setAdmisionFinal] = useState(2024);
     const [birthInitial, setBirthInitial] = useState();
     const [birthFinal, setBirthFinal] = useState();
     const [specialties, setSpecialties] = useState([]);
@@ -48,9 +48,9 @@ const Directory = () => {
      * @param {string} id - The ID of the directory item to navigate to.
      * @returns {void}
      */
-      const handleRowClick = (id) => {
-                navigate(`/Directorio/${id}`);
-      };
+    const handleRowClick = (id) => {
+        navigate(`/Directorio/${id}`);
+    };
 
     /**
      * Calculate filters for searching directory items.
@@ -58,20 +58,34 @@ const Directory = () => {
      * @returns {string} The query string containing filters.
      */
     const calculateFilters = () => {
+        if (
+            admisionFinal < admisionInitial ||
+            birthFinal === null ||
+            birthInitial === null
+        ) {
+            FireError(
+                'No puedes ingresar un rango de fecha de admisión con la fecha limite menor a la de inicio.'
+            );
+            return '';
+        }
+        if (birthFinal < birthInitial) {
+            FireError(
+                'No puedes ingresar un rango de fecha de nacimiento con la fecha limite menor a la de inicio.'
+            );
+            return '';
+        }
+
         let filters = '';
-        if (filterSearchByName)
-            filters = `fullName[regex]=${filterSearchByName}`;
+        if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
             filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
 
         if (filterGender) filters += `&gender=${filterGender}`;
-        if (filterClassification)
-            filters += `&classification=${filterClassification}`;
+        if (filterClassification) filters += `&classification=${filterClassification}`;
         if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
-        if (admisionInitial)
-            filters += `&dateOfAdmission[gte]=${admisionInitial}`;
+        if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
@@ -125,7 +139,7 @@ const Directory = () => {
     }, []);
 
     /**
-     * Handle clicking the "Previous Page" button to navigate to the previous page of results.
+     * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
      * Decrements the pagination page if it's greater than 1.
      *
      * @returns {void}
@@ -136,15 +150,15 @@ const Directory = () => {
         }
     };
 
-      /**
-       * Handle clicking the "Next Page" button to navigate to the next page of results.
+    /**
+     * Handle clicking the 'Next Page' button to navigate to the next page of results.
      * Increments the pagination page.
      *
      * @returns {void}
-       */
-      const handleNextPage = () => {
-            setPaginationPage(paginationPage + 1);
-      };
+     */
+    const handleNextPage = () => {
+        setPaginationPage(paginationPage + 1);
+    };
 
     /**
      * Handle downloading data based on specified filters and export it to an Excel file.
@@ -157,11 +171,7 @@ const Directory = () => {
         const swal = FireLoading('Generando archivo de excel...');
 
         const filters = calculateFilters();
-        const architects = await getAllArchitectUsers(
-            paginationPage,
-            filters,
-            10000
-        );
+        const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;
@@ -173,14 +183,12 @@ const Directory = () => {
                     mappedObject[headerMappings[key]] = val[key];
 
                     if (
-                        typeof mappedObject[headerMappings[key]] ===
-                            'boolean' &&
+                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
                         mappedObject[headerMappings[key]] === true
                     ) {
                         mappedObject[headerMappings[key]] = 'Si';
                     } else if (
-                        typeof mappedObject[headerMappings[key]] ===
-                            'boolean' &&
+                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
                         mappedObject[headerMappings[key]] === false
                     ) {
                         mappedObject[headerMappings[key]] = 'No';
@@ -216,27 +224,25 @@ const Directory = () => {
 
         setSpecialtyName(specialty);
 
-        const specialtyId = specialties.filter(
-            (val) => val.name === specialty
-        )[0]._id;
+        const specialtyId = specialties.filter((val) => val.name === specialty)[0]._id;
 
         setSpecialty(specialtyId);
     };
 
     const clearFilters = () => {
-        setFilterSearchByName("");
-        setFilterSearchBymunicipalityOfLabor("");
-        setFilterSearchBycollegiateNumber("");
-        setfilterGender("");
-        setfilterClassification("");
-        setFilterMemberType("");
-        setAdmisionInitial("");
-        setAdmisionFinal("");
-        setBirthInitial("");
-        setBirthFinal("");
-        setSpecialty("");
-        setSpecialtyName("");
-        setOrderBy("collegiateNumber");
+        setFilterSearchByName('');
+        setFilterSearchBymunicipalityOfLabor('');
+        setFilterSearchBycollegiateNumber('');
+        setfilterGender('');
+        setfilterClassification('');
+        setFilterMemberType('');
+        setAdmisionInitial('');
+        setAdmisionFinal('');
+        setBirthInitial('');
+        setBirthFinal('');
+        setSpecialty('');
+        setSpecialtyName('');
+        setOrderBy('collegiateNumber');
     };
 
     const handleClearFilters = () => {
@@ -251,10 +257,7 @@ const Directory = () => {
                 <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos
                 </BaseButton>
-                <BaseButton
-                    onClick={() => handleClearFilters()}
-                    type='secondary'
-                >
+                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
                     Limpiar filtros
                 </BaseButton>
             </div>
@@ -364,21 +367,19 @@ const Directory = () => {
                         />
                     </div>
                 ) : (
-                    <p className='no-data-message'>
-                        No hay colegiados disponibles
-                    </p>
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
             </div>
 
-                  <div className='directory-row directory-pagination'>
-                        <PaginationNav
-                              onClickBefore={handlePreviousPage}
-                              onClickAfter={handleNextPage}
-                              page={paginationPage}
-                        />
-                  </div>
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handlePreviousPage}
+                    onClickAfter={handleNextPage}
+                    page={paginationPage}
+                />
             </div>
-      );
+        </div>
+    );
 };
 
 export default Directory;

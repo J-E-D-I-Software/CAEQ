@@ -8,7 +8,7 @@ const sessionsData = [
         time: null,
     },
     {
-        date: null,
+        date: new Date(),
         time: '',
     },
     {

@@ -15,7 +15,7 @@ import { getAllSessions } from "../../client/Course/Session.GET";
 import { createSession } from "../../client/Course/Session.POST";
 import { updateSession } from "../../client/Course/Session.PATCH";
 import { deleteSession } from "../../client/Course/Session.DELETE";
-import "../../styles/createCourse.scss";
+import "./createCourse.scss";
 
 /**
  * Page that if it receives a course id it will display an "Edit" mode

@@ -28,6 +28,7 @@ const courseRouter = require('./routes/course.route');
 const emailRouter = require('./routes/email.route');
 const specialtyRouter = require('./routes/specialty.route');
 const aggregationsRouter = require('./routes/aggregations.route');
+const sessionRouter = require('./routes/session.route');
 const gatheringRouter = require('./routes/gathering.route');
 const attendeesRouter = require('./routes/attendees.route');
 
@@ -99,6 +100,7 @@ app.use('/courses', courseRouter);
 app.use('/email', emailRouter);
 app.use('/specialties', specialtyRouter);
 app.use('/aggregations', aggregationsRouter);
+app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/attendees', attendeesRouter);
 

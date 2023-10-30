@@ -53,16 +53,16 @@ const Course = (props) => {
 
     const handlePaymentStart = async (e) => {
         e.preventDefault();
-        
+
         if (!paymentFile) {
             FireError('Por favor, selecciona un archivo de comprobante de pago.');
             return;
         }
-    
+
         const form = new FormData();
         form.append('courseId', searchParams.id);
         form.append('billImageURL', paymentFile);
-    
+
         try {
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);
@@ -74,13 +74,15 @@ const Course = (props) => {
         } catch (error) {
             FireError(error.response.data.message);
         }
-    }
-    
+    };
 
     return (
         <div className="course">
             <div className="course-row">
                 <h1>{data.courseName}</h1>
+                <h2 className="course-price">
+                    {data.price ? `$${data.price}` : 'Gratuito'}
+                </h2>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type="primary"
@@ -91,23 +93,14 @@ const Course = (props) => {
                 </RestrictByRole>
                 <RestrictByRole allowedRoles={['architect']}>
                     {data.price ? ( // Verifica si el curso tiene precio
-                        <>
-                            <BaseButton
-                                type="primary"
-                                onClick={(e) => handlePaymentStart(e)}
-                            >
-                                Iniciar Pago
-                            </BaseButton>
-                        </>
+                        <></>
                     ) : (
                         <BaseButton type="primary" onClick={(e) => handleInscription(e)}>
                             Inscribirme
                         </BaseButton>
                     )}
                 </RestrictByRole>
-                <h2 className="course-price">
-                    {data.price ? `$${data.price}` : 'Gratuito'}
-                </h2>
+                
             </div>
 
             <div className="course-row course-data">
@@ -150,6 +143,7 @@ const Course = (props) => {
 
             <div className="course-row course-details">
                 <img src={data.imageUrl} />
+                
                 <div className="course-col">
                     <p className="text-area">{data.description}</p>
                     <div className="course-row course-extras">
@@ -166,23 +160,39 @@ const Course = (props) => {
                             <p className="text-area">{data.temario}</p>
                         </div>
                     </div>
-
                     {data.price !== undefined &&
                         data.price !== null &&
                         data.price !== 0 && (
                             <>
                                 <h3>Información de Pago</h3>
                                 <span>{data.paymentInfo}</span>
-
+                                <hr></hr>
+                                <h3>Costo del Curso</h3>
+                                <h2 className="course-price">
+                                    {data.price ? `$${data.price}` : 'Gratuito'}
+                                </h2>
+                                <hr></hr>
                                 <FileInput
+                                    label="Subir Comprobante"
                                     accept=".jpg,.jpeg,.png,.pdf"
                                     getVal={() => paymentFile}
                                     setVal={(file) => setPaymentFile(file)}
                                 />
+                                <hr></hr>
+
+                                <BaseButton
+                                    type="primary"
+                                    onClick={(e) => handlePaymentStart(e)}
+                                >
+                                    Iniciar Pago
+                                </BaseButton>
                             </>
                         )}
+                   
                 </div>
+                
             </div>
+            
         </div>
     );
 };

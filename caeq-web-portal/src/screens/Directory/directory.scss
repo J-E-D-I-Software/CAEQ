@@ -1,6 +1,7 @@
 .directory {
   padding: 3rem;
 
+
   .directory-row {
     display: flex;
     flex-wrap: wrap;
@@ -8,13 +9,17 @@
   }
 
   .filter-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Tres columnas responsivas */
-    gap: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
+
   }
 
   .inputText-filters {
     flex: 1;
+    min-width: 150px;
   }
 
   .searchbars-column {
@@ -31,6 +36,7 @@
   .DropdownInputs-row {
     display: flex;
     flex-wrap: wrap;
+    flex: 1;
     gap: 2rem;
   }
 
@@ -87,4 +93,6 @@
       flex-direction: column;
     }
   }
+
+
 }

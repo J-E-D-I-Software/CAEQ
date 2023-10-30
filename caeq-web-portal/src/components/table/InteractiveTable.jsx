@@ -165,10 +165,12 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 Resetear tabla
             </BaseButton>
 
+            <div className="table-wrapper">
             <table className="tabla">
                 <thead>{renderTableHeader()}</thead>
                 <tbody>{renderTableBody()}</tbody>
             </table>
+        </div>
         </div>
     );
 };

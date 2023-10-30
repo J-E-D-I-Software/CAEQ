@@ -113,7 +113,6 @@ const routes = [
         Component: Gatherings,
         isPrivate: true,
         inNavbar: true,
-        roles: ['caeq'],
     },
     {
         path: '/Asambleas/Asamblea',

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getCourse } from '../../client/Course/Course.GET';
 import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import { FireError, FireSucess, FireLoading, FireQuestion } from '../../utils/alertHandler';
 import BaseButton from '../../components/buttons/BaseButton';
 import ClassroomIcon from '../../components/icons/Classroom.png';
 import LocationIcon from '../../components/icons/Location.png';
@@ -39,6 +39,11 @@ const Course = (props) => {
     const handleInscription = async (e) => {
         e.preventDefault();
         try {
+            const confirmation = FireQuestion('¿Estás seguro de inscribirte a este curso?', 'La inscripción no tiene costo y no se puede deshacer.');
+            if (confirmation.isConfirmed) {
+                return;
+            }
+
             const swal = FireLoading('Inscribiéndote al curso...');
             const response = await createInscription(searchParams.id);
             if (response.status === 'success') {
@@ -51,9 +56,8 @@ const Course = (props) => {
         }
     };
 
-    const handlePaymentStart = async (e) => {
-        e.preventDefault();
-        
+    const handlePaymentStart = async () => {
+            
         if (!paymentFile) {
             FireError('Por favor, selecciona un archivo de comprobante de pago.');
             return;
@@ -64,6 +68,8 @@ const Course = (props) => {
         form.append('billImageURL', paymentFile);
     
         try {
+            
+
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);
             if (response.status === 'success') {
@@ -94,7 +100,7 @@ const Course = (props) => {
                         <>
                             <BaseButton
                                 type="primary"
-                                onClick={(e) => handlePaymentStart(e)}
+                                onClick={handlePaymentStart}
                             >
                                 Iniciar Pago
                             </BaseButton>

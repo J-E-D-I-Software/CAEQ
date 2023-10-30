@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const inscriptionSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
-        ref: 'ArchitectUser',
+        ref: 'architect.user',
         required: [true, 'Campo de usuario necesario'],
     },
     course: {

@@ -1,6 +1,6 @@
 const factory = require('./handlerFactory.controller');
-const Inscription = require('../models/inscriptions.model');
-const Course = require('../models/courses.model');
+const Inscription = require('../models/inscription.model');
+const Course = require('../models/course.model');
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');
@@ -69,7 +69,7 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         user: req.user._id,
     });
 
-    try {
+   /* try {
         await new Email(
             req.user,
             process.env.LANDING_URL,
@@ -79,7 +79,7 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         return next(
             new AppError('Hemos tenido problemas enviando un correo de confirmación.', 500)
         );
-    }
+    }*/
 
     res.status(200).json({
         status: 'success',

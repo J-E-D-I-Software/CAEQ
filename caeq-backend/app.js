@@ -30,6 +30,7 @@ const specialtyRouter = require('./routes/specialty.route');
 const aggregationsRouter = require('./routes/aggregations.route');
 const gatheringRouter = require('./routes/gathering.route');
 const attendeesRouter = require('./routes/attendees.route');
+const inscriptionRouter = require('./routes/inscription.route');
 
 const app = express();
 
@@ -102,6 +103,7 @@ app.use('/specialties', specialtyRouter);
 app.use('/aggregations', aggregationsRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/attendees', attendeesRouter);
+app.use('/inscription', inscriptionRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

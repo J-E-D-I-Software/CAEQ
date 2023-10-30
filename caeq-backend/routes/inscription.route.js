@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 
 const {
     createInscription,
@@ -8,18 +8,17 @@ const {
     deleteInscription,
     inscribeTo,
     myInscriptions,
-} = require('../controllers/inscription.controller');
-const { protect, restrictTo } = require('../controllers/authentication.controller');
+} = require(`${__dirname}/../controllers/inscription.controller.js`);
+const {
+    protect,
+    restrictTo,
+} = require(`${__dirname}/../controllers/auth.controller.js`);
 
-// Middleware para proteger todas las rutas debajo de esta línea
 router.use(protect);
+router.route('/inscribeTo').post(restrictTo('architect'), inscribeTo);
+router.route('/myInscriptions').get(restrictTo('architect'), myInscriptions);
 
-// Rutas accesibles solo para usuarios con el rol 'ArchitectUser'
-router.route('/inscribeTo').post(restrictTo('ArchitectUser'), inscribeTo);
-router.route('/myInscriptions').get(restrictTo('ArchitectUser'), myInscriptions);
-
-// Rutas accesibles solo para el rol de 'Admin'
-router.use(restrictTo('Admin'));
+router.use(restrictTo('caeq'));
 router.route('/').get(getAllInscriptions).post(createInscription);
 router.route('/:id').get(getInscription).delete(deleteInscription);
 

@@ -21,14 +21,13 @@ const Course = (props) => {
     const [paymentFile, setPaymentFile] = useState('');
     const [data, setData] = useState({});
 
-
     useEffect(() => {
         if (searchParams.id) {
             getCourse(searchParams.id)
                 .then((response) => setData(response))
                 .catch(() => navigate('/404'));
         }
-    }, []);
+    }, [navigate, searchParams.id]);
 
     let startDate = null;
     let endDate = null;
@@ -54,11 +53,19 @@ const Course = (props) => {
 
     const handlePaymentStart = async (e) => {
         e.preventDefault();
+        
+        if (!paymentFile) {
+            FireError('Por favor, selecciona un archivo de comprobante de pago.');
+            return;
+        }
+    
         const form = new FormData();
-        form.append('paymentFile', paymentFile);
+        form.append('courseId', searchParams.id);
+        form.append('billImageURL', paymentFile);
+    
         try {
             const swal = FireLoading('Iniciando proceso de pago...');
-            const response = await startPayment(searchParams.id, form);
+            const response = await startPayment(form);
             if (response.status === 'success') {
                 FireSucess('Pago enviado con éxito.');
                 navigate('/Cursos');
@@ -69,7 +76,6 @@ const Course = (props) => {
         }
     }
     
-
 
     return (
         <div className="course">
@@ -169,9 +175,9 @@ const Course = (props) => {
                                 <span>{data.paymentInfo}</span>
 
                                 <FileInput
-                                    accept='.jpg,.jpeg,.png,.pdf'
-
-                                    setVal={setPaymentFile}
+                                    accept=".jpg,.jpeg,.png,.pdf"
+                                    getVal={() => paymentFile}
+                                    setVal={(file) => setPaymentFile(file)}
                                 />
                             </>
                         )}

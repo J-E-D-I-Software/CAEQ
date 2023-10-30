@@ -3,7 +3,7 @@ const ArchitectUser = require('../models/architect.user.model');
 const APIFeatures = require(`../utils/apiFeatures`);
 
 exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
-exports.getArchitectUser = factory.getOne(ArchitectUser);
+exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties');
 exports.createArchitectUser = factory.createOne(ArchitectUser);
 exports.updateArchitectUser = factory.updateOne(ArchitectUser);
 exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);

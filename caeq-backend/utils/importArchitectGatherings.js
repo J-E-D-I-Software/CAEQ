@@ -3,7 +3,7 @@ const csv = require('csv-parser');
 const ArchitectUser = require('../models/architect.user.model');
 const GatheringSchema = require('../models/gathering.model');
 const AttendeeSchema = require('../models/attendees.model');
-const validator = require('validator');
+let uploadedAttendees = 0;
 
 /**
  * Imports architect gatherings data from a CSV file and saves it to a MongoDB collection.
@@ -80,12 +80,12 @@ async function importArchitectGatheringsData(csvFilePath) {
 
                     const filter = { day, month, year: yearStr, isExtraordinary };
                     const update = { $setOnInsert: filter };
-                    const options = { upsert: true, new: true };
+                    const options = { upsert: true, new: true, useFindAndModify: false };
 
                     // Get the Gathering and update it, create one if it doesn't exist
                     let gathering = await GatheringSchema.findOneAndUpdate(
                         filter,
-                        update,
+                        { $set: { update } },
                         options
                     );
                     if (!gathering) {
@@ -93,17 +93,18 @@ async function importArchitectGatheringsData(csvFilePath) {
                         gathering = newGathering;
                     }
                     await gathering.save();
-                    const attendee = new AttendeeSchema({
+                    await AttendeeSchema.create({
                         idGathering: gathering._id,
                         attended: true,
                         idArchitect: architectUser._id,
                     });
-                    await attendee.save();
                 });
         })
         .on('end', async () => {
             const gatherings = await GatheringSchema.find();
             console.log(`${gatherings.length} gatherings imported!`);
+            const attendees = await AttendeeSchema.find();
+            console.log(`${attendees.length} attendees imported!`);
         });
 }
 

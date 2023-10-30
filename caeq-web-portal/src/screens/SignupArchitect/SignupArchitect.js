@@ -140,7 +140,7 @@ const Signup = () => {
                 'Arquitecto ya existente',
                 `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
                 ¿Es usted ${user.fullName}?
-                ¿Desea continuar y actualizar con la información proporcionada?`,
+                ¿Desea continuar y actualizar con la información proporcionada?`
             );
             if (!continueSignUp.isConfirmed) return;
         }
@@ -158,7 +158,7 @@ const Signup = () => {
             }
             swal.close();
             FireSucess('Te has registrado con éxito');
-            // navigate('/Principal');
+            navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
         }
@@ -271,7 +271,7 @@ const Signup = () => {
                                 require={true}
                             />
                         </div>
-                        <div className="column-2">
+                        <div className='column-2'>
                             <TextInput
                                 label='Contacto de emergencia (nombre completo y teléfono)'
                                 placeholder='Contacto de emergencia (nombre completo y teléfono)'

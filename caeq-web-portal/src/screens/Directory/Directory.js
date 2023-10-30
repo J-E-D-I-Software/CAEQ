@@ -171,7 +171,7 @@ const Directory = () => {
         const swal = FireLoading('Generando archivo de excel...');
 
         const filters = calculateFilters();
-        const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
+        const architects = await getAllArchitectUsers(1, filters, 100000);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;

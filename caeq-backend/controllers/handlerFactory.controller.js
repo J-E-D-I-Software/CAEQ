@@ -29,14 +29,9 @@ exports.deleteOne = (Model) =>
  */
 exports.updateOne = (Model) =>
     catchAsync(async (req, res, next) => {
-        const document = await Model.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true,
-                runValidators: true,
-            }
-        );
+        const document = await Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
+            useFindAndModify: false,
+        });
 
         if (!document) {
             const error = new AppError('No document found with that ID', 404);

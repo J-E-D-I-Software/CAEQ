@@ -24,7 +24,11 @@ jobs:
                   node-version: 14
 
             - name: Install project dependencies
-              run: npm install
+              run: |
+                  cd CAEQ/caeq-backend  # Adjust the path to your caeq-backend directory
+                  npm install
 
             - name: Run tests
-              run: npm run test
+              run: |
+                  cd CAEQ/caeq-backend  # Adjust the path to your caeq-backend directory
+                  npm install

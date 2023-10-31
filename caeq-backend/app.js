@@ -34,8 +34,24 @@ const attendeesRouter = require('./routes/attendees.route');
 
 const app = express();
 
-app.use(cors());
-app.options('*', cors());
+app.enable('trust proxy');
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    res.header('Cross-Origin-Resource-Policy', 'same-site');
+    res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.header('Cross-Origin-Embedder-Policy', 'credentialless');
+    //res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' *");
+    res.header(
+        'Content-Security-Policy',
+        "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
+    );
+
+    next();
+});
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +65,6 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));

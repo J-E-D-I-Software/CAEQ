@@ -10,6 +10,7 @@
         "start:prod": "cross-env NODE_ENV=production nodemon index.js",
         "deploy-prod": "npm run update-env production && firebase deploy --only functions:prod",
         "deploy-test": "npm run update-env testing && firebase deploy --only functions:test",
+        "deploy": "npm run test && npm run update-env testing && firebase deploy --only functions:test && npm run update-env production && firebase deploy --only functions:prod",
         "update-env": "node ./commands/updateEnv.js",
         "import-data": "node ./commands/importCaeqSSheet.js --saveImportErrors --importGatherings"
     },

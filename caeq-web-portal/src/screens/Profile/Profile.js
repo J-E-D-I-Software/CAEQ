@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
+import { getAllAttendees } from '../../client/Attendees/Attendees.GET'
 
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -16,6 +17,7 @@ const Profile = (props) => {
     const SavedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
+    const [attendances, setAttendances] = useState([]);
 
     const date = new Date(profile.dateOfBirth);
     const startDate = new Date(profile.dateOfAdmission);
@@ -24,25 +26,49 @@ const Profile = (props) => {
         navigate(`/Perfil/${SavedUser._id}`);
     };
 
+    const loadAttendances = async () => {
+        try {
+            const architectId = SavedUser._id;
+            const attendeeRecords = await getAllAttendees(architectId); // Utiliza la función para obtener asistencias
+            setAttendances(attendeeRecords);
+        } catch (error) {
+            console.error('Error loading attendances', error);
+        }
+    };
+
+    // useEffect(() => {
+    //     if (SavedUser._id)
+    //         getArchitectUserById(SavedUser._id)
+    //             .then((response) => setProfile(response))
+    //             .catch((error) => navigate('/404'));
+    // }, []);
+
     useEffect(() => {
-        if (SavedUser._id)
+        if (SavedUser._id) {
+
             getArchitectUserById(SavedUser._id)
-                .then((response) => setProfile(response))
+                .then((response) => {
+                    setProfile(response);
+                    loadAttendances();
+                })
                 .catch((error) => navigate('/404'));
+        }
     }, []);
 
+
+
     return (
-        <div className='profile'>
+        <div className="profile">
             <h1>Datos Personales</h1>
-            <div className='profile-row'>
-                <BaseButton type='primary' onClick={handleRoute}>
+            <div className="profile-row">
+                <BaseButton type="primary" onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -63,7 +89,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -85,9 +111,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -105,7 +131,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -124,9 +150,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -144,7 +170,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
@@ -164,6 +190,26 @@ const Profile = (props) => {
                     </div>
                 </WhiteContainer>
             </div>
+            <h1>Asistencias a Asambleas</h1>
+            <div className="profile-row">
+                {attendances.map((attendance) => (
+                    <div key={attendance._id} className="attendance-item">
+                        <p>
+                            <span>Fecha de Asamblea: </span>
+                            {attendance.idGathering.dateOfGathering}
+                        </p>
+                        <p>
+                            <span>Modalidad: </span>
+                            {attendance.modality}
+                        </p>
+                        <p>
+                            <span>Asistió: </span>
+                            {attendance.attended ? 'Sí' : 'No'}
+                        </p>
+                    </div>
+                ))}
+            </div>
+
         </div>
     );
 };

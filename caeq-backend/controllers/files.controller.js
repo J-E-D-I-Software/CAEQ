@@ -102,7 +102,7 @@ exports.formatPaymentImage = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
     // FORMAT file
-    req.body.billImageURL = await uploadImage(req.file, 'bill');
+    req.body.billImageURL = await uploadPDF(req.file, 'bill');
 
     next();
 });

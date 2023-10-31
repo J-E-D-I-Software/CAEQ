@@ -24,13 +24,7 @@ jobs:
                   node-version: 14
 
             - name: Install project dependencies
-              run: |
-                  cd /caeq-backend
-                  npm install
-              working-directory: ${{ github.workspace }}
+              run: npm install
 
             - name: Run tests
-              run: |
-                  cd /caeq-backend
-                  npm test
-              working-directory: ${{ github.workspace }}
+              run: npm test

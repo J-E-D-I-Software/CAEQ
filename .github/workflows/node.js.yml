@@ -25,12 +25,10 @@ jobs:
 
             - name: Install project dependencies
               run: |
-                  cd /caeq-backend  # Adjust the path to your caeq-backend directory
                   npm install
-              working-directory: ${{ github.workspace }}/CAEQ
+              working-directory: ${{ github.workspace }}/caeq-backend
 
             - name: Run tests
               run: |
-                  cd /caeq-backend  # Adjust the path to your caeq-backend directory
                   npm install
-              working-directory: ${{ github.workspace }}/CAEQ
+              working-directory: ${{ github.workspace }}/caeq-backend

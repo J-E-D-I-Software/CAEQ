@@ -76,6 +76,7 @@ const Directory = () => {
         }
 
         let filters = '';
+
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
@@ -91,6 +92,7 @@ const Directory = () => {
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
         if (currentRights) filters += `&annuity=${currentRights}`;
+
         return filters;
     };
 
@@ -142,18 +144,6 @@ const Directory = () => {
             }
         })();
     }, [paginationPage]);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const specialties = await getAllSpecialties();
-                setSpecialtiesName(specialties.map((val) => val.name));
-                setSpecialties(specialties);
-            } catch (error) {
-                // Handle error
-            }
-        })();
-    }, []);
 
     /**
      * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
@@ -375,6 +365,14 @@ const Directory = () => {
 
             <br />
 
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handlePreviousPage}
+                    onClickAfter={handleNextPage}
+                    page={paginationPage}
+                />
+            </div>
+
             <div className='directory-row'>
                 {architectUsers.length > 0 ? (
                     <div className='box-container'>
@@ -386,14 +384,6 @@ const Directory = () => {
                 ) : (
                     <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
-            </div>
-
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handlePreviousPage}
-                    onClickAfter={handleNextPage}
-                    page={paginationPage}
-                />
             </div>
         </div>
     );

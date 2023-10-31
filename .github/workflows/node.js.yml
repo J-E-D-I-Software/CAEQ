@@ -6,7 +6,9 @@ name: Node.js Tests in /caeq-backend
 on:
     push:
         branches:
-            - main # Change this to your main branch name
+            - master # Change this to your main branch name
+            - develop # Change this to your main branch name
+            - test # Change this to your main branch name
 
 jobs:
     test:

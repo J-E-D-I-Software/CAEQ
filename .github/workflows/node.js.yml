@@ -4,7 +4,7 @@
 name: Node.js Tests in /caeq-backend
 
 on:
-    push:
+    pull_request:
         branches:
             - master # Change this to your main branch name
             - develop # Change this to your main branch name

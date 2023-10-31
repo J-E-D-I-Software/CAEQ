@@ -22,9 +22,9 @@ const ArchitectDetail = (props) => {
     const searchParams = useParams();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
-
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -107,6 +107,7 @@ const ArchitectDetail = (props) => {
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);

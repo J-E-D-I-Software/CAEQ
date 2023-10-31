@@ -20,7 +20,6 @@ import {
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
@@ -54,37 +53,16 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        architect.specialties.includes(specialty.value)
-                    )
-                );
+                let currentSpecialties = architect.specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
         })();
     }, []);
-
-    //Recupera las especialidades de los arquitectos
-    useEffect(() => {
-        // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
-        if (editedData.specialty) {
-            const selectedSpecialties = editedData.specialty.map((s) => ({
-                value: s,
-                label: s,
-            }));
-
-            setSelectedSpecialties(selectedSpecialties);
-            setAvailableSpecialties((prevSpecialties) =>
-                prevSpecialties.filter(
-                    (specialty) =>
-                        !selectedSpecialties.some(
-                            (selected) => selected.value === specialty.value
-                        )
-                )
-            );
-        }
-    }, [editedData.specialty, selectedSpecialties]);
 
     // Pago de Anualidad pendiente
 

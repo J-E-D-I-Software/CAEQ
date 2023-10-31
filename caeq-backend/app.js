@@ -33,6 +33,7 @@ const attendeesRouter = require('./routes/attendees.route');
 
 const app = express();
 
+app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
 
@@ -48,7 +49,6 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));

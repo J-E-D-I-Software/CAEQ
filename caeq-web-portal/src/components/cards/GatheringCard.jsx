@@ -18,6 +18,14 @@ import './GatheringCard.scss';
 const GatheringCard = ({ data, ...props }) => {
     const navigate = useNavigate();
 
+    // Function to format the date to "dd/mm/yy"
+    function formatDateToDdMmYy(dateString) {
+        const date = new Date(dateString);
+        const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+        return new Intl.DateTimeFormat('es-ES', options).format(date);
+    }
+    
+
     return (
         <div className='gathering-card'>
             <div className='gathering-card--title'>
@@ -48,7 +56,7 @@ const GatheringCard = ({ data, ...props }) => {
             <div className='gathering-card--row'>
                 <div className='gathering-card--row--icon'>
                     <img src={CalendarIcon} height={30} />
-                    <p>{data.date ? data.date : 'No hay fecha'}</p>
+                    <p>{data.date ? formatDateToDdMmYy(data.date) : 'No hay fecha'}</p>
                 </div>
             </div>
             <div className='gathering-card--row'>

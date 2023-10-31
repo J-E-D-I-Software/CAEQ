@@ -96,11 +96,12 @@ const Directory = () => {
 
     useEffect(() => {
         (async () => {
+            setPaginationPage(1);
             const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
                 const filters = calculateFilters();
                 const architects = await getAllArchitectUsers(
-                    paginationPage,
+                    1,
                     filters,
                     effectiveOrderBy
                 );
@@ -110,7 +111,6 @@ const Directory = () => {
             }
         })();
     }, [
-        paginationPage,
         filterSearchByName,
         filterSearchBymunicipalityOfLabor,
         filterSearchBycollegiateNumber,
@@ -125,6 +125,23 @@ const Directory = () => {
         currentRights,
         orderBy,
     ]);
+
+    useEffect(() => {
+        (async () => {
+            const effectiveOrderBy = orderBy || 'collegiateNumber';
+            try {
+                const filters = calculateFilters();
+                const architects = await getAllArchitectUsers(
+                    paginationPage,
+                    filters,
+                    effectiveOrderBy
+                );
+                setArchitectUsers(architects);
+            } catch (error) {
+                // Handle error
+            }
+        })();
+    }, [paginationPage]);
 
     useEffect(() => {
         (async () => {

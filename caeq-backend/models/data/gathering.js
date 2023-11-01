@@ -1,4 +1,4 @@
-const gatheringTestData = [
+const gathering = [
     {
         isExtraordinary: false,
         title: 'Asamblea Anual 2023',
@@ -80,3 +80,4 @@ const gatheringTestData = [
         year: '2024',
     },
 ];
+module.exports = gathering;

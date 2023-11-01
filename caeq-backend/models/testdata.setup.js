@@ -58,18 +58,19 @@ const setUpSessionData = catchAsync(async () => {
     SessionsData[6].course = courses[2]._id;
 
     await populateDb(Session, SessionsData);
-    console.log(SessionsData)
 });
-
 
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
+    AttendeesData[0].gatherings = gatherings[0]._id;
+    AttendeesData[1].gatherings = gatherings[0]._id;
+    AttendeesData[2].gatherings = gatherings[0]._id;
+    AttendeesData[3].gatherings = gatherings[0]._id;
+    AttendeesData[4].gatherings = gatherings[1]._id;
+    AttendeesData[5].gatherings = gatherings[1]._id;
+    AttendeesData[6].gatherings = gatherings[2]._id;
+    AttendeesData[7].gatherings = gatherings[2]._id;
 
-    AttendeesData.forEach((attendee, index) => {
-        if (gatherings[index]) {
-            attendee.idGathering = gatherings[index]._id;
-        }
-    });
 
     await populateDb(Attendees, AttendeesData);
     console.log(AttendeesData)
@@ -96,7 +97,6 @@ const setUpSpecialtyData = catchAsync(async () => {
 const setUpGatheringData = catchAsync(async () => {
     await populateDb(Gathering, GatheringData);
 });
-
 
 /**
  * Set up the database with mock data.

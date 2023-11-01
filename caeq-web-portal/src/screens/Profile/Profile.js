@@ -26,10 +26,12 @@ const Profile = (props) => {
         navigate(`/Perfil/${SavedUser._id}`);
     };
 
+
     const loadAttendances = async () => {
         try {
             const architectId = SavedUser._id;
-            const attendeeRecords = await getAllAttendees(architectId); // Utiliza la función para obtener asistencias
+            const attendeeRecords = await getAllAttendees(architectId);
+            console.log(attendeeRecords)
             setAttendances(attendeeRecords);
         } catch (error) {
             console.error('Error loading attendances', error);

@@ -11,7 +11,10 @@ const Specialty = require('./specialty.model');
 const SpecialtyData = require('./data/specialty');
 const Session = require('./session.model.js');
 const SessionsData = require('./data/sessions');
-
+const Attendees = require('./attendees.model');
+const AttendeesData = require('./data/attendees.js');
+const Gathering = require('./gathering.model');
+const GatheringData = require('./data/gathering.js');
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
  *
@@ -53,8 +56,23 @@ const setUpSessionData = catchAsync(async () => {
     SessionsData[4].course = courses[1]._id;
     SessionsData[5].course = courses[1]._id;
     SessionsData[6].course = courses[2]._id;
-    
+
     await populateDb(Session, SessionsData);
+    console.log(SessionsData)
+});
+
+
+const setUpAttendeesData = catchAsync(async () => {
+    const gatherings = await Gathering.find();
+
+    AttendeesData.forEach((attendee, index) => {
+        if (gatherings[index]) {
+            attendee.idGathering = gatherings[index]._id;
+        }
+    });
+
+    await populateDb(Attendees, AttendeesData);
+    console.log(AttendeesData)
 });
 
 /**
@@ -75,6 +93,11 @@ const setUpSpecialtyData = catchAsync(async () => {
     await populateDb(Specialty, SpecialtyData);
 });
 
+const setUpGatheringData = catchAsync(async () => {
+    await populateDb(Gathering, GatheringData);
+});
+
+
 /**
  * Set up the database with mock data.
  *
@@ -87,6 +110,8 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpCourseData();
     await setUpArchitectUserData();
     await setUpSessionData();
+    await setUpGatheringData();
+    await setUpAttendeesData();
     console.log('Test data uploaded to DB');
 });
 

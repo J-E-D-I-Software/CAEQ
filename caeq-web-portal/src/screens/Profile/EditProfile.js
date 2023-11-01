@@ -17,7 +17,6 @@ const ArchitectPersonalData = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
     const date = new Date(editedData.dateOfBirth);
-    console.log("whoami", date)
 
     useEffect(() => {
         if (searchParams.id)
@@ -120,13 +119,6 @@ const ArchitectPersonalData = (props) => {
                         }
                     />
 
-                    <TextInput
-                        label='Edad'
-                        placeholder='Edad'
-                        getVal={editedData.age}
-                        setVal={(value) => setEditedData({ ...editedData, age: value })}
-                    />
-
                     <DropdownInput
                         label='Género'
                         placeholder={editedData.gender}
@@ -145,8 +137,7 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, homeAddress: value })
                         }
                     />
-                </div>
-                <div className='architect-col'>
+
                     <TextInput
                         label='Número celular'
                         placeholder='Número celular'
@@ -155,7 +146,8 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
-
+                </div>
+                <div className='architect-col'>
                     <TextInput
                         label='Número de casa'
                         placeholder='Número de casa'

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getCourse } from '../../client/Course/Course.GET';
 import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
-import { FireError, FireSucess, FireLoading, FireQuestion } from '../../utils/alertHandler';
+import { FireError, FireSucess, FireLoading, FireQuestion, FireQuestionInput} from '../../utils/alertHandler';
 import BaseButton from '../../components/buttons/BaseButton';
 import ClassroomIcon from '../../components/icons/Classroom.png';
 import LocationIcon from '../../components/icons/Location.png';
@@ -38,48 +38,62 @@ const Course = (props) => {
 
     const handleInscription = async (e) => {
         e.preventDefault();
-        try {
-            const confirmation = FireQuestion('¿Estás seguro de inscribirte a este curso?', 'La inscripción no tiene costo y no se puede deshacer.');
-            if (confirmation.isConfirmed) {
-                return;
-            }
-
-            const swal = FireLoading('Inscribiéndote al curso...');
-            const response = await createInscription(searchParams.id);
-            if (response.status === 'success') {
-                FireSucess('Inscripción exitosa.');
-                navigate('/Cursos');
-            }
-            swal.close();
-        } catch (error) {
-            FireError(error.response.data.message);
+        try{
+            const text = FireQuestionInput('¿Quieres subir tu comprobante de pago?', 'La inscripción no tiene costo.');
+            console.log(text);
+            
+            
+    
+        } catch(error) {
+            FireError(error?.response?.data?.message || error?.message)
         }
+        // try {
+        //     const confirmation = FireQuestion('¿Estás seguro de inscribirte a este curso?', 'La inscripción no tiene costo y no se puede deshacer.');
+        //     if (confirmation.isConfirmed) {
+        //         return;
+        //     }
+
+        //     const swal = FireLoading('Inscribiéndote al curso...');
+        //     const response = await createInscription(searchParams.id);
+        //     if (response.status === 'success') {
+        //         FireSucess('Inscripción exitosa.');
+        //         navigate('/Cursos');
+        //     }
+        //     swal.close();
+        // } catch (error) {
+        //     FireError(error.response.data.message);
+        // }
     };
 
     const handlePaymentStart = async () => {
-            
-        if (!paymentFile) {
-            FireError('Por favor, selecciona un archivo de comprobante de pago.');
-            return;
+        try{
+            FireQuestion('¿Quieres subir tu comprobante de pago?', 'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá automaticamente')
+        } catch(error) {
+            FireError(error?.response?.data?.message || error?.message)
         }
+            
+        // if (!paymentFile) {
+        //     FireError('Por favor, selecciona un archivo de comprobante de pago.');
+        //     return;
+        // }
     
-        const form = new FormData();
-        form.append('courseId', searchParams.id);
-        form.append('billImageURL', paymentFile);
+        // const form = new FormData();
+        //d); form.append('courseId', searchParams.i
+        // form.append('billImageURL', paymentFile);
     
-        try {
+        // try {
             
 
-            const swal = FireLoading('Iniciando proceso de pago...');
-            const response = await startPayment(form);
-            if (response.status === 'success') {
-                FireSucess('Pago enviado con éxito.');
-                navigate('/Cursos');
-            }
-            swal.close();
-        } catch (error) {
-            FireError(error.response.data.message);
-        }
+        //     const swal = FireLoading('Iniciando proceso de pago...');
+        //     const response = await startPayment(form);
+        //     if (response.status === 'success') {
+        //         FireSucess('Pago enviado con éxito.');
+        //         navigate('/Cursos');
+        //     }
+        //     swal.close();
+        // } catch (error) {
+        //     FireError(error.response.data.message);
+        // }
     }
     
 

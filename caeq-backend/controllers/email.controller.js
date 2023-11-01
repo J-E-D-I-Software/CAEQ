@@ -26,3 +26,40 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
         message: "Correo enviado a todos los usuarios.",
     });
 });
+
+
+exports.acceptPayment = catchAsync(async (req, res, next) => {
+    console.log("req.body", req.body); //Ya llegamos al controlador
+    const { paymentId, user, status } = req.body; // Id del pago
+
+    if (!paymentId) {
+        return next(new AppError("Por favor ingresa un id de pago.", 400));
+    }
+
+    if (!user) {
+        return next(new AppError("Por favor ingresa un id de usuario.", 400));
+    }
+
+    if (!status) {
+        return next(new AppError("Por favor ingresa un status.", 400));
+    }
+    
+    
+});
+
+exports.declinePayment = catchAsync(async (req, res, next) => {
+    console.log("req.body", req.body); //Ya llegamos al controlador
+    const { paymentId, user, status } = req.body; // Id del pago
+
+    if (!paymentId) {
+        return next(new AppError("Por favor ingresa un id de pago.", 400));
+    }
+    if (!user) {
+        return next(new AppError("Por favor ingresa un id de usuario.", 400));
+    }
+    if (!status) {
+        return next(new AppError("Por favor ingresa un status.", 400));
+    }
+    
+});
+

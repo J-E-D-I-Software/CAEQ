@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
-import { FireError, FireLoading, FireSucess } from "../../utils/alertHandler";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import "../DirectoryArchitectDetail/DirectoryArchitectDetail.scss";
-import BaseButton from "../../components/buttons/BaseButton";
-import FileInput from "../../components/inputs/FileInput/FileInput";
-import { updateArchitectUserByID } from "../../client/ArchitectUser/ArchitecUser.PATCH";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
-import DateInput from "../../components/inputs/DateInput/DateInput";
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import '../DirectoryArchitectDetail/DirectoryArchitectDetail.scss';
+import BaseButton from '../../components/buttons/BaseButton';
+import FileInput from '../../components/inputs/FileInput/FileInput';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import DateInput from '../../components/inputs/DateInput/DateInput';
 
 const ArchitectPersonalData = (props) => {
     const searchParams = useParams();
@@ -18,7 +18,6 @@ const ArchitectPersonalData = (props) => {
     const [editedData, setEditedData] = useState({});
     const date = new Date(editedData.dateOfBirth);
 
-
     useEffect(() => {
         if (searchParams.id)
             getArchitectUserById(searchParams.id)
@@ -26,7 +25,7 @@ const ArchitectPersonalData = (props) => {
                     setData(response);
                     setEditedData(response);
                 })
-                .catch((error) => navigate("/404"));
+                .catch((error) => navigate('/404'));
     }, []);
 
     /**
@@ -39,50 +38,39 @@ const ArchitectPersonalData = (props) => {
 
     const handleCancel = () => {
         navigate(`/Perfil`);
-    }
+    };
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
         const form = new FormData();
-        form.append("fullName", editedData.fullName); //Ya esta
-        form.append("dateOfBirth", editedData.dateOfBirth); //Ya esta
-        form.append("age", editedData.age); //Ya esta
-        form.append("gender", editedData.gender); //Ya esta
-        form.append("homeAddress", editedData.homeAddress); //Ya esta
-        form.append("cellphone", editedData.cellphone); //Ya esta
-        form.append("homePhone", editedData.homePhone); //Ya esta
-        form.append("email", editedData.email); //Ya esta
-        form.append("emergencyContact", editedData.emergencyContact); //Ya esta
+        form.append('fullName', editedData.fullName); //Ya esta
+        form.append('dateOfBirth', editedData.dateOfBirth); //Ya esta
+        form.append('age', editedData.age); //Ya esta
+        form.append('gender', editedData.gender); //Ya esta
+        form.append('homeAddress', editedData.homeAddress); //Ya esta
+        form.append('cellphone', editedData.cellphone); //Ya esta
+        form.append('homePhone', editedData.homePhone); //Ya esta
+        form.append('email', editedData.email); //Ya esta
+        form.append('emergencyContact', editedData.emergencyContact); //Ya esta
         form.append('file', editedData.linkCV);
 
         e.preventDefault();
 
+        const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const swal = FireLoading("Guardando cambios... por favor espere");
             const response = await updateArchitectUserByID(searchParams.id, form);
-            console.log("his isddd", response);
-            if (response.status === "success") {
-                setData(response.data);
-                swal.close();
-                FireSucess("Los Cambios se han guardado correctamente");
-                navigate("/Perfil");
-            } else {
-                swal.close();
-                FireError(response.message);
-            }
+            setData(response.data);
+            swal.close();
+            FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Perfil');
         } catch (error) {
+            swal.close();
             FireError(error.response.data.message);
-            navigate("/Perfil");
+            navigate('/Perfil');
         }
     };
 
-    const gender = [
-        "Hombre",
-        "Mujer",
-        "Prefiero no decirlo",
-    ];
-
-
+    const gender = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
 
     /**
      * Returns an array of member options excluding the currently edited member type.
@@ -91,52 +79,53 @@ const ArchitectPersonalData = (props) => {
      * @returns {Array} An array of member options.
      */
     const getGender = () => {
-        const filteredOptions = gender.filter(
-            (option) => option !== editedData.gender
-        );
+        const filteredOptions = gender.filter((option) => option !== editedData.gender);
         return filteredOptions;
     };
 
     return (
-        <div className="architect-detail">
-            <div className="architect-row">
+        <div className='architect-detail'>
+            <div className='architect-row'>
                 <h2>
-                    {" "}
+                    {' '}
                     (i) Modifica la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
             </div>
-            <div className="architect-row">
-                <div className="architect-col">
-
+            <div className='architect-row'>
+                <div className='architect-col'>
                     <TextInput
-                        label="Nombre completo"
-                        placeholder="Nombre completo"
+                        label='Nombre completo'
+                        placeholder='Nombre completo'
                         getVal={editedData.fullName}
-                        setVal={(value) => 
+                        setVal={(value) =>
                             setEditedData({ ...editedData, fullName: value })
                         }
                     />
 
                     <DateInput
-                        label="Fecha de nacimiento"
-                        getVal={date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()}
-                        setVal={(value) => 
+                        label='Fecha de nacimiento'
+                        getVal={
+                            date.getFullYear() +
+                            '-' +
+                            (date.getMonth() + 1) +
+                            '-' +
+                            date.getDate()
+                        }
+                        setVal={(value) =>
                             setEditedData({ ...editedData, dateOfBirth: value })
                         }
                     />
 
                     <TextInput
-                        label="Edad"
-                        placeholder="Edad"
+                        label='Edad'
+                        placeholder='Edad'
                         getVal={editedData.age}
-                        setVal={(value) => 
-                            setEditedData({ ...editedData, age: value })
-                        }
+                        setVal={(value) => setEditedData({ ...editedData, age: value })}
                     />
 
                     <DropdownInput
-                        label="Género"
+                        label='Género'
                         placeholder={editedData.gender}
                         options={getGender()}
                         getVal={editedData.gender}
@@ -146,45 +135,43 @@ const ArchitectPersonalData = (props) => {
                     />
 
                     <TextInput
-                        label="Dirección"
-                        placeholder="Dirección"
+                        label='Dirección'
+                        placeholder='Dirección'
                         getVal={editedData.homeAddress}
-                        setVal={(value) => 
+                        setVal={(value) =>
                             setEditedData({ ...editedData, homeAddress: value })
                         }
                     />
                 </div>
-                <div className="architect-col">
+                <div className='architect-col'>
                     <TextInput
-                        label="Número celular"
-                        placeholder="Número celular"
+                        label='Número celular'
+                        placeholder='Número celular'
                         getVal={editedData.cellphone}
-                        setVal={(value) => 
+                        setVal={(value) =>
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
 
                     <TextInput
-                        label="Número de casa"
-                        placeholder="Número de casa"
+                        label='Número de casa'
+                        placeholder='Número de casa'
                         getVal={editedData.homePhone}
-                        setVal={(value) => 
+                        setVal={(value) =>
                             setEditedData({ ...editedData, homePhone: value })
                         }
                     />
 
                     <TextInput
-                        label="Correo electrónico"
-                        placeholder="Correo electrónico"
+                        label='Correo electrónico'
+                        placeholder='Correo electrónico'
                         getVal={editedData.email}
-                        setVal={(value) => 
-                            setEditedData({ ...editedData, email: value })
-                        }
+                        setVal={(value) => setEditedData({ ...editedData, email: value })}
                     />
 
                     <TextInput
-                        label="Contacto de emergencia"
-                        placeholder="Contacto de emergencia"
+                        label='Contacto de emergencia'
+                        placeholder='Contacto de emergencia'
                         getVal={editedData.emergencyContact}
                         setVal={(value) =>
                             setEditedData({ ...editedData, emergencyContact: value })
@@ -199,23 +186,23 @@ const ArchitectPersonalData = (props) => {
                         }
                     />
                     <p>
-                        Archivo Actual:{" "}
+                        Archivo Actual:{' '}
                         <a href={editedData.linkCV}>
                             <span>Descargar CV</span>
                         </a>
                     </p>
                 </div>
             </div>
-            <div className="architect-row">
-                <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
+            <div className='architect-row'>
+                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
-                <BaseButton type="cancel" className="button" onClick={handleCancel}>
+                <BaseButton type='cancel' className='button' onClick={handleCancel}>
                     Cancelar
                 </BaseButton>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ArchitectPersonalData;

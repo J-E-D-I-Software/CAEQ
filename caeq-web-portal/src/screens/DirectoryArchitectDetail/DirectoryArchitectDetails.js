@@ -10,16 +10,21 @@ import FileInput from '../../components/inputs/FileInput/FileInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
-import {memberOptions, authorizationOptions, classificationOptions, lifeInsuranceOptions, anuuityOptions} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions'
+import {
+    memberOptions,
+    authorizationOptions,
+    classificationOptions,
+    lifeInsuranceOptions,
+    anuuityOptions,
+} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
-
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -48,40 +53,17 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        architect.specialties.includes(specialty.value)
-                    )
-                );
+                let currentSpecialties = architect.specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
         })();
     }, []);
 
-
-    
-    //Recupera las especialidades de los arquitectos
-    useEffect(() => {
-        // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
-        if (editedData.specialty) {
-            const selectedSpecialties = editedData.specialty.map((s) => ({
-                value: s,
-                label: s,
-            }));
-
-            setSelectedSpecialties(selectedSpecialties);
-            setAvailableSpecialties((prevSpecialties) =>
-                prevSpecialties.filter(
-                    (specialty) =>
-                        !selectedSpecialties.some(
-                            (selected) => selected.value === specialty.value
-                        )
-                )
-            );
-        }
-    }, [editedData.specialty, selectedSpecialties]);
- 
     // Pago de Anualidad pendiente
 
     /**
@@ -94,10 +76,8 @@ const ArchitectDetail = (props) => {
     const handleSaveChanges = async (e) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
-            editedData.authorizationToShareInfo === "Si" ? true : false;
-        editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
-
-
+            editedData.authorizationToShareInfo === 'Si' ? true : false;
+        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -121,21 +101,16 @@ const ArchitectDetail = (props) => {
 
         e.preventDefault();
 
+        const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const swal = FireLoading('Guardando cambios... por favor espere');
-            console.log(form);
             const response = await updateArchitectUserByID(searchParams.id, form);
-            if (response.status === 'success') {
-                setData(response.data);
-                swal.close();
-                FireSucess('Los Cambios se han guardado correctamente');
-                navigate('/Directorio');
-            } else {
-                swal.close();
-                FireError(response.message);
-            }
+            setData(response.data);
+            swal.close();
+            FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
         } catch (error) {
-            FireError(error.message);
+            swal.close();
+            FireError(error.response.data.message);
         }
     };
 
@@ -151,13 +126,13 @@ const ArchitectDetail = (props) => {
         );
         return filteredOptions;
     };
-    
+
     const getClassificationOptions = () => {
         const filteredOptions = classificationOptions.filter(
             (option) => option !== editedData.classification
         );
         return filteredOptions;
-    }
+    };
 
     /**
      * Returns an array of authorization options, excluding the currently edited option.
@@ -191,8 +166,6 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
-
-
     return (
         <div className='architect-detail'>
             <div className='architect-row'>
@@ -215,7 +188,7 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, collegiateNumber: value })
                         }
                     />
-                    
+
                     <TextInput
                         label='Número de DRO'
                         placeholder='Número de DRO'
@@ -238,18 +211,19 @@ const ArchitectDetail = (props) => {
                         placeholder={editedData.classification}
                         getVal={editedData.classification}
                         options={getClassificationOptions()}
-                        setVal={(value) => 
-                            setEditedData({ ...editedData, classification: value})}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, classification: value })
+                        }
                     />
                     <SelectInputComponent
-                        label="Especialidades"
+                        label='Especialidades'
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder="Selecciona una especialidad"
+                        placeholder='Selecciona una especialidad'
                     />
                     <TextInput
                         label='Actividad Profesional Principal'
@@ -308,7 +282,8 @@ const ArchitectDetail = (props) => {
                         getVal={editedData.lifeInsurance}
                         setVal={(value) =>
                             setEditedData({
-                                ...editedData, lifeInsurance: value,
+                                ...editedData,
+                                lifeInsurance: value,
                             })
                         }
                     />
@@ -358,14 +333,16 @@ const ArchitectDetail = (props) => {
                     />
                     {editedData.linkCV ? (
                         <p>
-                            Archivo Actual:<a href={editedData.linkCV}>
+                            Archivo Actual:
+                            <a href={editedData.linkCV}>
                                 <span>Descargar CV</span>
-                             </a>
+                            </a>
                         </p>
-                    ) : <p>
-                          <span>No hay CV registrado. ¡Sube uno!</span>
-                        </p> 
-                    }
+                    ) : (
+                        <p>
+                            <span>No hay CV registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
                 </div>
             </div>
 

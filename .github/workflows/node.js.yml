@@ -11,7 +11,7 @@ on:
             - test # Change this to your main branch name
 
 jobs:
-    test:
+    UnitTesting:
         runs-on: ubuntu-latest
 
         env:

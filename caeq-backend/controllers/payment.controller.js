@@ -133,7 +133,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
         course: payment.course,
         user: payment.user,
     });
-
+/*
     try {
         // Send payment accepted confirmation email
         await new Email(
@@ -155,7 +155,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }
+    }*/
 
     res.status(200).json({
         status: 'success',
@@ -195,7 +195,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     await Course.findByIdAndUpdate(payment.course._id, {
         capacity: payment.course.capacity + 1,
     });
-
+/*
     try {
         await new Email(
             payment.user,
@@ -209,7 +209,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }
+    }*/
     // Send payment rejected confirmation email
 
     res.status(200).json({

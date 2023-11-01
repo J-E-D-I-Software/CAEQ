@@ -1,21 +1,22 @@
-import { Fragment, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { FireError, FireSucess, FireLoading } from "../../utils/alertHandler";
-import CourseCard from "../../components/cards/CourseCard";
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import NumberInput from "../../components/inputs/NumberInput/NumberInput";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
-import FileInput from "../../components/inputs/FileInput/FileInput";
-import DateInput from "../../components/inputs/DateInput/DateInput";
-import BaseButton from "../../components/buttons/BaseButton";
-import { getCourse } from "../../client/Course/Course.GET";
-import createCourse from "../../client/Course/Course.POST";
-import updateCourse from "../../client/Course/Course.PATCH";
-import { getAllSessions } from "../../client/Course/Session.GET";
-import { createSession } from "../../client/Course/Session.POST";
-import { updateSession } from "../../client/Course/Session.PATCH";
-import { deleteSession } from "../../client/Course/Session.DELETE";
-import "./createCourse.scss";
+import { Fragment, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import CourseCard from '../../components/cards/CourseCard';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import NumberInput from '../../components/inputs/NumberInput/NumberInput';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import FileInput from '../../components/inputs/FileInput/FileInput';
+import DateInput from '../../components/inputs/DateInput/DateInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { getCourse } from '../../client/Course/Course.GET';
+import createCourse from '../../client/Course/Course.POST';
+import updateCourse from '../../client/Course/Course.PATCH';
+import { getAllSessions } from '../../client/Course/Session.GET';
+import { createSession } from '../../client/Course/Session.POST';
+import { updateSession } from '../../client/Course/Session.PATCH';
+import { deleteSession } from '../../client/Course/Session.DELETE';
+import './createCourse.scss';
+import { getCourseInscriptions } from '../../client/Inscription/Inscription.GET';
 
 /**
  * Page that if it receives a course id it will display an "Edit" mode
@@ -25,8 +26,12 @@ const CreateOrUpdateCourse = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
-    const [sessionSelected, setSessionSelected] = useState({ _id: 1, date: '', time: ''});
-    const [sessions, setSessions] = useState([{ _id: 1, date: '', time: ''}]);
+    const [sessionSelected, setSessionSelected] = useState({
+        _id: 1,
+        date: '',
+        time: '',
+    });
+    const [sessions, setSessions] = useState([{ _id: 1, date: '', time: '' }]);
     const [data, setData] = useState({
         courseName: '',
         modality: 'Presencial',
@@ -48,6 +53,9 @@ const CreateOrUpdateCourse = () => {
         paymentInfo: '',
         imageUrl: '',
     });
+    const [inscriptions, setInscriptions] = useState({
+        data: { documents: [] },
+    });
 
     useEffect(() => {
         if (searchParams.id) {
@@ -60,15 +68,26 @@ const CreateOrUpdateCourse = () => {
                         response.endDate = response.endDate.slice(0, 10);
                     else response.endDate = '';
 
-                setData(response);
-            })
-            .catch(() => navigate('/404'));
+                    setData(response);
+                })
+                .catch(() => navigate('/404'));
 
-            getAllSessions(searchParams.id)
-            .then(response => {
+            getCourseInscriptions(searchParams.id).then((res) => {
+                if (
+                    res &&
+                    res.data &&
+                    res.data.documents &&
+                    res.data.documents.length > 0
+                ) {
+                    // Access user data from the JSON
+                    const user = res.data.documents[0].user;
+                    console.log(res);
+                    setInscriptions(res);
+                }
+            });
+            getAllSessions(searchParams.id).then((response) => {
                 setSessions(response);
-                if (response.length > 0)
-                    setSessionSelected(response[0]);
+                if (response.length > 0) setSessionSelected(response[0]);
             });
         }
     }, []);
@@ -94,7 +113,9 @@ const CreateOrUpdateCourse = () => {
         // Validations
         if (data.pricing === 'Gratuito') data.price = 0;
         else if (!data.pricing) {
-            FireError('Es necesario declarar si el cursos es gratuito o de paga');
+            FireError(
+                'Es necesario declarar si el cursos es gratuito o de paga'
+            );
             return;
         }
 
@@ -109,7 +130,9 @@ const CreateOrUpdateCourse = () => {
         }
 
         if (data.courseName.length > 70) {
-            FireError('Se acepta un máximo de 70 caracteres para el nombre del curso');
+            FireError(
+                'Se acepta un máximo de 70 caracteres para el nombre del curso'
+            );
             return;
         }
 
@@ -117,21 +140,26 @@ const CreateOrUpdateCourse = () => {
             const startD = new Date(data.startDate);
             const endD = new Date(data.endDate);
             if (endD < startD) {
-                FireError('La fecha fin debe de ir después de la fecha de inicio');
+                FireError(
+                    'La fecha fin debe de ir después de la fecha de inicio'
+                );
                 return;
             }
         }
 
         // Build FormData
         const formData = new FormData();
-        Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
+        Object.entries(data).forEach((entry) =>
+            formData.append(entry[0], entry[1])
+        );
 
         if (image) formData.set('imageUrl', image);
 
         let response = null;
         const swal = FireLoading('Guardando...');
         try {
-            if (searchParams.id) response = await updateCourse(searchParams.id, formData);
+            if (searchParams.id)
+                response = await updateCourse(searchParams.id, formData);
             else response = await createCourse(formData);
 
             if (!response._id) throw 'Error: ' + response;
@@ -169,15 +197,19 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Guardando...');
         try {
             const courseId = searchParams.id;
-            const mode = Number.isInteger(sessionSelected._id) ? 'create' : 'update';
+            const mode = Number.isInteger(sessionSelected._id)
+                ? 'create'
+                : 'update';
             if (mode === 'create') {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
                 const newSession = await createSession(sessionSelected);
                 setSessionSelected(newSession);
-                setSessions([...sessions.slice(0, sessions.length-1), newSession]);
-            }
-            else {
+                setSessions([
+                    ...sessions.slice(0, sessions.length - 1),
+                    newSession,
+                ]);
+            } else {
                 await updateSession(sessionSelected._id, sessionSelected);
             }
             swal.close();
@@ -205,7 +237,11 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Eliminando...');
         try {
             await deleteSession(sessionSelected._id);
-            setSessions(sessions.filter(session => session._id !== sessionSelected._id));
+            setSessions(
+                sessions.filter(
+                    (session) => session._id !== sessionSelected._id
+                )
+            );
             setSessionSelected(sessions[0]);
             swal.close();
             FireSucess('Sesión eliminada');
@@ -217,13 +253,13 @@ const CreateOrUpdateCourse = () => {
     };
 
     /**
-     * 
+     *
      * @param {string} key - the name of the field to be updated
      * @param {string} value - the new value of the field
      * @returns
      */
     const onUpdateSession = (key, value) => {
-        setSessionSelected({...sessionSelected, [key]: value});
+        setSessionSelected({ ...sessionSelected, [key]: value });
     };
 
     /**
@@ -233,8 +269,20 @@ const CreateOrUpdateCourse = () => {
      */
     const formatDate = (dateStr) => {
         const [year, month, day] = dateStr.split('-');
-        const formattedMonth = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 
-                                'Oct', 'Nov', 'Dic'][Number(month)-1];
+        const formattedMonth = [
+            'Ene',
+            'Feb',
+            'Mar',
+            'Abr',
+            'May',
+            'Jun',
+            'Jul',
+            'Ago',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dic',
+        ][Number(month) - 1];
         return `${day} ${formattedMonth} ${year}`;
     };
 
@@ -259,15 +307,21 @@ const CreateOrUpdateCourse = () => {
                     />
 
                     <div className='create-course--form-group'>
-                        <label htmlFor='review' className='create-course__label-input'>
+                        <label
+                            htmlFor='review'
+                            className='create-course__label-input'
+                        >
                             Reseña del instructor
                         </label>
                         <textarea
                             className='box-input'
                             name='review'
                             value={data.teacherReview}
-                            onChange={(e) => updateData('teacherReview', e.target.value)}
-                            placeholder='Una breve reseña que describa el contexto del profesor'></textarea>
+                            onChange={(e) =>
+                                updateData('teacherReview', e.target.value)
+                            }
+                            placeholder='Una breve reseña que describa el contexto del profesor'
+                        ></textarea>
                     </div>
                     <DropdownInput
                         label='Curso gratuito o pagado'
@@ -285,32 +339,46 @@ const CreateOrUpdateCourse = () => {
                             <TextInput
                                 label='Datos de pago'
                                 getVal={data.paymentInfo}
-                                setVal={(value) => updateData('paymentInfo', value)}
+                                setVal={(value) =>
+                                    updateData('paymentInfo', value)
+                                }
                                 placeholder='Cuenta a dónde hay que hacer el depósito'
                             />
                         </Fragment>
                     )}
                     <div className='create-course--form-group'>
-                        <label htmlFor='includes' className='create-course__label-input'>
+                        <label
+                            htmlFor='includes'
+                            className='create-course__label-input'
+                        >
                             Incluye
                         </label>
                         <textarea
                             className='box-input'
                             name='includes'
                             value={data.includes}
-                            onChange={(e) => updateData('includes', e.target.value)}
-                            placeholder='Una lista de cosas que incluye el curso'></textarea>
+                            onChange={(e) =>
+                                updateData('includes', e.target.value)
+                            }
+                            placeholder='Una lista de cosas que incluye el curso'
+                        ></textarea>
                     </div>
                     <div className='create-course--form-group'>
-                        <label htmlFor='temario' className='create-course__label-input'>
+                        <label
+                            htmlFor='temario'
+                            className='create-course__label-input'
+                        >
                             Temario del curso
                         </label>
                         <textarea
                             className='box-input'
                             name='temario'
                             value={data.temario}
-                            onChange={(e) => updateData('temario', e.target.value)}
-                            placeholder='El que incluye el curso'></textarea>
+                            onChange={(e) =>
+                                updateData('temario', e.target.value)
+                            }
+                            placeholder='El que incluye el curso'
+                        ></textarea>
                     </div>
                 </div>
 
@@ -322,7 +390,10 @@ const CreateOrUpdateCourse = () => {
                         require
                     />
                     <div className='create-course--form-group'>
-                        <label htmlFor='includes' className='create-course__label-input'>
+                        <label
+                            htmlFor='includes'
+                            className='create-course__label-input'
+                        >
                             Descripción general del curso
                         </label>
                         <textarea
@@ -331,7 +402,8 @@ const CreateOrUpdateCourse = () => {
                             value={data.description}
                             onChange={(e) =>
                                 updateData('description', e.target.value)
-                            }></textarea>
+                            }
+                        ></textarea>
                     </div>
                     <DropdownInput
                         label='Modalidad'
@@ -351,7 +423,10 @@ const CreateOrUpdateCourse = () => {
                         setVal={(value) => updateData('numberHours', value)}
                     />
                     <div className='create-course--form-group'>
-                        <label htmlFor='startDate' className='create-course__label-input'>
+                        <label
+                            htmlFor='startDate'
+                            className='create-course__label-input'
+                        >
                             Fecha de inicio
                         </label>
                         <input
@@ -359,11 +434,16 @@ const CreateOrUpdateCourse = () => {
                             className='date-input'
                             value={data.startDate}
                             type='date'
-                            onChange={(e) => updateData('startDate', e.target.value)}
+                            onChange={(e) =>
+                                updateData('startDate', e.target.value)
+                            }
                         />
                     </div>
                     <div className='create-course--form-group'>
-                        <label htmlFor='endDate' className='create-course__label-input'>
+                        <label
+                            htmlFor='endDate'
+                            className='create-course__label-input'
+                        >
                             Fecha de finalización
                         </label>
                         <input
@@ -371,7 +451,9 @@ const CreateOrUpdateCourse = () => {
                             className='date-input'
                             value={data.endDate}
                             type='date'
-                            onChange={(e) => updateData('endDate', e.target.value)}
+                            onChange={(e) =>
+                                updateData('endDate', e.target.value)
+                            }
                         />
                     </div>
                     <TextInput
@@ -387,15 +469,21 @@ const CreateOrUpdateCourse = () => {
                         placeholder='5:00PM a 6:00pm'
                     />
                     <div className='create-course--form-group'>
-                        <label htmlFor='objective' className='create-course__label-input'>
+                        <label
+                            htmlFor='objective'
+                            className='create-course__label-input'
+                        >
                             Objetivos del curso
                         </label>
                         <textarea
                             className='box-input'
                             name='objective'
                             value={data.objective}
-                            onChange={(e) => updateData('objective', e.target.value)}
-                            placeholder='Una lista de objectivos que incluye el curso'></textarea>
+                            onChange={(e) =>
+                                updateData('objective', e.target.value)
+                            }
+                            placeholder='Una lista de objectivos que incluye el curso'
+                        ></textarea>
                     </div>
                     <FileInput
                         label='Portada del curso (en formato vertical)'
@@ -404,59 +492,119 @@ const CreateOrUpdateCourse = () => {
                         setVal={setImage}
                     />
 
-                    <BaseButton type="primary" onClick={e => onSubmitCourse(e)}>
+                    <BaseButton
+                        type='primary'
+                        onClick={(e) => onSubmitCourse(e)}
+                    >
                         {searchParams.id ? 'Guardar curso' : 'Crear curso'}
                     </BaseButton>
                 </div>
             </div>
 
-            <div className="create-course--row">
-                <div className="create-course--col">
+            <div className='create-course--row'>
+                <div className='create-course--col'>
                     <h1>Sesiones</h1>
-                    <div className="create-course--col create-course__sessions-table">
-                        <ul className="create-course__sessions-table__header">
-                            { sessions.map((session, i) => (
-                                <li className={sessionSelected._id === session._id && 'session--selected'} 
+                    <div className='create-course--col create-course__sessions-table'>
+                        <ul className='create-course__sessions-table__header'>
+                            {sessions.map((session, i) => (
+                                <li
+                                    className={
+                                        sessionSelected._id === session._id &&
+                                        'session--selected'
+                                    }
                                     onClick={() => setSessionSelected(session)}
-                                    key={i}>
+                                    key={i}
+                                >
                                     {session.date
                                         ? formatDate(session.date.slice(0, 10))
-                                        : `Sesión ${i+1} (sin guardar)`
-                                    }
+                                        : `Sesión ${i + 1} (sin guardar)`}
                                 </li>
                             ))}
-                            { sessions.length === 0 && 
-                                <li className="session--selected">Sessión 1 (no guardada)</li>
-                            }
-                            { sessions.length > 0 &&
-                                <li className="create-course__sessions__add"
-                                    onClick={() => {
-                                        setSessions([...sessions, 
-                                            { 
-                                                _id: sessions.length, 
-                                                date: '', 
-                                                time: data.schedule 
-                                            }]);
-                                    }}
-                                    ><div>+</div>
+                            {sessions.length === 0 && (
+                                <li className='session--selected'>
+                                    Sessión 1 (no guardada)
                                 </li>
-                            }
+                            )}
+                            {sessions.length > 0 && (
+                                <li
+                                    className='create-course__sessions__add'
+                                    onClick={() => {
+                                        setSessions([
+                                            ...sessions,
+                                            {
+                                                _id: sessions.length,
+                                                date: '',
+                                                time: data.schedule,
+                                            },
+                                        ]);
+                                    }}
+                                >
+                                    <div>+</div>
+                                </li>
+                            )}
                         </ul>
-                        <div className="create-course--row create-course__sessions-table__body">
-                            <DateInput 
-                                label="Fecha de la sesión" 
+                        <div className='create-course--row create-course__sessions-table__body'>
+                            <DateInput
+                                label='Fecha de la sesión'
                                 getVal={sessionSelected?.date?.slice(0, 10)}
-                                setVal={val => onUpdateSession('date', val)} />
-                            <TextInput 
-                                label="Hora de incio" 
+                                setVal={(val) => onUpdateSession('date', val)}
+                            />
+                            <TextInput
+                                label='Hora de incio'
                                 getVal={sessionSelected.time}
-                                setVal={val => onUpdateSession('time', val)} 
-                                placeholder="14:00 hrs"/>
-                            <BaseButton type="primary" onClick={onSubmitSession}>Guardar</BaseButton>
-                            <BaseButton type="fail" onClick={onSubmitDeleteSession}>Eliminar</BaseButton>
+                                setVal={(val) => onUpdateSession('time', val)}
+                                placeholder='14:00 hrs'
+                            />
+                            <BaseButton
+                                type='primary'
+                                onClick={onSubmitSession}
+                            >
+                                Guardar
+                            </BaseButton>
+                            <BaseButton
+                                type='fail'
+                                onClick={onSubmitDeleteSession}
+                            >
+                                Eliminar
+                            </BaseButton>
                         </div>
-                        <div className="create-course__sessions-table__content">
-                            <span>Lista de asistencia de los inscritos</span>
+                        <div className='create-course__sessions-table__content'>
+                            {inscriptions.data.documents.length > 0 ? (
+                                <table className='styled-table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Asistió</th>
+                                            <th>Número de colegiado</th>
+                                            <th>Nombre completo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {inscriptions.data.documents.map(
+                                            (inscription, i) => (
+                                                <tr key={i}>
+                                                    <td>
+                                                        <input type='checkbox' />
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            inscription.user
+                                                                .collegiateNumber
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            inscription.user
+                                                                .fullName
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>No hay colegiados inscritos a este curso.</p>
+                            )}
                         </div>
                     </div>
                 </div>

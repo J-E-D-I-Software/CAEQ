@@ -10,13 +10,21 @@ import FileInput from '../../components/inputs/FileInput/FileInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
-import {memberOptions, authorizationOptions, classificationOptions, lifeInsuranceOptions, anuuityOptions} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions'
+import {
+    memberOptions,
+    authorizationOptions,
+    classificationOptions,
+    lifeInsuranceOptions,
+    anuuityOptions,
+} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
+
+    const [updateHours, setUpdateHours] = useState(false);
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
@@ -53,14 +61,22 @@ const ArchitectDetail = (props) => {
                         architect.specialties.includes(specialty.value)
                     )
                 );
+
+                // Set up an interval to fetch data every 2 minutes
+                const intervalId = setInterval(() => {
+                    getArchitectUserById(searchParams.id);
+                }, 120000); // 2 minutes in milliseconds
+
+                // Clean up the interval on component unmount to avoid memory leaks
+                return () => {
+                    clearInterval(intervalId);
+                };
             } catch (error) {
                 console.log(error);
             }
         })();
     }, []);
 
-
-    
     //Recupera las especialidades de los arquitectos
     useEffect(() => {
         // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
@@ -81,7 +97,7 @@ const ArchitectDetail = (props) => {
             );
         }
     }, [editedData.specialty, selectedSpecialties]);
- 
+
     // Pago de Anualidad pendiente
 
     /**
@@ -94,10 +110,9 @@ const ArchitectDetail = (props) => {
     const handleSaveChanges = async (e) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
-            editedData.authorizationToShareInfo === "Si" ? true : false;
-        editedData.lifeInsurance = editedData.lifeInsurance === "Si" ? true : false;
-
-
+            editedData.authorizationToShareInfo === 'Si' ? true : false;
+        editedData.lifeInsurance =
+            editedData.lifeInsurance === 'Si' ? true : false;
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -107,14 +122,20 @@ const ArchitectDetail = (props) => {
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
         form.append('classification', editedData.classification);
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append(
+            'mainProfessionalActivity',
+            editedData.mainProfessionalActivity
+        );
         form.append('dateOfAdmission', editedData.dateOfAdmission);
         form.append('professionalLicense', editedData.professionalLicense);
         form.append('capacitationHours', editedData.capacitationHours);
         form.append('hoursAttended', editedData.hoursAttended);
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
-        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append(
+            'authorizationToShareInfo',
+            editedData.authorizationToShareInfo
+        );
         form.append('file', editedData.linkCV);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
@@ -124,7 +145,10 @@ const ArchitectDetail = (props) => {
         try {
             const swal = FireLoading('Guardando cambios... por favor espere');
             console.log(form);
-            const response = await updateArchitectUserByID(searchParams.id, form);
+            const response = await updateArchitectUserByID(
+                searchParams.id,
+                form
+            );
             if (response.status === 'success') {
                 setData(response.data);
                 swal.close();
@@ -151,13 +175,13 @@ const ArchitectDetail = (props) => {
         );
         return filteredOptions;
     };
-    
+
     const getClassificationOptions = () => {
         const filteredOptions = classificationOptions.filter(
             (option) => option !== editedData.classification
         );
         return filteredOptions;
-    }
+    };
 
     /**
      * Returns an array of authorization options, excluding the currently edited option.
@@ -191,14 +215,12 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
-
-
     return (
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
-                    en guardar cambios.
+                    (i) Modifica la información que sea necesaria. Al terminar,
+                    haz clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -212,10 +234,13 @@ const ArchitectDetail = (props) => {
                         placeholder='Número de Colegiado'
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, collegiateNumber: value })
+                            setEditedData({
+                                ...editedData,
+                                collegiateNumber: value,
+                            })
                         }
                     />
-                    
+
                     <TextInput
                         label='Número de DRO'
                         placeholder='Número de DRO'
@@ -238,18 +263,22 @@ const ArchitectDetail = (props) => {
                         placeholder={editedData.classification}
                         getVal={editedData.classification}
                         options={getClassificationOptions()}
-                        setVal={(value) => 
-                            setEditedData({ ...editedData, classification: value})}
+                        setVal={(value) =>
+                            setEditedData({
+                                ...editedData,
+                                classification: value,
+                            })
+                        }
                     />
                     <SelectInputComponent
-                        label="Especialidades"
+                        label='Especialidades'
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder="Selecciona una especialidad"
+                        placeholder='Selecciona una especialidad'
                     />
                     <TextInput
                         label='Actividad Profesional Principal'
@@ -267,7 +296,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Cédula Profesional'
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, professionalLicense: value })
+                            setEditedData({
+                                ...editedData,
+                                professionalLicense: value,
+                            })
                         }
                     />
                     <TextInput
@@ -275,7 +307,10 @@ const ArchitectDetail = (props) => {
                         placeholder='FechaDeIngreso'
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, dateOfAdmission: value })
+                            setEditedData({
+                                ...editedData,
+                                dateOfAdmission: value,
+                            })
                         }
                     />
                     <TextInput
@@ -283,7 +318,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Municipio de Trabajo'
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, municipalityOfLabor: value })
+                            setEditedData({
+                                ...editedData,
+                                municipalityOfLabor: value,
+                            })
                         }
                     />
                 </div>
@@ -308,7 +346,8 @@ const ArchitectDetail = (props) => {
                         getVal={editedData.lifeInsurance}
                         setVal={(value) =>
                             setEditedData({
-                                ...editedData, lifeInsurance: value,
+                                ...editedData,
+                                lifeInsurance: value,
                             })
                         }
                     />
@@ -317,7 +356,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Poliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, lifeInsureID: value })
+                            setEditedData({
+                                ...editedData,
+                                lifeInsureID: value,
+                            })
                         }
                     />
                     <TextInput
@@ -325,7 +367,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, capacitationHours: value })
+                            setEditedData({
+                                ...editedData,
+                                capacitationHours: value,
+                            })
                         }
                     />
                     <DropdownInput
@@ -345,7 +390,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Posiciones en Consejo'
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, positionsInCouncil: value })
+                            setEditedData({
+                                ...editedData,
+                                positionsInCouncil: value,
+                            })
                         }
                     />
                     <FileInput
@@ -358,19 +406,25 @@ const ArchitectDetail = (props) => {
                     />
                     {editedData.linkCV ? (
                         <p>
-                            Archivo Actual:<a href={editedData.linkCV}>
+                            Archivo Actual:
+                            <a href={editedData.linkCV}>
                                 <span>Descargar CV</span>
-                             </a>
+                            </a>
                         </p>
-                    ) : <p>
-                          <span>No hay CV registrado. ¡Sube uno!</span>
-                        </p> 
-                    }
+                    ) : (
+                        <p>
+                            <span>No hay CV registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
                 </div>
             </div>
 
             <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
+                <BaseButton
+                    type='primary'
+                    className='button'
+                    onClick={handleSaveChanges}
+                >
                     Guardar Cambios
                 </BaseButton>
             </div>

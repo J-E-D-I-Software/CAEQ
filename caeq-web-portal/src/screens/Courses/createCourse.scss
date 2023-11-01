@@ -69,7 +69,7 @@
             }
 
             .session--selected {
-                background-color: #062E52;
+                background-color: #062e52;
                 color: white;
             }
 
@@ -80,7 +80,7 @@
                 margin-left: 1rem;
 
                 div {
-                    color: white;  
+                    color: white;
                     border-radius: 100%;
                     background-color: #eea300;
                     width: 40px;
@@ -89,24 +89,23 @@
                     justify-content: center;
                     align-items: center;
                 }
-                
+
                 div:hover {
-                  background-color: #b47c02;
-                  border-radius: 100%;
-                  color: white;  
+                    background-color: #b47c02;
+                    border-radius: 100%;
+                    color: white;
                 }
             }
         }
 
         .create-course__sessions-table__body {
-            background-color: #062E52;
+            background-color: #062e52;
             justify-content: start;
             align-items: center;
             padding-bottom: 2rem;
             border-radius: 0 10px 0 0;
 
-
-            label { 
+            label {
                 padding: 0 1rem;
 
                 .label-input {
@@ -114,7 +113,7 @@
                 }
             }
 
-            button { 
+            button {
                 max-height: 70px;
                 margin-right: 1rem;
                 margin-top: 1.5rem;
@@ -122,14 +121,31 @@
         }
 
         .create-course__sessions-table__content {
-            border: solid 5px #062E52;
+            border: solid 5px #062e52;
             flex-grow: 1;
             border-radius: 0 0 10px 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
+            .styled-table {
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                width: 100%;
+                height: auto;
+                overflow: scroll;
+                font-family: sans-serif;
+                min-width: 400px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            }
+            .styled-table thead tr {
+                color: black;
+                text-align: left;
+                font-size: large;
+            }
+            .styled-table th,
+            .styled-table td {
+                padding: 12px 15px;
+            }
+        }
     }
 
     @media only screen and (max-width: 700px) {
@@ -140,7 +156,7 @@
         }
     }
 
-    @media only screen and (max-width: 1050px)  {
+    @media only screen and (max-width: 1050px) {
         .create-course__sessions-table__body {
             flex-direction: column;
         }

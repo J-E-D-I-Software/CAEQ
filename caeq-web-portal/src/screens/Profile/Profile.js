@@ -18,6 +18,11 @@ const Profile = (props) => {
     const [profile, setProfile] = useState({});
 
     const date = new Date(profile.dateOfBirth);
+    console.log(date.toUTCString());
+    console.log(date.getFullYear());
+    console.log(date.getUTCDate());
+    console.log(date.getUTCMonth()+1);
+    
     const startDate = new Date(profile.dateOfAdmission);
 
     const handleRoute = (id) => {
@@ -30,6 +35,8 @@ const Profile = (props) => {
                 .then((response) => setProfile(response))
                 .catch((error) => navigate('/404'));
     }, []);
+
+    console.log(profile);
 
     return (
         <div className='profile'>
@@ -48,7 +55,7 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Fecha de Nacimiento: </span>
-                            {date.toLocaleDateString()}
+                            {date.getUTCDate()}/{date.getUTCMonth()+1}/{date.getFullYear()}
                         </p>
                         <p>
                             <span>Edad: </span>

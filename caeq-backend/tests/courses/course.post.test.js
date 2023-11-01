@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../../app');
+const app = require('../../app');
 const { connectDB } = require('../../config/databaseTest');
 const { loginAdmin } = require('../../config/authSetUp');
 const { setUpDbWithMuckData } = require('../../../models/testdata.setup');

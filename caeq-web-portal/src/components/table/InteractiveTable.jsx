@@ -16,7 +16,6 @@ const InteractiveTable = ({ data, onRowClick }) => {
     // Get the columns to be displayed in the table.
     const allColumns = Object.keys(headerMappings);
 
-
     // State to maintain the visibility of columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
         const initialVisibility = {};
@@ -103,7 +102,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 </tr>
             );
         }
-        const classLink= "link-cv-column"
+
         return data.map((row, rowIndex) => (
             <tr
                 key={rowIndex}
@@ -120,13 +119,13 @@ const InteractiveTable = ({ data, onRowClick }) => {
                         <td key={column} className={column === "linkCV" ? "sticky-column link-cv-column" : "sticky-column"}>
                             {typeof row[column] === "boolean" ? (
                                 formatBooleanValue(row[column])
-                            ) : column === "linkCV" && row[column] ? (
+                            ) : column === "linkCV" && row[column] !== '-' ? (
 
                                 <BaseButton type='primary' className="link-cv-column" onClick={(e) => handleButtonClick(e,row[column])}>
                                     Descargar CV
                                 </BaseButton>
                                
-                            ) : column === "linkCV" && row[column] !== ' ' ? (
+                            ) : column === "linkCV" && row[column] == '-' ? (
                                 <BaseButton type='primary' className="link-cv-column">
                                     No hay CV registrado
                                 </BaseButton>

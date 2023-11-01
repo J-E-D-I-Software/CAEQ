@@ -7,16 +7,16 @@ const agent = request.agent(app);
 
 const testArchitectLogin = async () => {
     const resTest1 = await agent.post('/architectusers/auth/login').send({
-        email: 'luis@example.com',
-        password: 'password123',
+        email: 'jcastr@tec.mx',
+        password: 'password456',
     });
 
     expect(resTest1.statusCode).toEqual(201);
     expect(resTest1.body).toBeTruthy();
-    expect(resTest1.body.data.user.email).toEqual('luis@example.com');
+    expect(resTest1.body.data.user.email).toEqual('jcastr@tec.mx');
 
     const resTest2 = await agent.post('/architectusers/auth/login').send({
-        email: 'luis@example.com',
+        email: 'jcastr@tec.mx',
         password: 'wrongpass',
     });
 
@@ -105,7 +105,7 @@ const testArchitectSignUp = async () => {
         email: 'cesarjim@example.com',
         password: 'password',
         passwordConfirm: 'password789',
-        collegiateNumber: 98765,
+        collegiateNumber: 6666,
         fullName: 'Luis García',
         memberType: 'Miembro de número',
         classification: 'Docente',

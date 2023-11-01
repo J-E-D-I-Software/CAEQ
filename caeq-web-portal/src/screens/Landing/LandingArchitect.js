@@ -21,8 +21,7 @@ const LandingArchitect = () => {
                         Bienvenidos al portal de colegiados
                     </div>
                     <p className='subtitlecaeq'>
-                        Consulta tu información, cursos, cotizaciones y
-                        servicios que se ofrecen en el CAEQ.
+                        Un nuevo espacio de consulta informativa.
                     </p>
                     <div className='button-container'>
                         <Link to='/LoginUser'>

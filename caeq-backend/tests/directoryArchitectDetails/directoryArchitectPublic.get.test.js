@@ -12,7 +12,7 @@ const testGetAllPublicArchitectDetails = async () => {
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200); //
-    expect(res.body.results).toEqual(6);
+    expect(res.body.results).toEqual(8);
 };
 
 beforeAll(async () => {

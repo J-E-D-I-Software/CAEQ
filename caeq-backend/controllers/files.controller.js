@@ -23,7 +23,10 @@ const limits = {
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;
 
-    buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
+    buffer = await sharp(buffer)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toBuffer();
 
     const timestamp = Date.now();
     const name = originalname.split('.')[0];

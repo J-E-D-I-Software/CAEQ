@@ -125,7 +125,10 @@ app.use('/payment', paymentRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-    const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
+    const error = new AppError(
+        `Can´t find ${req.originalUrl} on this server`,
+        404
+    );
 
     next(error);
 });

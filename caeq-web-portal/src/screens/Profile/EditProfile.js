@@ -42,6 +42,12 @@ const ArchitectPersonalData = (props) => {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+        const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        const isValidEmail = emailRegex.test(editedData.email);
+        if (!isValidEmail){
+            FireError('Por favor ingresa un correo electrónico válido.')
+            return;
+        }
         const form = new FormData();
         form.append('fullName', editedData.fullName); //Ya esta
         form.append('dateOfBirth', editedData.dateOfBirth); //Ya esta
@@ -106,22 +112,11 @@ const ArchitectPersonalData = (props) => {
                     <DateInput
                         label='Fecha de nacimiento'
                         getVal={
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1) +
-                            '-' +
-                            date.getDate()
+                            editedData.dateOfBirth ? editedData.dateOfBirth.split('T')[0] : ''
                         }
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfBirth: value })
                         }
-                    />
-
-                    <TextInput
-                        label='Edad'
-                        placeholder='Edad'
-                        getVal={editedData.age}
-                        setVal={(value) => setEditedData({ ...editedData, age: value })}
                     />
 
                     <DropdownInput
@@ -142,8 +137,7 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, homeAddress: value })
                         }
                     />
-                </div>
-                <div className='architect-col'>
+
                     <TextInput
                         label='Número celular'
                         placeholder='Número celular'
@@ -152,7 +146,8 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
-
+                </div>
+                <div className='architect-col'>
                     <TextInput
                         label='Número de casa'
                         placeholder='Número de casa'

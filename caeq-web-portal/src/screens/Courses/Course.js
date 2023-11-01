@@ -53,16 +53,18 @@ const Course = (props) => {
 
     const handlePaymentStart = async (e) => {
         e.preventDefault();
-        
+
         if (!paymentFile) {
-            FireError('Por favor, selecciona un archivo de comprobante de pago.');
+            FireError(
+                'Por favor, selecciona un archivo de comprobante de pago.'
+            );
             return;
         }
-    
+
         const form = new FormData();
         form.append('courseId', searchParams.id);
         form.append('billImageURL', paymentFile);
-    
+
         try {
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);
@@ -74,17 +76,18 @@ const Course = (props) => {
         } catch (error) {
             FireError(error.response.data.message);
         }
-    }
-    
+    };
 
     return (
-        <div className="course">
-            <div className="course-row">
+        <div className='course'>
+            <div className='course-row'>
                 <h1>{data.courseName}</h1>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
-                        type="primary"
-                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}
+                        type='primary'
+                        onClick={() =>
+                            navigate(`/Cursos/Curso/${searchParams.id}`)
+                        }
                     >
                         Modificar
                     </BaseButton>
@@ -93,48 +96,51 @@ const Course = (props) => {
                     {data.price ? ( // Verifica si el curso tiene precio
                         <>
                             <BaseButton
-                                type="primary"
+                                type='primary'
                                 onClick={(e) => handlePaymentStart(e)}
                             >
                                 Iniciar Pago
                             </BaseButton>
                         </>
                     ) : (
-                        <BaseButton type="primary" onClick={(e) => handleInscription(e)}>
+                        <BaseButton
+                            type='primary'
+                            onClick={(e) => handleInscription(e)}
+                        >
                             Inscribirme
                         </BaseButton>
                     )}
                 </RestrictByRole>
-                <h2 className="course-price">
+                <h2 className='course-price'>
                     {data.price ? `$${data.price}` : 'Gratuito'}
                 </h2>
             </div>
 
-            <div className="course-row course-data">
-                <div className="course-row">
+            <div className='course-row course-data'>
+                <div className='course-row'>
                     <img src={ClassroomIcon} height={40} />
                     <span>Curso {data.modality}</span>
                 </div>
-                <div className="course-row">
+                <div className='course-row'>
                     <img src={LocationIcon} height={40} />
                     <span>{data.place}</span>
                 </div>
-                <div className="course-row">
+                <div className='course-row'>
                     <img src={ClockIcon} height={40} />
                     <span>{data.numberHours} horas acreditadas</span>
                 </div>
-                <div className="course-row">
+                <div className='course-row'>
                     <img src={TeacherIcon} height={40} />
                     <span>{data.teacherName}</span>
                 </div>
             </div>
 
-            <div className="course-row course-data">
-                <div className="course-row">
+            <div className='course-row course-data'>
+                <div className='course-row'>
                     <img src={SatisfactionIcon} height={40} />
                     <span>{data.teacherReview}</span>
                 </div>
-                <div className="course-row course-time">
+                <div className='course-row course-time'>
                     <img src={CalendarIcon} height={40} />
                     {startDate && endDate && (
                         <span>
@@ -148,22 +154,22 @@ const Course = (props) => {
             </div>
             <div></div>
 
-            <div className="course-row course-details">
+            <div className='course-row course-details'>
                 <img src={data.imageUrl} />
-                <div className="course-col">
-                    <p className="text-area">{data.description}</p>
-                    <div className="course-row course-extras">
-                        <div className="course-col">
+                <div className='course-col'>
+                    <p className='text-area'>{data.description}</p>
+                    <div className='course-row course-extras'>
+                        <div className='course-col'>
                             <h3>Objetivos</h3>
-                            <p className="text-area">{data.objective}</p>
+                            <p className='text-area'>{data.objective}</p>
                         </div>
-                        <div className="course-col">
+                        <div className='course-col'>
                             <h3>Incluye</h3>
-                            <p className="text-area">{data.includes}</p>
+                            <p className='text-area'>{data.includes}</p>
                         </div>
-                        <div className="course-col">
+                        <div className='course-col'>
                             <h3>Temario</h3>
-                            <p className="text-area">{data.temario}</p>
+                            <p className='text-area'>{data.temario}</p>
                         </div>
                     </div>
 
@@ -175,7 +181,7 @@ const Course = (props) => {
                                 <span>{data.paymentInfo}</span>
 
                                 <FileInput
-                                    accept=".jpg,.jpeg,.png,.pdf"
+                                    accept='.jpg,.jpeg,.png,.pdf'
                                     getVal={() => paymentFile}
                                     setVal={(file) => setPaymentFile(file)}
                                 />

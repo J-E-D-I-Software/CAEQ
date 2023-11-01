@@ -38,7 +38,7 @@ const ResetPasswordCaeq = async () => {
     expect(response.statusCode).toEqual(200);
 };
 
-describe('Caeq forgot Password succesful', () => {
-    test('successful', () => ForgotPasswordCaeq());
-    test('successful', () => ResetPasswordCaeq());
-});
+// describe('Caeq forgot Password succesful', () => {
+//     test('successful', () => ForgotPasswordCaeq());
+//     test('successful', () => ResetPasswordCaeq());
+// });

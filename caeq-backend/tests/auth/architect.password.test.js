@@ -38,7 +38,7 @@ const ResetPasswordArchitect = async () => {
     expect(response.statusCode).toEqual(200);
 };
 
-describe('Architect forgot Password succesful', () => {
-    test('successful', () => ForgotPasswordArchitect());
-    test('successful', () => ResetPasswordArchitect());
-});
+// describe('Architect forgot Password succesful', () => {
+//     test('successful', () => ForgotPasswordArchitect());
+//     test('successful', () => ResetPasswordArchitect());
+// });

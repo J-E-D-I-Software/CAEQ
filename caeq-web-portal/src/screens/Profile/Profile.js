@@ -17,7 +17,8 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
 
-    const date = new Date(profile.dateOfBirth);
+    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
+    const normalDate = date.split('/').reverse().join('/')
     const startDate = new Date(profile.dateOfAdmission);
 
     const handleRoute = (id) => {
@@ -30,6 +31,15 @@ const Profile = (props) => {
                 .then((response) => setProfile(response))
                 .catch((error) => navigate('/404'));
     }, []);
+
+    let dobValue = new Date(profile.dateOfBirth)
+    const currentDate = new Date()
+    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear()
+    if (
+        currentDate.getUTCMonth() < dobValue.getUTCMonth() ||
+        (currentDate.getUTCMonth() === dobValue.getUTCMonth() &&
+            currentDate.getUTCDate() < dobValue.getUTCDate())
+    ) { age--}
 
     return (
         <div className='profile'>
@@ -48,11 +58,11 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Fecha de Nacimiento: </span>
-                            {date.toLocaleDateString()}
+                            {normalDate}
                         </p>
                         <p>
                             <span>Edad: </span>
-                            {profile.age} años
+                            {age} años
                         </p>
                         <p>
                             <span>Género: </span>

@@ -43,6 +43,12 @@ const ArchitectPersonalData = (props) => {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+        const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        const isValidEmail = emailRegex.test(editedData.email);
+        if (!isValidEmail){
+            FireError('Por favor ingresa un correo electrónico válido.')
+            return;
+        }
         const form = new FormData();
         form.append('fullName', editedData.fullName); //Ya esta
         form.append('dateOfBirth', editedData.dateOfBirth); //Ya esta

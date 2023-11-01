@@ -17,6 +17,7 @@ const ArchitectPersonalData = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
     const date = new Date(editedData.dateOfBirth);
+    console.log("whoami", date)
 
     useEffect(() => {
         if (searchParams.id)

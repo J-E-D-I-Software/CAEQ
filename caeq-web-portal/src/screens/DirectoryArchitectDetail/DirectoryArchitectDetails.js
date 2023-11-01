@@ -20,7 +20,6 @@ import {
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
@@ -28,6 +27,7 @@ const ArchitectDetail = (props) => {
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -56,21 +56,13 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        architect.specialties.includes(specialty.value)
-                    )
+                let currentSpecialties = architect.specialties.map(
+                    (specialty) => {
+                        return { label: specialty.name, value: specialty._id };
+                    }
                 );
 
-                // Set up an interval to fetch data every 2 minutes
-                const intervalId = setInterval(() => {
-                    getArchitectUserById(searchParams.id);
-                }, 120000); // 2 minutes in milliseconds
-
-                // Clean up the interval on component unmount to avoid memory leaks
-                return () => {
-                    clearInterval(intervalId);
-                };
+                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
@@ -142,24 +134,19 @@ const ArchitectDetail = (props) => {
 
         e.preventDefault();
 
+        const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const swal = FireLoading('Guardando cambios... por favor espere');
-            console.log(form);
             const response = await updateArchitectUserByID(
                 searchParams.id,
                 form
             );
-            if (response.status === 'success') {
-                setData(response.data);
-                swal.close();
-                FireSucess('Los Cambios se han guardado correctamente');
-                navigate('/Directorio');
-            } else {
-                swal.close();
-                FireError(response.message);
-            }
+            setData(response.data);
+            swal.close();
+            FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
         } catch (error) {
-            FireError(error.message);
+            swal.close();
+            FireError(error.response.data.message);
         }
     };
 

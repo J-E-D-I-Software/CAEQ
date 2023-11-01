@@ -20,7 +20,7 @@ const testProtection = async () => {
     let res2 = await agent.get(`${protectedEndpoint}`).send();
 
     expect(res2.statusCode).toEqual(200);
-    expect(res2.body.results).toEqual(11);
+    expect(res2.body.results).toEqual(12);
 };
 
 beforeAll(async () => {

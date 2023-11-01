@@ -126,6 +126,7 @@ const handleValidationErrorDB = (err) => {
  * @param {function} next - The next function.
  */
 module.exports = (err, req, res, next) => {
+    console.log(err);
     res.locals.error = err;
     err.status = err.status || 'error';
     err.statusCode = err.statusCode || 500;

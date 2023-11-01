@@ -17,11 +17,8 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
 
-    const date = new Date(profile.dateOfBirth);
-    console.log(date.toUTCString());
-    console.log(date.getFullYear());
-    console.log(date.getUTCDate());
-    console.log(date.getUTCMonth()+1);
+    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
+    const normalDate = date.split('/').reverse().join('/')
     
     const startDate = new Date(profile.dateOfAdmission);
 
@@ -55,7 +52,7 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Fecha de Nacimiento: </span>
-                            {date.getUTCDate()}/{date.getUTCMonth()+1}/{date.getFullYear()}
+                            {normalDate}
                         </p>
                         <p>
                             <span>Edad: </span>

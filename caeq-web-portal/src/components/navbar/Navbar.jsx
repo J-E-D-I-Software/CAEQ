@@ -34,8 +34,9 @@ const Navbar = () => {
             <div className='navbar-center'>
                 {routes
                     .filter((route) => route.inNavbar)
-                    .map((route) => (
+                    .map((route, index) => (
                         <RestrictByRole
+                            key={index}
                             allowedRoles={
                                 route.roles !== undefined
                                     ? route.roles

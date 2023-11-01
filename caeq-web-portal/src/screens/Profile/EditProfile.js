@@ -107,11 +107,7 @@ const ArchitectPersonalData = (props) => {
                     <DateInput
                         label='Fecha de nacimiento'
                         getVal={
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1) +
-                            '-' +
-                            date.getDate()
+                            editedData.dateOfBirth ? editedData.dateOfBirth.split('T')[0] : ''
                         }
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfBirth: value })

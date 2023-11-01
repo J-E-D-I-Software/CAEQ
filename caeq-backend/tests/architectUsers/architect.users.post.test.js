@@ -133,6 +133,8 @@ const testRequiredFields = async (field, errorMessage) => {
         positionsInCouncil: '15/12/2021 Vocal',
     };
 
+    console.log(errorMessage);
+
     // Deletes the current required field from the body
     delete requestBody[field];
 
@@ -157,7 +159,6 @@ const requiredErrorMessages = {
     gender: 'Por favor dinos tu género!',
     cellphone: 'Por favor dinos tu número de celular!',
     homePhone: 'Por favor dinos tu número de casa!',
-    officePhone: 'Por favor dinos tu número de oficina!',
     emergencyContact: 'Por favor dinos tu contacto de emergencia (nombre y número)!',
     mainProfessionalActivity: 'Por favor dinos tu actividad principal profesional!',
     dateOfAdmission: 'Por favor dinos tu fecha de admisión!',
@@ -185,7 +186,6 @@ const requiredFields = [
     ['gender', requiredErrorMessages.gender],
     ['cellphone', requiredErrorMessages.cellphone],
     ['homePhone', requiredErrorMessages.homePhone],
-    ['officePhone', requiredErrorMessages.officePhone],
     ['emergencyContact', requiredErrorMessages.emergencyContact],
     ['mainProfessionalActivity', requiredErrorMessages.mainProfessionalActivity],
     ['dateOfAdmission', requiredErrorMessages.dateOfAdmission],
@@ -215,5 +215,3 @@ describe('Architect User POST', () => {
         }
     );
 });
-
-

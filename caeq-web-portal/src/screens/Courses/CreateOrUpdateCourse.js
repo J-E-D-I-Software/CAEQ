@@ -53,9 +53,7 @@ const CreateOrUpdateCourse = () => {
         paymentInfo: '',
         imageUrl: '',
     });
-    const [inscriptions, setInscriptions] = useState({
-        data: { documents: [] },
-    });
+    const [inscriptions, setInscriptions] = useState([]);
 
     useEffect(() => {
         if (searchParams.id) {
@@ -72,19 +70,14 @@ const CreateOrUpdateCourse = () => {
                 })
                 .catch(() => navigate('/404'));
 
-            getCourseInscriptions(searchParams.id).then((res) => {
-                if (
-                    res &&
-                    res.data &&
-                    res.data.documents &&
-                    res.data.documents.length > 0
-                ) {
-                    // Access user data from the JSON
-                    const user = res.data.documents[0].user;
-                    console.log(res);
-                    setInscriptions(res);
-                }
-            });
+            getCourseInscriptions(searchParams.id)
+                .then((response) => {
+                    console.log(response);
+                    setInscriptions(response);
+                })
+                .catch((error) =>
+                    console.error('Error fetching data: ', error)
+                );
             getAllSessions(searchParams.id).then((response) => {
                 setSessions(response);
                 if (response.length > 0) setSessionSelected(response[0]);
@@ -569,7 +562,7 @@ const CreateOrUpdateCourse = () => {
                             </BaseButton>
                         </div>
                         <div className='create-course__sessions-table__content'>
-                            {inscriptions.data.documents.length > 0 ? (
+                            {inscriptions.length > 0 ? (
                                 <table className='styled-table'>
                                     <thead>
                                         <tr>
@@ -579,27 +572,22 @@ const CreateOrUpdateCourse = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {inscriptions.data.documents.map(
-                                            (inscription, i) => (
-                                                <tr key={i}>
-                                                    <td>
-                                                        <input type='checkbox' />
-                                                    </td>
-                                                    <td>
-                                                        {
-                                                            inscription.user
-                                                                .collegiateNumber
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        {
-                                                            inscription.user
-                                                                .fullName
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            )
-                                        )}
+                                        {inscriptions.map((inscription, i) => (
+                                            <tr key={i}>
+                                                <td>
+                                                    <input type='checkbox' />
+                                                </td>
+                                                <td>
+                                                    {
+                                                        inscription.user
+                                                            .collegiateNumber
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {inscription.user.fullName}
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             ) : (

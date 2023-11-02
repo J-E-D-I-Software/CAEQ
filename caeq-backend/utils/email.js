@@ -107,8 +107,8 @@ module.exports = class Email {
      */
     async sendInscriptionAlert() {
         await this.send(
-            "Gracias por inscribirte",
-            "Comienza ahora"
+            "inscriptionAlert",
+            "Confirmación de Inscripción en Cursos"
          );
     }
 

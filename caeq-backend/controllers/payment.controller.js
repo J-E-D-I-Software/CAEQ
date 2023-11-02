@@ -30,7 +30,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         );
     }
 
-    if (course.cost == 0) {
+    if (course.cost === 0) {
         return next(
             new AppError(
                 'No necesitas pagar por este curso, inscríbete directamente en /inscribeTo.',
@@ -48,7 +48,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         );
     }
 
-    if (course.capacity == 0) {
+    if (course.capacity === 0) {
         return next(
             new AppError('Ya no hay espacio disponible en este curso.', 400)
         );
@@ -79,6 +79,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         course: course._id,
         user: req.user._id,
         billImageURL: req.body.billImageURL,
+        bill: req.body.bill,
     });
 /*
     // Send payment notification email
@@ -118,7 +119,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
     }
 
     // Check if payment is pending
-    if (payment.status != 'Pendiente') {
+    if (payment.status !== 'Pendiente') {
         return next(
             new AppError('La solicitud de este pago ya fue procesada.', 400)
         );
@@ -181,7 +182,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     }
 
     // Check if payment is pending
-    if (payment.status != 'Pendiente') {
+    if (payment.status !== 'Pendiente') {
         return next(
             new AppError('La solicitud de este pago ya fue procesada.', 400)
         );

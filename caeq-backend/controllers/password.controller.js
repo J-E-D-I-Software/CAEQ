@@ -74,21 +74,11 @@ const resetPassword = async (token, type, password, passwordConfirm) => {
 /* The above code is sending an email to the user with a link to reset their password. */
 exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
     const resetToken = await forgotPassword(CaeqUser, req.body.email, req, 'caeq', res);
-    if (frontDomain === 'localhost:3000') {
-        res.status(200).json({
-            status: 'success',
-            data: {
-                resetToken,
-            },
-            message: 'Correo para recuperar tu contraseña enviado.',
-        });
-    } else {
-        // Si frontDomain no coincide con 'localhost:3000', no envíes datos
         res.status(200).json({
             status: 'success',
             message: 'Correo para recuperar tu contraseña enviado.',
         });
-    }
+    
 });
 
 /* This is the code that is executed when the user clicks on the link in the email. It is a GET request
@@ -118,22 +108,12 @@ exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
         'architect',
         res
     );
-
-    if (frontDomain === 'localhost:3000') {
-        res.status(200).json({
-            status: 'success',
-            data: {
-                resetToken,
-            },
-            message: 'Correo para recuperar tu contraseña enviado.',
-        });
-    } else {
         // Si frontDomain no coincide con 'localhost:3000', no envíes datos
         res.status(200).json({
             status: 'success',
             message: 'Correo para recuperar tu contraseña enviado.',
         });
-    }
+    
 });
 
 /* This is the code that is executed when the user clicks on the link in the email. It is a GET request

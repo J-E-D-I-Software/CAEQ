@@ -5,6 +5,7 @@ import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { useParams } from 'react-router-dom';
 import BaseButton from '../../components/buttons/BaseButton';
+import createRoom from '../../client/Services/Services.POST';
 
 
 const CreateRoomOffer = () => {
@@ -46,14 +47,13 @@ const CreateRoomOffer = () => {
         let response = null;
         const swal = FireLoading('Guardando...');
         try {
-            if (searchParams.id)
-                response = await updateRoom(searchParams.id, formData);
-            else response = await createRoom(formData);
+            response = await createRoom(formData);
 
             swal.close();
             FireSucess('Oferta de salón guardada');
         }
         catch (error) {
+            console.error(error);
             swal.close();
             FireError(error.response.data.message);
         }       
@@ -93,6 +93,7 @@ const CreateRoomOffer = () => {
                         label='Foto del salón'
                         getVal={imageUrl}
                         setVal={setImageUrl}
+                        accept= '.jpg, .jpeg'
                     />
 
                     <BaseButton type= "primary" onClick={(e) => onSubmit(e)}>

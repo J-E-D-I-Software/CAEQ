@@ -1,7 +1,7 @@
 const factory = require('./handlerFactory.controller');
 const ArchitectUser = require('../models/architect.user.model');
 
-exports.getAllArchitectUsers = factory.getAll(ArchitectUser);
+exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
 exports.getArchitectUser = factory.getOne(ArchitectUser);
 exports.createArchitectUser = factory.createOne(ArchitectUser);
 exports.updateArchitectUser = factory.updateOne(ArchitectUser);

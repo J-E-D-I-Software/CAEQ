@@ -17,7 +17,6 @@ import './GatheringCard.scss';
  */
 const GatheringCard = ({ data, ...props }) => {
     const navigate = useNavigate();
-    console.log(data);
 
     // Function to format the date to "dd/mm/yy"
     function formatDateToDdMmYy(dateString) {

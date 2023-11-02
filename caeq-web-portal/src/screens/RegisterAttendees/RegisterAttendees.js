@@ -9,6 +9,9 @@ import BaseButton from '../../components/buttons/BaseButton';
 import GatheringCard from '../../components/cards/GatheringCard';
 import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
 import DateInput from '../../components/inputs/DateInput/DateInput';
+import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
+import PaginationNav from '../../components/pagination/PaginationNav';
+import AttendeesRegistrationTable from '../../components/table/AttendeesRegistrationTable';
 
 /**
  * CreateGathering component for creating or modifying gatherings.
@@ -18,6 +21,9 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 const RegisterAttendees = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
+    const [architectUsers, setArchitectUsers] = useState([]);
+    const [getArchitect, setArchitect] = useState('');
+    const [paginationPage, setPaginationPage] = useState(1);
     const [moreInfo, setMoreInfo] = useState(null);
     const [data, setData] = useState({
         date: '',
@@ -26,6 +32,19 @@ const RegisterAttendees = () => {
         meetingTime: '',
         moreInfo: null,
     });
+
+    useEffect(() => {
+        (async () => {
+            try {
+                let filters = '';
+                filters += `fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
+                let architects = await getAllArchitectUsers(paginationPage, filters, 10);
+                console.log(architects);
+                setArchitectUsers(architects);
+                console.log(architects);
+            } catch (error) {}
+        })();
+    }, [paginationPage, getArchitect]);
 
     /**
      * Fetches gathering data when the component mounts.
@@ -92,51 +111,56 @@ const RegisterAttendees = () => {
         }
     };
 
+    /**
+     * Handles the action of returning to the previous page in pagination.
+     */
+    const handlePreviousPage = () => {
+        if (paginationPage > 1) {
+            setPaginationPage(paginationPage - 1);
+        }
+    };
+
+    /**
+     * Handles the action of advancing to the next page in pagination.
+     */
+    const handleNextPage = () => {
+        setPaginationPage(paginationPage + 1);
+    };
+
     return (
         <div className='create-course'>
             <div className='create-course--row'>
                 <h1>Registrar asistencias a asambleas</h1>
             </div>
-
-            <div className='create-course--row'>
-                <div className='create-course--col--gathering'>
-                    <GatheringCard data={data} />
-                </div>
-                <div className='create-course--col--gathering-form'>
-                    <TextInput
-                        label='Título de asamblea'
-                        getVal={data.title}
-                        setVal={(value) => updateData('title', value)}
-                    />
-                    <DateInput
-                        label='Día de la semana'
-                        getVal={data.date}
-                        setVal={(value) => updateData('date', value)}
-                        require
-                    />
-                    <TextInput
-                        label='Liga de la asamblea'
-                        getVal={data.meetingLink}
-                        setVal={(value) => updateData('meetingLink', value)}
-                        placeholder='zoom.com'
-                    />
-                    <TextInput
-                        label='Hora de asamblea'
-                        getVal={data.meetingTime}
-                        setVal={(value) => updateData('meetingTime', value)}
-                        placeholder='5:00PM a 6:00pm'
-                    />
-                    <FileInput
-                        label='Convocatoria'
-                        accept='.pdf'
-                        getVal={moreInfo}
-                        setVal={setMoreInfo}
-                    />
-
-                    <BaseButton type='primary' onClick={(e) => onSubmit(e)}>
-                        {searchParams.id ? 'Guardar asamblea' : 'Crear asamblea'}
-                    </BaseButton>
-                </div>
+            <label>
+                <TextInput
+                    getVal={getArchitect}
+                    setVal={setArchitect}
+                    placeholder='Buscar por nombre'
+                />
+            </label>
+            <label>
+                <TextInput
+                    getVal={getArchitect}
+                    setVal={setArchitect}
+                    placeholder='Buscar por número'
+                />
+            </label>
+            <div className='directory-row'>
+                {architectUsers.length > 0 ? (
+                    <div className='box-container'>
+                        <AttendeesRegistrationTable data={architectUsers} />
+                    </div>
+                ) : (
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
+                )}
+            </div>
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handlePreviousPage}
+                    onClickAfter={handleNextPage}
+                    page={paginationPage}
+                />
             </div>
         </div>
     );

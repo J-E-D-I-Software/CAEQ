@@ -66,6 +66,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         course: course._id,
         user: req.user._id,
         billImageURL: req.body.billImageURL,
+        wantsInvoice: req.body.wantsInvoice, 
     });
     /*
     // Send payment notification email

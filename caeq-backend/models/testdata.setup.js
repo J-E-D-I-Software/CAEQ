@@ -11,6 +11,7 @@ const Specialty = require('./specialty.model');
 const SpecialtyData = require('./data/specialty');
 const Session = require('./session.model.js');
 const SessionsData = require('./data/sessions');
+const Inscription = require('./inscription.model');
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -76,6 +77,28 @@ const setUpSpecialtyData = catchAsync(async () => {
 });
 
 /**
+ * Set up 'Inscription' data by populating the database with the provided test data.
+ * 
+ * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
+ */
+const setUpInsciptionData = catchAsync(async () => {
+    const course = await Course.findOne({ courseName: 'Mampostería industrial' });
+    const user1 = await ArchitectUser.findOne({ email: 'relisib653@mugadget.com' });
+    const user2 = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
+    const inscriptionData = [
+        {
+            course: course._id,
+            user: user1._id
+        },
+        {
+            course: course._id,
+            user: user2._id
+        },
+    ];
+    await populateDb(Inscription, inscriptionData);
+});
+
+/**
  * Set up the database with mock data.
  *
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
@@ -87,6 +110,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpCourseData();
     await setUpArchitectUserData();
     await setUpSessionData();
+    await setUpInsciptionData();
     console.log('Test data uploaded to DB');
 });
 

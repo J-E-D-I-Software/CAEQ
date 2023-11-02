@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FireError, FireSucess, FireLoading } from "../../utils/alertHandler";
 import CourseCard from "../../components/cards/CourseCard";
 import TextInput from "../../components/inputs/TextInput/TextInput";
+import LargeTextInput from "../../components/inputs/TextInput/LargeTextInput";
 import NumberInput from "../../components/inputs/NumberInput/NumberInput";
-import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
 import FileInput from "../../components/inputs/FileInput/FileInput";
 import DateInput from "../../components/inputs/DateInput/DateInput";
 import BaseButton from "../../components/buttons/BaseButton";
@@ -59,8 +59,7 @@ const CreateOrUpdateCourse = () => {
                     if (response.endDate)
                         response.endDate = response.endDate.slice(0, 10);
                     else response.endDate = '';
-
-                setData(response);
+                    setData(response);
             })
             .catch(() => navigate('/404'));
 
@@ -120,6 +119,11 @@ const CreateOrUpdateCourse = () => {
                 FireError('La fecha fin debe de ir después de la fecha de inicio');
                 return;
             }
+        }
+
+        if (data.pricing === 'Gratuito') {
+            data.price = 0;
+            data.paymentInfo = '';
         }
 
         // Build FormData
@@ -251,30 +255,31 @@ const CreateOrUpdateCourse = () => {
                         label='Capacidad de la sesión'
                         getVal={data.capacity}
                         setVal={(value) => updateData('capacity', value)}
+                        allowDecimals={false}
                     />
                     <TextInput
                         label='Nombre del instructor'
                         getVal={data.teacherName}
                         setVal={(value) => updateData('teacherName', value)}
                     />
-
-                    <div className='create-course--form-group'>
-                        <label htmlFor='review' className='create-course__label-input'>
-                            Reseña del instructor
-                        </label>
-                        <textarea
-                            className='box-input'
-                            name='review'
-                            value={data.teacherReview}
-                            onChange={(e) => updateData('teacherReview', e.target.value)}
-                            placeholder='Una breve reseña que describa el contexto del profesor'></textarea>
-                    </div>
-                    <DropdownInput
-                        label='Curso gratuito o pagado'
-                        options={['Gratuito', 'Pagado']}
-                        getVal={data.pricing}
-                        setVal={(value) => updateData('pricing', value)}
+                    <LargeTextInput
+                        label='Reseña del instructor'
+                        getVal={data.teacherReview}
+                        setVal={(value) => updateData('teacherReview', value)}
+                        placeholder='Una breve reseña que describa el contexto del profesor'
                     />
+                    <div className='create-course--form-group'>
+                        <label htmlFor='pricing' className='create-course__label-input label-input'>
+                            Curso gratuito o pagado
+                        </label>
+                        <select 
+                            className='dropdown-input'
+                            onChange={e => updateData('pricing', e.target.value)} 
+                            value={data.pricing}>
+                            <option value='Gratuito'>Gratuito</option>
+                            <option value='Pagado'>Pagado</option>
+                        </select>
+                    </div>
                     {data.pricing === 'Pagado' && (
                         <Fragment>
                             <NumberInput
@@ -290,28 +295,18 @@ const CreateOrUpdateCourse = () => {
                             />
                         </Fragment>
                     )}
-                    <div className='create-course--form-group'>
-                        <label htmlFor='includes' className='create-course__label-input'>
-                            Incluye
-                        </label>
-                        <textarea
-                            className='box-input'
-                            name='includes'
-                            value={data.includes}
-                            onChange={(e) => updateData('includes', e.target.value)}
-                            placeholder='Una lista de cosas que incluye el curso'></textarea>
-                    </div>
-                    <div className='create-course--form-group'>
-                        <label htmlFor='temario' className='create-course__label-input'>
-                            Temario del curso
-                        </label>
-                        <textarea
-                            className='box-input'
-                            name='temario'
-                            value={data.temario}
-                            onChange={(e) => updateData('temario', e.target.value)}
-                            placeholder='El que incluye el curso'></textarea>
-                    </div>
+                    <LargeTextInput
+                        label='Incluye'
+                        getVal={data.includes}
+                        setVal={(value) => updateData('includes', value)}
+                        placeholder='Una lista de cosas que incluye el curso'
+                    />
+                    <LargeTextInput
+                        label='Temario del curso'
+                        getVal={data.temario}
+                        setVal={(value) => updateData('temario', value)}
+                        placeholder='El temario que que incluye el curso'
+                    />
                 </div>
 
                 <div className='create-course--col'>
@@ -321,24 +316,24 @@ const CreateOrUpdateCourse = () => {
                         setVal={(value) => updateData('courseName', value)}
                         require
                     />
-                    <div className='create-course--form-group'>
-                        <label htmlFor='includes' className='create-course__label-input'>
-                            Descripción general del curso
-                        </label>
-                        <textarea
-                            className='box-input'
-                            name='description'
-                            value={data.description}
-                            onChange={(e) =>
-                                updateData('description', e.target.value)
-                            }></textarea>
-                    </div>
-                    <DropdownInput
-                        label='Modalidad'
-                        options={['Presencial', 'Remoto']}
-                        getVal={data.modality}
-                        setVal={(value) => updateData('modality', value)}
+                    <LargeTextInput
+                        label='Descripción general del curso'
+                        getVal={data.description}
+                        setVal={(value) => updateData('description', value)}
+                        placeholder='Una lista de cosas que incluye el curso'
                     />
+                    <div className='create-course--form-group'>
+                        <label htmlFor='pricing' className='create-course__label-input label-input'>
+                            Modalidad
+                        </label>
+                        <select 
+                            className='dropdown-input'
+                            onChange={e => updateData('modality', e.target.value)} 
+                            value={data.modality}>
+                            <option value='Presencial'>Presencial</option>
+                            <option value='Remoto'>Remoto</option>
+                        </select>
+                    </div>
                     <TextInput
                         label='Lugar de la clase'
                         getVal={data.place}
@@ -349,6 +344,7 @@ const CreateOrUpdateCourse = () => {
                         label='Horas que se acreditan'
                         getVal={data.numberHours}
                         setVal={(value) => updateData('numberHours', value)}
+                        allowDecimals={false}
                     />
                     <div className='create-course--form-group'>
                         <label htmlFor='startDate' className='create-course__label-input'>
@@ -386,17 +382,12 @@ const CreateOrUpdateCourse = () => {
                         setVal={(value) => updateData('schedule', value)}
                         placeholder='5:00PM a 6:00pm'
                     />
-                    <div className='create-course--form-group'>
-                        <label htmlFor='objective' className='create-course__label-input'>
-                            Objetivos del curso
-                        </label>
-                        <textarea
-                            className='box-input'
-                            name='objective'
-                            value={data.objective}
-                            onChange={(e) => updateData('objective', e.target.value)}
-                            placeholder='Una lista de objectivos que incluye el curso'></textarea>
-                    </div>
+                    <LargeTextInput
+                        label='Objetivos del curso'
+                        getVal={data.objective}
+                        setVal={(value) => updateData('objective', value)}
+                        placeholder='Una lista de objetivos para el curso'
+                    />
                     <FileInput
                         label='Portada del curso (en formato vertical)'
                         accept='.png'
@@ -416,7 +407,7 @@ const CreateOrUpdateCourse = () => {
                     <div className="create-course--col create-course__sessions-table">
                         <ul className="create-course__sessions-table__header">
                             { sessions.map((session, i) => (
-                                <li className={sessionSelected._id === session._id && 'session--selected'} 
+                                <li className={sessionSelected._id === session._id ? 'session--selected' : ''} 
                                     onClick={() => setSessionSelected(session)}
                                     key={i}>
                                     {session.date

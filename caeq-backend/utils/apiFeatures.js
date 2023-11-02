@@ -30,6 +30,7 @@ class APIFeatures {
             (match) => `$${match}`
         );
 
+        queryString = queryString.replace(/"\$regex":"(.+?)"/g, '"$regex": "$1", "$options": "i"');
         this.query.find(JSON.parse(queryString));
 
         return this;

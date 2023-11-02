@@ -1,40 +1,98 @@
 .directory {
   padding: 3rem;
 
+
   .directory-row {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start; 
   }
 
-  label {
-    margin-right: 20px;
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
+
   }
 
-}
+  .inputText-filters {
+    flex: 1;
+    min-width: 150px;
+  }
 
-.InputText {
-  max-width: 10px;
-}
+  .searchbars-column {
+    flex: 1;
+  }
 
-.box-container {
-  border-radius: 8px; 
-  overflow: auto; 
-}
+  .dropdown-input {
+    width: 350px;
+    background-color: #eea300;
+    color: white;
+    margin-bottom: 20px;
+  }
 
-.directory-pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
+  .DropdownInputs-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 2rem;
+  }
 
-.directory-header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
+  .inputNumber-date-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4.5rem;
+  }
 
-.no-data-message {
-  color: red; 
-  font-style: bold;
-  font-size: 24px; 
+  .inputNumber-row,
+  .DateInput-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .inputNumber,
+  .DateInput {
+    flex: 1;
+    max-width: 0.5rem;
+  }
+
+  .inputNumber-row h3,
+  .DateInput-row h3 {
+    text-align: center;
+  }
+
+  .box-container {
+    border-radius: 8px;
+    overflow: auto;
+  }
+
+  .directory-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .directory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .no-data-message {
+    color: red;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .directory-header {
+      flex-direction: column;
+    }
+  }
+
+
 }

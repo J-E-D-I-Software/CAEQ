@@ -1,0 +1,39 @@
+.graph-container {
+
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            height: 100%;
+        
+        }
+    
+        @media (max-width: 768px) {
+            .grid-container {
+                display: block;
+                padding-top: 20px;
+
+                .column {
+                    padding-bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+
+        }
+
+    
+}
+
+.principal-container {
+    padding: 50px;
+
+}
+

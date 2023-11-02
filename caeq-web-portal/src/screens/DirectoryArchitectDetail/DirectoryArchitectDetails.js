@@ -1,133 +1,355 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
-
-import TextInput from "../../components/inputs/TextInput/TextInput";
-import "./DirectoryArchitectDetail.scss";
-import FileInput from "../../components/inputs/FileInput/FileInput";
-import BaseButton from "../../components/buttons/BaseButton";
-
-/**
- * "fullName": "Luis Garc\u00EDa",
-      "collegiateNumber": 98765,
-      "hoursAttended": 10,
-      "memberType": "Miembro de n\u00FAmero",
-      "classification": "Docente",
-      "DRONumber": "DRO98765",
-      "authorizationToShareInfo": true,
-      "lifeInsurance": false,
-      "lifeInsureID": "",
-      "age": 40,
-      "gender": "Masculino",
-      "cellphone": 5551112222,
-      "homePhone": 5553334444,
-      "officePhone": 5555556666,
-      "emergencyContact": 5557778888,
-      "emergencyContactName": "Ana Garc\u00EDa",
-      "mainProfessionalActivity": "Ingeniero Civil",
-      "dateOfAdmission": "2010-02-15T00:00:00.000Z",
-      "dateOfBirth": "1983-07-20T00:00:00.000Z",
-      "municipalityOfLabor": "Quer\u00E9taro",
-      "linkCV": "https://example.com/luisgarcia-cv",
-      "university": "Universidad Aut\u00F3noma de Quer\u00E9taro",
-      "professionalLicense": "P98765",
-      "workAddress": "123 Avenida Principal, Quer\u00E9taro",
-      "homeAddress": "456 Calle Secundaria, Quer\u00E9taro",
-      "specialty": "Corresponsable en seguridad estructural",
-      "positionsInCouncil": "Vocal",
-      "capacitationHours": 90,
-      "email": "luis@example.com",
- *  
- * 
- */
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
+import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import './DirectoryArchitectDetail.scss';
+import FileInput from '../../components/inputs/FileInput/FileInput';
+import BaseButton from '../../components/buttons/BaseButton';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import {
+    memberOptions,
+    authorizationOptions,
+    classificationOptions,
+    lifeInsuranceOptions,
+    anuuityOptions,
+} from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
-
-    const dateOfAdmission = new Date(data.dateOfAdmission);
+    const [editedData, setEditedData] = useState({});
+    const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+    const [availableSpecialties, setAvailableSpecialties] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (searchParams.id)
-            getArchitectUserById(searchParams.id)
-                .then((response) => setData(response))
-                .catch((error) => navigate("/404"));
-        console.log(data);
+        (async () => {
+            try {
+                const architect = await getArchitectUserById(searchParams.id);
+
+                if (architect.authorizationToShareInfo !== true) {
+                    architect.authorizationToShareInfo = 'No';
+                } else {
+                    architect.authorizationToShareInfo = 'Si';
+                }
+                if (architect.lifeInsurance !== true) {
+                    architect.lifeInsurance = 'No';
+                } else {
+                    architect.lifeInsurance = 'Si';
+                }
+
+                setData(architect);
+                setEditedData(architect);
+
+                let specialties = await getAllSpecialties();
+
+                specialties = specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setAvailableSpecialties(specialties);
+
+                let currentSpecialties = architect.specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setSelectedSpecialties(currentSpecialties);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     }, []);
 
-    const today = new Date();
+    // Pago de Anualidad pendiente
+
+    /**
+     * Handles the save changes functionality for the DirectoryArchitectDetails screen.
+     * @async
+     * @function handleSaveChanges
+     * @param {Event} e - The event object.
+     * @returns {Promise<void>}
+     */
+    const handleSaveChanges = async (e) => {
+        const form = new FormData();
+        editedData.authorizationToShareInfo =
+            editedData.authorizationToShareInfo === 'Si' ? true : false;
+        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
+
+        selectedSpecialties.forEach((specialty, i) => {
+            form.append(`specialties[${i}]`, specialty.value);
+        });
+
+        form.append('DRONumber', editedData.DRONumber);
+        form.append('collegiateNumber', editedData.collegiateNumber);
+        form.append('memberType', editedData.memberType);
+        form.append('classification', editedData.classification);
+        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append('dateOfAdmission', editedData.dateOfAdmission);
+        form.append('professionalLicense', editedData.professionalLicense);
+        form.append('capacitationHours', editedData.capacitationHours);
+        form.append('hoursAttended', editedData.hoursAttended);
+        form.append('municipalityOfLabor', editedData.municipalityOfLabor);
+        form.append('positionsInCouncil', editedData.positionsInCouncil);
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append('file', editedData.linkCV);
+        form.append('lifeInsurance', editedData.lifeInsurance);
+        form.append('lifeInsureID', editedData.lifeInsureID);
+
+        e.preventDefault();
+
+        const swal = FireLoading('Guardando cambios... por favor espere');
+        try {
+            const response = await updateArchitectUserByID(searchParams.id, form);
+            setData(response.data);
+            swal.close();
+            FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
+        } catch (error) {
+            swal.close();
+            FireError(error.response.data.message);
+        }
+    };
+
+    /**
+     * Returns an array of member options excluding the currently edited member type.
+     *
+     * @function
+     * @returns {Array} An array of member options.
+     */
+    const getMemberOptions = () => {
+        const filteredOptions = memberOptions.filter(
+            (option) => option !== editedData.memberType
+        );
+        return filteredOptions;
+    };
+
+    const getClassificationOptions = () => {
+        const filteredOptions = classificationOptions.filter(
+            (option) => option !== editedData.classification
+        );
+        return filteredOptions;
+    };
+
+    /**
+     * Returns an array of authorization options, excluding the currently edited option.
+     *
+     * @function
+     * @returns {Array} An array of authorization options.
+     */
+    const getAuthorizationOptions = () => {
+        const filteredOptions = Object.keys(authorizationOptions).filter(
+            (option) => option !== editedData.authorizationToShareInfo
+        );
+        return filteredOptions;
+    };
+
+    /**
+     * Returns an array of life insurance options based on the authorization options and the currently edited data.
+     *
+     * @returns {Array} An array of life insurance options.
+     */
+    const getLifeInsuranceOptions = () => {
+        const filteredOptions = Object.keys(lifeInsuranceOptions).filter(
+            (option) => option !== editedData.lifeInsurance
+        );
+        return filteredOptions;
+    };
+
+    const getAnuuityOptions = () => {
+        const filteredOptions = Object.keys(anuuityOptions).filter(
+            (option) => option !== editedData.anuuity
+        );
+        return filteredOptions;
+    };
 
     return (
-        <div className="architect-detail">
-            <div className="architect-row">
+        <div className='architect-detail'>
+            <div className='architect-row'>
+                <h2>
+                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
+                    en guardar cambios.
+                </h2>
+            </div>
+            <div className='architect-row'>
                 <h1>{data.fullName}</h1>
             </div>
 
-            <div className="architect-row">
-                <div className="architect-col">
+            <div className='architect-row'>
+                <div className='architect-col'>
                     <TextInput
-                        label="Fecha de Ingreso"
-                        placeholder="FechaDeIngreso"
-                        getVal={dateOfAdmission.toLocaleDateString()}
-                        setVal={dateOfAdmission.toLocaleDateString()}
+                        label='Número de Colegiado'
+                        placeholder='Número de Colegiado'
+                        getVal={editedData.collegiateNumber}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, collegiateNumber: value })
+                        }
+                    />
+
+                    <TextInput
+                        label='Número de DRO'
+                        placeholder='Número de DRO'
+                        getVal={editedData.DRONumber}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, DRONumber: value })
+                        }
+                    />
+                    <DropdownInput
+                        label='Tipo de Miembro'
+                        placeholder={editedData.memberType}
+                        options={getMemberOptions()}
+                        getVal={editedData.memberType}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, memberType: value })
+                        }
+                    />
+                    <DropdownInput
+                        label='Clasificación'
+                        placeholder={editedData.classification}
+                        getVal={editedData.classification}
+                        options={getClassificationOptions()}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, classification: value })
+                        }
+                    />
+                    <SelectInputComponent
+                        label='Especialidades'
+                        isMulti
+                        options={availableSpecialties}
+                        value={selectedSpecialties}
+                        onChange={(selectedOptions) => {
+                            setSelectedSpecialties(selectedOptions);
+                        }}
+                        placeholder='Selecciona una especialidad'
                     />
                     <TextInput
-                        label="Número de Colegiado"
-                        placeholder="Número de Colegiado"
-                        getVal={data.collegiateNumber}
-                        setVal={data.collegiateNumber}
+                        label='Actividad Profesional Principal'
+                        placeholder='Actividad Profesional Principal'
+                        getVal={editedData.mainProfessionalActivity}
+                        setVal={(value) =>
+                            setEditedData({
+                                ...editedData,
+                                mainProfessionalActivity: value,
+                            })
+                        }
                     />
                     <TextInput
-                        label="Número de DRO"
-                        placeholder="Número de DRO"
-                        getVal={data.DRONumber}
-                        setVal={data.DRONumber}
+                        label='Cédula Profesional'
+                        placeholder='Cédula Profesional'
+                        getVal={editedData.professionalLicense}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, professionalLicense: value })
+                        }
                     />
                     <TextInput
-                        label="Tipo de Miembro"
-                        placeholder="Tipo de Miembro"
-                        getVal={data.memberType}
-                        setVal={data.memberType}
+                        label='Fecha de Ingreso'
+                        placeholder='FechaDeIngreso'
+                        getVal={editedData.dateOfAdmission}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, dateOfAdmission: value })
+                        }
                     />
                     <TextInput
-                        label="Especialidad"
-                        placeholder="Especialidad"
-                        getVal={data.specialty}
-                        setVal={data.specialty}
+                        label='Municipio de Trabajo'
+                        placeholder='Municipio de Trabajo'
+                        getVal={editedData.municipalityOfLabor}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, municipalityOfLabor: value })
+                        }
                     />
                 </div>
 
-                <div className="architect-col">
-                    <TextInput
-                        label="Horas Acreditadas"
-                        placeholder="Horas Acreditadas"
-                        getVal={data.capacitationHours}
-                        setVal={data.capacitationHours}
+                <div className='architect-col'>
+                    <DropdownInput
+                        label='Autorización para compartir información'
+                        placeholder={editedData.authorizationToShareInfo}
+                        options={getAuthorizationOptions()}
+                        getVal={editedData.authorizationToShareInfo}
+                        setVal={(value) =>
+                            setEditedData({
+                                ...editedData,
+                                authorizationToShareInfo: value,
+                            })
+                        }
+                    />
+                    <DropdownInput
+                        label='Seguro de Vida'
+                        placeholder={editedData.lifeInsurance}
+                        options={getLifeInsuranceOptions()}
+                        getVal={editedData.lifeInsurance}
+                        setVal={(value) =>
+                            setEditedData({
+                                ...editedData,
+                                lifeInsurance: value,
+                            })
+                        }
                     />
                     <TextInput
-                        label="Número de Asistencias a Asambleas"
-                        placeholder="Número de Asistencias a Asambleas"
-                        getVal={data.hoursAttended}
-                        setVal={data.hoursAttended}
+                        label='Poliza de Seguro'
+                        placeholder='Poliza de Seguro'
+                        getVal={editedData.lifeInsureID}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, lifeInsureID: value })
+                        }
                     />
-
                     <TextInput
-                        label="Pago de Anualidad"
-                        placeholder="Pago de Anualidad"
-                        getVal={data.uthorizationToShareInfo ? "Si" : "No"}
-                        setVal={data.authorizationToShareInfo}
+                        label='Horas de Capacitación'
+                        placeholder='Horas Acreditadas'
+                        getVal={editedData.capacitationHours}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, capacitationHours: value })
+                        }
                     />
-
-                    <FileInput label="CV" placeholder="CV" getVal={""} setVal={""} />
-                    <p>
-                        Archivo Actual: <a href="{data.linkCV}">{data.linkCV}</a>
-                    </p>
+                    <DropdownInput
+                        label='Pago de Anualidad'
+                        placeholder={editedData.anuuity}
+                        options={getAnuuityOptions()}
+                        getVal={editedData.anuuity}
+                        setVal={(value) =>
+                            setEditedData({
+                                ...editedData,
+                                anuuity: value,
+                            })
+                        }
+                    />
+                    <TextInput
+                        label='Posiciones en Consejo'
+                        placeholder='Posiciones en Consejo'
+                        getVal={editedData.positionsInCouncil}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, positionsInCouncil: value })
+                        }
+                    />
+                    <FileInput
+                        label='Curriculum Vitae'
+                        placeholder='CV'
+                        getVal={editedData.linkCV}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCV: value })
+                        }
+                    />
+                    {editedData.linkCV ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkCV}>
+                                <span>Descargar CV</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay CV registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
                 </div>
             </div>
 
-            <div className="architect-row">
-                <BaseButton type="primary">Guardar Cambios</BaseButton>
+            <div className='architect-row'>
+                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
+                    Guardar Cambios
+                </BaseButton>
             </div>
         </div>
     );

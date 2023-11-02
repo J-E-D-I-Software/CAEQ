@@ -58,10 +58,11 @@ const LoginUser = () => {
 
             <br />
             <div className='forgot-register-links'>
-                <a href='/User-ForgotPassword'>¿Olvidaste tu contraseña?</a> <br />
-                <Link to='/SignupUser'>
-                    <p> Regístrate</p>
+                <Link to='/User-ForgotPassword'>
+                    <p> ¿Olvidaste tu contraseña?</p>
                 </Link>
+
+                <Link to='/'>Volver a página de inicio</Link>
             </div>
         </div>
     );

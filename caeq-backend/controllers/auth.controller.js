@@ -209,9 +209,17 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
 
     // 2 Check is user exists.
     const user = await ArchitectUser.findOne({ email }).select('+password'); // adding a + to the field set as selected false means we will retrieve it
-
-    if (!user || !(await user.correctPassword(password, user.password))) {
-        return next(new AppError('Email o contraseña incorrectos.', 401));
+    if (!user) {
+        return next(
+            new AppError(
+                'Email incorrectos. No hay un usuario registrado con este correo.',
+                401
+            )
+        );
+    } else if (!(await user.correctPassword(password, user.password))) {
+        return next(
+            new AppError('Contraseña incorrecta. Intente de nuevo por favor.', 401)
+        );
     }
 
     // 3 Send JWT to user.

@@ -21,7 +21,9 @@ const testArchitectLogin = async () => {
     });
 
     expect(resTest2.statusCode).toEqual(401);
-    expect(resTest2.body.message).toEqual('Email o contraseña incorrectos.');
+    expect(resTest2.body.message).toEqual(
+        'Contraseña incorrecta. Intente de nuevo por favor.'
+    );
 };
 
 const testArchitectSignUp = async () => {

@@ -1,11 +1,11 @@
 //
 
-import React, { useState } from "react";
-import "./Table.scss";
-import CloseIcon from "../icons/Close.png";
-import BaseButton from "../buttons/BaseButton";
-import headerMappings from "./HeaderMappings";
-import { Navigate } from "react-router-dom";
+import React, { useState } from 'react';
+import './Table.scss';
+import CloseIcon from '../icons/Close.png';
+import BaseButton from '../buttons/BaseButton';
+import headerMappings from './HeaderMappings';
+import { Navigate } from 'react-router-dom';
 
 /**
  * An interactive table component that allows showing or hiding columns.
@@ -15,7 +15,6 @@ import { Navigate } from "react-router-dom";
 const InteractiveTable = ({ data, onRowClick }) => {
     // Get the columns to be displayed in the table.
     const allColumns = Object.keys(headerMappings);
-
 
     // State to maintain the visibility of columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
@@ -37,8 +36,8 @@ const InteractiveTable = ({ data, onRowClick }) => {
     };
 
     const handleButtonClick = (e, url) => {
-        e.preventDefault()
-        window.open(url, "_blank");
+        e.preventDefault();
+        window.open(url, '_blank');
     };
 
     /**
@@ -59,7 +58,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
      * @param {boolean} value - The boolean value to format.
      * @returns {string} - "Yes" if the value is true, "No" if it's false.
      */
-    const formatBooleanValue = (value) => (value ? "Sí" : "No");
+    const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
 
     /**
      * Render the table header.
@@ -68,16 +67,14 @@ const InteractiveTable = ({ data, onRowClick }) => {
     const renderTableHeader = () => (
         <tr>
             {Object.keys(headerMappings).map((column) =>
-                columnVisibility[column] && column !== "_id" ? (
-                    <th key={column} className="sticky-column">
-                        <div className="header-content">
-                            <span className="header-text">{headerMappings[column]}</span>
-                            <div className="hide-button-container">
+                columnVisibility[column] && column !== '_id' ? (
+                    <th key={column} className='sticky-column'>
+                        <div className='header-content'>
+                            <span className='header-text'>{headerMappings[column]}</span>
+                            <div className='hide-button-container'>
                                 <button
                                     className='hide-button'
-                                    onClick={() =>
-                                        toggleColumnVisibility(column)
-                                    }
+                                    onClick={() => toggleColumnVisibility(column)}
                                 >
                                     <img src={CloseIcon} alt='Icono Ocultar' />
                                 </button>
@@ -103,38 +100,46 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 </tr>
             );
         }
-        const classLink= "link-cv-column"
+
         return data.map((row, rowIndex) => (
             <tr
                 key={rowIndex}
-                className="fila-sombrada"
+                className='fila-sombrada'
                 onClick={(e) => {
                     const target = e.target;
-                    if (!target.classList.contains("link-cv-column")) {
+                    if (!target.classList.contains('link-cv-column')) {
                         onRowClick(data[rowIndex]._id);
                     }
                 }}
             >
                 {Object.keys(headerMappings).map((column) =>
-                    columnVisibility[column] && column !== "_id" ? (
-                        <td key={column} className={column === "linkCV" ? "sticky-column link-cv-column" : "sticky-column"}>
-                            {typeof row[column] === "boolean" ? (
+                    columnVisibility[column] && column !== '_id' ? (
+                        <td
+                            key={column}
+                            className={
+                                column === 'linkCV'
+                                    ? 'sticky-column link-cv-column'
+                                    : 'sticky-column'
+                            }
+                        >
+                            {typeof row[column] === 'boolean' ? (
                                 formatBooleanValue(row[column])
-                            ) : column === "linkCV" && row[column] ? (
-
-                                <BaseButton type='primary' className="link-cv-column" onClick={(e) => handleButtonClick(e,row[column])}>
+                            ) : column === 'linkCV' && row[column] !== '-' ? (
+                                <BaseButton
+                                    type='primary'
+                                    className='link-cv-column'
+                                    onClick={(e) => handleButtonClick(e, row[column])}
+                                >
                                     Descargar CV
                                 </BaseButton>
-                               
-                            ) : column === "linkCV" && row[column] !== ' ' ? (
-                                <BaseButton type='primary' className="link-cv-column">
+                            ) : column === 'linkCV' && row[column] == '-' ? (
+                                <BaseButton type='primary' className='link-cv-column'>
                                     No hay CV registrado
                                 </BaseButton>
-
-                            ) : column === "dateOfBirth" && row[column] ? (
+                            ) : column === 'dateOfBirth' && row[column] ? (
                                 formatDate(row[column])
-                            ) : column === "specialties" && row[column] ? (
-                                row[column].map((val) => val.name).join(", ")
+                            ) : column === 'specialties' && row[column] ? (
+                                row[column].map((val) => val.name).join(', ')
                             ) : (
                                 row[column]
                             )}
@@ -151,7 +156,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
      * @returns {string} - The date formatted as "DD/MM/YYYY".
      */
     const formatDate = (date) => {
-        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString(undefined, options);
     };
 
@@ -165,12 +170,12 @@ const InteractiveTable = ({ data, onRowClick }) => {
                 Resetear tabla
             </BaseButton>
 
-            <div className="table-wrapper">
-            <table className="tabla">
-                <thead>{renderTableHeader()}</thead>
-                <tbody>{renderTableBody()}</tbody>
-            </table>
-        </div>
+            <div className='table-wrapper'>
+                <table className='tabla'>
+                    <thead>{renderTableHeader()}</thead>
+                    <tbody>{renderTableBody()}</tbody>
+                </table>
+            </div>
         </div>
     );
 };

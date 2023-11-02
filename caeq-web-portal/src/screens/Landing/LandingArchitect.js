@@ -18,11 +18,10 @@ const LandingArchitect = () => {
                 <div className='column left-column'>
                     <img src={Logo} alt='Logo' className='logo' />
                     <div className='titlecaeq'>
-                        Bienvenidos al portal de colegiados
+                        Bienvenidos al portal CAEQ
                     </div>
                     <p className='subtitlecaeq'>
-                        Consulta tu información, cursos, cotizaciones y
-                        servicios que se ofrecen en el CAEQ.
+                        Un nuevo espacio de consulta informativa.
                     </p>
                     <div className='button-container'>
                         <Link to='/LoginUser'>

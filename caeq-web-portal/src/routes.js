@@ -20,6 +20,7 @@ import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin'
 import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
+import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
@@ -28,6 +29,8 @@ import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import ProfileIcon from '../src/components/icons/ProfileIcon.png';
 import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import ServicesIcon from '../src/components/icons/ServicesIcon.png';
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png'; 
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
@@ -163,7 +166,25 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-
+    {
+        path: '/Servicios',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: Courses,
+        isPrivate: true,
+        inNavbar: true,
+    },
+    {
+        path: 'Servicios/CrearSalon',
+        name: 'Crear oferta de salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: CreateRoomOffer,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
     {
         path: '/Directorio',
         name: 'Directorio',

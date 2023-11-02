@@ -8,7 +8,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
         unique: true,
         type: Number,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [true, 'Por favor dinos tu número de colegiado!'],
     },
     fullName: {
         type: String,

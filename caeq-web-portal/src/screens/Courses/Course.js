@@ -39,7 +39,7 @@ const Course = (props) => {
     const handleInscription = async (e) => {
         e.preventDefault();
         try {
-            const swal = FireLoading('Inscribiéndote al curso...');
+            const swal = FireLoading('Estamos en proceso de tramitar su solicitud. Por favor, espere un momento...');
             const response = await createInscription(searchParams.id);
             if (response.status === 'success') {
                 FireSucess('Inscripción exitosa.');
@@ -55,7 +55,7 @@ const Course = (props) => {
         e.preventDefault();
 
         if (!paymentFile) {
-            FireError('Por favor, selecciona un archivo de comprobante de pago.');
+            FireError('Por favor. Seleccionar un archivo adjunto que sirva como comprobante de pago.');
             return;
         }
 

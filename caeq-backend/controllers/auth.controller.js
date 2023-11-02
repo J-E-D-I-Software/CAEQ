@@ -5,6 +5,7 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('../utils/email');
 const { promisify } = require('util');
+const bcrypt = require('bcryptjs');
 
 /**
  * Creates a JWT token with the provided user ID and user type.
@@ -124,7 +125,12 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
             // Update password
             newUser = await ArchitectUser.findOneAndUpdate(
                 { _id: existingUser._id },
-                { $set: { password: password, isOverwritten: true } },
+                {
+                    $set: {
+                        password: await bcrypt.hash(password, 12),
+                        isOverwritten: true,
+                    },
+                },
                 {
                     new: true,
                     runValidators: false,
@@ -209,9 +215,17 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
 
     // 2 Check is user exists.
     const user = await ArchitectUser.findOne({ email }).select('+password'); // adding a + to the field set as selected false means we will retrieve it
-
-    if (!user || !(await user.correctPassword(password, user.password))) {
-        return next(new AppError('Email o contraseña incorrectos.', 401));
+    if (!user) {
+        return next(
+            new AppError(
+                'Email incorrecto. No hay un usuario registrado con este correo.',
+                401
+            )
+        );
+    } else if (!(await user.correctPassword(password, user.password))) {
+        return next(
+            new AppError('Contraseña incorrecta. Intente de nuevo por favor.', 401)
+        );
     }
 
     // 3 Send JWT to user.

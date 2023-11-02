@@ -70,7 +70,7 @@ const Signup = () => {
         'Miembro Vitalicio',
         'Miembro Honorario',
     ];
-    const classif = ['Expresidente', 'Docente', 'Convenio'];
+    const classif = ['Expresidente', 'Docente', 'Convenio', 'Ninguno'];
     const decide = ['SÍ', 'NO'];
     const navigate = useNavigate();
 
@@ -194,34 +194,34 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Correo Electrónico'
-                                placeholder='Correo Electrónico'
+                                placeholder='Su correo electrónico'
                                 getVal={email}
                                 setVal={setEmail}
                                 require={true}
                             />
                             <HiddenTextInput
                                 label='Contraseña'
-                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
+                                placeholder='Su contraseña debe contar con al menos 8 caracteres'
                                 getVal={password}
                                 setVal={setPassword}
                                 require={true}
                             />
                             <HiddenTextInput
                                 label='Confirmar contraseña'
-                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
+                                placeholder='Su contraseña debe contar con al menos 8 caracteres'
                                 getVal={passwordConfirm}
                                 setVal={setConfirmPassword}
                                 require={true}
                             />
                             <TextInput
                                 label='Número de DRO'
-                                placeholder='Número de DRO'
+                                placeholder='Número de DRO (No obligatorio)'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
-                                require={true}
+                                require={false}
                             />
                             <DropdownInput
-                                label='Tipo de miembro'
+                                label='Seleccione tipo de miembro'
                                 options={member}
                                 getVal={memberType}
                                 setVal={setMemberType}
@@ -300,7 +300,7 @@ const Signup = () => {
                                 onChange={(selectedOptions) => {
                                     setSelectedSpecialties(selectedOptions);
                                 }}
-                                placeholder='Selecciona tus especialidades'
+                                placeholder='Seleccione especialidades'
                             />
                             <NumberInput
                                 label='Fecha de ingreso al colegio'
@@ -318,7 +318,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Universidad'
-                                placeholder='¿En que universidad te graduaste?'
+                                placeholder='Nombre de la universidad donde se graduó'
                                 getVal={university}
                                 setVal={setUniversity}
                                 require={true}
@@ -338,11 +338,10 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label='Cargos en consejo directivo (fecha y nombre del cargo)'
-                                placeholder='Cargos en consejo directivo (año y nombre del cargo)'
+                                label='Cargos en consejo directivo (fecha y nombre del cargo) / Ninguno'
+                                placeholder='Cargos en consejo directivo (año y nombre del cargo) / Ninguno'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
-                                require={true}
                             />
                             <FileInput
                                 label='Suba su curriculum'

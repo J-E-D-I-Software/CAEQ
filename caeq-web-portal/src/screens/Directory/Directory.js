@@ -300,7 +300,7 @@ const Directory = () => {
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
-                        options={['Expresidente', 'Docente', 'Convenio']}
+                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
                         placeholder='Clasificación'
                     />
                     <DropdownInput

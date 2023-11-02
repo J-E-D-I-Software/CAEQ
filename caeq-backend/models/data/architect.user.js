@@ -254,6 +254,8 @@ const architectUserTestData = [
         email: 'jcastr@tec.mx',
         password: 'password456',
         passwordConfirm: 'password456',
+        isLegacy: true,
+        isOverwritten: false,
     },
 ];
 

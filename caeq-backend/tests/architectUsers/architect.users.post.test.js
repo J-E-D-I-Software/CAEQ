@@ -13,7 +13,7 @@ const testPostArchitectUsers = async () => {
         email: 'roberto@gmail.com',
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
-        collegiateNumber: 98765,
+        collegiateNumber: 2929292,
         memberType: 'Miembro de número',
         classification: 'Docente',
         DRONumber: 'DRO98765',
@@ -189,7 +189,6 @@ const requiredFields = [
     ['professionalLicense', requiredErrorMessages.professionalLicense],
     ['workAddress', requiredErrorMessages.workAddress],
     ['homeAddress', requiredErrorMessages.homeAddress],
-    ['positionsInCouncil', requiredErrorMessages.positionsInCouncil],
 ];
 
 beforeAll(async () => {

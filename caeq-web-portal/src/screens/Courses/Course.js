@@ -85,18 +85,6 @@ const Course = (props) => {
         } catch(error) {
             FireError(error?.response?.data?.message || error?.message)
         }
-            
-        
-    
-        
-    
-        try {
-            
-
-            
-        } catch (error) {
-            FireError(error.response.data.message);
-        }
     }
     
 

@@ -37,63 +37,66 @@ const Course = (props) => {
     }
 
     const handleInscription = async (e) => {
-        e.preventDefault();
         try{
-            const text = FireQuestionInput('¿Quieres subir tu comprobante de pago?', 'La inscripción no tiene costo.');
-            console.log(text);
-            
-            
-    
+            const confirmation = await FireQuestion(
+                '¿Quiere inscribirse a este curso?',
+                'La inscripción no tiene costo.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Inscribiéndote al curso...');
+            const response = await createInscription(searchParams.id);
+            if (response.status === 'success') {
+                FireSucess('Inscripción exitosa.');
+                navigate('/Cursos');
+            }
+            swal.close();
         } catch(error) {
             FireError(error?.response?.data?.message || error?.message)
         }
-        // try {
-        //     const confirmation = FireQuestion('¿Estás seguro de inscribirte a este curso?', 'La inscripción no tiene costo y no se puede deshacer.');
-        //     if (confirmation.isConfirmed) {
-        //         return;
-        //     }
-
-        //     const swal = FireLoading('Inscribiéndote al curso...');
-        //     const response = await createInscription(searchParams.id);
-        //     if (response.status === 'success') {
-        //         FireSucess('Inscripción exitosa.');
-        //         navigate('/Cursos');
-        //     }
-        //     swal.close();
-        // } catch (error) {
-        //     FireError(error.response.data.message);
-        // }
     };
 
     const handlePaymentStart = async () => {
         try{
-            FireQuestion('¿Quieres subir tu comprobante de pago?', 'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá automaticamente')
+            const confirmation = await FireQuestion(
+                '¿Quieres subir el comprobante de pago?',
+                'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá  automaticamente'
+            );
+
+            if (!paymentFile) {
+                FireError('Por favor, selecciona un archivo de comprobante de pago.');
+                return;
+            }
+
+            const form = new FormData();
+            form.append('courseId', searchParams.id);
+            form.append('billImageURL', paymentFile);
+
+            const swal = FireLoading('Iniciando proceso de pago...');
+            const response = await startPayment(form);
+            if (response.status === 'success') {
+                FireSucess('Pago enviado con éxito.');
+                navigate('/Cursos');
+            }
+            swal.close();
         } catch(error) {
             FireError(error?.response?.data?.message || error?.message)
         }
             
-        // if (!paymentFile) {
-        //     FireError('Por favor, selecciona un archivo de comprobante de pago.');
-        //     return;
-        // }
+        
     
-        // const form = new FormData();
-        //d); form.append('courseId', searchParams.i
-        // form.append('billImageURL', paymentFile);
+        
     
-        // try {
+        try {
             
 
-        //     const swal = FireLoading('Iniciando proceso de pago...');
-        //     const response = await startPayment(form);
-        //     if (response.status === 'success') {
-        //         FireSucess('Pago enviado con éxito.');
-        //         navigate('/Cursos');
-        //     }
-        //     swal.close();
-        // } catch (error) {
-        //     FireError(error.response.data.message);
-        // }
+            
+        } catch (error) {
+            FireError(error.response.data.message);
+        }
     }
     
 
@@ -120,7 +123,7 @@ const Course = (props) => {
                             </BaseButton>
                         </>
                     ) : (
-                        <BaseButton type="primary" onClick={(e) => handleInscription(e)}>
+                        <BaseButton type="primary" onClick={handleInscription}>
                             Inscribirme
                         </BaseButton>
                     )}

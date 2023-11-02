@@ -59,7 +59,7 @@ const architectUserTestData = [
         positionsInCouncil: 'Presidente',
         capacitationHours: 120,
         annuity: true,
-        email: 'rigigit647@soebing.com',
+        email: 'laura@example.com',
         password: 'password456',
         passwordConfirm: 'password456',
     },

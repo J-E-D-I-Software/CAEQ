@@ -25,9 +25,7 @@ exports.createPayment = factory.createOne(Payment);
 exports.startPayment = catchAsync(async (req, res, next) => {
     const course = await Course.findById(req.body.courseId);
     if (!course) {
-        return next(
-            new AppError('No se encontró ningún curso con esta clave.', 404)
-        );
+        return next(new AppError('No se encontró ningún curso con esta clave.', 404));
     }
 
     if (course.cost === 0) {
@@ -41,17 +39,12 @@ exports.startPayment = catchAsync(async (req, res, next) => {
 
     if (course.startDate < Date.now()) {
         return next(
-            new AppError(
-                'Este curso ya ha empezado, no puedes inscribirte a él.',
-                400
-            )
+            new AppError('Este curso ya ha empezado, no puedes inscribirte a él.', 400)
         );
     }
 
     if (course.capacity === 0) {
-        return next(
-            new AppError('Ya no hay espacio disponible en este curso.', 400)
-        );
+        return next(new AppError('Ya no hay espacio disponible en este curso.', 400));
     }
 
     // Check if this user has started payment process to this course
@@ -65,10 +58,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
     });
     if (existingPayment.length > 0) {
         return next(
-            new AppError(
-                'Ya has empezado tu proceso de pago para este curso.',
-                400
-            )
+            new AppError('Ya has empezado tu proceso de pago para este curso.', 400)
         );
     }
 
@@ -79,9 +69,8 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         course: course._id,
         user: req.user._id,
         billImageURL: req.body.billImageURL,
-        bill: req.body.bill,
     });
-/*
+    /*
     // Send payment notification email
     payment.populate(['user', 'course']);
     try {
@@ -105,24 +94,16 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
 
     // Check if payment exists
-    let payment = await Payment.findById(paymentId).populate([
-        'user',
-        'course',
-    ]);
+    let payment = await Payment.findById(paymentId).populate(['user', 'course']);
     if (!payment) {
         return next(
-            new AppError(
-                'No se encontró ninguna solicitud de pago con este id.',
-                404
-            )
+            new AppError('No se encontró ninguna solicitud de pago con este id.', 404)
         );
     }
 
     // Check if payment is pending
     if (payment.status !== 'Pendiente') {
-        return next(
-            new AppError('La solicitud de este pago ya fue procesada.', 400)
-        );
+        return next(new AppError('La solicitud de este pago ya fue procesada.', 400));
     }
 
     // Save payment new status
@@ -134,7 +115,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
         course: payment.course,
         user: payment.user,
     });
-/*
+    /*
     try {
         // Send payment accepted confirmation email
         await new Email(
@@ -168,24 +149,16 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
 
     // Check if payment exists
-    let payment = await Payment.findById(paymentId).populate([
-        'user',
-        'course',
-    ]);
+    let payment = await Payment.findById(paymentId).populate(['user', 'course']);
     if (!payment) {
         return next(
-            new AppError(
-                'No se encontró ninguna solicitud de pago con este id.',
-                404
-            )
+            new AppError('No se encontró ninguna solicitud de pago con este id.', 404)
         );
     }
 
     // Check if payment is pending
     if (payment.status !== 'Pendiente') {
-        return next(
-            new AppError('La solicitud de este pago ya fue procesada.', 400)
-        );
+        return next(new AppError('La solicitud de este pago ya fue procesada.', 400));
     }
 
     // Save payment new status
@@ -196,7 +169,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     await Course.findByIdAndUpdate(payment.course._id, {
         capacity: payment.course.capacity + 1,
     });
-/*
+    /*
     try {
         await new Email(
             payment.user,

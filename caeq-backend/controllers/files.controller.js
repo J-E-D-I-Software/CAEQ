@@ -93,3 +93,11 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();
 });
+
+exports.formatRoomPhoto = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+    req.body.RoomPhoto = await uploadImage(req.file, 'photo');
+    
+    // Use next when you need the url in the next controllers. Delete the response from above.
+    next();
+});

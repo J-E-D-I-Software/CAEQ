@@ -8,10 +8,7 @@ const Email = require('../utils/email');
 
 exports.getAllPayments = factory.getAll(Payment, [
     { path: 'user', select: 'email name postalCode age educationLevel' },
-    {
-        path: 'course',
-        select: 'courseName teachers modality description cost capacity startDate endDate bankAccount',
-    },
+    { path: 'course', select: 'courseName teachers modality description cost capacity startDate endDate bankAccount',},
 ]);
 exports.getPayment = factory.getOne(Payment, ['user', 'course']);
 exports.createPayment = factory.createOne(Payment);

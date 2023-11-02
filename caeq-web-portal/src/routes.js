@@ -6,6 +6,7 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import CreateGathering from './screens/CreateGathering/CreateGathering';
+import Gatherings from './screens/Gatherings/Gatherings';
 import Profile from './screens/Profile/Profile';
 import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
@@ -103,7 +104,15 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
-        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas',
+        name: 'Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: Gatherings,
+        isPrivate: true,
+        inNavbar: true,
     },
     {
         path: '/Asambleas/Asamblea',

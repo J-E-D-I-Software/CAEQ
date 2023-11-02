@@ -28,7 +28,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     classification: {
         type: String,
-        enum: ['-', 'Expresidente', 'Docente', 'Convenio'],
+        enum: ['-', 'Expresidente', 'Docente', 'Convenio', 'Ninguno'],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
@@ -116,7 +116,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     positionsInCouncil: {
         type: String,
-        required: [true, 'Por favor dinos tus cargos en el consejo directivo!'],
     },
     capacitationHours: {
         type: Number,

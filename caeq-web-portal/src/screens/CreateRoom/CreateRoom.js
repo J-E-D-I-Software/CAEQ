@@ -6,7 +6,9 @@ import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { useParams } from 'react-router-dom';
 import BaseButton from '../../components/buttons/BaseButton';
 import createRoom from '../../client/Services/Services.POST';
+import './createRoom.scss';
 
+import { Link, useNavigate } from 'react-router-dom';
 
 const CreateRoomOffer = () => {
     const searchParams = useParams();
@@ -61,25 +63,28 @@ const CreateRoomOffer = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h1>{searchParams.id ? 'Modificar' : 'Crear'} oferta de salón</h1>
+        <div className='room-container'>
+            <div className='room-title'>
+                <h1>{searchParams.id ? 'Modificar' : 'Crear'} Oferta de salón</h1>
 
             </div>
 
-            <div>
-                <div>
+            <div className='room-content'>
+                <div className='room-input'>
                     <TextInput
+                        require
                         label='Nombre del salón'
                         getVal={data.name}
                         setVal={(value) => updateData('name', value)}
                     />
                     <NumberInput
+                        require
                         label='Costo'
                         getVal={data.cost}
                         setVal={(value) => updateData('cost', value)}
                     />
                     <NumberInput
+                        require
                         label='Capacidad'
                         getVal={data.capacity}
                         setVal={(value) => updateData('capacity', value)}
@@ -95,11 +100,15 @@ const CreateRoomOffer = () => {
                         setVal={setImageUrl}
                         accept= '.jpg, .jpeg'
                     />
-
+                
+                </div>
+                <div className='room-buttons'>
                     <BaseButton type= "primary" onClick={(e) => onSubmit(e)}>
-                        {searchParams.id ? 'Guardar asamblea' : 'Crear asamblea'}
-                    </BaseButton>
-
+                            {searchParams.id ? 'Guardar asamblea' : 'Crear asamblea'}
+                        </BaseButton>
+                        <Link to='/Servicios'>
+                                <BaseButton type='cancel'>Cancelar</BaseButton>
+                        </Link>
                 </div>
             </div>
         </div>

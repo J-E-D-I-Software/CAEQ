@@ -21,7 +21,7 @@ const roomSchema = new mongoose.Schema({
         required: [false]
 
     },
-    file: {
+    roomPhoto: {
         type: String,
         required: [false]
 

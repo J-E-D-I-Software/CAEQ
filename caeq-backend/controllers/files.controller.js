@@ -22,20 +22,23 @@ const limits = {
  */
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;
-
+    
     buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
-
+    
     const timestamp = Date.now();
+    
     const name = originalname.split('.')[0];
+    
     const type = file.mimetype.split('/')[1];
+    
     const fileName = `${name}_${resource}_${timestamp}.${type}`;
-
+    
     const imageRef = storage.child(fileName);
-
+        
     const snapshot = await imageRef.put(buffer);
-
+    
     const downloadURL = await snapshot.ref.getDownloadURL();
-
+    
     return downloadURL;
 };
 
@@ -96,7 +99,9 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
 
 exports.formatRoomPhoto = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
-    req.body.RoomPhoto = await uploadImage(req.file, 'photo');
+
+    console.log(req.file);
+    req.body.roomPhoto = await uploadPDF(req.file, 'photo');
     
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();

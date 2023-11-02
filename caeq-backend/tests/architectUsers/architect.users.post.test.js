@@ -141,8 +141,8 @@ const testRequiredFields = async (field, errorMessage) => {
     // Send the request
     const res = await agent.post(endpoint).send(requestBody);
 
-    expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Datos inválidos: ' + errorMessage);
+    expect(res.statusCode).toEqual(400);
 };
 
 //List of required fields error messages

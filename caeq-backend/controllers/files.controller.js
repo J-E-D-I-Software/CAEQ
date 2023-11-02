@@ -93,3 +93,13 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();
 });
+
+/* A middleware that is used to format the image before it is uploaded to the server. */
+exports.formatPaymentImage = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+
+    // FORMAT file
+    req.body.billImageURL = await uploadPDF(req.file, 'bill');
+
+    next();
+});

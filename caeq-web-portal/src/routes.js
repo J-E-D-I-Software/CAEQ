@@ -7,6 +7,7 @@ import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import CreateGathering from './screens/CreateGathering/CreateGathering';
 import Gatherings from './screens/Gatherings/Gatherings';
+import RegisterAttendees from './screens/RegisterAttendees/RegisterAttendees';
 import Profile from './screens/Profile/Profile';
 import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
@@ -130,6 +131,16 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asistencias/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: RegisterAttendees,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],

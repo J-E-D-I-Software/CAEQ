@@ -15,7 +15,7 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
  *
  * @function
  */
-const CreateGathering = () => {
+const RegisterAttendees = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [moreInfo, setMoreInfo] = useState(null);
@@ -69,12 +69,6 @@ const CreateGathering = () => {
 
         event.preventDefault();
 
-        const [year, month, day] = data.date.split('-');
-        data.year = year;
-        data.month = month;
-        data.day = day;
-        console.log(data);
-
         // Build FormData
         const formData = new FormData();
         Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
@@ -101,7 +95,7 @@ const CreateGathering = () => {
     return (
         <div className='create-course'>
             <div className='create-course--row'>
-                <h1>{searchParams.id ? 'Modificar' : 'Crear'} asamblea</h1>
+                <h1>Registrar asistencias a asambleas</h1>
             </div>
 
             <div className='create-course--row'>
@@ -148,4 +142,4 @@ const CreateGathering = () => {
     );
 };
 
-export default CreateGathering;
+export default RegisterAttendees;

@@ -21,5 +21,4 @@ router.route('/myInscriptions').get(restrictTo('architect'), myInscriptions);
 router.use(restrictTo('caeq'));
 router.route('/').get(getAllInscriptions).post(createInscription);
 router.route('/:id').get(getInscription).delete(deleteInscription);
-
 module.exports = router;

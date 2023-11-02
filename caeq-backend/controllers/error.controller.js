@@ -91,25 +91,25 @@ const handleCastErrorDB = (err) => {
     let message = `Inválido ${err.path}: ${err.value}`;
 
     if (err.path == 'collegiateNumber') {
-        message = `Número de colegiado invávlido: ${err.value}. Por favor ingresa un número.`;
+        message = `Número de colegiado invávlido: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'age') {
-        message = `Edad inválida: ${err.value}. Por favor ingresa un número.`;
+        message = `Edad inválida: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'cellphone') {
-        message = `Teléfono inválido: ${err.value}. Por favor ingresa un número.`;
+        message = `Teléfono inválido: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'officePhone') {
-        message = `Teléfono de oficina inválido: ${err.value}. Por favor ingresa un número.`;
+        message = `Teléfono de oficina inválido: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'homePhone') {
-        message = `Teléfono de casa inválido: ${err.value}. Por favor ingresa un número.`;
+        message = `Teléfono de casa inválido: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'dateOfAdmission') {
-        message = `Año de ingreso inválido: ${err.value}. Por favor ingresa un número.`;
+        message = `Año de ingreso inválido: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'capacitationHours') {
-        message = `Horas de capacitación inválidas: ${err.value}. Por favor ingresa un número.`;
+        message = `Horas de capacitación inválidas: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'capacity') {
-        message = `Capacidad del curso inválida: ${err.value}. Por favor ingresa un número.`;
+        message = `Capacidad del curso inválida: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'numberHours') {
-        message = `Número de horas del curso inválida: ${err.value}. Por favor ingresa un número.`;
+        message = `Número de horas del curso inválida: ${err.value}. Por favor ingrese un número.`;
     } else if (err.path == 'price') {
-        message = `Precio del curso inválida: ${err.value}. Por favor ingresa un número.`;
+        message = `Precio del curso inválida: ${err.value}. Por favor ingrese un número.`;
     }
     // 400 stands for bad request
     return new AppError(message, 400);

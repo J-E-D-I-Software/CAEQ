@@ -97,6 +97,12 @@ const Signup = () => {
     }, []);
 
     const handleSignup = async (e) => {
+        const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        const isValidEmail = emailRegex.test(email);
+        if (!isValidEmail) {
+            FireError('Por favor ingresa un correo electrónico válido.');
+            return;
+        }
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -209,7 +215,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Número de DRO'
-                                placeholder='Número de DRO (No obligatrio)'
+                                placeholder='Número de DRO (No obligatorio)'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
                                 require={false}

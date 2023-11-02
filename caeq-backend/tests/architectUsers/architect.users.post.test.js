@@ -13,7 +13,7 @@ const testPostArchitectUsers = async () => {
         email: 'roberto@gmail.com',
         password: 'contrasenaSegura',
         passwordConfirm: 'contrasenaSegura',
-        collegiateNumber: 98765,
+        collegiateNumber: 2929292,
         memberType: 'Miembro de número',
         classification: 'Docente',
         DRONumber: 'DRO98765',
@@ -141,8 +141,8 @@ const testRequiredFields = async (field, errorMessage) => {
     // Send the request
     const res = await agent.post(endpoint).send(requestBody);
 
-    expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Datos inválidos: ' + errorMessage);
+    expect(res.statusCode).toEqual(400);
 };
 
 //List of required fields error messages
@@ -151,10 +151,9 @@ const requiredErrorMessages = {
     email: 'Por favor dinos tu correo!',
     password: 'Por favor provee una contraseña.. Por favor ingresa la misma contraseña.',
     passwordConfirm: 'Por favor confirma tu contraseña.',
-    collegiateNumber: 'Por favor dinos tu número de DRO!',
+    collegiateNumber: 'Por favor dinos tu número de colegiado!',
     memberType: 'Por favor dinos qué |tipo de miembro| eres!',
     classification: 'Por favor dinos tu clasificación!',
-    DRONumber: 'Por favor dinos tu número de DRO!',
     authorizationToShareInfo: 'Por favor dinos si autorizas compartir tu información',
     gender: 'Por favor dinos tu género!',
     cellphone: 'Por favor dinos tu número de celular!',
@@ -190,7 +189,6 @@ const requiredFields = [
     ['professionalLicense', requiredErrorMessages.professionalLicense],
     ['workAddress', requiredErrorMessages.workAddress],
     ['homeAddress', requiredErrorMessages.homeAddress],
-    ['positionsInCouncil', requiredErrorMessages.positionsInCouncil],
 ];
 
 beforeAll(async () => {

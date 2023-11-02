@@ -24,7 +24,7 @@ const forgotPassword = async (type, email, req, userType, res) => {
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false }); // we save the new resetToken at user
 
-    const resetURL = `${req.protocol}://${frontDomain}/${userType}/reset-password/${resetToken}`;
+    const resetURL = `${frontDomain}/${userType}/reset-password/${resetToken}`;
     // if it fails, we want to delete that token
     try {
         await new Email(user, resetURL).sendPasswordReset();

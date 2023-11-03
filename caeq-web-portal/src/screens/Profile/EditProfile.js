@@ -42,6 +42,15 @@ const ArchitectPersonalData = (props) => {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+
+        const currentDate = new Date();
+        const dateBirth = new Date(editedData.dateOfBirth);
+        console.log(dateBirth);
+        if (dateBirth > currentDate) {
+            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            return;
+        }
+
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(editedData.email);
         if (!isValidEmail) {

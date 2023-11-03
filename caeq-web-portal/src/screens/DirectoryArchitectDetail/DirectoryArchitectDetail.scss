@@ -57,6 +57,24 @@
             padding: 20px;
             width: 100%;
         }
+     
+    }
+
+    .Attendees-row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 4rem;
+
+        .year-button{
+            font-size: 24px;
+            margin: 1rem;
+            width: 300px;
+            height: 70px;
+        }
+
+        .list-data{
+            font-size: 24px;
+        }
     }
 
     @media screen and (max-width: 767px) {

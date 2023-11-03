@@ -10,6 +10,8 @@ import FileInput from '../../components/inputs/FileInput/FileInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
+
 import {
     memberOptions,
     authorizationOptions,
@@ -17,6 +19,8 @@ import {
     lifeInsuranceOptions,
     anuuityOptions,
 } from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
+
+
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
@@ -26,6 +30,8 @@ const ArchitectDetail = (props) => {
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
+    const [attendances, setAttendances] = useState([]);
+
 
     useEffect(() => {
         (async () => {
@@ -85,6 +91,26 @@ const ArchitectDetail = (props) => {
             );
         }
     }, [editedData.specialty, selectedSpecialties]);
+
+    useEffect(() => {
+        if (searchParams.id) {
+            (async () => {
+                try {
+                    const architectId = searchParams.id;
+                    const attendances = await getAttendancesByArchitect(architectId);
+                    setAttendances(attendances);
+                } catch (error) {
+                    console.error('Error al obtener asistencias por arquitecto', error);
+                }
+            })();
+        }
+    }, [searchParams.id]);
+    
+    const [selectedYear, setSelectedYear] = useState(null);
+
+    const handleYearClick = (year) => {
+        setSelectedYear((prevYear) => (prevYear === year ? null : year));
+    };
 
     // Pago de Anualidad pendiente
 
@@ -366,6 +392,44 @@ const ArchitectDetail = (props) => {
                     )}
                 </div>
             </div>
+            <div>
+                <h1>Asistencias a Asambleas</h1>
+                <div className='Attendees-row'>
+                    {Array.from(
+                        new Set(
+                            attendances.map((asistencia) => asistencia.idGathering.year)
+                        )
+                    ).map((year) => (
+                        <div key={year}>
+                            <BaseButton
+                                className='year-button'
+                                type='primary'
+                                onClick={() => handleYearClick(year)}
+                            >
+                                {year}
+                            </BaseButton>
+                            {selectedYear === year && (
+                                <div className='list-data'>
+                                    {attendances
+                                        .filter(
+                                            (asistencia) =>
+                                                asistencia.idGathering.year === year &&
+                                                asistencia.attended // Filtra por 'attended' igual a true
+                                        )
+                                        .map((asistencia) => (
+                                            <p key={asistencia._id}>
+                                                {new Date(
+                                                    asistencia.idGathering.date
+                                                ).toLocaleDateString()}
+                                            </p>
+                                        ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
 
             <div className='architect-row'>
                 <BaseButton type='primary' className='button' onClick={handleSaveChanges}>

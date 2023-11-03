@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
-import { getAllAttendees } from '../../client/Attendees/Attendees.GET';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
@@ -19,6 +18,7 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
+    const [attendanceByYear, setAttendanceByYear] = useState({});
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -36,18 +36,6 @@ const Profile = (props) => {
         navigate(`/Perfil/${SavedUser._id}`);
     };
 
-    const asistencias = [
-        { year: 2005, dates: ['2005-01-01', '2005-03-15', '2005-08-20'] },
-        { year: 2007, dates: ['2007-02-10', '2007-06-05', '2007-12-30'] },
-        { year: 2008, dates: ['2008-02-10', '2008-06-05', '2008-12-30'] },
-        { year: 2009, dates: ['2009-02-10', '2009-06-05', '2009-12-30'] },
-        { year: 2010, dates: ['2010-01-01', '2010-04-15', '2010-09-20'] },
-        { year: 2012, dates: ['2012-02-10', '2012-06-05', '2012-12-30'] },
-        { year: 2015, dates: ['2015-03-15', '2015-07-20', '2015-11-25'] },
-        { year: 2018, dates: ['2018-01-10', '2018-05-15', '2018-10-20'] },
-        { year: 2020, dates: ['2020-02-10', '2020-06-05', '2020-12-30'] },
-    ];
-
     useEffect(() => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
@@ -58,28 +46,29 @@ const Profile = (props) => {
     useEffect(() => {
         (async () => {
             try {
-                const architectId = SavedUser._id; // Obtén el ID del arquitecto desde tus datos guardados
+                const architectId = SavedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
                 console.log('Asistencias', attendances);
+
+                // Calculate attendance by year
+                const attendanceByYear = {};
+                for (const asistencia of attendances) {
+                    const year = asistencia.idGathering.year;
+                    if (asistencia.attended) {
+                        if (!attendanceByYear[year]) {
+                            attendanceByYear[year] = 1;
+                        } else {
+                            attendanceByYear[year]++;
+                        }
+                    }
+                }
+                setAttendanceByYear(attendanceByYear);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
     }, [SavedUser._id]);
-    
-
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const attendances = await getAllAttendees();
-    //             setAttendances(attendances);
-    //             console.log('Asistencias', attendances);
-    //         } catch {}
-    //     })();
-    // }, []);
-
-  
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -93,17 +82,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className="profile">
+        <div className='profile'>
             <h1>Datos Personales</h1>
-            <div className="profile-row">
-                <BaseButton type="primary" onClick={handleRoute}>
+            <div className='profile-row'>
+                <BaseButton type='primary' onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -124,7 +113,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -146,9 +135,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -166,7 +155,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -175,6 +164,15 @@ const Profile = (props) => {
                             <span>Horas Acreditadas: </span>
                             {profile.capacitationHours}
                         </p>
+                        <p>
+                            <span>Asistencias por Año:</span>
+                            {Object.keys(attendanceByYear).map((year) => (
+                                <p key={year}>
+                                    {year}: {attendanceByYear[year]} asistencias
+                                </p>
+                            ))}
+                        </p>
+
                         <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}
@@ -185,9 +183,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -205,7 +203,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
@@ -227,21 +225,35 @@ const Profile = (props) => {
             </div>
             <div>
                 <h1>Asistencias a Asambleas</h1>
-                <div className="Attendees-row">
-                    {asistencias.map((asistencia) => (
-                        <div key={asistencia.year}>
+                <div className='Attendees-row'>
+                    {Array.from(
+                        new Set(
+                            attendances.map((asistencia) => asistencia.idGathering.year)
+                        )
+                    ).map((year) => (
+                        <div key={year}>
                             <BaseButton
-                                className="year-button"
-                                type="primary"
-                                onClick={() => handleYearClick(asistencia.year)}
+                                className='year-button'
+                                type='primary'
+                                onClick={() => handleYearClick(year)}
                             >
-                                {asistencia.year}
+                                {year}
                             </BaseButton>
-                            {selectedYear === asistencia.year && (
-                                <div className="list-data">
-                                    {asistencia.dates.map((date, index) => (
-                                        <p key={index}>{date}</p>
-                                    ))}
+                            {selectedYear === year && (
+                                <div className='list-data'>
+                                    {attendances
+                                        .filter(
+                                            (asistencia) =>
+                                                asistencia.idGathering.year === year &&
+                                                asistencia.attended // Filtra por 'attended' igual a true
+                                        )
+                                        .map((asistencia) => (
+                                            <p key={asistencia._id}>
+                                                {new Date(
+                                                    asistencia.idGathering.date
+                                                ).toLocaleDateString()}
+                                            </p>
+                                        ))}
                                 </div>
                             )}
                         </div>

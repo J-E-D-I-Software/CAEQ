@@ -1,18 +1,19 @@
 const factory = require('./handlerFactory.controller');
 const Attendee = require('../models/attendees.model');
+const Gathering = require('../models/gathering.model');
+
 
 exports.getAllAttendees = factory.getAll(Attendee);
 exports.getAttendee = factory.getOne(Attendee);
 exports.createAttendee = factory.createOne(Attendee);
 exports.updateAttendee = factory.updateOne(Attendee);
 exports.deleteAttendee = factory.deleteOne(Attendee);
-
 exports.getAttendeesByArchitect = async (req, res) => {
     try {
-        // Extrae el ID del arquitecto de los parámetros de la ruta
-        const { idArchitect } = req.params; 
-        // Realiza la búsqueda de asistencias que coincidan con el ID del arquitecto
-        const attendees = await Attendee.find({ idArchitect });
+        const { idArchitect } = req.params;
+
+        // Buscar asistencias que coincidan con el ID del arquitecto y populando el campo "idGathering" para obtener los datos de la gathering.
+        const attendees = await Attendee.find({ idArchitect }).populate({ path: 'idGathering', model: Gathering });
 
         if (attendees.length === 0) {
             return res.status(404).json({

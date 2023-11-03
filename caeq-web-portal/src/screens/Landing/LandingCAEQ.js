@@ -6,8 +6,8 @@ import BaseButton from '../../components/buttons/BaseButton';
 
 const LandingCAEQ = () => {
     return (
-        <div class='landing-admin-container'>
-            <div class='column left-column'>
+        <div className='landing-admin-container'>
+            <div className='column left-column'>
                 <img src={Logo} alt='Logo' className='Logo' />
                 <div className='title'>
                     <div className='main'>Portal Administrativo</div>
@@ -24,7 +24,7 @@ const LandingCAEQ = () => {
                 </div>
             </div>
 
-            <div class='column right-column'>
+            <div className='column right-column'>
                 Si usted pertenece a la gerencia de la administración actual
                 favor de ingresar con sus credenciales para acceder al sistema.
                 <br />

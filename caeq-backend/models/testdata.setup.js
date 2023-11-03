@@ -46,6 +46,11 @@ const setUpArchitectUserData = catchAsync(async () => {
  */
 const setUpSessionData = catchAsync(async () => {
     const courses = await Course.find();
+    const user1 = await ArchitectUser.findOne({ email: 'relisib653@mugadget.com' });
+    const user2 = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
+
+    // Add attendees to sessions
+    SessionsData[0].attendees = [user1._id, user2._id];
 
     SessionsData[0].course = courses[0]._id;
     SessionsData[1].course = courses[0]._id;

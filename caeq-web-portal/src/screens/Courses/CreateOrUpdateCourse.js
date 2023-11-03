@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import { FireError, FireSucess, FireLoading, FireNotification } from '../../utils/alertHandler';
 import CourseCard from '../../components/cards/CourseCard';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
@@ -70,10 +70,7 @@ const CreateOrUpdateCourse = () => {
                 .catch(() => navigate('/404'));
 
             getCourseInscriptions(searchParams.id)
-                .then((response) => {
-                    console.log(response);
-                    setInscriptions(response);
-                })
+                .then((response) => setInscriptions(response))
                 .catch((error) =>
                     console.error('Error fetching data: ', error)
                 );
@@ -281,6 +278,34 @@ const CreateOrUpdateCourse = () => {
             'Dic',
         ][Number(month) - 1];
         return `${day} ${formattedMonth} ${year}`;
+    };
+
+    /**
+     * Checks if the given user attended the given session
+     * @param {Object} user - the user to be checked
+     * @param {Object} session - the session to be checked
+     * @returns {boolean} - true if the user attended the session, false otherwise
+     */
+    const didUserAttendedSession = (user, session) => {
+        if (!session?.attendees) return false;
+
+        return session.attendees.includes(user._id);
+    };
+
+    const onUpdateAttendance = (event, user, session) => {
+        event.preventDefault();
+        if (!session?.attendees) return false;
+        if (didUserAttendedSession(user, session))
+            session.attendees = session.attendees.filter(x => x !== user._id);
+        else
+            session.attendees.push(user._id);
+        updateSession(session._id, session)
+        .then( () => {
+            const element = event.target;
+            element.checked = !element.checked;
+            FireNotification('Asistencia actualizada');
+        })
+        .catch(() => FireNotification('Ocurrió un problema, por favor intente de nuevo'));
     };
 
     return (
@@ -542,7 +567,7 @@ const CreateOrUpdateCourse = () => {
                                 <table className='styled-table'>
                                     <thead>
                                         <tr>
-                                            <th>Asistió</th>
+                                            <th>Lista de asistencia</th>
                                             <th>Número de colegiado</th>
                                             <th>Nombre completo</th>
                                         </tr>
@@ -551,7 +576,11 @@ const CreateOrUpdateCourse = () => {
                                         {inscriptions.map((inscription, i) => (
                                             <tr key={i}>
                                                 <td>
-                                                    <input type='checkbox' />
+                                                    <input 
+                                                        type='checkbox' 
+                                                        checked={didUserAttendedSession(inscription.user, sessionSelected)}
+                                                        onChange={(e) => onUpdateAttendance(e, inscription.user, sessionSelected)}
+                                                        />
                                                 </td>
                                                 <td>
                                                     {

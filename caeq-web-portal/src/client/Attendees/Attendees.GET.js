@@ -9,8 +9,9 @@ const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
  */
 export async function getAllAttendees(page = 1, filtersParams = '') {
     let endpoint = `${baseApiEndpoint}/attendees?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
-
     const response = await axios.get(endpoint);
+
+    console.log('Respuesta de getAllAttendees:', response.data.data.documents);
     return response.data.data.documents;
 }
 

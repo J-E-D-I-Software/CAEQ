@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
+import { getAllAttendees } from '../../client/Attendees/Attendees.GET';
 
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -16,14 +17,37 @@ const Profile = (props) => {
     const SavedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
+    const [attendances, setAttendances] = useState([]);
+    const [filterByArchitectId, setfilterByArchitectId] = useState([]);
 
-    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
-    const normalDate = date.split('/').reverse().join('/')
+    const date = profile.dateOfBirth
+        ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
+        : '';
+    const normalDate = date.split('/').reverse().join('/');
     const startDate = new Date(profile.dateOfAdmission);
+
+    const [selectedYear, setSelectedYear] = useState(null);
+
+    const handleYearClick = (year) => {
+        setSelectedYear((prevYear) => (prevYear === year ? null : year));
+    };
+    
 
     const handleRoute = (id) => {
         navigate(`/Perfil/${SavedUser._id}`);
     };
+
+    const asistencias = [
+        { year: 2005, dates: ['2005-01-01', '2005-03-15', '2005-08-20'] },
+        { year: 2007, dates: ['2007-02-10', '2007-06-05', '2007-12-30'] },
+        { year: 2008, dates: ['2008-02-10', '2008-06-05', '2008-12-30'] },
+        { year: 2009, dates: ['2009-02-10', '2009-06-05', '2009-12-30'] },
+        { year: 2010, dates: ['2010-01-01', '2010-04-15', '2010-09-20'] },
+        { year: 2012, dates: ['2012-02-10', '2012-06-05', '2012-12-30'] },
+        { year: 2015, dates: ['2015-03-15', '2015-07-20', '2015-11-25'] },
+        { year: 2018, dates: ['2018-01-10', '2018-05-15', '2018-10-20'] },
+        { year: 2020, dates: ['2020-02-10', '2020-06-05', '2020-12-30'] },
+    ];
 
     useEffect(() => {
         if (SavedUser._id)
@@ -32,14 +56,26 @@ const Profile = (props) => {
                 .catch((error) => navigate('/404'));
     }, []);
 
-    let dobValue = new Date(profile.dateOfBirth)
-    const currentDate = new Date()
-    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear()
+    useEffect(() => {
+        (async () => {
+            try {
+                const attendances = await getAllAttendees();
+                setAttendances(attendances);
+                console.log('Asistencias', attendances);
+            } catch {}
+        })();
+    }, []);
+
+    let dobValue = new Date(profile.dateOfBirth);
+    const currentDate = new Date();
+    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear();
     if (
         currentDate.getUTCMonth() < dobValue.getUTCMonth() ||
         (currentDate.getUTCMonth() === dobValue.getUTCMonth() &&
             currentDate.getUTCDate() < dobValue.getUTCDate())
-    ) { age--}
+    ) {
+        age--;
+    }
 
     return (
         <div className='profile'>
@@ -169,10 +205,33 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Municipio: </span>
-                            {profile.municipalityOfLabor}
+                  list'          {profile.municipalityOfLabor}
                         </p>
                     </div>
                 </WhiteContainer>
+            </div>
+            <div>
+                <h1>Asistencias a Asambleas</h1>
+                <div className='Attendees-row'>
+                    {asistencias.map((asistencia) => (
+                        <div key={asistencia.year}>
+                            <BaseButton
+                                className='year-button'
+                                type='primary'
+                                onClick={() => handleYearClick(asistencia.year)}
+                            >
+                                {asistencia.year}
+                            </BaseButton>
+                            {selectedYear === asistencia.year && (
+                                <div className='list-data'>
+                                    {asistencia.dates.map((date, index) => (
+                                        <p key={index}>{date}</p>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

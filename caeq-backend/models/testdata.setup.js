@@ -12,7 +12,7 @@ const SpecialtyData = require('./data/specialty');
 const Session = require('./session.model.js');
 const SessionsData = require('./data/sessions');
 const Attendees = require('./attendees.model');
-const AttendeesData = require('./data/attendees.js');
+const AttendeesData = require('./data/attendee.js');
 const Gathering = require('./gathering.model');
 const GatheringData = require('./data/gathering.js');
 /**
@@ -63,23 +63,26 @@ const setUpSessionData = catchAsync(async () => {
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
     const architect = await ArchitectUser.find()
-    AttendeesData[0].gatherings = gatherings[0]._id;
-    AttendeesData[1].gatherings = gatherings[0]._id;
-    AttendeesData[2].gatherings = gatherings[0]._id;
-    AttendeesData[3].gatherings = gatherings[0]._id;
-    AttendeesData[4].gatherings = gatherings[1]._id;
-    AttendeesData[5].gatherings = gatherings[1]._id;
-    AttendeesData[6].gatherings = gatherings[2]._id;
-    AttendeesData[7].gatherings = gatherings[2]._id;
+    console.log(architect[1].fullName)
+    console.log(architect[1]._id)
 
-    AttendeesData[0].architect = architect[0]._id;
-    AttendeesData[1].architect = architect[0]._id;
-    AttendeesData[2].architect = architect[0]._id;
-    AttendeesData[3].architect = architect[1]._id;
-    AttendeesData[4].architect = architect[1]._id;
-    AttendeesData[5].architect = architect[1]._id;
-    AttendeesData[6].architect = architect[2]._id;
-    AttendeesData[7].architect = architect[2]._id;
+    AttendeesData[0].idGathering = gatherings[0]._id;
+    AttendeesData[1].idGathering = gatherings[1]._id;
+    AttendeesData[2].idGathering = gatherings[2]._id;
+    AttendeesData[3].idGathering = gatherings[3]._id;
+    AttendeesData[4].idGathering = gatherings[4]._id;
+    AttendeesData[5].idGathering = gatherings[5]._id;
+    AttendeesData[6].idGathering = gatherings[6]._id;
+    AttendeesData[7].idGathering = gatherings[7]._id;
+
+    AttendeesData[0].idArchitect = architect[1]._id;
+    AttendeesData[1].idArchitect = architect[1]._id;
+    AttendeesData[2].idArchitect = architect[1]._id;
+    AttendeesData[3].idArchitect = architect[1]._id;
+    AttendeesData[4].idArchitect = architect[1]._id;
+    AttendeesData[5].idArchitect = architect[1]._id;
+    AttendeesData[6].idArchitect = architect[1]._id;
+    AttendeesData[7].idArchitect = architect[2]._id;
 
     
     await populateDb(Attendees, AttendeesData);

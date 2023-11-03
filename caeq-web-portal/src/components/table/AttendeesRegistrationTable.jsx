@@ -108,7 +108,7 @@ const AttendeesRegistrationTable = ({
 
         return data.map((row, rowIndex) => (
             <tr key={rowIndex} className='fila-sombrada'>
-                <td key='action' className='sticky-column'>
+                <td key={'action' + rowIndex} className='sticky-column'>
                     {row.modality && actionMessage === 'Eliminar' ? (
                         <DropdownInput
                             options={['Presencial', 'Remoto']}
@@ -133,7 +133,7 @@ const AttendeesRegistrationTable = ({
                         />
                     )}
                 </td>
-                <td key='action' className='sticky-column' type='primary'>
+                <td key={'button' + rowIndex} className='sticky-column' type='primary'>
                     {renderButton(row)}
                 </td>
                 {Object.keys(headerMappings).map((column) =>

@@ -11,6 +11,7 @@ import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.G
 import PaginationNav from '../../components/pagination/PaginationNav';
 import AttendeesRegistrationTable from '../../components/table/AttendeesRegistrationTable';
 import './registerAttendees.scss';
+import BaseButton from '../../components/buttons/BaseButton';
 
 /**
  * CreateGathering component for creating or modifying attendees.
@@ -196,6 +197,12 @@ const RegisterAttendees = () => {
             <div className='create-course--row'>
                 <h1>Registrar asistencias a {data.title}</h1>
             </div>
+            <BaseButton
+                onClick={() =>
+                    navigate(`/Asambleas/Asistencias/${useParams.id}#asistencias`)
+                }>
+                Asistencias
+            </BaseButton>
             <div className='search-inputs'>
                 <label>
                     <TextInput
@@ -240,7 +247,7 @@ const RegisterAttendees = () => {
                 )}
             </div>
 
-            <div className='create-course--row'>
+            <div className='create-course--row' id='asistencias'>
                 <h1>Asistencias de {data.title}</h1>
             </div>
             <div className='search-inputs'>

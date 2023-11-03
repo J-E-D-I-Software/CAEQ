@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TextInput from '../../components/inputs/TextInput/TextInput';
-import FileInput from '../../components/inputs/FileInput/FileInput';
 import { getGathering } from '../../client/Gathering/Gathering.GET';
-import createGathering from '../../client/Gathering/Gathering.POST';
-import updateGathering from '../../client/Gathering/Gathering.PATCH';
-import BaseButton from '../../components/buttons/BaseButton';
-import GatheringCard from '../../components/cards/GatheringCard';
-import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
-import DateInput from '../../components/inputs/DateInput/DateInput';
+import createAttendee from '../../client/Attendee/Attendee.POST';
+import updateAttendee from '../../client/Attendee/Attendee.PATCH';
+import { deleteAttendee } from '../../client/Attendee/Attendee.DELETE';
+import { getAllAttendees } from '../../client/Attendee/Attendee.GET';
+import { FireError, FireNotification } from '../../utils/alertHandler';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import AttendeesRegistrationTable from '../../components/table/AttendeesRegistrationTable';
@@ -22,9 +20,13 @@ const RegisterAttendees = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [architectUsers, setArchitectUsers] = useState([]);
+    const [attenndees, setAttendees] = useState([]);
     const [getArchitect, setArchitect] = useState('');
+    const [getArchitectNumber, setArchitectNumber] = useState('');
+    const [getArchitectAttendees, setArchitectAttendees] = useState('');
+    const [getArchitectNumberAttendees, setArchitectNumberAttendees] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
-    const [moreInfo, setMoreInfo] = useState(null);
+    const [attendeesPage, setAttendeesPage] = useState(1);
     const [data, setData] = useState({
         date: '',
         title: '',
@@ -33,18 +35,47 @@ const RegisterAttendees = () => {
         moreInfo: null,
     });
 
+    /**
+     * useEffect for loading attendees and architects based on search parameters and pagination.
+     * @async
+     * @returns {void}
+     */
     useEffect(() => {
         (async () => {
             try {
+                const attendees = await getAllAttendees(
+                    `idGathering=${searchParams.id}&limit=100000`
+                );
+
+                setAttendees(attendees);
+
                 let filters = '';
-                filters += `fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
+                filters += `&fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
+                if (getArchitectNumber)
+                    filters += `&collegiateNumber=${getArchitectNumber}`;
+
                 let architects = await getAllArchitectUsers(paginationPage, filters, 10);
-                console.log(architects);
+
                 setArchitectUsers(architects);
-                console.log(architects);
             } catch (error) {}
         })();
-    }, [paginationPage, getArchitect]);
+    }, [paginationPage, getArchitect, getArchitectNumber]);
+
+    /**
+     * useEffect to reset pagination page when search parameters change.
+     * @returns {void}
+     */
+    useEffect(() => {
+        setPaginationPage(1);
+    }, [getArchitect, getArchitectNumber]);
+
+    /**
+     * useEffect to reset attendees page when search parameters change.
+     * @returns {void}
+     */
+    useEffect(() => {
+        setAttendeesPage(1);
+    }, [getArchitectAttendees, getArchitectNumberAttendees]);
 
     /**
      * Fetches gathering data when the component mounts.
@@ -60,53 +91,69 @@ const RegisterAttendees = () => {
                     setData(response);
                 })
                 .catch((err) => {
-                    console.log(err.message);
                     navigate('/404');
                 });
     }, []);
 
     /**
-     * Updates the state with the given value for the given key
+     * Handle the addition of a new attendee.
      *
-     * @param {string} key - the name of the field to be updated
-     * @param {string} value - the new value of the field
+     * @async
+     * @param {Object} architect - The architect object representing the attendee.
+     * @throws {Error} If an error occurs during the creation of the attendee.
      */
-    const updateData = (key, value) => {
-        setData({ ...data, [key]: value });
+    const handleAddAttendee = async (architect) => {
+        try {
+            const attendee = await createAttendee({
+                idGathering: searchParams.id,
+                idArchitect: architect._id,
+                attended: true,
+                modality: architect.modality,
+            });
+            setAttendees((prev) => {
+                return [...prev, { ...attendee, idArchitect: architect }];
+            });
+            FireNotification('Asistencia guardada');
+        } catch (error) {
+            FireError(error.response.data.message);
+        }
     };
 
     /**
-     * Creates or updates whatever is in the data state to the Course model in the backend
+     * Handle the patch operation for an attendee.
      *
-     * @param {Event} event - event sent by the triggered element
+     * @async
+     * @param {Object} architect - The architect object for whom the attendee needs to be updated.
+     * @throws {Error} If an error occurs during the update operation.
      */
-    const onSubmit = async (event) => {
-        if (!data.date) {
-            FireError('Una asamblea debe tener al menos una fecha');
-            return;
-        }
-
-        event.preventDefault();
-
-        // Build FormData
-        const formData = new FormData();
-        Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
-
-        if (moreInfo) formData.set('moreInfo', moreInfo);
-
-        let response = null;
-        const swal = FireLoading('Guardando...');
+    const handlePatchAttendee = async (architect) => {
+        const idAttendee = attenndees.filter(
+            (attendee) => attendee.idArchitect._id === architect._id
+        )[0]._id;
         try {
-            if (searchParams.id)
-                response = await updateGathering(searchParams.id, formData);
-            else response = await createGathering(formData);
-
-            if (!response._id) throw 'Error: ' + response;
-
-            swal.close();
-            FireSucess('Asamblea guardada');
+            await updateAttendee(idAttendee, { modality: architect.modality });
+            FireNotification('Asistencia modificada.');
         } catch (error) {
-            swal.close();
+            FireError(error.response.data.message);
+        }
+    };
+
+    /**
+     * Handle the deletion of an attendee.
+     *
+     * @async
+     * @param {Object} architect - The architect object for whom the attendee needs to be deleted.
+     * @throws {Error} If an error occurs during the delete operation.
+     */
+    const handleDeleteAttendee = async (architect) => {
+        const idAttendee = attenndees.filter(
+            (attendee) => attendee.idArchitect._id === architect._id
+        )[0]._id;
+        try {
+            await deleteAttendee(idAttendee);
+            setAttendees((prev) => prev.filter((value) => value._id !== idAttendee));
+            FireNotification('Asistencia eliminada');
+        } catch (error) {
             FireError(error.response.data.message);
         }
     };
@@ -127,10 +174,26 @@ const RegisterAttendees = () => {
         setPaginationPage(paginationPage + 1);
     };
 
+    /**
+     * Handles the action of returning to the previous page in pagination.
+     */
+    const handleAttendeesPreviousPage = () => {
+        if (attendeesPage > 1) {
+            setAttendeesPage(attendeesPage - 1);
+        }
+    };
+
+    /**
+     * Handles the action of advancing to the next page in pagination.
+     */
+    const handleAttendeesNextPage = () => {
+        setAttendeesPage(attendeesPage + 1);
+    };
+
     return (
         <div className='create-course'>
             <div className='create-course--row'>
-                <h1>Registrar asistencias a asambleas</h1>
+                <h1>Registrar asistencias a {data.title}</h1>
             </div>
             <label>
                 <TextInput
@@ -141,26 +204,107 @@ const RegisterAttendees = () => {
             </label>
             <label>
                 <TextInput
-                    getVal={getArchitect}
-                    setVal={setArchitect}
+                    getVal={getArchitectNumber}
+                    setVal={setArchitectNumber}
                     placeholder='Buscar por número'
                 />
             </label>
-            <div className='directory-row'>
-                {architectUsers.length > 0 ? (
-                    <div className='box-container'>
-                        <AttendeesRegistrationTable data={architectUsers} />
-                    </div>
-                ) : (
-                    <p className='no-data-message'>No hay colegiados disponibles</p>
-                )}
-            </div>
             <div className='directory-row directory-pagination'>
                 <PaginationNav
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
                     page={paginationPage}
                 />
+            </div>
+            <div className='directory-row'>
+                {architectUsers.length > 0 ? (
+                    <div className='box-container'>
+                        <AttendeesRegistrationTable
+                            data={architectUsers.map((architect) => {
+                                architect.modality = 'Presencial';
+                                return architect;
+                            })}
+                            action={handleAddAttendee}
+                            actionMessage='Agregar asistencia'
+                            actionType='primary'
+                            attendees={attenndees.map(
+                                (attendee) => attendee.idArchitect._id
+                            )}
+                        />
+                    </div>
+                ) : (
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
+                )}
+            </div>
+
+            <div className='create-course--row'>
+                <h1>Asistencias de {data.title}</h1>
+            </div>
+            <label>
+                <TextInput
+                    getVal={getArchitectAttendees}
+                    setVal={setArchitectAttendees}
+                    placeholder='Buscar por nombre'
+                />
+            </label>
+            <label>
+                <TextInput
+                    getVal={getArchitectNumberAttendees}
+                    setVal={setArchitectNumberAttendees}
+                    placeholder='Buscar por número'
+                />
+            </label>
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handleAttendeesPreviousPage}
+                    onClickAfter={handleAttendeesNextPage}
+                    page={attendeesPage}
+                />
+            </div>
+            <div className='directory-row'>
+                {attenndees.length > 0 ? (
+                    <div className='box-container'>
+                        <AttendeesRegistrationTable
+                            data={attenndees
+                                .filter((attendee) => {
+                                    const regexName = new RegExp(
+                                        getArchitectAttendees,
+                                        'i'
+                                    );
+                                    const isMatchName =
+                                        attendee.idArchitect.fullName.match(regexName);
+
+                                    const regexNumber = new RegExp(
+                                        getArchitectNumberAttendees,
+                                        'i'
+                                    );
+                                    const isMatchNumber =
+                                        attendee.idArchitect.collegiateNumber
+                                            .toString()
+                                            .match(regexNumber);
+                                    return isMatchName && isMatchNumber;
+                                })
+                                .slice(
+                                    attendeesPage === 1 ? 0 : attendeesPage * 10,
+                                    attendeesPage * 10 + 10
+                                )
+                                .map((attendee) => {
+                                    attendee.idArchitect.modality = attendee.modality;
+                                    return attendee.idArchitect;
+                                })
+                                .sort((a, b) => a.collegiateNumber - b.collegiateNumber)}
+                            action={handleDeleteAttendee}
+                            actionMessage='Eliminar'
+                            actionType='fail'
+                            handlePatchAttendee={handlePatchAttendee}
+                            attendees={attenndees.map(
+                                (attendee) => attendee.idArchitect._id
+                            )}
+                        />
+                    </div>
+                ) : (
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
+                )}
             </div>
         </div>
     );

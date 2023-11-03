@@ -1,18 +1,24 @@
-//
-
 import React, { useState } from 'react';
 import './Table.scss';
+import BaseButton from '../buttons/BaseButton';
+import { FireError, FireSucess, FireLoading } from '../../utils/alertHandler';
+import DropdownInput from '../inputs/DropdownInput/DropdownInput';
 
 /**
  * Public table component for displaying static data
  * @param {Object[]} data - Data to fill table
  * @returns {JSX.Element} - JSX element that represents the public table
  */
-const AttendeesRegistrationTable = ({ data }) => {
-    console.log(data);
+const AttendeesRegistrationTable = ({
+    data,
+    action,
+    attendees,
+    actionMessage,
+    actionType,
+    handlePatchAttendee,
+}) => {
     // Gets the columns that must be shown on the table.
     const columnsToShow = data?.length > 0 ? Object.keys(data[0]) : [];
-    console.log(columnsToShow);
 
     // State that mantains the visibility of the columns.
     const [columnVisibility, setColumnVisibility] = useState(() => {
@@ -24,10 +30,10 @@ const AttendeesRegistrationTable = ({ data }) => {
     });
 
     const headerMappings = {
+        modality: 'Modalidad',
+        actions: 'Acciones',
         collegiateNumber: 'Número de colegiado',
         fullName: 'Nombre completo',
-        modality: 'Modalidad',
-        actions: 'Registrar',
     };
 
     /**
@@ -41,7 +47,6 @@ const AttendeesRegistrationTable = ({ data }) => {
      * Render the table header
      * @returns {JSX.Element} - JSX element that represents the table header.
      */
-
     const renderTableHeader = () => (
         <tr>
             {Object.keys(headerMappings).map((key) => (
@@ -67,11 +72,75 @@ const AttendeesRegistrationTable = ({ data }) => {
             );
         }
 
+        /**
+         * Render a button component based on the provided row data and action message.
+         *
+         * @param {Object} row - The row data to be used for rendering the button.
+         * @returns {JSX.Element} - A JSX element representing the rendered button.
+         */
+        const renderButton = (row) => {
+            if (actionMessage == 'Agregar asistencia' && attendees.includes(row._id)) {
+                return (
+                    <BaseButton
+                        type='disabled'
+                        onClick={() =>
+                            FireError(
+                                'Ya se registró la asistencia del arquitecto a la asamblea'
+                            )
+                        }>
+                        {actionMessage}
+                    </BaseButton>
+                );
+            } else if (actionMessage === 'Agregar asistencia') {
+                return (
+                    <BaseButton type={actionType} onClick={() => action(row)}>
+                        {actionMessage}
+                    </BaseButton>
+                );
+            } else if (actionMessage === 'Eliminar') {
+                return (
+                    <BaseButton type={actionType} onClick={() => action(row)}>
+                        {actionMessage}
+                    </BaseButton>
+                );
+            }
+        };
+
         return data.map((row, rowIndex) => (
             <tr key={rowIndex} className='fila-sombrada'>
+                <td key='action' className='sticky-column'>
+                    {row.modality && actionMessage === 'Eliminar' ? (
+                        <DropdownInput
+                            options={['Presencial', 'Remoto']}
+                            getVal={row.modality}
+                            setVal={function (val) {
+                                row.modality = val;
+                                handlePatchAttendee(row);
+                            }}
+                            hasPlaceholder={false}
+                        />
+                    ) : actionMessage == 'Agregar asistencia' &&
+                      attendees.includes(row._id) ? (
+                        <p>Asistencia existente</p>
+                    ) : (
+                        <DropdownInput
+                            options={['Presencial', 'Remoto']}
+                            etVal={row.modality}
+                            setVal={function (val) {
+                                row.modality = val;
+                            }}
+                            hasPlaceholder={false}
+                        />
+                    )}
+                </td>
+                <td key='action' className='sticky-column' type='primary'>
+                    {renderButton(row)}
+                </td>
                 {Object.keys(headerMappings).map((column) =>
-                    columnVisibility[column] && column !== '_id' ? (
-                        <td key={column} className='sticky-column'>
+                    columnVisibility[column] &&
+                    column !== '_id' &&
+                    column !== 'modality' ? (
+                        <td key={row[column]} className='sticky-column'>
                             {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
                             {typeof row[column] === 'boolean' ? (
                                 formatBooleanValue(row[column])
@@ -92,12 +161,6 @@ const AttendeesRegistrationTable = ({ data }) => {
                         </td>
                     ) : null
                 )}
-                <td key='action' className='sticky-column'>
-                    Modalidad
-                </td>
-                <td key='action' className='sticky-column'>
-                    Accion
-                </td>
             </tr>
         ));
     };

@@ -5,7 +5,7 @@ const Attendees = [
     },
     {
       modality: 'Remoto',
-      attended: false,
+      attended: true,
     },
     {
       modality: 'Presencial',

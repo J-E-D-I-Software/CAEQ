@@ -11,13 +11,13 @@ const gathering = [
     },
     {
         isExtraordinary: false,
-        title: 'Reunión de Invierno 2023',
+        title: 'Reunión de Invierno 2022',
         meetingLink: 'https://ejemplo.com/asamblea3',
         meetingTime: '4:30 PM',
         moreInfo: 'Asamblea de invierno para tratar temas estacionales.',
         day: 10,
         month: 1,
-        year: '2023',
+        year: '2022',
     },
     {
         isExtraordinary: false,

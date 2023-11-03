@@ -25,3 +25,15 @@ export async function getAttendee(id) {
     const response = await axios.get(endpoint);
     return response.data.data.document;
 }
+
+/**
+ * It makes a GET request to the endpoint `/attendees/architect/:idArchitect` and returns the response data.
+ * @returns An array of objects.
+ */
+export async function getAttendancesByArchitect(idArchitect) {
+    let endpoint = `${baseApiEndpoint}/attendees/architect/${idArchitect}`;
+    const response = await axios.get(endpoint);
+    console.log('enpoin', endpoint)
+    console.log('Respuesta de getAttendancesByArchitect:', response.data.data.attendees);
+    return response.data.data.attendees;
+}

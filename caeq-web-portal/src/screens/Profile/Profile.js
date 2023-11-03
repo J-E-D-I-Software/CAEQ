@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAllAttendees } from '../../client/Attendees/Attendees.GET';
+import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -18,7 +19,6 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
-    const [filterByArchitectId, setfilterByArchitectId] = useState([]);
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -31,7 +31,6 @@ const Profile = (props) => {
     const handleYearClick = (year) => {
         setSelectedYear((prevYear) => (prevYear === year ? null : year));
     };
-    
 
     const handleRoute = (id) => {
         navigate(`/Perfil/${SavedUser._id}`);
@@ -59,12 +58,28 @@ const Profile = (props) => {
     useEffect(() => {
         (async () => {
             try {
-                const attendances = await getAllAttendees();
+                const architectId = SavedUser._id; // Obtén el ID del arquitecto desde tus datos guardados
+                const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
                 console.log('Asistencias', attendances);
-            } catch {}
+            } catch (error) {
+                console.error('Error al obtener asistencias por arquitecto', error);
+            }
         })();
-    }, []);
+    }, [SavedUser._id]);
+    
+
+    // useEffect(() => {
+    //     (async () => {
+    //         try {
+    //             const attendances = await getAllAttendees();
+    //             setAttendances(attendances);
+    //             console.log('Asistencias', attendances);
+    //         } catch {}
+    //     })();
+    // }, []);
+
+  
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -78,17 +93,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className='profile'>
+        <div className="profile">
             <h1>Datos Personales</h1>
-            <div className='profile-row'>
-                <BaseButton type='primary' onClick={handleRoute}>
+            <div className="profile-row">
+                <BaseButton type="primary" onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -109,7 +124,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -131,9 +146,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -151,7 +166,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -170,9 +185,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -190,7 +205,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
@@ -205,25 +220,25 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Municipio: </span>
-                  list'          {profile.municipalityOfLabor}
+                            list' {profile.municipalityOfLabor}
                         </p>
                     </div>
                 </WhiteContainer>
             </div>
             <div>
                 <h1>Asistencias a Asambleas</h1>
-                <div className='Attendees-row'>
+                <div className="Attendees-row">
                     {asistencias.map((asistencia) => (
                         <div key={asistencia.year}>
                             <BaseButton
-                                className='year-button'
-                                type='primary'
+                                className="year-button"
+                                type="primary"
                                 onClick={() => handleYearClick(asistencia.year)}
                             >
                                 {asistencia.year}
                             </BaseButton>
                             {selectedYear === asistencia.year && (
-                                <div className='list-data'>
+                                <div className="list-data">
                                     {asistencia.dates.map((date, index) => (
                                         <p key={index}>{date}</p>
                                     ))}

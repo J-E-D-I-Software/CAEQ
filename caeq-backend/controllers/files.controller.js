@@ -22,23 +22,20 @@ const limits = {
  */
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;
-    
+
     buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
-    
+
     const timestamp = Date.now();
-    
     const name = originalname.split('.')[0];
-    
     const type = file.mimetype.split('/')[1];
-    
     const fileName = `${name}_${resource}_${timestamp}.${type}`;
-    
+
     const imageRef = storage.child(fileName);
-        
+
     const snapshot = await imageRef.put(buffer);
-    
+
     const downloadURL = await snapshot.ref.getDownloadURL();
-    
+
     return downloadURL;
 };
 

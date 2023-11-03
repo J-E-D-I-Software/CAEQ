@@ -10,9 +10,10 @@ import { FireError, FireNotification } from '../../utils/alertHandler';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import AttendeesRegistrationTable from '../../components/table/AttendeesRegistrationTable';
+import './registerAttendees.scss';
 
 /**
- * CreateGathering component for creating or modifying gatherings.
+ * CreateGathering component for creating or modifying attendees.
  *
  * @function
  */
@@ -195,20 +196,22 @@ const RegisterAttendees = () => {
             <div className='create-course--row'>
                 <h1>Registrar asistencias a {data.title}</h1>
             </div>
-            <label>
-                <TextInput
-                    getVal={getArchitect}
-                    setVal={setArchitect}
-                    placeholder='Buscar por nombre'
-                />
-            </label>
-            <label>
-                <TextInput
-                    getVal={getArchitectNumber}
-                    setVal={setArchitectNumber}
-                    placeholder='Buscar por número'
-                />
-            </label>
+            <div className='search-inputs'>
+                <label>
+                    <TextInput
+                        getVal={getArchitect}
+                        setVal={setArchitect}
+                        placeholder='Buscar por nombre'
+                    />
+                </label>
+                <label>
+                    <TextInput
+                        getVal={getArchitectNumber}
+                        setVal={setArchitectNumber}
+                        placeholder='Buscar por número'
+                    />
+                </label>
+            </div>
             <div className='directory-row directory-pagination'>
                 <PaginationNav
                     onClickBefore={handlePreviousPage}
@@ -240,20 +243,22 @@ const RegisterAttendees = () => {
             <div className='create-course--row'>
                 <h1>Asistencias de {data.title}</h1>
             </div>
-            <label>
-                <TextInput
-                    getVal={getArchitectAttendees}
-                    setVal={setArchitectAttendees}
-                    placeholder='Buscar por nombre'
-                />
-            </label>
-            <label>
-                <TextInput
-                    getVal={getArchitectNumberAttendees}
-                    setVal={setArchitectNumberAttendees}
-                    placeholder='Buscar por número'
-                />
-            </label>
+            <div className='search-inputs'>
+                <label>
+                    <TextInput
+                        getVal={getArchitectAttendees}
+                        setVal={setArchitectAttendees}
+                        placeholder='Buscar por nombre'
+                    />
+                </label>
+                <label>
+                    <TextInput
+                        getVal={getArchitectNumberAttendees}
+                        setVal={setArchitectNumberAttendees}
+                        placeholder='Buscar por número'
+                    />
+                </label>
+            </div>
             <div className='directory-row directory-pagination'>
                 <PaginationNav
                     onClickBefore={handleAttendeesPreviousPage}

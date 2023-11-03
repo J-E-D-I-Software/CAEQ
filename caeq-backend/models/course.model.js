@@ -6,7 +6,7 @@ const CourseSchema = new mongoose.Schema(
         courseName: {
             type: String,
             required: [true, 'Nombre de curso requerido'],
-            maxLength: [70, 'El nombre del curso no puede exeder 40 letras.'],
+            maxLength: [70, 'El nombre del curso no puede exceder 70 letras.'],
         },
         modality: {
             type: String,
@@ -48,11 +48,11 @@ const CourseSchema = new mongoose.Schema(
         },
         schedule: {
             type: String,
-            maxLength: [20, 'El horario del curso no puede exceder 30 letras.'],
+            maxLength: [25, 'El horario del curso no puede exceder 25 letras.'],
         },
         daysOfSession: {
             type: String,
-            maxLength: [25, 'Los días del curso no puede exceder 30 letras.'],
+            maxLength: [25, 'Los días del curso no puede exceder 25 letras.'],
         },
         temario: {
             type: String,
@@ -62,7 +62,7 @@ const CourseSchema = new mongoose.Schema(
         },
         place: {
             type: String,
-            maxLength: [25, 'El lugar del curso no puede exceder 30 letras.'],
+            maxLength: [25, 'El lugar del curso no puede exceder 25 letras.'],
         },
         price: {
             type: Number,

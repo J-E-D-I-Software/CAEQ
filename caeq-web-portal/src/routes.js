@@ -27,6 +27,8 @@ import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import ProfileIcon from '../src/components/icons/ProfileIcon.png';
 import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
+import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
+import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
@@ -204,8 +206,8 @@ const routes = [
     {
         path: '/Anouncements',
         name: 'Anuncios',
-        icon: ProfileIcon,
-        iconWhite: ProfileIconWhite,
+        icon: AnouncementIcon,
+        iconWhite: AnouncementIconWhite,
         Component: Anouncements,
         isPrivate: true,
         inNavbar: true,

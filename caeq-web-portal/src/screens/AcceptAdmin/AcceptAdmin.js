@@ -65,7 +65,7 @@ const AcceptAdmin = () => {
             FireError(error.response.data.message);
             if (
                 error.response.data.message ===
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.'
+                'Hemos tenido problemas enviando un correo de verificación. El usuario ha sido verificado.'
             ) {
                 setAdmins(admins.filter((admin) => admin._id !== id));
             }
@@ -98,7 +98,7 @@ const AcceptAdmin = () => {
             FireError(error.response.data.message);
             if (
                 error.response.data.message ===
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
+                'Hemos tenido problemas enviando un correo de verificación. El usuario ha sido eliminado.'
             ) {
                 setAdmins(admins.filter((admin) => admin._id !== id));
             }

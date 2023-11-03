@@ -23,7 +23,7 @@ const PublicTable = ({ data }) => {
     const headerMappings = {
         fullName: 'Nombre completo',
         DRONumber: 'Número de DRO',
-        specialty: 'Especialidad',
+        specialties: 'Especialidades',
         cellphone: 'Número de celular',
         linkCV: 'Link de CV',
         email: 'Correo electrónico',
@@ -43,15 +43,11 @@ const PublicTable = ({ data }) => {
 
     const renderTableHeader = () => (
         <tr>
-            {columnsToShow.map((column) =>
-                columnVisibility[column] &&
-                column !== '_id' &&
-                column !== '_id' ? (
+            {Object.keys(headerMappings).map((column) =>
+                columnVisibility[column] && column !== '_id' && column !== '_id' ? (
                     <th key={column} className='sticky-column'>
                         <div className='header-content'>
-                            <span className='header-text'>
-                                {headerMappings[column]}
-                            </span>
+                            <span className='header-text'>{headerMappings[column]}</span>
                         </div>
                     </th>
                 ) : null
@@ -67,48 +63,40 @@ const PublicTable = ({ data }) => {
         if (!data || data.length === 0) {
             return (
                 <tr>
-                    <td colSpan={columnsToShow.length}>
-                        No hay colegiados disponibles.
-                    </td>
+                    <td colSpan={columnsToShow.length}>No hay colegiados disponibles.</td>
                 </tr>
             );
         }
 
-        return data.map(
-            (row, rowIndex) => (
-                console.log('yep', data),
-                (
-                    <tr key={rowIndex} className='fila-sombrada'>
-                        {columnsToShow.map((column) =>
-                            columnVisibility[column] && column !== '_id' ? (
-                                <td key={column} className='sticky-column'>
-                                    {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-                                    {typeof row[column] === 'boolean' ? (
-                                        formatBooleanValue(row[column])
-                                    ) : column === 'linkCV' && row[column] ? (
-                                        <a
-                                            href={row[column]}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
-                                        >
-                                            Descargar
-                                        </a>
-                                    ) : column === 'dateOfBirth' &&
-                                      row[column] ? (
-                                        formatDate(row[column])
-                                    ) : column === 'dateOfAdmission' &&
-                                      row[column] ? (
-                                        formatDate(row[column])
-                                    ) : (
-                                        row[column]
-                                    )}
-                                </td>
-                            ) : null
-                        )}
-                    </tr>
-                )
-            )
-        );
+        return data.map((row, rowIndex) => (
+            <tr key={rowIndex} className='fila-sombrada'>
+                {Object.keys(headerMappings).map((column) =>
+                    columnVisibility[column] && column !== '_id' ? (
+                        <td key={column} className='sticky-column'>
+                            {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
+                            {typeof row[column] === 'boolean' ? (
+                                formatBooleanValue(row[column])
+                            ) : column === 'linkCV' && row[column] ? (
+                                <a
+                                    href={row[column]}
+                                    target='_blank'
+                                    rel='noopener noreferrer'>
+                                    Descargar
+                                </a>
+                            ) : column === 'dateOfBirth' && row[column] ? (
+                                formatDate(row[column])
+                            ) : column === 'dateOfAdmission' && row[column] ? (
+                                formatDate(row[column])
+                            ) : column === 'specialties' && row[column] ? (
+                                row[column].map((specialty) => specialty.name).join(', ')
+                            ) : (
+                                row[column]
+                            )}
+                        </td>
+                    ) : null
+                )}
+            </tr>
+        ));
     };
 
     /**

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ResetPasswordAdmin.scss';
 import HiddenTextInput from '../../components/inputs/TextInput/HiddenTextInput';
 import BaseButton from '../../components/buttons/BaseButton';
-import { FireError, FireSucess } from '../../utils/alertHandler';
+import { FireError, FireSucess , FireLoading } from '../../utils/alertHandler';
 import { patchResetPasswordAdmin } from '../../client/CaeqUser/CaeqUser.PATCH';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ const ResetPasswordAdmin = () => {
     const handleResetPasswordAdmin = async (e) => {
         e.preventDefault();
         try {
+            const swal = FireLoading('Restableciendo Contraseña...');
             const response = await patchResetPasswordAdmin(
                 token,
                 newpassword,
@@ -24,6 +25,7 @@ const ResetPasswordAdmin = () => {
                 FireSucess('Contraseña Restablecida con éxito, ya puede iniciar sesión');
                 navigate('/LoginAdmin');
             }
+            swal.close();
         } catch (error) {
             FireError(error.response.data.message);
         }

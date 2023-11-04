@@ -2,19 +2,38 @@
   width: 100%;
   overflow-x: auto;
 }
-
 .tabla {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 16px;
-}
 
+}
+.table-wrapper {
+  max-height: 800px;
+}
 .tabla th,
 .tabla td {
   padding: 24px;
   text-align: left;
   border-radius: 10px;
   white-space: nowrap;
+
+}
+
+
+.fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+.tabla thead {
+  margin-top: 40px;
+}
+
+.restablecer-button {
+  position: sticky;
 }
 
 .tabla th {

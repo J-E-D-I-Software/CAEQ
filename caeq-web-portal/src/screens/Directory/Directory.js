@@ -25,21 +25,23 @@ const Directory = () => {
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
         useState('');
-    const [filterSearchByDRONumber, setFilterSearchByDRONumber] = useState('');
-    const [filtergender, setFiltergender] = useState('');
-    const [filterclassification, setFilterclassification] = useState('');
-    const [filtermemberType, setFiltermemberType] = useState('');
+    const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
+        useState('');
+    const [filterGender, setfilterGender] = useState('');
+    const [filterClassification, setfilterClassification] = useState('');
+    const [FilterMemberType, setFilterMemberType] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
-    const [admisionInitial, setAdmisionInitial] = useState();
-    const [admisionFinal, setAdmisionFinal] = useState();
+    const [admisionInitial, setAdmisionInitial] = useState(0);
+    const [admisionFinal, setAdmisionFinal] = useState(2024);
     const [birthInitial, setBirthInitial] = useState();
     const [birthFinal, setBirthFinal] = useState();
     const [specialties, setSpecialties] = useState([]);
     const [specialtiesName, setSpecialtiesName] = useState([]);
     const [specialty, setSpecialty] = useState('');
     const [specialtyName, setSpecialtyName] = useState('');
+    const [currentRights, setCurrentRights] = useState('');
+    const [orderBy, setOrderBy] = useState('collegiateNumber');
     const navigate = useNavigate();
-
     /**
      * Handle a row click event by navigating to a directory page with the specified ID.
      *
@@ -56,63 +58,95 @@ const Directory = () => {
      * @returns {string} The query string containing filters.
      */
     const calculateFilters = () => {
+        if (
+            admisionFinal < admisionInitial ||
+            birthFinal === null ||
+            birthInitial === null
+        ) {
+            FireError(
+                'No es posible ingresar un rango de fecha de admisión con la fecha límite menor a la de inicio.'
+            );
+            return '';
+        }
+        if (birthFinal < birthInitial) {
+            FireError(
+                'No es posible ingresar un rango de fecha de nacimiento con la fecha limite menor a la de inicio.'
+            );
+            return '';
+        }
+
         let filters = '';
+
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
-        if (filterSearchByDRONumber)
-            filters += `&DRONumber[regex]=${filterSearchByDRONumber}`;
-        if (filtergender) filters += `&gender=${filtergender}`;
-        if (filterclassification) filters += `&classification=${filterclassification}`;
-        if (filtermemberType) filters += `&memberType=${filtermemberType}`;
+        if (filterSearchBycollegiateNumber)
+            filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
+
+        if (filterGender) filters += `&gender=${filterGender}`;
+        if (filterClassification) filters += `&classification=${filterClassification}`;
+        if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
         if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
+        if (currentRights) filters += `&annuity=${currentRights}`;
+
         return filters;
     };
 
     useEffect(() => {
         (async () => {
+            setPaginationPage(1);
+            const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
                 const filters = calculateFilters();
-                const architects = await getAllArchitectUsers(paginationPage, filters);
+                const architects = await getAllArchitectUsers(
+                    1,
+                    filters,
+                    effectiveOrderBy
+                );
                 setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
         })();
     }, [
-        paginationPage,
         filterSearchByName,
         filterSearchBymunicipalityOfLabor,
-        filterSearchByDRONumber,
-        filtergender,
-        filterclassification,
-        filtermemberType,
+        filterSearchBycollegiateNumber,
+        filterGender,
+        filterClassification,
+        FilterMemberType,
         admisionFinal,
         admisionInitial,
         birthFinal,
         birthInitial,
         specialty,
+        currentRights,
+        orderBy,
     ]);
 
     useEffect(() => {
         (async () => {
+            const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
-                const specialties = await getAllSpecialties();
-
-                setSpecialtiesName(specialties.map((val) => val.name));
-                setSpecialties(specialties);
+                const filters = calculateFilters();
+                const architects = await getAllArchitectUsers(
+                    paginationPage,
+                    filters,
+                    effectiveOrderBy
+                );
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
         })();
-    }, []);
+    }, [paginationPage]);
 
     /**
-     * Handle clicking the "Previous Page" button to navigate to the previous page of results.
+     * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
      * Decrements the pagination page if it's greater than 1.
      *
      * @returns {void}
@@ -124,7 +158,7 @@ const Directory = () => {
     };
 
     /**
-     * Handle clicking the "Next Page" button to navigate to the next page of results.
+     * Handle clicking the 'Next Page' button to navigate to the next page of results.
      * Increments the pagination page.
      *
      * @returns {void}
@@ -141,10 +175,10 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
-        const swal = FireLoading('Generando archivo de excel...');
+        const swal = FireLoading('Generando archivo de Excel...');
 
         const filters = calculateFilters();
-        const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
+        const architects = await getAllArchitectUsers(1, filters, 100000);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;
@@ -177,7 +211,7 @@ const Directory = () => {
         });
 
         swal.close();
-        FireSucess('Tu descarga iniciará en breve.');
+        FireSucess('La descarga se iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };
@@ -202,85 +236,142 @@ const Directory = () => {
         setSpecialty(specialtyId);
     };
 
+    const clearFilters = () => {
+        setFilterSearchByName('');
+        setFilterSearchBymunicipalityOfLabor('');
+        setFilterSearchBycollegiateNumber('');
+        setfilterGender('');
+        setfilterClassification('');
+        setFilterMemberType('');
+        setAdmisionInitial('');
+        setAdmisionFinal('');
+        setBirthInitial('');
+        setBirthFinal('');
+        setSpecialty('');
+        setSpecialtyName('');
+        setOrderBy('collegiateNumber');
+    };
+
+    const handleClearFilters = () => {
+        clearFilters();
+        window.location.reload();
+    };
+
     return (
         <div className='directory'>
-            <div className='directory-row directory-header'>
-                <h1>Directorio de arquitectos</h1>
+            <div className='directory-header'>
+                <h1 className='directory-title'>Directorio de arquitectos</h1>
+                <BaseButton onClick={() => handleDownload()} type='primary'>
+                    Descargar arquitectos
+                </BaseButton>
+                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
+                    Limpiar filtros
+                </BaseButton>
             </div>
-            <BaseButton onClick={() => handleDownload()} type='primary'>
-                Descargar arquitectos
-            </BaseButton>
 
-            <DropdownInput
-                getVal={filtergender}
-                setVal={setFiltergender}
-                options={['Hombre', 'Mujer', 'Prefiero no decirlo']}
-                placeholder='Filtrar género'
-            />
+            <div className='filter-container'>
+                <div className='searchbars-column'>
+                    <div className='inputText-filters'>
+                        <InputText
+                            placeholder='Nombre del colegiado'
+                            getVal={filterSearchByName}
+                            setVal={setFilterSearchByName}
+                        />
+                        <InputText
+                            placeholder='Municipio'
+                            getVal={filterSearchBymunicipalityOfLabor}
+                            setVal={setFilterSearchBymunicipalityOfLabor}
+                        />
+                        <InputText
+                            placeholder='Número de colegiado'
+                            getVal={filterSearchBycollegiateNumber}
+                            setVal={setFilterSearchBycollegiateNumber}
+                        />
+                    </div>
+                </div>
 
-            <DropdownInput
-                getVal={filterclassification}
-                setVal={setFilterclassification}
-                options={['Expresidente', 'Docente', 'Convenio']}
-                placeholder='Filtrar clasificación'
-            />
+                <div className='DropdownInputs-row'>
+                    <DropdownInput
+                        getVal={filterGender}
+                        setVal={setfilterGender}
+                        options={['Hombre', 'Mujer', 'Prefiero no decirlo']}
+                        placeholder='Género'
+                    />
+                    <DropdownInput
+                        getVal={filterClassification}
+                        setVal={setfilterClassification}
+                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
+                        placeholder='Clasificación'
+                    />
+                    <DropdownInput
+                        getVal={FilterMemberType}
+                        setVal={setFilterMemberType}
+                        options={[
+                            'Miembro de número',
+                            'Miembro Adherente',
+                            'Miembro Pasante',
+                            'Miembro Vitalicio',
+                            'Miembro Honorario',
+                        ]}
+                        placeholder='Tipo de miembro'
+                    />
+                    <DropdownInput
+                        getVal={specialtyName}
+                        setVal={(specialty) => handleSpecialtyChange(specialty)}
+                        options={specialtiesName}
+                        placeholder='Especialidad'
+                    />
+                </div>
+            </div>
 
-            <DropdownInput
-                getVal={filtermemberType}
-                setVal={setFiltermemberType}
-                options={[
-                    'Miembro de número',
-                    'Miembro Adherente',
-                    'Miembro Pasante',
-                    'Miembro Vitalicio',
-                    'Miembro Honorario',
-                ]}
-                placeholder='Filtrar tipo de miembro'
-            />
+            <br />
 
-            <DropdownInput
-                getVal={specialtyName}
-                setVal={(specialty) => handleSpecialtyChange(specialty)}
-                options={specialtiesName}
-                placeholder='Filtrar por especialidad'
-            />
+            <div className='inputNumber-date-row'>
+                <div className='inputNumber-row'>
+                    <h3> Año de admisión </h3>
+                    <InputNumber
+                        placeholder='Admitido después de:'
+                        getVal={admisionInitial}
+                        setVal={setAdmisionInitial}
+                    />
+                    <InputNumber
+                        placeholder='Admitido antes de:'
+                        getVal={admisionFinal}
+                        setVal={setAdmisionFinal}
+                    />
+                </div>
+                <div className='DateInput-row'>
+                    <h3> Fecha de nacimiento </h3>
+                    <DateInput
+                        placeholder='Nacido después de:'
+                        getVal={birthInitial}
+                        setVal={setBirthInitial}
+                    />
+                    <DateInput
+                        placeholder='Nacido antes de:'
+                        getVal={birthFinal}
+                        setVal={setBirthFinal}
+                    />
+                </div>
+                <div className='DateInput-row'>
+                    <DropdownInput
+                        getVal={currentRights}
+                        setVal={setCurrentRights}
+                        options={[true, false]}
+                        placeholder='Derechos vigentes'
+                    />
+                </div>
+            </div>
 
-            <InputText
-                placeholder='Nombre del colegiado'
-                getVal={filterSearchByName}
-                setVal={setFilterSearchByName}
-            />
+            <br />
 
-            <InputText
-                placeholder='Municipio'
-                getVal={filterSearchBymunicipalityOfLabor}
-                setVal={setFilterSearchBymunicipalityOfLabor}
-            />
-            <InputText
-                placeholder='Número de DRO'
-                getVal={filterSearchByDRONumber}
-                setVal={setFilterSearchByDRONumber}
-            />
-            <InputNumber
-                placeholder='Admitido después de:'
-                getVal={admisionInitial}
-                setVal={setAdmisionInitial}
-            />
-            <InputNumber
-                placeholder='Admitido antes de:'
-                getVal={admisionFinal}
-                setVal={setAdmisionFinal}
-            />
-            <DateInput
-                label='Nacido después de:'
-                getVal={birthInitial}
-                setVal={setBirthInitial}
-            />
-            <DateInput
-                label='Nacido antes de:'
-                getVal={birthFinal}
-                setVal={setBirthFinal}
-            />
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handlePreviousPage}
+                    onClickAfter={handleNextPage}
+                    page={paginationPage}
+                />
+            </div>
 
             <div className='directory-row'>
                 {architectUsers.length > 0 ? (
@@ -293,14 +384,6 @@ const Directory = () => {
                 ) : (
                     <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
-            </div>
-
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handlePreviousPage}
-                    onClickAfter={handleNextPage}
-                    page={paginationPage}
-                />
             </div>
         </div>
     );

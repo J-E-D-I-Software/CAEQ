@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getArchitectUserById } from "../../client/ArchitectUser/ArchitectUser.GET";
-import { getArchitectUserSaved } from "../../utils/auth";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
+import { getArchitectUserSaved } from '../../utils/auth';
 
-import WhiteContainer from "../../components/containers/WhiteCard/WhiteCard";
-import "./Profile.scss";
+import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
+import BaseButton from '../../components/buttons/BaseButton';
+import './Profile.scss';
 
 /**
  * Renders the user's profile information, including personal data, CAEQ information, and professional information.
@@ -16,33 +17,52 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
 
-    const date = new Date(profile.dateOfBirth);
+    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
+    const normalDate = date.split('/').reverse().join('/')
     const startDate = new Date(profile.dateOfAdmission);
+
+    const handleRoute = (id) => {
+        navigate(`/Perfil/${SavedUser._id}`);
+    };
 
     useEffect(() => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
                 .then((response) => setProfile(response))
-                .catch((error) => navigate("/404"));
+                .catch((error) => navigate('/404'));
     }, []);
 
-    return (
-        <div className="profile">
-            <h1>Datos Personales</h1>
+    let dobValue = new Date(profile.dateOfBirth)
+    const currentDate = new Date()
+    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear()
+    if (
+        currentDate.getUTCMonth() < dobValue.getUTCMonth() ||
+        (currentDate.getUTCMonth() === dobValue.getUTCMonth() &&
+            currentDate.getUTCDate() < dobValue.getUTCDate())
+    ) { age--}
 
-            <div className="profile-row">
+    return (
+        <div className='profile'>
+            <h1>Datos Personales</h1>
+            <div className='profile-row'>
+                <BaseButton type='primary' onClick={handleRoute}>
+                    Editar Datos Personales
+                </BaseButton>
+            </div>
+
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
                         <p>
                             <span>Fecha de Nacimiento: </span>
-                            {date.toLocaleDateString()}
+                            {normalDate}
                         </p>
                         <p>
                             <span>Edad: </span>
-                            {profile.age} años
+                            {age} años
                         </p>
                         <p>
                             <span>Género: </span>
@@ -53,7 +73,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -75,9 +95,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -95,7 +115,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -114,9 +134,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -131,17 +151,21 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Link CV: </span>
-                            <a href={profile.linkCV}>{profile.linkCV}</a>
+                            <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
                         </p>
                         <p>
                             <span>Especialidad: </span>
-                            {profile.specialty}
+                            {profile.specialties
+                                ? profile.specialties
+                                      .map((specialty) => specialty.name)
+                                      .join(', ')
+                                : 'No especialidades'}
                         </p>
                         <p>
                             <span>Municipio: </span>

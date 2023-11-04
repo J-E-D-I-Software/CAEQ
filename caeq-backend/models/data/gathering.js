@@ -16,7 +16,7 @@ const gathering = [
         meetingTime: '4:30 PM',
         moreInfo: 'Asamblea de invierno para tratar temas estacionales.',
         day: 10,
-        month: 1,
+        month: 10,
         year: '2022',
     },
     {

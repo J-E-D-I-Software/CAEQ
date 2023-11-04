@@ -31,20 +31,28 @@ function AttendancesComponent({ attendances }) {
                             {year}
                         </BaseButton>
                         {selectedYear === year && (
-    <div className="list-data">
-        {attendances
-            .filter(
-                (asistencia) =>
-                    asistencia.idGathering.year === year &&
-                    asistencia.attended
-            )
-            .map((asistencia) => (
-                <p key={asistencia._id}>
-                    {new Date(asistencia.idGathering.date).toLocaleDateString('en-GB')}
-                </p>
-            ))}
-    </div>
-)}
+                            <div className="list-data">
+                                {attendances
+                                    .filter(
+                                        (asistencia) =>
+                                            asistencia.idGathering.year === year &&
+                                            asistencia.attended
+                                    )
+                                    .map((asistencia) => {
+                                        const date = new Date(
+                                            asistencia.idGathering.date
+                                        );
+
+                                        date.setDate(date.getDate() + 1);
+
+                                        return (
+                                            <p key={asistencia._id}>
+                                                {date.toLocaleDateString('en-GB')}
+                                            </p>
+                                        );
+                                    })}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

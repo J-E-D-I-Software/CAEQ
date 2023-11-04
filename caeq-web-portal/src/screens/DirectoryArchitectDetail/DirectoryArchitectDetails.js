@@ -79,15 +79,14 @@ const ArchitectDetail = (props) => {
             editedData.authorizationToShareInfo === 'Si' ? true : false;
         editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
 
-   
         if (selectedSpecialties.length > 0) {
-             // If there are selected specialties, add them to the form
+            // If there are selected specialties, add them to the form
             selectedSpecialties.forEach((specialty, i) => {
                 form.append(`specialties[${i}]`, specialty.value);
             });
         } else {
             // If no specialties are selected, send a fake ID to indicate no specialties
-            form.append('specialties', "131233213123213132132132");
+            form.append('specialties', '131233213123213132132132');
         }
 
         form.append('DRONumber', editedData.DRONumber);

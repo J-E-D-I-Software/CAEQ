@@ -10,7 +10,12 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
 
     if (!subject || !message) {
         return next(new AppError("Por favor ingresa un asunto y un mensaje.", 400));
+    }   
+
+    if (message.length > 10000) {
+        return next(new AppError("El mensaje no puede superar los 10000 caracteres.", 400));
     }
+
 
     try {
         const addressee = await Architect.find({ email: { $ne: null } });

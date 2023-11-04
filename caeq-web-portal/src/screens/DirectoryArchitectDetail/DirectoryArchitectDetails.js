@@ -7,6 +7,7 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
+import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
@@ -301,7 +302,7 @@ const ArchitectDetail = (props) => {
                             setEditedData({ ...editedData, lifeInsureID: value })
                         }
                     />
-                    <TextInput
+                    <NumberInput
                         label="Horas de Capacitación"
                         placeholder="Horas Acreditadas"
                         getVal={editedData.capacitationHours}

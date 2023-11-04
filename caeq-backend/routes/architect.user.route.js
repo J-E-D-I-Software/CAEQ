@@ -32,7 +32,13 @@ router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')
     .get(protect, restrictTo('caeq', 'self'), getArchitectUser)
-    .patch(fileParser, filesController.formatCV, updateArchitectUser)
-    .delete(deleteArchitectUser);
+    .patch(
+        protect,
+        restrictTo('caeq', 'self'),
+        fileParser,
+        filesController.formatCV,
+        updateArchitectUser
+    )
+    .delete(protect, restrictTo('caeq', 'self'), deleteArchitectUser);
 
 module.exports = router;

@@ -339,7 +339,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (roles.includes('self') && req.userType !== 'caeq') {
-            console.log(req.user._id, req.params.id);
             if (req.user._id != req.params.id) {
                 next(
                     new AppError('No eres la persona con los permisos requeridos.', 403)

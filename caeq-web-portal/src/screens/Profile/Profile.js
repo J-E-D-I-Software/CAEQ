@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
-
+import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import './Profile.scss';
@@ -17,8 +17,10 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
 
-    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
-    const normalDate = date.split('/').reverse().join('/')
+    const date = profile.dateOfBirth
+        ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
+        : '';
+    const normalDate = date.split('/').reverse().join('/');
     const startDate = new Date(profile.dateOfAdmission);
 
     const handleRoute = (id) => {
@@ -29,17 +31,19 @@ const Profile = (props) => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
                 .then((response) => setProfile(response))
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
-    let dobValue = new Date(profile.dateOfBirth)
-    const currentDate = new Date()
-    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear()
+    let dobValue = new Date(profile.dateOfBirth);
+    const currentDate = new Date();
+    let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear();
     if (
         currentDate.getUTCMonth() < dobValue.getUTCMonth() ||
         (currentDate.getUTCMonth() === dobValue.getUTCMonth() &&
             currentDate.getUTCDate() < dobValue.getUTCDate())
-    ) { age--}
+    ) {
+        age--;
+    }
 
     return (
         <div className='profile'>

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
-
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import '../DirectoryArchitectDetail/DirectoryArchitectDetail.scss';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -25,7 +24,7 @@ const ArchitectPersonalData = (props) => {
                     setData(response);
                     setEditedData(response);
                 })
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
     /**

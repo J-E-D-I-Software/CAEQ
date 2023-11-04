@@ -5,7 +5,6 @@ const Email = require('../utils/email');
 const Architect = require('../models/architect.user.model');
 
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
-    console.log('req.body', req.body); //Ya llegamos a
     const { subject, message, imageUrl } = req.body; // Asunto, Cuerpo, Imagen
 
     if (!subject || !message) {

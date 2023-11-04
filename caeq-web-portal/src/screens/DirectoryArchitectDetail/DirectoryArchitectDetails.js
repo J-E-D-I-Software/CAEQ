@@ -173,19 +173,19 @@ const ArchitectDetail = (props) => {
     };
 
     return (
-        <div className="architect-detail">
-            <div className="architect-row">
+        <div className='architect-detail'>
+            <div className='architect-row'>
                 <h2>
                     Modifique la información que sea necesaria. Al terminar, haz clic en
                     guardar cambios.
                 </h2>
             </div>
-            <div className="architect-row">
+            <div className='architect-row'>
                 <h1>{data.fullName}</h1>
             </div>
 
-            <div className="architect-row">
-                <div className="architect-col">
+            <div className='architect-row'>
+                <div className='architect-col'>
                     <TextInput
                         label="Número de Colegiado"
                         placeholder="Número de Colegiado"
@@ -268,7 +268,7 @@ const ArchitectDetail = (props) => {
                     />
                 </div>
 
-                <div className="architect-col">
+                <div className='architect-col'>
                     <DropdownInput
                         label="Autorización para compartir información"
                         placeholder={editedData.authorizationToShareInfo}
@@ -352,7 +352,7 @@ const ArchitectDetail = (props) => {
                 </div>
             </div>
 
-            <div className="architect-row">
+            <div className='architect-row'>
                 <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>

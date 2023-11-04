@@ -23,7 +23,7 @@ import './TextInput.scss';
  *   require={true}
  * />
  */
-const LargeTextInput = ({ label, getVal, setVal, placeholder, require = false }) => {
+const LargeTextInput = ({ label, getVal, setVal, placeholder, require = false, maxlenght= '' }) => {
     const isRequired = require;
 
     return (
@@ -37,6 +37,7 @@ const LargeTextInput = ({ label, getVal, setVal, placeholder, require = false })
                 rows='5'
                 cols='60'
                 type='text'
+                maxLength={maxlenght}
                 placeholder={placeholder}
                 value={getVal}
                 required={isRequired}

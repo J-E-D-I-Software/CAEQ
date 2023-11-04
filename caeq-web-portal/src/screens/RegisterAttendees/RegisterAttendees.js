@@ -22,7 +22,7 @@ const RegisterAttendees = () => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [architectUsers, setArchitectUsers] = useState([]);
-    const [attenndees, setAttendees] = useState([]);
+    const [attendees, setAttendees] = useState([]);
     const [getArchitect, setArchitect] = useState('');
     const [getArchitectNumber, setArchitectNumber] = useState('');
     const [getArchitectAttendees, setArchitectAttendees] = useState('');
@@ -37,30 +37,31 @@ const RegisterAttendees = () => {
         moreInfo: null,
     });
 
+    const updateAttendeeData = async () => {
+        try {
+            const attendees = await getAllAttendees(
+                `idGathering=${searchParams.id}&limit=100000`
+            );
+
+            setAttendees(attendees);
+
+            let filters = '';
+            filters += `&fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
+            if (getArchitectNumber) filters += `&collegiateNumber=${getArchitectNumber}`;
+
+            let architects = await getAllArchitectUsers(paginationPage, filters, 10);
+
+            setArchitectUsers(architects);
+        } catch (error) {}
+    };
+
     /**
      * useEffect for loading attendees and architects based on search parameters and pagination.
      * @async
      * @returns {void}
      */
     useEffect(() => {
-        (async () => {
-            try {
-                const attendees = await getAllAttendees(
-                    `idGathering=${searchParams.id}&limit=100000`
-                );
-
-                setAttendees(attendees);
-
-                let filters = '';
-                filters += `&fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
-                if (getArchitectNumber)
-                    filters += `&collegiateNumber=${getArchitectNumber}`;
-
-                let architects = await getAllArchitectUsers(paginationPage, filters, 10);
-
-                setArchitectUsers(architects);
-            } catch (error) {}
-        })();
+        updateAttendeeData();
     }, [paginationPage, getArchitect, getArchitectNumber]);
 
     /**
@@ -113,7 +114,14 @@ const RegisterAttendees = () => {
                 modality: architect.modality,
             });
             setAttendees((prev) => {
-                return [...prev, { ...attendee, idArchitect: architect }];
+                return [
+                    ...prev,
+                    {
+                        ...attendee,
+                        idArchitect: architect,
+                        modality: architect.modality,
+                    },
+                ];
             });
             FireNotification('Asistencia guardada');
         } catch (error) {
@@ -129,13 +137,22 @@ const RegisterAttendees = () => {
      * @throws {Error} If an error occurs during the update operation.
      */
     const handlePatchAttendee = async (architect) => {
-        const idAttendee = attenndees.filter(
+        const idAttendee = attendees.filter(
             (attendee) => attendee.idArchitect._id === architect._id
         )[0]._id;
         try {
             await updateAttendee(idAttendee, { modality: architect.modality });
+            setAttendees((prev) => {
+                return prev.map((val) => {
+                    if (val._id === idAttendee) {
+                        return { ...val, modality: architect.modality };
+                    }
+                    return val;
+                });
+            });
             FireNotification('Asistencia modificada.');
         } catch (error) {
+            console.log(error);
             FireError(error.response.data.message);
         }
     };
@@ -148,12 +165,12 @@ const RegisterAttendees = () => {
      * @throws {Error} If an error occurs during the delete operation.
      */
     const handleDeleteAttendee = async (architect) => {
-        const idAttendee = attenndees.filter(
+        const idAttendee = attendees.filter(
             (attendee) => attendee.idArchitect._id === architect._id
         )[0]._id;
         try {
             await deleteAttendee(idAttendee);
-            setAttendees((prev) => prev.filter((value) => value._id !== idAttendee));
+            setAttendees((prev) => prev.filter((attn) => attn._id !== idAttendee));
             FireNotification('Asistencia eliminada');
         } catch (error) {
             FireError(error.response.data.message);
@@ -231,13 +248,20 @@ const RegisterAttendees = () => {
                     <div className='box-container'>
                         <AttendeesRegistrationTable
                             data={architectUsers.map((architect) => {
-                                architect.modality = 'Presencial';
+                                const attended = attendees.filter(
+                                    (attendee) =>
+                                        attendee.idArchitect._id == architect._id
+                                );
+                                architect.modality =
+                                    attended.length > 0
+                                        ? attended[0].modality
+                                        : 'Presencial';
                                 return architect;
                             })}
                             action={handleAddAttendee}
                             actionMessage='Agregar asistencia'
                             actionType='primary'
-                            attendees={attenndees.map(
+                            attendees={attendees.map(
                                 (attendee) => attendee.idArchitect._id
                             )}
                         />
@@ -274,10 +298,10 @@ const RegisterAttendees = () => {
                 />
             </div>
             <div className='directory-row'>
-                {attenndees.length > 0 ? (
+                {attendees.length > 0 ? (
                     <div className='box-container'>
                         <AttendeesRegistrationTable
-                            data={attenndees
+                            data={attendees
                                 .filter((attendee) => {
                                     const regexName = new RegExp(
                                         getArchitectAttendees,
@@ -303,13 +327,12 @@ const RegisterAttendees = () => {
                                 .map((attendee) => {
                                     attendee.idArchitect.modality = attendee.modality;
                                     return attendee.idArchitect;
-                                })
-                                .sort((a, b) => a.collegiateNumber - b.collegiateNumber)}
+                                })}
                             action={handleDeleteAttendee}
                             actionMessage='Eliminar'
                             actionType='fail'
                             handlePatchAttendee={handlePatchAttendee}
-                            attendees={attenndees.map(
+                            attendees={attendees.map(
                                 (attendee) => attendee.idArchitect._id
                             )}
                         />

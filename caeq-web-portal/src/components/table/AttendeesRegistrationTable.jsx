@@ -37,13 +37,6 @@ const AttendeesRegistrationTable = ({
     };
 
     /**
-     * Format function that shows boolean values as "Sí" o "No".
-     * @param {boolean} value - Boolean value to format.
-     * @returns {string} - "Sí" is the true value, "No" if it is false.
-     */
-    const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
-
-    /**
      * Render the table header
      * @returns {JSX.Element} - JSX element that represents the table header.
      */
@@ -91,13 +84,7 @@ const AttendeesRegistrationTable = ({
                         {actionMessage}
                     </BaseButton>
                 );
-            } else if (actionMessage === 'Agregar asistencia') {
-                return (
-                    <BaseButton type={actionType} onClick={() => action(row)}>
-                        {actionMessage}
-                    </BaseButton>
-                );
-            } else if (actionMessage === 'Eliminar') {
+            } else {
                 return (
                     <BaseButton type={actionType} onClick={() => action(row)}>
                         {actionMessage}
@@ -110,22 +97,32 @@ const AttendeesRegistrationTable = ({
             <tr key={rowIndex} className='fila-sombrada'>
                 <td key={'action' + rowIndex} className='sticky-column'>
                     {row.modality && actionMessage === 'Eliminar' ? (
-                        <DropdownInput
-                            options={['Presencial', 'Remoto']}
-                            getVal={row.modality}
-                            setVal={function (val) {
-                                row.modality = val;
-                                handlePatchAttendee(row);
-                            }}
-                            hasPlaceholder={false}
-                        />
+                        <div>
+                            <div className='dropdown-'>
+                                <label>
+                                    <select
+                                        className='dropdown-input'
+                                        value={row.modality}
+                                        onChange={(e) => {
+                                            row.modality = e.target.value;
+                                            handlePatchAttendee(row);
+                                        }}>
+                                        {['Presencial', 'Remoto'].map((option) => (
+                                            <option key={option} value={option}>
+                                                {option}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
                     ) : actionMessage == 'Agregar asistencia' &&
                       attendees.includes(row._id) ? (
-                        <p>Asistencia existente</p>
+                        <p>Asistencia {row.modality} existente</p>
                     ) : (
                         <DropdownInput
                             options={['Presencial', 'Remoto']}
-                            etVal={row.modality}
+                            getVal={row.modality}
                             setVal={function (val) {
                                 row.modality = val;
                             }}
@@ -140,39 +137,14 @@ const AttendeesRegistrationTable = ({
                     columnVisibility[column] &&
                     column !== '_id' &&
                     column !== 'modality' ? (
-                        <td key={row[column]} className='sticky-column'>
+                        <td id={row[column]} className='sticky-column'>
                             {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
-                            {typeof row[column] === 'boolean' ? (
-                                formatBooleanValue(row[column])
-                            ) : column === 'linkCV' && row[column] ? (
-                                <a
-                                    href={row[column]}
-                                    target='_blank'
-                                    rel='noopener noreferrer'>
-                                    Descargar
-                                </a>
-                            ) : column === 'dateOfBirth' && row[column] ? (
-                                formatDate(row[column])
-                            ) : column === 'dateOfAdmission' && row[column] ? (
-                                formatDate(row[column])
-                            ) : (
-                                row[column]
-                            )}
+                            {row[column]}
                         </td>
                     ) : null
                 )}
             </tr>
         ));
-    };
-
-    /**
-     * Format the date "DD/MM/AAAA" using toLocaleDateString.
-     * @param {string} date - The date in string format (for example "AAAA-MM-DD").
-     * @returns {string} - The formated date in "DD/MM/AAAA".
-     */
-    const formatDate = (date) => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        return new Date(date).toLocaleDateString(undefined, options);
     };
 
     return (

@@ -27,7 +27,7 @@ const DropdownInput = ({
     setVal,
     options,
     onChange,
-    placeholder = 'Elige una opción',
+    placeholder = 'Elija una opción',
     require = false,
     hasPlaceholder = true,
 }) => {

@@ -73,7 +73,6 @@ const CreateGathering = () => {
         data.year = year;
         data.month = month;
         data.day = day;
-        console.log(data);
 
         // Build FormData
         const formData = new FormData();

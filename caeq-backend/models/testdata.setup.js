@@ -11,6 +11,9 @@ const Specialty = require('./specialty.model');
 const SpecialtyData = require('./data/specialty');
 const Session = require('./session.model.js');
 const SessionsData = require('./data/sessions');
+const Services = require('./roomOffer.model.js')
+const ServicesData = require('./data/services.js');
+
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -75,6 +78,10 @@ const setUpSpecialtyData = catchAsync(async () => {
     await populateDb(Specialty, SpecialtyData);
 });
 
+ const setUpServicesData = catchAsync(async () => {
+    await populateDb(Services, ServicesData);
+});
+
 /**
  * Set up the database with mock data.
  *
@@ -87,9 +94,11 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpCourseData();
     await setUpArchitectUserData();
     await setUpSessionData();
+    await setUpServicesData();
     console.log('Test data uploaded to DB');
 });
 
 exports.setUpCaeqUserData = catchAsync(async () => {
     await setUpCaeqUserData();
 });
+

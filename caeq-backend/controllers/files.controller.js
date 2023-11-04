@@ -96,7 +96,9 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
 
 exports.formatRoomPhoto = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
-    req.body.RoomPhoto = await uploadImage(req.file, 'photo');
+
+    console.log(req.file);
+    req.body.roomPhoto = await uploadPDF(req.file, 'photo');
     
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();

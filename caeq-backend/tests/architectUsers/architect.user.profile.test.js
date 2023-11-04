@@ -10,8 +10,8 @@ const testGetProfile = async () => {
     const endpoint = '/architectusers';
     const res = await agent.get(endpoint).send();
     expect(res.statusCode).toEqual(200);
-    expect(res.body.results).toEqual(6);
-}
+    expect(res.body.results).toEqual(8);
+};
 
 const testGetOneProfile = async () => {
     let endpoint = '/architectusers';
@@ -20,7 +20,7 @@ const testGetOneProfile = async () => {
     endpoint += `/${id}`;
     res = await agent.get(endpoint).send();
     expect(res.statusCode).toEqual(200);
-}
+};
 
 beforeAll(async () => {
     await connectDB();

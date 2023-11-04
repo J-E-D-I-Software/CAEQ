@@ -88,7 +88,29 @@ const handleBadField = (err) =>
  * @returns A new instance of AppError with the message and status code.
  */
 const handleCastErrorDB = (err) => {
-    const message = `Inválido ${err.path}: ${err.value}`;
+    let message = `Inválido ${err.path}: ${err.value}`;
+
+    if (err.path == 'collegiateNumber') {
+        message = `Número de colegiado invávlido: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'age') {
+        message = `Edad inválida: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'cellphone') {
+        message = `Teléfono inválido: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'officePhone') {
+        message = `Teléfono de oficina inválido: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'homePhone') {
+        message = `Teléfono de casa inválido: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'dateOfAdmission') {
+        message = `Año de ingreso inválido: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'capacitationHours') {
+        message = `Horas de capacitación inválidas: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'capacity') {
+        message = `Capacidad del curso inválida: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'numberHours') {
+        message = `Número de horas del curso inválida: ${err.value}. Por favor ingrese un número.`;
+    } else if (err.path == 'price') {
+        message = `Precio del curso inválida: ${err.value}. Por favor ingrese un número.`;
+    }
     // 400 stands for bad request
     return new AppError(message, 400);
 };
@@ -113,7 +135,9 @@ const handleDuplicateFieldsDB = (err) => {
  */
 const handleValidationErrorDB = (err) => {
     // Mongoose gives us an array of errors to go through
-    const errors = Object.values(err.errors).map((err) => err.message);
+    const errors = Object.values(err.errors).map((err) => {
+        return err.message;
+    });
     const message = `Datos inválidos: ${errors.join('. ')}`;
     return new AppError(message, 400);
 };
@@ -126,6 +150,7 @@ const handleValidationErrorDB = (err) => {
  * @param {function} next - The next function.
  */
 module.exports = (err, req, res, next) => {
+    console.log(err);
     res.locals.error = err;
     err.status = err.status || 'error';
     err.statusCode = err.statusCode || 500;

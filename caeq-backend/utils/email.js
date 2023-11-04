@@ -13,14 +13,21 @@ if (process.env.NODE_ENV !== 'test') {
 /* Create a class called Email.*/
 module.exports = class Email {
     /**
-     * Create an Email instance.
-     * @param {object} user - The user object that contains the email and name of the user.
-     * @param {string} [url=''] - The URL that the user will be sent to in order to reset their password.
+     * Represents an email object.
+     * @constructor
+     * @param {Object} user - The user object.
+     * @param {string} [url=''] - The URL to include in the email.
+     * @param {string} [subject=''] - The subject of the email.
+     * @param {string} [message=''] - The message body of the email.
+     * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
-    constructor(user, url = '') {
+    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
         this.url = url;
+        this.subject = subject;
+        this.message = message;
+        this.imageUrl = imageUrl;
         this.from = { email: process.env.MAIL_USERNAME };
     }
 
@@ -31,10 +38,12 @@ module.exports = class Email {
      * @returns {Promise} A promise that resolves when the email is sent.
      */
     async send(template, subject) {
-        if (process.env.NODE_ENV === 'test') {
-            return;
-        }
+        // if (process.env.NODE_ENV !== 'test') {
+        //     return;
+        // }
 
+        console.log('subject', subject);
+        console.log('URL de la imagen:', this.imageUrl);
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template
@@ -42,6 +51,8 @@ module.exports = class Email {
                 firstName: this.firstName,
                 url: this.url,
                 subject,
+                message: this.message,
+                imageUrl: this.imageUrl,
             }
         );
 
@@ -114,9 +125,29 @@ module.exports = class Email {
      * Send a password reset email to the user.
      * Note: This method is commented out in the original code.
      */
-    
+
     async sendPasswordReset() {
-        await this.send('passwordReset','Recuperar contraseña (válido por sólo 10 minutos)');
+        await this.send(
+            'passwordReset',
+            'Recuperar contraseña (válido por sólo 10 minutos)'
+        );
     }
 
+    /**
+     * Sends an announcement email to all users in the provided array.
+     * @async
+     * @static
+     * @param {Array} users - An array of user objects to send the email to.
+     * @param {string} subject - The subject of the email.
+     * @param {string} message - The message body of the email.
+     * @param {string} imageUrl - The URL of the image to include in the email.
+     * @returns {Promise} A promise that resolves when all emails have been sent.
+     */
+    static async sendAnouncementToEveryone(users, subject, message, imageUrl) {
+        const promises = users.map(async (user) => {
+            const email = new Email(user, '', subject, message, imageUrl, imageUrl);
+            return email.send('sendToEveryone', subject);
+        });
+        await Promise.all(promises);
+    }
 };

@@ -25,7 +25,15 @@ import './NumberInput.scss';
  *   require={true}
  * />
  */
-const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = false }) => {
+const NumberInput = ({
+    label,
+    getVal,
+    setVal,
+    placeholder,
+    maxDigits = 4,
+    require = false,
+    allowDecimals = true
+}) => {
     const isRequired = require;
     const maxAllowedValue = 10 ** maxDigits - 1;
 
@@ -38,9 +46,13 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
 
     // Handle input change and update the value if it's a valid number
     const inputChange = (e) => {
-        const inputValue = e.target.value;
+        e.preventDefault();
+        
+        let inputValue = parseFloat(e.target.value);
+        if (!allowDecimals)
+            inputValue = parseInt(inputValue);
 
-        // Check if the input value is a valid number 
+        // Check if the input value is a valid number
         if (!isNaN(inputValue) && inputValue >= 0) {
             // If maxDigits is specified, check if it exceeds the maximum allowed value
             if (maxDigits && inputValue < maxAllowedValue) {
@@ -49,14 +61,11 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
         }
     };
 
-
     return (
         <label>
             <div className='label-input'>
                 {label}
-                {isRequired && (
-                    <span className='obligatorio'>*obligatorio</span>
-                )}
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <input
                 className='box-input'
@@ -66,6 +75,7 @@ const NumberInput = ({ label, getVal, setVal, placeholder, maxDigits, require = 
                 required={isRequired}
                 onKeyDown={handleKeyPress}
                 onChange={inputChange}
+                
             />
         </label>
     );

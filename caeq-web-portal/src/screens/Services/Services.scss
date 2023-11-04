@@ -19,4 +19,53 @@
         }
     }
 
+    .services-cards {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+
+    }
+
+    @media (max-width: 768px) {
+
+        .services-cards {
+            display: inline-block;
+    
+        }
+    
+    }
+
+
+    .services-pagination {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+
+    }
+
+}
+
+@media (max-width: 390px) {
+
+    .services {
+
+        padding: 0px;
+        margin-right:20px;
+
+        .services-content {
+            .services-subtitle {
+                display: inline;
+            }
+        }
+    
+
+        .services-cards {
+            display: inline-block;
+                   
+    
+        }
+
+    }
+
 }

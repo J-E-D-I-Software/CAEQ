@@ -104,7 +104,7 @@ const CreateRoomOffer = () => {
                 </div>
                 <div className='room-buttons'>
                     <BaseButton type= "primary" onClick={(e) => onSubmit(e)}>
-                            {searchParams.id ? 'Guardar asamblea' : 'Crear asamblea'}
+                            {searchParams.id ? 'Guardar salón' : 'Crear salón'}
                         </BaseButton>
                         <Link to='/Servicios'>
                                 <BaseButton type='cancel'>Cancelar</BaseButton>

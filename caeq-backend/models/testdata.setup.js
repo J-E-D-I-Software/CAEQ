@@ -63,8 +63,8 @@ const setUpSessionData = catchAsync(async () => {
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
     const architect = await ArchitectUser.find()
-    // console.log(architect[1].fullName)
-    // console.log(architect[1]._id)
+    //  console.log(architect[1].fullName)
+    //  console.log(architect[1]._id)
     AttendeesData[0].idGathering = gatherings[0]._id;
     AttendeesData[1].idGathering = gatherings[1]._id;
     AttendeesData[2].idGathering = gatherings[2]._id;
@@ -85,7 +85,7 @@ const setUpAttendeesData = catchAsync(async () => {
 
     
     await populateDb(Attendees, AttendeesData);
-    console.log(AttendeesData)
+    //console.log(AttendeesData)
 });
 
 /**

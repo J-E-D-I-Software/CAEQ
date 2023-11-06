@@ -27,6 +27,9 @@ const ArchitectDetail = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
+
+    const [updateHours, setUpdateHours] = useState(false);
+
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
@@ -58,11 +61,13 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        architect.specialties.includes(specialty.value)
-                    )
+                let currentSpecialties = architect.specialties.map(
+                    (specialty) => {
+                        return { label: specialty.name, value: specialty._id };
+                    }
                 );
+
+                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
@@ -123,7 +128,8 @@ const ArchitectDetail = (props) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
-        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
+        editedData.lifeInsurance =
+            editedData.lifeInsurance === 'Si' ? true : false;
 
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -133,14 +139,20 @@ const ArchitectDetail = (props) => {
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
         form.append('classification', editedData.classification);
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append(
+            'mainProfessionalActivity',
+            editedData.mainProfessionalActivity
+        );
         form.append('dateOfAdmission', editedData.dateOfAdmission);
         form.append('professionalLicense', editedData.professionalLicense);
         form.append('capacitationHours', editedData.capacitationHours);
         form.append('hoursAttended', editedData.hoursAttended);
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
-        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append(
+            'authorizationToShareInfo',
+            editedData.authorizationToShareInfo
+        );
         form.append('file', editedData.linkCV);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
@@ -149,7 +161,10 @@ const ArchitectDetail = (props) => {
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(searchParams.id, form);
+            const response = await updateArchitectUserByID(
+                searchParams.id,
+                form
+            );
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
@@ -230,7 +245,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Número de Colegiado'
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, collegiateNumber: value })
+                            setEditedData({
+                                ...editedData,
+                                collegiateNumber: value,
+                            })
                         }
                     />
 
@@ -257,7 +275,10 @@ const ArchitectDetail = (props) => {
                         getVal={editedData.classification}
                         options={getClassificationOptions()}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, classification: value })
+                            setEditedData({
+                                ...editedData,
+                                classification: value,
+                            })
                         }
                     />
                     <SelectInputComponent
@@ -286,7 +307,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Cédula Profesional'
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, professionalLicense: value })
+                            setEditedData({
+                                ...editedData,
+                                professionalLicense: value,
+                            })
                         }
                     />
                     <TextInput
@@ -294,7 +318,10 @@ const ArchitectDetail = (props) => {
                         placeholder='FechaDeIngreso'
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, dateOfAdmission: value })
+                            setEditedData({
+                                ...editedData,
+                                dateOfAdmission: value,
+                            })
                         }
                     />
                     <TextInput
@@ -302,7 +329,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Municipio de Trabajo'
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, municipalityOfLabor: value })
+                            setEditedData({
+                                ...editedData,
+                                municipalityOfLabor: value,
+                            })
                         }
                     />
                 </div>
@@ -337,7 +367,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Poliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, lifeInsureID: value })
+                            setEditedData({
+                                ...editedData,
+                                lifeInsureID: value,
+                            })
                         }
                     />
                     <TextInput
@@ -345,7 +378,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, capacitationHours: value })
+                            setEditedData({
+                                ...editedData,
+                                capacitationHours: value,
+                            })
                         }
                     />
                     <DropdownInput
@@ -365,7 +401,10 @@ const ArchitectDetail = (props) => {
                         placeholder='Posiciones en Consejo'
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, positionsInCouncil: value })
+                            setEditedData({
+                                ...editedData,
+                                positionsInCouncil: value,
+                            })
                         }
                     />
                     <FileInput
@@ -397,7 +436,11 @@ const ArchitectDetail = (props) => {
             </div>
 
             <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
+                <BaseButton
+                    type='primary'
+                    className='button'
+                    onClick={handleSaveChanges}
+                >
                     Guardar Cambios
                 </BaseButton>
             </div>

@@ -23,7 +23,10 @@ const limits = {
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;
 
-    buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
+    buffer = await sharp(buffer)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toBuffer();
 
     const timestamp = Date.now();
     const name = originalname.split('.')[0];
@@ -91,5 +94,24 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
     req.body.moreInfo = await uploadPDF(req.file, 'info');
 
     // Use next when you need the url in the next controllers. Delete the response from above.
+    next();
+});
+
+exports.formatRoomPhoto = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+
+    console.log(req.file);
+    req.body.roomPhoto = await uploadPDF(req.file, 'photo');
+});
+    
+    // Use next when you need the url in the next controllers. Delete the response from above.
+
+/* A middleware that is used to format the image before it is uploaded to the server. */
+exports.formatPaymentImage = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+
+    // FORMAT file
+    req.body.billImageURL = await uploadPDF(req.file, 'bill');
+
     next();
 });

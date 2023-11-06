@@ -74,7 +74,7 @@ const Course = (props) => {
             }
 
             const form = new FormData();
-            const auxInvoice = wantsInvoice === 'Si' ? true : false;
+            const auxInvoice = wantsInvoice === true;
             form.append('wantsInvoice', auxInvoice);
 
             console.log('aux',auxInvoice)
@@ -82,7 +82,6 @@ const Course = (props) => {
             
             form.append('courseId', searchParams.id);
             form.append('billImageURL', paymentFile);
-            console.log(form);
 
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);

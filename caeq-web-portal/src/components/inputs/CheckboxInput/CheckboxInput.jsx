@@ -1,7 +1,7 @@
 import React from 'react';
 import './CheckboxInput.scss';
 
-const DateInput = ({ label, getVal, setVal, require = false }) => {
+const CheckboxInput = ({ label, getVal, setVal, require = false }) => {
     const isRequired = require;
 
     return (
@@ -13,10 +13,11 @@ const DateInput = ({ label, getVal, setVal, require = false }) => {
             </div>
             <input
                 className='checkbox-input'
-                value={getVal}
                 type='checkbox'
                 required={isRequired}
-                onChange={(e) => setVal(e.target.value)}
+                checked={getVal}
+                onChange={(e) => setVal(e.target.checked)}
+                hidden
             />
             <span className='round'></span>
         </label>
@@ -24,4 +25,4 @@ const DateInput = ({ label, getVal, setVal, require = false }) => {
     );
 };
 
-export default DateInput;
+export default CheckboxInput;

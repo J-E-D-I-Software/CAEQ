@@ -99,6 +99,7 @@ exports.formatRoomPhoto = catchAsync(async (req, res, next) => {
 
     console.log(req.file);
     req.body.roomPhoto = await uploadPDF(req.file, 'photo');
+});
     
     // Use next when you need the url in the next controllers. Delete the response from above.
 

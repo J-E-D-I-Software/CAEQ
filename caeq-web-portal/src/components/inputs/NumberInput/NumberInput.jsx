@@ -32,6 +32,7 @@ const NumberInput = ({
     placeholder,
     maxDigits = 4,
     require = false,
+    allowDecimals = true
 }) => {
     const isRequired = require;
     const maxAllowedValue = 10 ** maxDigits - 1;
@@ -45,7 +46,11 @@ const NumberInput = ({
 
     // Handle input change and update the value if it's a valid number
     const inputChange = (e) => {
-        const inputValue = e.target.value;
+        e.preventDefault();
+        
+        let inputValue = parseFloat(e.target.value);
+        if (!allowDecimals)
+            inputValue = parseInt(inputValue);
 
         // Check if the input value is a valid number
         if (!isNaN(inputValue) && inputValue >= 0) {
@@ -70,6 +75,7 @@ const NumberInput = ({
                 required={isRequired}
                 onKeyDown={handleKeyPress}
                 onChange={inputChange}
+                
             />
         </label>
     );

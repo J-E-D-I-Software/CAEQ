@@ -36,7 +36,7 @@ function Anouncements() {
     const handleSubmit = async (e) => {
         try {
             const confirmation = await FireQuestion(
-                "¿Estás seguro de enviar el anuncio?",
+                "¿Esta seguro de enviar el anuncio?",
                 "Esta acción no se puede deshacer. Se enviará un correo a todos los usuarios."
             );
 
@@ -74,7 +74,7 @@ function Anouncements() {
                 />
                 <LargeTextInput
                     label='Mensaje del Correo'
-                    placeholder='Hola, te invitamos a conocer la nueva plataforma CAEQ.'
+                    placeholder='Hola, le invitamos a conocer la nueva plataforma CAEQ.'
                     getVal={message}
                     setVal={setMessage}
                 />

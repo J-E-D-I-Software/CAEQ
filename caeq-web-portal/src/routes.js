@@ -6,6 +6,8 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import CreateGathering from './screens/CreateGathering/CreateGathering';
+import Gatherings from './screens/Gatherings/Gatherings';
+import RegisterAttendees from './screens/RegisterAttendees/RegisterAttendees';
 import Profile from './screens/Profile/Profile';
 import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
@@ -27,6 +29,8 @@ import CursosIcon from '../src/components/icons/CursosIcon.png';
 import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
 import ProfileIcon from '../src/components/icons/ProfileIcon.png';
 import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
+import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
+import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
@@ -103,7 +107,15 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
-        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas',
+        name: 'Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: Gatherings,
+        isPrivate: true,
+        inNavbar: true,
     },
     {
         path: '/Asambleas/Asamblea',
@@ -121,6 +133,16 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asistencias/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: RegisterAttendees,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -204,8 +226,8 @@ const routes = [
     {
         path: '/Anouncements',
         name: 'Anuncios',
-        icon: ProfileIcon,
-        iconWhite: ProfileIconWhite,
+        icon: AnouncementIcon,
+        iconWhite: AnouncementIconWhite,
         Component: Anouncements,
         isPrivate: true,
         inNavbar: true,

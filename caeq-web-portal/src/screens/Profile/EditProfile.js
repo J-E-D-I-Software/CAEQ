@@ -66,7 +66,7 @@ const ArchitectPersonalData = (props) => {
             const response = await updateArchitectUserByID(searchParams.id, form);
             setData(response.data);
             swal.close();
-            FireSucess('Los Cambios se han guardado correctamente');
+            FireSucess('Los cambios se han guardado correctamente');
             navigate('/Perfil');
         } catch (error) {
             swal.close();

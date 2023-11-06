@@ -69,6 +69,11 @@ const CreateGathering = () => {
 
         event.preventDefault();
 
+        const [year, month, day] = data.date.split('-');
+        data.year = year;
+        data.month = month;
+        data.day = day;
+
         // Build FormData
         const formData = new FormData();
         Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));

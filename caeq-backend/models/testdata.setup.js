@@ -59,7 +59,7 @@ const setUpSessionData = catchAsync(async () => {
     SessionsData[4].course = courses[1]._id;
     SessionsData[5].course = courses[1]._id;
     SessionsData[6].course = courses[2]._id;
-    
+
     await populateDb(Session, SessionsData);
 });
 
@@ -119,6 +119,25 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     console.log('Test data uploaded to DB');
 });
 
+/**
+ * Set up CAEQ user data.
+ *
+ * @function
+ * @async
+ * @throws {Error} Throws an error if there's a problem setting up the data.
+ */
 exports.setUpCaeqUserData = catchAsync(async () => {
     await setUpCaeqUserData();
+});
+
+/**
+ * Set up architect user data.
+ *
+ * @function
+ * @async
+ * @throws {Error} Throws an error if there's a problem setting up the data.
+ */
+exports.setUpArchitectUserData = catchAsync(async () => {
+    await setUpSpecialtyData();
+    await setUpArchitectUserData();
 });

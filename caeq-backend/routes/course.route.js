@@ -36,16 +36,5 @@ router
         updateCourse
     )
     .delete(protect, restrictTo('caeq'), deleteCourse);
-router
-    .route('/:id')
-    .get(getCourse)
-    .patch(
-        protect,
-        restrictTo('caeq'),
-        fileParser,
-        filesController.formatImage,
-        updateCourse
-    )
-    .delete(protect, restrictTo('caeq'), deleteCourse);
 
 module.exports = router;

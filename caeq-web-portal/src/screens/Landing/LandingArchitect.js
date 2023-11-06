@@ -29,6 +29,7 @@ const LandingArchitect = () => {
                         <Link to='/SignupUser'>
                             <BaseButton type='primary'>Registrarse</BaseButton>
                         </Link>
+                        <div class="solid"/>
                     </div>
                 </div>
                 <div className='column right-column'>

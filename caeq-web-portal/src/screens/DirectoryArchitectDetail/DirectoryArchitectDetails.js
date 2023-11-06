@@ -206,8 +206,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar,
-                    haz clic en guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz clic
+                    en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -339,8 +339,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Poliza de Seguro'
-                        placeholder='Poliza de Seguro'
+                        label='Póliza de Seguro'
+                        placeholder='Póliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({

@@ -83,15 +83,11 @@ export async function FireQuestion(
  * @param position - The position of the notification.
  * @returns A promise.
  */
-export async function FireNotification(
-    title,
-    icon = 'success',
-    position = 'top-end',
-) {
+export async function FireNotification(title, icon = 'success', position = 'top-end') {
     return MySwal.fire({
-        title: title,
-        icon: icon,
         position: position,
+        icon: icon,
+        title: title,
         showConfirmButton: false,
         toast: true,
         timer: 1000,

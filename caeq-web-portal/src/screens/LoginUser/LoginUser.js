@@ -40,13 +40,13 @@ const LoginUser = () => {
             <form>
                 <h2>Correo electrónico</h2>
                 <TextInput
-                    placeholder='Ingresa tu correo'
+                    placeholder='Ingrese su correo'
                     getVal={email}
                     setVal={setEmail}
                 />
                 <h2>Contraseña</h2>
                 <HiddenTextInput
-                    placeholder='Ingresa tu contraseña'
+                    placeholder='Ingrese su contraseña'
                     getVal={password}
                     setVal={setPassword}
                 />
@@ -59,7 +59,7 @@ const LoginUser = () => {
             <br />
             <div className='forgot-register-links'>
                 <Link to='/User-ForgotPassword'>
-                    <p> ¿Olvidaste tu contraseña?</p>
+                    <p> ¿Olvidó su contraseña?</p>
                 </Link>
 
                 <Link to='/'>Volver a página de inicio</Link>

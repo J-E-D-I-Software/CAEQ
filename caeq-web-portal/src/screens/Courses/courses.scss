@@ -3,9 +3,12 @@
 
     .courses--row { 
         display: flex;
+
         .accept-payment{
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row-reverse
+
+        
         }
     }
 

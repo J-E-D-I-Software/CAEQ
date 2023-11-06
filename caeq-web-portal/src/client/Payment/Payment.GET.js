@@ -4,6 +4,6 @@ import baseApiEndpoint from '../backendConfig';
 
 export async function getAllPayments() {
     let endpoint = `${baseApiEndpoint}/payment`;
-    const response = await axios.post(endpoint);
-    return response.data;
+    const response = await axios.get(endpoint);
+    return response.data.data.documents;
 }

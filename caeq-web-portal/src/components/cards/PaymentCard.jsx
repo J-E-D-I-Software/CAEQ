@@ -3,7 +3,7 @@ import BaseButton from '../buttons/BaseButton';
 import AcceptIcon from '../icons/AcceptIcon.png'
 import RejectIcon from '../icons/RejectIcon.png'
 import './PaymentCard.scss'
-const PaymentCard = ({ id, fullName, paymentID, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
+const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
 
 
 
@@ -38,12 +38,12 @@ const PaymentCard = ({ id, fullName, paymentID, billimageURL, courseName, priceT
                 <div className='payment-card-col--button'>
                     
                     <img
-                        onClick={() => acceptPayment(paymentID)}
+                        onClick={() => acceptPayment(acceptPayment)}
                         src={AcceptIcon}
                         alt={`Accept Icon`}
                     />
                     <img
-                        onClick={() => rejectPayment(paymentID)}
+                        onClick={() => rejectPayment(rejectPayment)}
                         src={RejectIcon}
                         alt={`Reject Icon`}
                     />

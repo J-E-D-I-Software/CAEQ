@@ -33,7 +33,6 @@ const AcceptAdmin = () => {
         (async () => {
             try {
                 const payments = await getAllPayments();
-
                 setPayments(payments);
             } catch (error) {
                 FireError(error.response.data.message);
@@ -57,12 +56,12 @@ const AcceptAdmin = () => {
             }
 
             const swal = FireLoading('Aceptando pago...');
-            const response = await patchAcceptAdmin(id);
+            //const response = await patchAcceptAdmin(id);
 
             setPayments(payments.filter((payment) => payment._id !== id));
 
             swal.close();
-            FireSucess(response.message);
+            FireSucess('Pago aceptado con éxito.');
         } catch (error) {
             FireError(error.response.data.message);
             if (
@@ -90,12 +89,12 @@ const AcceptAdmin = () => {
             }
 
             const swal = FireLoading('Rechazando administrador...');
-            const response = await patchRejectAdmin(id);
+            //const response = await patchRejectAdmin(id);
 
             setPayments(payments.filter((admin) => admin._id !== id));
 
             swal.close();
-            FireSucess(response.message);
+            FireSucess('Pago rechazado con éxito');
         } catch (error) {
             FireError(error.response.data.message);
             if (
@@ -135,19 +134,19 @@ const AcceptAdmin = () => {
                 </h3>
             </div>
             <div className='payment-cards'> 
-
-                <PaymentCard
-                    fullName={'Juan Ernesto Cevilla'}
-                    paymentID={'123456789'}
-                    courseName={'Mampostería industrial'}
-                    invoice={formatBooleanValue(true)}
+                {payments.map((payment) => (<PaymentCard
+                    id = {payment._id}
+                    fullName={payment.user.fullName}
+                    userId={payment.user._id}
+                    courseName={payment.course.courseName}
+                    invoice={formatBooleanValue(payment.wantsInvoice)}
                     priceToPay={'$120.30'}
-                    teacherName={'Juan Ernesto Cevilla'}
-                    billimageURL={"https://i.imgur.com/2xtkgUA.jpeg"}
+                    teacherName={payment.course.teacherName}
+                    billimageURL={payment.billImageURL}
                     acceptPayment={handleAccept}
                     rejectPayment={handleReject}
-                />
-
+                 />))}
+               
             </div>
         </div>
     );

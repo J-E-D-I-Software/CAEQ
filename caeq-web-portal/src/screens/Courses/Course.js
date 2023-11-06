@@ -5,6 +5,7 @@ import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
 import { FireError, FireSucess, FireLoading, FireQuestion, FireQuestionInput} from '../../utils/alertHandler';
 import BaseButton from '../../components/buttons/BaseButton';
+import CheckboxInput from '../../components/inputs/CheckboxInput/CheckboxInput';
 import ClassroomIcon from '../../components/icons/Classroom.png';
 import LocationIcon from '../../components/icons/Location.png';
 import ClockIcon from '../../components/icons/Clock.png';
@@ -19,6 +20,7 @@ const Course = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
     const [paymentFile, setPaymentFile] = useState('');
+    const [wantsInvoice, setInvoice] = useState('');
     const [data, setData] = useState({});
 
     useEffect(() => {
@@ -72,8 +74,15 @@ const Course = (props) => {
             }
 
             const form = new FormData();
+            const auxInvoice = wantsInvoice === 'Si' ? true : false;
+            form.append('wantsInvoice', auxInvoice);
+
+            console.log('aux',auxInvoice)
+            console.log('normal',wantsInvoice)
+            
             form.append('courseId', searchParams.id);
             form.append('billImageURL', paymentFile);
+            console.log(form);
 
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);
@@ -189,6 +198,14 @@ const Course = (props) => {
                                 <h2 className="course-price">
                                     {data.price ? `$${data.price}` : 'Gratuito'}
                                 </h2>
+                                
+                                <CheckboxInput
+                                    label="Requiero factura"
+                                    getVal={wantsInvoice}
+                                    setVal={(value) => setInvoice(value)}
+                                    required={true}
+                                />
+                                
                                 <hr></hr>
                                 <FileInput
                                     label="Subir Comprobante"

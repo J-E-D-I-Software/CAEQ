@@ -46,13 +46,15 @@ const Courses = (props) => {
         <div className='courses'>
             <div className='courses--row'>
                 <h1>Oferta de cursos</h1>
-                <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/AcceptPayment')}>
-                    Ver solicitudes de pago
-                </BaseButton>
+                
             </div>
 
             <div className='courses--row courses__filters'>
                 <RestrictByRole allowedRoles={['caeq']}>
+                
+                    <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/AcceptPayment')}>
+                        Ver solicitudes de pago
+                    </BaseButton>
                     <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
                         Crear curso
                     </BaseButton>

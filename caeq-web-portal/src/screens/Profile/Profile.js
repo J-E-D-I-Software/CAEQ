@@ -21,8 +21,10 @@ const Profile = (props) => {
     const [attendances, setAttendances] = useState([]);
     const [attendanceByYear, setAttendanceByYear] = useState({});
 
-    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
-    const normalDate = date.split('/').reverse().join('/')
+    const date = profile.dateOfBirth
+        ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
+        : '';
+    const normalDate = date.split('/').reverse().join('/');
     const startDate = new Date(profile.dateOfAdmission);
 
     const [selectedYear, setSelectedYear] = useState(null);
@@ -81,17 +83,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className='profile'>
+        <div className="profile">
             <h1>Datos Personales</h1>
-            <div className='profile-row'>
-                <BaseButton type='primary' onClick={handleRoute}>
+            <div className="profile-row">
+                <BaseButton type="primary" onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -112,7 +114,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className='profile-col'>
+                    <div className="profile-col">
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -134,9 +136,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -154,7 +156,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -167,7 +169,7 @@ const Profile = (props) => {
                             <span>Asistencias por Año:</span>
                             {Object.keys(attendanceByYear).map((year) => (
                                 <p key={year}>
-                                    {year}: {attendanceByYear[year]} asistencias
+                                    {year}: {attendanceByYear[year] || 0} asistencias
                                 </p>
                             ))}
                         </p>
@@ -182,9 +184,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className='profile-row'>
+            <div className="profile-row">
                 <WhiteContainer>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -202,7 +204,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className='profile-col semi-col'>
+                    <div className="profile-col semi-col">
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}

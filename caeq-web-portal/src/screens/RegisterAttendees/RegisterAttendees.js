@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import { getGathering } from '../../client/Gathering/Gathering.GET';
@@ -19,6 +19,7 @@ import BaseButton from '../../components/buttons/BaseButton';
  * @function
  */
 const RegisterAttendees = () => {
+    const attendeesRef = useRef();
     const searchParams = useParams();
     const navigate = useNavigate();
     const [architectUsers, setArchitectUsers] = useState([]);
@@ -216,9 +217,9 @@ const RegisterAttendees = () => {
             </div>
             <BaseButton
                 onClick={() =>
-                    navigate(`/Asambleas/Asistencias/${useParams.id}#asistencias`)
+                    attendeesRef.current.scrollIntoView({ behavior: 'smooth' })
                 }>
-                Asistencias
+                Ver asistencias registradas
             </BaseButton>
             <div className='search-inputs'>
                 <label>
@@ -271,7 +272,7 @@ const RegisterAttendees = () => {
                 )}
             </div>
 
-            <div className='create-course--row' id='asistencias'>
+            <div className='create-course--row' ref={attendeesRef}>
                 <h1>Asistencias de {data.title}</h1>
             </div>
             <div className='search-inputs'>

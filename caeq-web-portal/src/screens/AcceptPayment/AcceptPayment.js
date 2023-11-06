@@ -139,8 +139,8 @@ const AcceptAdmin = () => {
                     fullName={payment.user.fullName}
                     userId={payment.user._id}
                     courseName={payment.course.courseName}
-                    invoice={formatBooleanValue(payment.wantsInvoice)}
-                    priceToPay={'$120.30'}
+                    invoice={payment.wantsInvoice}
+                    priceToPay={payment.course.price}
                     teacherName={payment.course.teacherName}
                     billimageURL={payment.billImageURL}
                     acceptPayment={handleAccept}

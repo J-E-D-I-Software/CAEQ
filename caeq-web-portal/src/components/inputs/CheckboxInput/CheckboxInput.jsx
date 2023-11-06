@@ -15,8 +15,8 @@ const CheckboxInput = ({ label, getVal, setVal, require = false }) => {
                 className='checkbox-input'
                 type='checkbox'
                 required={isRequired}
-                checked={getVal}
-                onChange={(e) => setVal(e.target.checked)}
+                value={getVal}
+                onChange={(e) => setVal(e.target.value)}
                 hidden
             />
             <span className='round'></span>

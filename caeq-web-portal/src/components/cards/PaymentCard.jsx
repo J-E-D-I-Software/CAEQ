@@ -2,6 +2,7 @@
 import BaseButton from '../buttons/BaseButton';
 import AcceptIcon from '../icons/AcceptIcon.png'
 import RejectIcon from '../icons/RejectIcon.png'
+import pdfPlaceholder from '../images/download-active.png'
 import './PaymentCard.scss'
 const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
 
@@ -12,6 +13,8 @@ const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPa
         e.preventDefault();
         window.open(url, '_blank');
     };
+    const url = billimageURL;
+    const containsPDF = /\.pdf/.test(url);
 
     return (
         <div className='payment-card'>
@@ -26,7 +29,7 @@ const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPa
             </div>
 
             <div className='payment-image'>
-                <img  src={billimageURL}/>
+                <img  src={containsPDF ? pdfPlaceholder : billimageURL}/>
             </div>
             
             <div className='payment-card-buttons'>

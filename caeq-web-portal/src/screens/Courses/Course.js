@@ -5,7 +5,7 @@ import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
 import { FireError, FireSucess, FireLoading, FireQuestion, FireQuestionInput} from '../../utils/alertHandler';
 import BaseButton from '../../components/buttons/BaseButton';
-import CheckboxInput from '../../components/inputs/CheckboxInput/CheckboxInput';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import ClassroomIcon from '../../components/icons/Classroom.png';
 import LocationIcon from '../../components/icons/Location.png';
 import ClockIcon from '../../components/icons/Clock.png';
@@ -22,6 +22,7 @@ const Course = (props) => {
     const [paymentFile, setPaymentFile] = useState('');
     const [wantsInvoice, setInvoice] = useState('');
     const [data, setData] = useState({});
+    const decide = ['SÍ', 'NO'];
 
     useEffect(() => {
         if (searchParams.id) {
@@ -73,15 +74,12 @@ const Course = (props) => {
                 return;
             }
 
-            const form = new FormData();
-            const auxInvoice = wantsInvoice === true;
-            form.append('wantsInvoice', auxInvoice);
-
-            console.log('aux',auxInvoice)
-            console.log('normal',wantsInvoice)
+            const form = new FormData()
             
             form.append('courseId', searchParams.id);
             form.append('billImageURL', paymentFile);
+            const isWantsInvoice= wantsInvoice === 'SÍ' ? true : false;
+            form.append('wantsInvoice', isWantsInvoice);
 
             const swal = FireLoading('Iniciando proceso de pago...');
             const response = await startPayment(form);
@@ -113,12 +111,6 @@ const Course = (props) => {
                 <RestrictByRole allowedRoles={['architect']}>
                     {data.price ? ( // Verifica si el curso tiene precio
                         <>
-                            <BaseButton
-                                type="primary"
-                                onClick={handlePaymentStart}
-                            >
-                                Iniciar Pago
-                            </BaseButton>
                         </>
                     ) : (
                         <BaseButton type="primary" onClick={handleInscription}>
@@ -198,13 +190,12 @@ const Course = (props) => {
                                     {data.price ? `$${data.price}` : 'Gratuito'}
                                 </h2>
                                 
-                                <CheckboxInput
-                                    label="Requiero factura"
+                                <DropdownInput
+                                    label='¿Requiere factura?'
+                                    options={decide}
                                     getVal={wantsInvoice}
-                                    setVal={(value) => setInvoice(value)}
-                                    required={true}
+                                    setVal={setInvoice}
                                 />
-                                
                                 <hr></hr>
                                 <FileInput
                                     label="Subir Comprobante"

@@ -15,12 +15,7 @@ describe("Attendee Routes", () => {
     beforeAll(async () => {
         await loginAdmin(agent, "john@example.com", "password123");
     });
-
-    test("Get all attendees", async () => {
-        const res = await agent.get("/attendees");
-
+    test("Get all attendees", async () => {const res = await agent.get("/attendees");
         expect(res.statusCode).toEqual(200);
-
     });
-
 });

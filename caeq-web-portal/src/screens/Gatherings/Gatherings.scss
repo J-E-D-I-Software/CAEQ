@@ -1,0 +1,38 @@
+.gatherings {
+    padding: 5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    .gathering__section {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    
+    .filter__section {
+        margin-bottom: 20px; 
+    }
+    
+    .gathering-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .gathering-pages {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .gatherings_title--row{
+        justify-content: center;
+    }
+    .create-gathering{
+        justify-content:center;
+    }
+}
+

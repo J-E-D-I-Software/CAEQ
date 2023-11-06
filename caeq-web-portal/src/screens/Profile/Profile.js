@@ -21,10 +21,8 @@ const Profile = (props) => {
     const [attendances, setAttendances] = useState([]);
     const [attendanceByYear, setAttendanceByYear] = useState({});
 
-    const date = profile.dateOfBirth
-        ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
-        : '';
-    const normalDate = date.split('/').reverse().join('/');
+    const date = profile.dateOfBirth ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/'): ''
+    const normalDate = date.split('/').reverse().join('/')
     const startDate = new Date(profile.dateOfAdmission);
 
     const [selectedYear, setSelectedYear] = useState(null);

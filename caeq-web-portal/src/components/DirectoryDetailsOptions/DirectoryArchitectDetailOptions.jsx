@@ -10,19 +10,12 @@ const authorizationOptions = { Si: true, No: false };
 const anuuityOptions = { Si: true, No: false };
 const lifeInsuranceOptions = { Si: true, No: false };
 
-const classificationOptions = [
-    'Expresidente', 
-    'Docente', 
-    'Convenio'
-];
+const classificationOptions = ['Expresidente', 'Ninguno', 'Docente', 'Convenio'];
 
-
-
-
-export{
+export {
     memberOptions,
     authorizationOptions,
     classificationOptions,
     lifeInsuranceOptions,
-    anuuityOptions
-}
+    anuuityOptions,
+};

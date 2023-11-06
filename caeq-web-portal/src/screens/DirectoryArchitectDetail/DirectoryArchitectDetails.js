@@ -23,13 +23,11 @@ import {
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
-
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
-    const [attendances, setAttendances] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -58,57 +56,16 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                setSelectedSpecialties(
-                    specialties.filter((specialty) =>
-                        architect.specialties.includes(specialty.value)
-                    )
-                );
+                let currentSpecialties = architect.specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
         })();
     }, []);
-
-    //Recupera las especialidades de los arquitectos
-    useEffect(() => {
-        // Mapea las especialidades actuales del arquitecto y elimina las disponibles.
-        if (editedData.specialty) {
-            const selectedSpecialties = editedData.specialty.map((s) => ({
-                value: s,
-                label: s,
-            }));
-
-            setSelectedSpecialties(selectedSpecialties);
-            setAvailableSpecialties((prevSpecialties) =>
-                prevSpecialties.filter(
-                    (specialty) =>
-                        !selectedSpecialties.some(
-                            (selected) => selected.value === specialty.value
-                        )
-                )
-            );
-        }
-    }, [editedData.specialty, selectedSpecialties]);
-
-    useEffect(() => {
-        if (searchParams.id) {
-            (async () => {
-                try {
-                    const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(architectId);
-                    setAttendances(attendances);
-                } catch (error) {
-                    console.error('Error al obtener asistencias por arquitecto', error);
-                }
-            })();
-        }
-    }, [searchParams.id]);
-
-    const [selectedYear, setSelectedYear] = useState(null);
-
-    const handleYearClick = (year) => {
-        setSelectedYear((prevYear) => (prevYear === year ? null : year));
-    };
 
     // Pago de Anualidad pendiente
 
@@ -153,6 +110,7 @@ const ArchitectDetail = (props) => {
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
+            navigate('/Directorio');
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);
@@ -215,7 +173,7 @@ const ArchitectDetail = (props) => {
         <div className="architect-detail">
             <div className="architect-row">
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
+                    Modifique la información que sea necesaria. Al terminar, haz clic
                     en guardar cambios.
                 </h2>
             </div>
@@ -333,8 +291,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label="Poliza de Seguro"
-                        placeholder="Poliza de Seguro"
+                        label='Póliza de Seguro'
+                        placeholder='Póliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({ ...editedData, lifeInsureID: value })

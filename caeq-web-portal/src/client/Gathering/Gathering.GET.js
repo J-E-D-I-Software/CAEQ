@@ -8,7 +8,7 @@ const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
  * @returns An array of objects.
  */
 export async function getAllGatherings(page = 1, filtersParams = '') {
-    let endpoint = `${baseApiEndpoint}/gatherings?page=${page}&limit=20&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/gatherings?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;

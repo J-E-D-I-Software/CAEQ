@@ -27,7 +27,7 @@ const DropdownInput = ({
     setVal,
     options,
     onChange,
-    placeholder = 'Elige una opción',
+    placeholder = 'Elija una opción',
     require = false,
 }) => {
     const isRequired = require;
@@ -58,16 +58,13 @@ const DropdownInput = ({
             <label>
                 <div className='label-input'>
                     {label}
-                    {isRequired && (
-                        <span className='obligatorio'>*obligatorio</span>
-                    )}
+                    {isRequired && <span className='obligatorio'>*obligatorio</span>}
                 </div>
                 <select
                     className='dropdown-input'
                     value={selectedOption}
                     onChange={changeOption}
-                    required={isRequired}
-                >
+                    required={isRequired}>
                     <option value=''>{placeholder}</option>
                     {options.map((option) => (
                         <option key={option} value={option}>

@@ -7,7 +7,7 @@ const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const agent = request.agent(app);
 
 const testRestriction = async () => {
-    const response = await loginUser(agent, 'luis@example.com', 'password123');
+    const response = await loginUser(agent, 'jcastr@tec.mx', 'password456');
     console.log(response);
     expect(response.statusCode).toEqual(201);
 
@@ -24,7 +24,7 @@ const testRestriction = async () => {
     let res2 = await agent.get(`${protectedEndpoint}`).send();
 
     expect(res2.statusCode).toEqual(200);
-    expect(res2.body.results).toEqual(11);
+    expect(res2.body.results).toEqual(12);
 };
 
 beforeAll(async () => {

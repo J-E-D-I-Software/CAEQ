@@ -12,7 +12,7 @@ exports.getAttendeesByArchitect = async (req, res) => {
     try {
         const { idArchitect } = req.params;
 
-        // Buscar asistencias que coincidan con el ID del arquitecto y populando el campo "idGathering" para obtener los datos de la gathering.
+       //Search for attendances that match the architect's ID and populate the 'idGathering' field to obtain gathering data
         const attendees = await Attendee.find({ idArchitect }).populate({ path: 'idGathering', model: Gathering });
 
         if (attendees.length === 0) {

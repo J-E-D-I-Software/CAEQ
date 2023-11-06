@@ -1,8 +1,18 @@
 
+import BaseButton from '../buttons/BaseButton';
 import AcceptIcon from '../icons/AcceptIcon.png'
 import RejectIcon from '../icons/RejectIcon.png'
 import './PaymentCard.scss'
-const PaymentCard = ({ id, fullName, paymentID, paymentURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
+const PaymentCard = ({ id, fullName, paymentID, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
+
+
+
+
+    const handleButtonClick = (e, url) => {
+        e.preventDefault();
+        window.open(url, '_blank');
+    };
+
     return (
         <div className='payment-card'>
             
@@ -16,20 +26,29 @@ const PaymentCard = ({ id, fullName, paymentID, paymentURL, courseName, priceToP
             </div>
 
             <div className='payment-image'>
-                <img  src={paymentURL}/>
+                <img  src={billimageURL}/>
             </div>
             
             <div className='payment-card-buttons'>
-                <img
-                    onClick={() => acceptPayment(paymentID)}
-                    src={AcceptIcon}
-                    alt={`Accept Icon`}
-                />
-                <img
-                    onClick={() => rejectPayment(paymentID)}
-                    src={RejectIcon}
-                    alt={`Reject Icon`}
-                />
+                <div className='payment-card-col--download'>
+                    <BaseButton type='primary' onClick={(e) => handleButtonClick(e, billimageURL)}>
+                        Descargar
+                    </BaseButton>
+                </div>
+                <div className='payment-card-col--button'>
+                    
+                    <img
+                        onClick={() => acceptPayment(paymentID)}
+                        src={AcceptIcon}
+                        alt={`Accept Icon`}
+                    />
+                    <img
+                        onClick={() => rejectPayment(paymentID)}
+                        src={RejectIcon}
+                        alt={`Reject Icon`}
+                    />
+                </div>
+                
             </div>
         </div>
     );

@@ -38,7 +38,7 @@ import LandingCAEQ from './screens/Landing/LandingCAEQ';
 import PublicDirectory from './screens/Directory/PublicDirectory';
 import Anouncements from './screens/Anouncements/Anouncements';
 const routes = [
-    // TO-DO: CORREGIR ESTAS RUTAS
+    
     {
         path: '/',
         name: 'Principal',
@@ -258,7 +258,7 @@ const routes = [
         path: '/AcceptPayment',
         name: 'Pagos por aceptar',
         Component: AcceptPayment,
-        isPrivate: false,
+        isPrivate: true,
         inNavbar: false,
         roles:['caeq']
     },

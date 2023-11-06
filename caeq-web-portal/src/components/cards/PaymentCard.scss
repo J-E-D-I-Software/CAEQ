@@ -4,9 +4,10 @@
     box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
     padding: 10px;
     width: 450px;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-left: 10px;
     margin-right: 10px;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -14,8 +15,24 @@
     height: 100%;
 
     .payment-card-buttons {
-        align-self: end;
-        height: 57px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        .payment-card-col--download{
+            display: flex;
+            height: 57px;
+            width: 100%;
+            flex-direction: row;
+        }
+        
+        .payment-card-col--button{
+            display: flex; 
+            height: 57px;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+        
     }
 
     .payment-concept{

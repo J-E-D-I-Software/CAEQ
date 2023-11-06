@@ -4,7 +4,6 @@ import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 import PaymentCard from '../../components/cards/PaymentCard';
 
-import { getCaeqUsers } from '../../client/CaeqUser/CaeqUser.GET';
 import { patchAcceptAdmin, patchRejectAdmin } from '../../client/CaeqUser/CaeqUser.PATCH';
 import {
     FireError,
@@ -118,10 +117,25 @@ const AcceptAdmin = () => {
     return (
         <div className='accept-payment-container'>
             <div className='payment-row'>
-                <h2>Pagos de los Cursos</h2>
+                <h1>Pagos de los Cursos</h1>
+                <h2>
+                    El propósito de esta sección es conceder autorizaciones a otras cuentas
+                    para permitirles el acceso al portal de administración.
+                </h2>
             </div>
             <div className='payment-row-instruction'>
-                DirectoryArchitectDetail+PaymentID+PaymentURL+AcceptIcon+RejectIcon
+                <img src={AcceptIcon} alt={`Accept Icon`} />
+                    <h3>
+                        Da click a este icono para aceptar la petición de otorgar a una cuenta acceso al
+                        portal de administración.
+                    </h3>
+            </div>
+            <div className='payment-row-instruction'>
+                    <img src={RejectIcon} alt={`Reject Icon`} />
+                <h3>
+                    Da click a este para rechazar la petición de otorgar a una cuenta acceso al
+                    portal de administración.
+                </h3>
             </div>
             <div className='payment-cards'> 
 
@@ -132,7 +146,7 @@ const AcceptAdmin = () => {
                     invoice={formatBooleanValue(true)}
                     priceToPay={'$120.30'}
                     teacherName={'Juan Ernesto Cevilla'}
-                    paymentURL={"https://i.imgur.com/2xtkgUA.jpeg"}
+                    billimageURL={"https://i.imgur.com/2xtkgUA.jpeg"}
                     acceptPayment={handleAccept}
                     rejectPayment={handleReject}
                 />

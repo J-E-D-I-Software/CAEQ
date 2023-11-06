@@ -3,6 +3,10 @@
 
     .courses--row { 
         display: flex;
+        .accept-payment{
+            display: flex;
+            flex-direction: row-reverse;
+        }
     }
 
     .courses__filters { 

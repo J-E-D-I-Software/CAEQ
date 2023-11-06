@@ -44,7 +44,6 @@ const ArchitectPersonalData = (props) => {
 
         const currentDate = new Date();
         const dateBirth = new Date(editedData.dateOfBirth);
-        console.log(dateBirth);
         if (dateBirth > currentDate) {
             FireError('Tu fecha de nacimiento no puede estar en el futuro.');
             return;

@@ -1,0 +1,30 @@
+.room-container {
+    
+    .room-title {
+        text-align: center;
+        align-self: center;
+    }
+
+    .room-content {
+        padding-left: 120px;
+        padding-right: 120px;
+        
+        .room-input {
+
+            .label-input {
+                margin-top: 1.5rem;
+            }
+        }
+
+        .room-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+    }
+
+}

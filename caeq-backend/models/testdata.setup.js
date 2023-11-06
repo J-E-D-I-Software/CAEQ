@@ -12,6 +12,9 @@ const SpecialtyData = require('./data/specialty');
 const Session = require('./session.model.js');
 const SessionsData = require('./data/sessions');
 const Inscription = require('./inscription.model');
+const Services = require('./roomOffer.model.js')
+const ServicesData = require('./data/services.js');
+
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -81,6 +84,10 @@ const setUpSpecialtyData = catchAsync(async () => {
     await populateDb(Specialty, SpecialtyData);
 });
 
+ const setUpServicesData = catchAsync(async () => {
+    await populateDb(Services, ServicesData);
+});
+
 /**
  * Set up 'Inscription' data by populating the database with the provided test data.
  * 
@@ -116,6 +123,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpArchitectUserData();
     await setUpSessionData();
     await setUpInsciptionData();
+    await setUpServicesData();
     console.log('Test data uploaded to DB');
 });
 

@@ -189,7 +189,7 @@ const routes = [
         roles: ['architect'],
     },
     {
-        path: 'Servicios/CrearSalon',
+        path: '/Servicios/CrearSalon',
         name: 'Crear oferta de salón',
         icon: ServicesIcon,
         iconWhite: ServicesIconWhite,

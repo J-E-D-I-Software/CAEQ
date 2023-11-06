@@ -7,6 +7,7 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
+import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
@@ -89,9 +90,15 @@ const ArchitectDetail = (props) => {
             editedData.lifeInsurance === 'Si' ? true : false;
         editedData.annuity = editedData.annuity === 'Si' ? true : false;
 
-        selectedSpecialties.forEach((specialty, i) => {
-            form.append(`specialties[${i}]`, specialty.value);
-        });
+        if (selectedSpecialties.length > 0) {
+            // If there are selected specialties, add them to the form
+            selectedSpecialties.forEach((specialty, i) => {
+                form.append(`specialties[${i}]`, specialty.value);
+            });
+        } else {
+            // If no specialties are selected, send a fake ID to indicate no specialties
+            form.append('specialties', '131233213123213132132132');
+        }
 
         form.append('DRONumber', editedData.DRONumber);
         form.append('collegiateNumber', editedData.collegiateNumber);
@@ -190,8 +197,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    Modifique la información que sea necesaria. Al terminar, haz
-                    clic en guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz clic en
+                    guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -201,8 +208,8 @@ const ArchitectDetail = (props) => {
             <div className='architect-row'>
                 <div className='architect-col'>
                     <TextInput
-                        label='Número de Colegiado'
-                        placeholder='Número de Colegiado'
+                        label="Número de Colegiado"
+                        placeholder="Número de Colegiado"
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
                             setEditedData({
@@ -213,15 +220,15 @@ const ArchitectDetail = (props) => {
                     />
 
                     <TextInput
-                        label='Número de DRO'
-                        placeholder='Número de DRO'
+                        label="Número de DRO"
+                        placeholder="Número de DRO"
                         getVal={editedData.DRONumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, DRONumber: value })
                         }
                     />
                     <DropdownInput
-                        label='Tipo de Miembro'
+                        label="Tipo de Miembro"
                         placeholder={editedData.memberType}
                         options={getMemberOptions()}
                         getVal={editedData.memberType}
@@ -230,7 +237,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Clasificación'
+                        label="Clasificación"
                         placeholder={editedData.classification}
                         getVal={editedData.classification}
                         options={getClassificationOptions()}
@@ -242,18 +249,18 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <SelectInputComponent
-                        label='Especialidades'
+                        label="Especialidades"
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder='Selecciona una especialidad'
+                        placeholder="Selecciona una especialidad"
                     />
                     <TextInput
-                        label='Actividad Profesional Principal'
-                        placeholder='Actividad Profesional Principal'
+                        label="Actividad Profesional Principal"
+                        placeholder="Actividad Profesional Principal"
                         getVal={editedData.mainProfessionalActivity}
                         setVal={(value) =>
                             setEditedData({
@@ -263,8 +270,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Cédula Profesional'
-                        placeholder='Cédula Profesional'
+                        label="Cédula Profesional"
+                        placeholder="Cédula Profesional"
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
                             setEditedData({
@@ -274,8 +281,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Fecha de Ingreso'
-                        placeholder='FechaDeIngreso'
+                        label="Fecha de Ingreso"
+                        placeholder="FechaDeIngreso"
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
                             setEditedData({
@@ -285,8 +292,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Municipio de Trabajo'
-                        placeholder='Municipio de Trabajo'
+                        label="Municipio de Trabajo"
+                        placeholder="Municipio de Trabajo"
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
                             setEditedData({
@@ -299,7 +306,7 @@ const ArchitectDetail = (props) => {
 
                 <div className='architect-col'>
                     <DropdownInput
-                        label='Autorización para compartir información'
+                        label="Autorización para compartir información"
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -311,7 +318,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Seguro de Vida'
+                        label="Seguro de Vida"
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
@@ -323,8 +330,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Póliza de Seguro'
-                        placeholder='Póliza de Seguro'
+                        label="Póliza de Seguro"
+                        placeholder="Póliza de Seguro"
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({
@@ -333,9 +340,9 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-                    <TextInput
-                        label='Horas de Capacitación'
-                        placeholder='Horas Acreditadas'
+                    <NumberInput
+                        label="Horas de Capacitación"
+                        placeholder="Horas Acreditadas"
                         getVal={editedData.capacitationHours}
                         setVal={(value) =>
                             setEditedData({
@@ -358,8 +365,8 @@ const ArchitectDetail = (props) => {
                     />
 
                     <TextInput
-                        label='Posiciones en Consejo'
-                        placeholder='Posiciones en Consejo'
+                        label="Posiciones en Consejo"
+                        placeholder="Posiciones en Consejo"
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
                             setEditedData({
@@ -369,8 +376,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <FileInput
-                        label='Curriculum Vitae'
-                        placeholder='CV'
+                        label="Curriculum Vitae"
+                        placeholder="CV"
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })

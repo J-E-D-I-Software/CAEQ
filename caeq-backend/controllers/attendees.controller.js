@@ -3,7 +3,7 @@ const Attendee = require('../models/attendees.model');
 const Gathering = require('../models/gathering.model');
 
 
-exports.getAllAttendees = factory.getAll(Attendee);
+exports.getAllAttendees = factory.getAll(Attendee, 'idArchitect');
 exports.getAttendee = factory.getOne(Attendee);
 exports.createAttendee = factory.createOne(Attendee);
 exports.updateAttendee = factory.updateOne(Attendee);

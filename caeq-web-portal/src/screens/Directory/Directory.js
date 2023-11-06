@@ -64,13 +64,13 @@ const Directory = () => {
             birthInitial === null
         ) {
             FireError(
-                'No puedes ingresar un rango de fecha de admisión con la fecha limite menor a la de inicio.'
+                'No es posible ingresar un rango de fecha de admisión con la fecha límite menor a la de inicio.'
             );
             return '';
         }
         if (birthFinal < birthInitial) {
             FireError(
-                'No puedes ingresar un rango de fecha de nacimiento con la fecha limite menor a la de inicio.'
+                'No es posible ingresar un rango de fecha de nacimiento con la fecha limite menor a la de inicio.'
             );
             return '';
         }
@@ -175,7 +175,7 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
-        const swal = FireLoading('Generando archivo de excel...');
+        const swal = FireLoading('Generando archivo de Excel...');
 
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(1, filters, 100000);
@@ -211,7 +211,7 @@ const Directory = () => {
         });
 
         swal.close();
-        FireSucess('Tu descarga iniciará en breve.');
+        FireSucess('La descarga se iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
     };
@@ -300,7 +300,7 @@ const Directory = () => {
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
-                        options={['Expresidente', 'Docente', 'Convenio']}
+                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
                         placeholder='Clasificación'
                     />
                     <DropdownInput

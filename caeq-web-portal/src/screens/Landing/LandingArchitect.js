@@ -17,12 +17,9 @@ const LandingArchitect = () => {
             <div className='welcome'>
                 <div className='column left-column'>
                     <img src={Logo} alt='Logo' className='logo' />
-                    <div className='titlecaeq'>
-                        Bienvenidos al portal de colegiados
-                    </div>
+                    <div className='titlecaeq'>Bienvenidos al portal del CAEQ</div>
                     <p className='subtitlecaeq'>
-                        Consulta tu información, cursos, cotizaciones y
-                        servicios que se ofrecen en el CAEQ.
+                        Un nuevo espacio de consulta informativa.
                     </p>
                     <div className='button-container'>
                         <Link to='/LoginUser'>
@@ -32,14 +29,13 @@ const LandingArchitect = () => {
                         <Link to='/SignupUser'>
                             <BaseButton type='primary'>Registrarse</BaseButton>
                         </Link>
+                        <div class="solid"/>
                     </div>
                 </div>
                 <div className='column right-column'>
                     <div className='adminbutton'>
                         <Link to='/welcomeAdmin'>
-                            <BaseButton type='disabled'>
-                                Familia CAEQ
-                            </BaseButton>
+                            <BaseButton type='disabled'>Familia CAEQ</BaseButton>
                         </Link>
                     </div>
                     <img src={Image1} alt='Image1' className='image1' />
@@ -52,9 +48,9 @@ const LandingArchitect = () => {
                 <div className='column right-column'>
                     <div className='titleOne'>C A E Q</div>
                     <div className='descOne'>
-                        Espacio de expresión, opinión, colaboración y
-                        capacitación para promover e impulsar el mejoramiento
-                        arquitectónico y urbano de Querétaro.
+                        Espacio de expresión, opinión, colaboración y capacitación para
+                        promover e impulsar el mejoramiento arquitectónico y urbano de
+                        Querétaro.
                     </div>
                 </div>
             </div>
@@ -62,8 +58,8 @@ const LandingArchitect = () => {
                 <div className='column left-column'>
                     <div className='titleTwo'>Objetivos</div>
                     <div className='descTwo'>
-                        Integrar a los profesionistas de la arquitectura,
-                        promoviendo, la participación dentro del gremio.
+                        Integrar a los profesionistas de la arquitectura, promoviendo, la
+                        participación dentro del gremio.
                     </div>
                 </div>
                 <div className='column right-column'>

@@ -33,6 +33,8 @@ const sessionRouter = require('./routes/session.route');
 const gatheringRouter = require('./routes/gathering.route');
 const attendeesRouter = require('./routes/attendees.route');
 const servicesRouter = require('./routes/services.routes');
+const inscriptionRouter = require('./routes/inscription.route');
+const paymentRouter = require('./routes/payment.route');
 
 const app = express();
 
@@ -120,6 +122,8 @@ app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/attendees', attendeesRouter);
 app.use('/services', servicesRouter);
+app.use('/inscription', inscriptionRouter);
+app.use('/payment', paymentRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

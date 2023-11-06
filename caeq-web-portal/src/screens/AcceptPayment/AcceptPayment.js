@@ -48,15 +48,15 @@ const AcceptAdmin = () => {
     const handleAccept = async (id) => {
         try {
             const confirmation = await FireQuestion(
-                '¿Está seguro que desea aprobar al administrador?',
-                'Esta acción no se puede deshacer. El administrador tendrá acceso a la aplicación.'
+                '¿Está seguro de aceptar este pago?',
+                'Esta acción no se puede deshacer. El colegiado se inscribirá automáticamente al curso.'
             );
 
             if (!confirmation.isConfirmed) {
                 return;
             }
 
-            const swal = FireLoading('Aceptando administrador...');
+            const swal = FireLoading('Aceptando pago...');
             const response = await patchAcceptAdmin(id);
 
             setPayments(payments.filter((payment) => payment._id !== id));
@@ -81,8 +81,8 @@ const AcceptAdmin = () => {
     const handleReject = async (id) => {
         try {
             const confirmation = await FireQuestionInput(
-                '¿Está seguro que desea rechazar al administrador?',
-                'Esta acción no se puede deshacer. El administrador será eliminado.'
+                '¿Está seguro de rechazar este pago?',
+                'Se le notificará al colegiado. Ingresa el motivo del rechazo:'
             );
 
             if (!confirmation.isConfirmed) {
@@ -119,22 +119,19 @@ const AcceptAdmin = () => {
             <div className='payment-row'>
                 <h1>Pagos de los Cursos</h1>
                 <h2>
-                    El propósito de esta sección es conceder autorizaciones a otras cuentas
-                    para permitirles el acceso al portal de administración.
+                    El propósito de esta sección es aceptar los pagos a los diferentes cursos que se ofrecen en la plataforma.
                 </h2>
             </div>
             <div className='payment-row-instruction'>
                 <img src={AcceptIcon} alt={`Accept Icon`} />
                     <h3>
-                        Da click a este icono para aceptar la petición de otorgar a una cuenta acceso al
-                        portal de administración.
+                        De click a este icono para aceptar el pago de un curso e inscribirlo automáticamente.
                     </h3>
             </div>
             <div className='payment-row-instruction'>
                     <img src={RejectIcon} alt={`Reject Icon`} />
                 <h3>
-                    Da click a este para rechazar la petición de otorgar a una cuenta acceso al
-                    portal de administración.
+                    De click a este icono para rechazar el pago de un curso e informar al colegiado el motivo.
                 </h3>
             </div>
             <div className='payment-cards'> 

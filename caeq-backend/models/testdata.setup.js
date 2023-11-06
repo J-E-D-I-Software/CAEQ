@@ -15,6 +15,7 @@ const Attendees = require('./attendees.model');
 const AttendeesData = require('./data/attendee.js');
 const Gathering = require('./gathering.model');
 const GatheringData = require('./data/gathering.js');
+
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
  *
@@ -56,8 +57,7 @@ const setUpSessionData = catchAsync(async () => {
     SessionsData[4].course = courses[1]._id;
     SessionsData[5].course = courses[1]._id;
     SessionsData[6].course = courses[2]._id;
-
-
+    
     await populateDb(Session, SessionsData);
 });
 
@@ -83,7 +83,6 @@ const setUpAttendeesData = catchAsync(async () => {
     AttendeesData[5].idArchitect = architect[1]._id;
     AttendeesData[6].idArchitect = architect[1]._id;
     AttendeesData[7].idArchitect = architect[2]._id;
-
     
     await populateDb(Attendees, AttendeesData);
     //console.log(AttendeesData)

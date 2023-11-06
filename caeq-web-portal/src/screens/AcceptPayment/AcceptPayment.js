@@ -1,3 +1,4 @@
+import './AcceptPayment.scss';
 import React, { useState, useEffect } from 'react';
 import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
@@ -10,7 +11,9 @@ import {
     FireSucess,
     FireLoading,
     FireQuestion,
+    FireQuestionInput
 } from '../../utils/alertHandler';
+import {getAllPayments } from '../../client/Payment/Payment.GET';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -24,15 +27,15 @@ import { useNavigate } from 'react-router-dom';
  * <AcceptAdmin />
  */
 const AcceptAdmin = () => {
-    const [admins, setAdmins] = useState([]);
+    const [payments, setPayments] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
             try {
-                const admins = await getCaeqUsers(false);
+                const payments = await getAllPayments();
 
-                setAdmins(admins);
+                setPayments(payments);
             } catch (error) {
                 FireError(error.response.data.message);
             }
@@ -57,7 +60,7 @@ const AcceptAdmin = () => {
             const swal = FireLoading('Aceptando administrador...');
             const response = await patchAcceptAdmin(id);
 
-            setAdmins(admins.filter((admin) => admin._id !== id));
+            setPayments(payments.filter((payment) => payment._id !== id));
 
             swal.close();
             FireSucess(response.message);
@@ -67,7 +70,7 @@ const AcceptAdmin = () => {
                 error.response.data.message ===
                 'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.'
             ) {
-                setAdmins(admins.filter((admin) => admin._id !== id));
+                setPayments(payments.filter((payment) => payment._id !== id));
             }
         }
     };
@@ -78,7 +81,7 @@ const AcceptAdmin = () => {
      */
     const handleReject = async (id) => {
         try {
-            const confirmation = await FireQuestion(
+            const confirmation = await FireQuestionInput(
                 '¿Está seguro que desea rechazar al administrador?',
                 'Esta acción no se puede deshacer. El administrador será eliminado.'
             );
@@ -90,7 +93,7 @@ const AcceptAdmin = () => {
             const swal = FireLoading('Rechazando administrador...');
             const response = await patchRejectAdmin(id);
 
-            setAdmins(admins.filter((admin) => admin._id !== id));
+            setPayments(payments.filter((admin) => admin._id !== id));
 
             swal.close();
             FireSucess(response.message);
@@ -100,26 +103,41 @@ const AcceptAdmin = () => {
                 error.response.data.message ===
                 'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
             ) {
-                setAdmins(admins.filter((admin) => admin._id !== id));
+                setPayments(payments.filter((admin) => admin._id !== id));
             }
         }
     };
+
+    /**
+     * Format function to display boolean values as "Yes" or "No".
+     * @param {boolean} value - The boolean value to format.
+     * @returns {string} - "Yes" if the value is true, "No" if it's false.
+     */
+        const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
 
     return (
         <div className='accept-payment-container'>
             <div className='payment-row'>
                 <h2>Pagos de los Cursos</h2>
             </div>
-            <div className='payment-row instruction'>
-                DirectoryArchitectDetail
+            <div className='payment-row-instruction'>
+                DirectoryArchitectDetail+PaymentID+PaymentURL+AcceptIcon+RejectIcon
             </div>
-            <div className='payment-row'>
-                <div className='payment-col'> v 
+            <div className='payment-cards'> 
 
-                </div>
-                <div className='payment-col'></div>
+                <PaymentCard
+                    fullName={'Juan Ernesto Cevilla'}
+                    paymentID={'123456789'}
+                    courseName={'Mampostería industrial'}
+                    invoice={formatBooleanValue(true)}
+                    priceToPay={'$120.30'}
+                    teacherName={'Juan Ernesto Cevilla'}
+                    paymentURL={"https://i.imgur.com/2xtkgUA.jpeg"}
+                    acceptPayment={handleAccept}
+                    rejectPayment={handleReject}
+                />
+
             </div>
-
         </div>
     );
 };

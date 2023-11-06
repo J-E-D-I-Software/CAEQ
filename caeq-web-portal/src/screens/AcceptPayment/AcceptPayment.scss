@@ -3,16 +3,13 @@
     flex-direction: column;
     width: 100%;
 
-
-
-    .paymet-row{
+    
+    .payment-cards{
         display: flex;
-        background-color: yellow;
-    }
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background-color: aqua;
 
-    .paymet-col{
-        display: flex;
-        flex-direction: column;
-        background-color: red;
     }
 }

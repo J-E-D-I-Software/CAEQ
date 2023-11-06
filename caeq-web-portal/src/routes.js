@@ -260,6 +260,7 @@ const routes = [
         Component: AcceptPayment,
         isPrivate: false,
         inNavbar: false,
+        roles:['caeq']
     },
     {
         path: '/Directorio-Publico',

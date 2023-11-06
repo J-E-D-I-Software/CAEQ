@@ -22,9 +22,17 @@ const CourseSchema = new mongoose.Schema(
         capacity: {
             type: Number,
             required: [true, 'Capacidad de curso requerido'],
+            validate: {
+                validator: Number.isInteger,
+                message: 'La capacidad del curso debe ser un número entero',
+            },
         },
         numberHours: {
             type: Number,
+            validate: {
+                validator: Number.isInteger,
+                message: 'El número de horas del curso debe ser un número entero',
+            },
         },
         startDate: {
             type: Date,

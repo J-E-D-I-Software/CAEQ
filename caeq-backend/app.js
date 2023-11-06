@@ -28,6 +28,7 @@ const courseRouter = require('./routes/course.route');
 const emailRouter = require('./routes/email.route');
 const specialtyRouter = require('./routes/specialty.route');
 const aggregationsRouter = require('./routes/aggregations.route');
+const sessionRouter = require('./routes/session.route');
 const gatheringRouter = require('./routes/gathering.route');
 const attendeesRouter = require('./routes/attendees.route');
 const inscriptionRouter = require('./routes/inscription.route');
@@ -36,8 +37,23 @@ const paymentRouter = require('./routes/payment.route');
 const app = express();
 
 app.enable('trust proxy');
-app.use(cors());
-app.options('*', cors());
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    res.header('Cross-Origin-Resource-Policy', 'same-site');
+    res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.header('Cross-Origin-Embedder-Policy', 'credentialless');
+    //res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' *");
+    res.header(
+        'Content-Security-Policy',
+        "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
+    );
+
+    next();
+});
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,7 +67,6 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -102,6 +117,7 @@ app.use('/courses', courseRouter);
 app.use('/email', emailRouter);
 app.use('/specialties', specialtyRouter);
 app.use('/aggregations', aggregationsRouter);
+app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/attendees', attendeesRouter);
 app.use('/inscription', inscriptionRouter);

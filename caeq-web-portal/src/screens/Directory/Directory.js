@@ -76,6 +76,7 @@ const Directory = () => {
         }
 
         let filters = '';
+
         if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
@@ -91,16 +92,18 @@ const Directory = () => {
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
         if (currentRights) filters += `&annuity=${currentRights}`;
+
         return filters;
     };
 
     useEffect(() => {
         (async () => {
+            setPaginationPage(1);
             const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
                 const filters = calculateFilters();
                 const architects = await getAllArchitectUsers(
-                    paginationPage,
+                    1,
                     filters,
                     effectiveOrderBy
                 );
@@ -110,7 +113,6 @@ const Directory = () => {
             }
         })();
     }, [
-        paginationPage,
         filterSearchByName,
         filterSearchBymunicipalityOfLabor,
         filterSearchBycollegiateNumber,
@@ -128,15 +130,20 @@ const Directory = () => {
 
     useEffect(() => {
         (async () => {
+            const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
-                const specialties = await getAllSpecialties();
-                setSpecialtiesName(specialties.map((val) => val.name));
-                setSpecialties(specialties);
+                const filters = calculateFilters();
+                const architects = await getAllArchitectUsers(
+                    paginationPage,
+                    filters,
+                    effectiveOrderBy
+                );
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
         })();
-    }, []);
+    }, [paginationPage]);
 
     /**
      * Handle clicking the 'Previous Page' button to navigate to the previous page of results.
@@ -171,7 +178,7 @@ const Directory = () => {
         const swal = FireLoading('Generando archivo de excel...');
 
         const filters = calculateFilters();
-        const architects = await getAllArchitectUsers(paginationPage, filters, 10000);
+        const architects = await getAllArchitectUsers(1, filters, 100000);
 
         const architectsDownload = architects.map((val) => {
             delete val._id;
@@ -293,7 +300,7 @@ const Directory = () => {
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
-                        options={['Expresidente', 'Docente', 'Convenio']}
+                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
                         placeholder='Clasificación'
                     />
                     <DropdownInput
@@ -358,6 +365,14 @@ const Directory = () => {
 
             <br />
 
+            <div className='directory-row directory-pagination'>
+                <PaginationNav
+                    onClickBefore={handlePreviousPage}
+                    onClickAfter={handleNextPage}
+                    page={paginationPage}
+                />
+            </div>
+
             <div className='directory-row'>
                 {architectUsers.length > 0 ? (
                     <div className='box-container'>
@@ -369,14 +384,6 @@ const Directory = () => {
                 ) : (
                     <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
-            </div>
-
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handlePreviousPage}
-                    onClickAfter={handleNextPage}
-                    page={paginationPage}
-                />
             </div>
         </div>
     );

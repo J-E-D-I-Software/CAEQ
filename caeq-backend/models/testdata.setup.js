@@ -9,6 +9,8 @@ const Course = require('./course.model');
 const CourseData = require('./data/course');
 const Specialty = require('./specialty.model');
 const SpecialtyData = require('./data/specialty');
+const Session = require('./session.model.js');
+const SessionsData = require('./data/sessions');
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -34,6 +36,25 @@ const setUpArchitectUserData = catchAsync(async () => {
     ArchitectUserData[4].specialties = [specialties[0]._id, specialties[3]._id];
 
     await populateDb(ArchitectUser, ArchitectUserData);
+});
+
+/**
+ * Set up 'Session' data by populating the database with the provided test data.
+ *
+ * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
+ */
+const setUpSessionData = catchAsync(async () => {
+    const courses = await Course.find();
+
+    SessionsData[0].course = courses[0]._id;
+    SessionsData[1].course = courses[0]._id;
+    SessionsData[2].course = courses[0]._id;
+    SessionsData[3].course = courses[0]._id;
+    SessionsData[4].course = courses[1]._id;
+    SessionsData[5].course = courses[1]._id;
+    SessionsData[6].course = courses[2]._id;
+    
+    await populateDb(Session, SessionsData);
 });
 
 /**
@@ -65,6 +86,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpCaeqUserData();
     await setUpCourseData();
     await setUpArchitectUserData();
+    await setUpSessionData();
     console.log('Test data uploaded to DB');
 });
 

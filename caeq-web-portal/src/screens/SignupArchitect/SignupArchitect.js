@@ -70,7 +70,7 @@ const Signup = () => {
         'Miembro Vitalicio',
         'Miembro Honorario',
     ];
-    const classif = ['Expresidente', 'Docente', 'Convenio'];
+    const classif = ['Expresidente', 'Docente', 'Convenio', 'Ninguno'];
     const decide = ['SÍ', 'NO'];
     const navigate = useNavigate();
 
@@ -97,6 +97,12 @@ const Signup = () => {
     }, []);
 
     const handleSignup = async (e) => {
+        const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        const isValidEmail = emailRegex.test(email);
+        if (!isValidEmail) {
+            FireError('Por favor ingresa un correo electrónico válido.');
+            return;
+        }
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -140,7 +146,7 @@ const Signup = () => {
                 'Arquitecto ya existente',
                 `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
                 ¿Es usted ${user.fullName}?
-                ¿Desea continuar y actualizar con la información proporcionada?`,
+                ¿Desea continuar y actualizar con la información proporcionada?`
             );
             if (!continueSignUp.isConfirmed) return;
         }
@@ -158,7 +164,7 @@ const Signup = () => {
             }
             swal.close();
             FireSucess('Te has registrado con éxito');
-            // navigate('/Principal');
+            navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
         }
@@ -188,34 +194,34 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Correo Electrónico'
-                                placeholder='Correo Electrónico'
+                                placeholder='Su correo electrónico'
                                 getVal={email}
                                 setVal={setEmail}
                                 require={true}
                             />
                             <HiddenTextInput
                                 label='Contraseña'
-                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
+                                placeholder='Su contraseña debe contar con al menos 8 caracteres'
                                 getVal={password}
                                 setVal={setPassword}
                                 require={true}
                             />
                             <HiddenTextInput
                                 label='Confirmar contraseña'
-                                placeholder='Tu contraseña debe contar con al menos 8 caracteres'
+                                placeholder='Su contraseña debe contar con al menos 8 caracteres'
                                 getVal={passwordConfirm}
                                 setVal={setConfirmPassword}
                                 require={true}
                             />
                             <TextInput
                                 label='Número de DRO'
-                                placeholder='Número de DRO'
+                                placeholder='Número de DRO (No obligatorio)'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
-                                require={true}
+                                require={false}
                             />
                             <DropdownInput
-                                label='Tipo de miembro'
+                                label='Seleccione tipo de miembro'
                                 options={member}
                                 getVal={memberType}
                                 setVal={setMemberType}
@@ -271,7 +277,7 @@ const Signup = () => {
                                 require={true}
                             />
                         </div>
-                        <div className="column-2">
+                        <div className='column-2'>
                             <TextInput
                                 label='Contacto de emergencia (nombre completo y teléfono)'
                                 placeholder='Contacto de emergencia (nombre completo y teléfono)'
@@ -294,7 +300,7 @@ const Signup = () => {
                                 onChange={(selectedOptions) => {
                                     setSelectedSpecialties(selectedOptions);
                                 }}
-                                placeholder='Selecciona tus especialidades'
+                                placeholder='Seleccione especialidades'
                             />
                             <NumberInput
                                 label='Fecha de ingreso al colegio'
@@ -312,7 +318,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Universidad'
-                                placeholder='¿En que universidad te graduaste?'
+                                placeholder='Nombre de la universidad donde se graduó'
                                 getVal={university}
                                 setVal={setUniversity}
                                 require={true}
@@ -332,11 +338,10 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label='Cargos en consejo directivo (fecha y nombre del cargo)'
-                                placeholder='Cargos en consejo directivo (año y nombre del cargo)'
+                                label='Cargos en consejo directivo (fecha y nombre del cargo) / Ninguno'
+                                placeholder='Cargos en consejo directivo (año y nombre del cargo) / Ninguno'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
-                                require={true}
                             />
                             <FileInput
                                 label='Suba su curriculum'

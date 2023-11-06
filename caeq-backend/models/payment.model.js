@@ -17,7 +17,6 @@ const paymentSchema = new mongoose.Schema(
             ref: 'Course',
             required: [true, 'Curso necesario'],
         },
-        // TODO: que este campo sea read_only desde el front ybi que lo rellene el controlador dependiendo de lo que diga Stripe
         status: {
             type: String,
             enum: { values: ['Pendiente', 'Rechazado', 'Aceptado'] },
@@ -33,7 +32,10 @@ const paymentSchema = new mongoose.Schema(
             },
             required: [true, 'Se necesita un comprobante de pago.'],
         },
-        // TODO: see how integrating with Stripe will affect this model
+        wantsInvoice: {
+            type: Boolean,
+            default: false, 
+        },
     },
     { timestamps: true }
 );

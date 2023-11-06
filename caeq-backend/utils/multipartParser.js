@@ -87,6 +87,17 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 if (req.files.length > 0) {
                     req.file = req.files[0];
                 }
+                const body = {};
+                Object.keys(req.body).map((key) => {
+                    if (!/^\d+$/.test(key)) {
+                        body[key] = req.body[key];
+                    }
+                });
+                Object.keys(body).map((key) => {
+                    console.log(`${key}: ${body[key]}`);
+                });
+
+                req.body = body;
                 next();
             });
 

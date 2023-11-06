@@ -113,7 +113,7 @@ const routes = [
         iconWhite: CursosIconWhite,
         Component: CreateGathering,
         isPrivate: true,
-        inNavbar: true,
+        inNavbar: false,
         roles: ['caeq'],
     },
     {

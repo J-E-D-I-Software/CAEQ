@@ -8,7 +8,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
         unique: true,
         type: Number,
-        required: [true, 'Por favor dinos tu número de DRO!'],
+        required: [true, 'Por favor dinos tu número de colegiado!'],
     },
     fullName: {
         type: String,
@@ -28,7 +28,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     classification: {
         type: String,
-        enum: ['-', 'Expresidente', 'Docente', 'Convenio'],
+        enum: ['-', 'Expresidente', 'Docente', 'Convenio', 'Ninguno'],
         required: [true, 'Por favor dinos tu clasificación!'],
     },
     DRONumber: {
@@ -67,7 +67,7 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: Number,
         required: [false],
         maxlength: [10, 'El número de teléfono debe ser de 10 dígitos.'],
-        required: [false]
+        required: [false],
     },
     officePhone: {
         type: Number,
@@ -89,7 +89,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     dateOfBirth: {
         type: Date,
-        required: [true, 'Por favor dinos tu fecha de nacimiento!'],
     },
     municipalityOfLabor: {
         type: String,
@@ -117,11 +116,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     positionsInCouncil: {
         type: String,
-        required: [true, 'Por favor dinos tus cargos en el consejo directivo!'],
     },
     capacitationHours: {
         type: Number,
-        required: [false],
+        default: 0,
     },
     annuity: {
         type: Boolean,
@@ -162,6 +160,14 @@ const ArchitectUserSchema = new mongoose.Schema({
     changedPassword: Date,
     changedPasswordToken: String,
     tokenExpirationDate: Date,
+    isLegacy: {
+        type: Boolean,
+        default: false,
+    },
+    isOverwritten: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 // Indexing admin properties for optimized search
@@ -194,10 +200,10 @@ ArchitectUserSchema.pre('save', async function (next) {
 
 ArchitectUserSchema.pre('validate', function (next) {
     if (this.age < 0 || this.age > 100) {
-      throw new AppError('La edad debe estar entre 0 y 100', 400);
+        throw new AppError('La edad debe estar entre 0 y 100', 400);
     }
     return next();
-  });
+});
 
 /** This is a method that compares the candidate password with the user password. */
 ArchitectUserSchema.methods.correctPassword = async function (

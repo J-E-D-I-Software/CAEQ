@@ -5,6 +5,7 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('../utils/email');
 const { promisify } = require('util');
+const bcrypt = require('bcryptjs');
 
 /**
  * Creates a JWT token with the provided user ID and user type.
@@ -67,13 +68,14 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     });
 
-    try {
-        await new Email(newUser).sendWelcomeAdmin();
-    } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-        );
-    }
+    // Uncomment after emails after payed
+    // try {
+    //     await new Email(newUser).sendWelcomeAdmin();
+    // } catch (error) {
+    //     return next(
+    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+    //     );
+    // }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -98,26 +100,82 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const existingUser = await ArchitectUser.findOne({ collegiateNumber });
 
     if (existingUser) {
-        // Update existing user
-        delete req.body.password;
-        delete req.body.passwordConfirm;
-        newUser = await ArchitectUser.findByIdAndUpdate(existingUser._id, req.body, {
-            new: true,
-            runValidators: true,
-        });
+        if (existingUser.isLegacy === true && existingUser.isOverwritten === false) {
+            const password = req.body.password;
+            const passwordConfirm = req.body.passwordConfirm;
+
+            if (password !== passwordConfirm) {
+                return next(new AppError('Tus contraseñas deben coincidir.'));
+            }
+
+            delete req.body.password;
+            delete req.body.passwordConfirm;
+
+            // Update existing user
+            newUser = await ArchitectUser.findOneAndUpdate(
+                { _id: existingUser._id },
+                { $set: req.body },
+                {
+                    new: true,
+                    runValidators: true,
+                    useFindAndModify: true,
+                }
+            );
+
+            // Update password
+            newUser = await ArchitectUser.findOneAndUpdate(
+                { _id: existingUser._id },
+                {
+                    $set: {
+                        password: await bcrypt.hash(password, 12),
+                        isOverwritten: true,
+                    },
+                },
+                {
+                    new: true,
+                    runValidators: false,
+                    useFindAndModify: true,
+                }
+            );
+        } else if (
+            existingUser.isLegacy === true &&
+            existingUser.isOverwritten === true
+        ) {
+            return next(
+                new AppError(
+                    'Una persona ya se ha inscrito en el portal con estos datos. Crea una nueva cuenta o si crees que es un error contacta a gerencia.'
+                )
+            );
+        } else if (
+            existingUser.isLegacy === false &&
+            existingUser.isOverwritten === true
+        ) {
+            return next(
+                new AppError(
+                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.'
+                )
+            );
+        } else {
+            return next(
+                new AppError(
+                    'Algo salió muy mal.No hemos podido sobreescribir los datos.'
+                )
+            );
+        }
     } else {
         // Create new user
         newUser = await ArchitectUser.create(req.body);
     }
 
-    // Send welcome email
-    try {
-        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-    } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-        );
-    }
+    // Uncomment after emails after payed
+    // // Send welcome email
+    // try {
+    //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+    // } catch (error) {
+    //     return next(
+    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+    //     );
+    // }
 
     // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);
@@ -137,7 +195,7 @@ exports.logout = (req, res, next) => {
 };
 
 /**
-* Logs in an architect user.
+ * Logs in an architect user.
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.
@@ -157,9 +215,17 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
 
     // 2 Check is user exists.
     const user = await ArchitectUser.findOne({ email }).select('+password'); // adding a + to the field set as selected false means we will retrieve it
-
-    if (!user || !(await user.correctPassword(password, user.password))) {
-        return next(new AppError('Email o contraseña incorrectos.', 401));
+    if (!user) {
+        return next(
+            new AppError(
+                'Email incorrecto. No hay un usuario registrado con este correo.',
+                401
+            )
+        );
+    } else if (!(await user.correctPassword(password, user.password))) {
+        return next(
+            new AppError('Contraseña incorrecta. Intente de nuevo por favor.', 401)
+        );
     }
 
     // 3 Send JWT to user.

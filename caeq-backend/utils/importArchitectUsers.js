@@ -162,6 +162,8 @@ async function importArchitectData(
             }
             mappedData.password = password;
             mappedData.passwordConfirm = password;
+            mappedData.isLegacy = true;
+            mappedData.isOverwritten = false;
 
             results.push(mappedData);
         })

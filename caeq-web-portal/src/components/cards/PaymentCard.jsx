@@ -1,20 +1,20 @@
-import './PaymentCard.scss'
+
 import AcceptIcon from '../icons/AcceptIcon.png'
 import RejectIcon from '../icons/RejectIcon.png'
 
-const AdminCard = ({ id, email, fullName, paymentID, acceptAdmin, rejectAdmin }) => {
+const PaymentCard = ({ id, email, fullName, paymentID, acceptAdmin, rejectAdmin }) => {
     return (
         <div className='admin-card'>
             <h2>{fullName}</h2>
             <h3>{email}</h3>
             <div className='admin-card-buttons'>
                 <img
-                    onClick={() => acceptAdmin(id)}
+                    onClick={() => acceptAdmin(paymentID)}
                     src={AcceptIcon}
                     alt={`Accept Icon`}
                 />
                 <img
-                    onClick={() => rejectAdmin(id)}
+                    onClick={() => rejectAdmin(paymentID)}
                     src={RejectIcon}
                     alt={`Reject Icon`}
                 />
@@ -22,3 +22,5 @@ const AdminCard = ({ id, email, fullName, paymentID, acceptAdmin, rejectAdmin })
         </div>
     );
 };
+
+export default PaymentCard;

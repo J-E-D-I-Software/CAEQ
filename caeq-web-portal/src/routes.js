@@ -14,6 +14,7 @@ import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/Direct
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
+import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -250,6 +251,13 @@ const routes = [
         path: '/welcomeAdmin',
         name: 'Bienvenida Admin',
         Component: LandingCAEQ,
+        isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/AcceptPayment',
+        name: 'Pagos por aceptar',
+        Component: AcceptPayment,
         isPrivate: false,
         inNavbar: false,
     },

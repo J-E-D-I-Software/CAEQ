@@ -1,0 +1,18 @@
+.accept-payment-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+
+
+    .paymet-row{
+        display: flex;
+        background-color: yellow;
+    }
+
+    .paymet-col{
+        display: flex;
+        flex-direction: column;
+        background-color: red;
+    }
+}

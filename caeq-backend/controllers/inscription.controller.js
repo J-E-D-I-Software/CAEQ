@@ -6,8 +6,11 @@ const Email = require('../utils/email');
 const AppError = require('../utils/appError');
 
 exports.getAllInscriptions = factory.getAll(Inscription, [
-    { path: 'user', select: 'email fullName' }, // You can select the user fields you need
-    { path: 'course', select: 'courseName teachers modality description topics' }, // Include fields from the course model
+    { path: 'user', select: 'email fullName collegiateNumber' }, // You can select the user fields you need
+    {
+        path: 'course',
+        select: 'courseName teachers modality description topics',
+    }, // Include fields from the course model
 ]);
 
 exports.getInscription = factory.getOne(Inscription, ['user', 'course']);
@@ -20,7 +23,10 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
 
     if (!courseId) {
         return next(
-            new AppError('Envía la clave del curso para poder inscribirte.', 400)
+            new AppError(
+                'Envía la clave del curso para poder inscribirte.',
+                400
+            )
         );
     }
 
@@ -34,13 +40,19 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
 
     if (course.pricing === 'Pagado') {
         return next(
-            new AppError('Necesitas pagar por este curso para inscribirte.', 400)
+            new AppError(
+                'Necesitas pagar por este curso para inscribirte.',
+                400
+            )
         );
     }
 
     if (course.startDate < new Date()) {
         return next(
-            new AppError('Este curso ya ha iniciado, no puedes inscribirte.', 400)
+            new AppError(
+                'Este curso ya ha iniciado, no puedes inscribirte.',
+                400
+            )
         );
     }
 
@@ -56,9 +68,7 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
     });
 
     if (existingInscription) {
-        return next(
-            new AppError('Ya te has inscrito a este curso.', 400)
-        );
+        return next(new AppError('Ya te has inscrito a este curso.', 400));
     }
 
     course.capacity -= 1;
@@ -69,7 +79,7 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         user: req.user._id,
     });
 
-   /* try {
+    /* try {
         await new Email(
             req.user,
             process.env.LANDING_URL,
@@ -90,7 +100,9 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
 exports.myInscriptions = catchAsync(async (req, res, next) => {
     const inscriptions = await Inscription.find({
         user: req.user._id,
-    }).populate('course').sort({ updatedAt: -1 });
+    })
+        .populate('course')
+        .sort({ updatedAt: -1 });
 
     res.status(200).json({
         status: 'success',

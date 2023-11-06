@@ -58,11 +58,11 @@ const requiredFields = [
 beforeAll(async () => {
     await  connectDB();
     await setUpDbWithMuckData();
-})
+});
 
 describe('Room Offer POST', () => {
     test('succesful', () => testPostRoomOffer());
-})
+});
 
 describe('Room Offer obligatory fields POST', () => {
     test.each(requiredFields)(
@@ -71,4 +71,4 @@ describe('Room Offer obligatory fields POST', () => {
             testRequiredFields(field, errorMessage);
         }
     );
-})
+});

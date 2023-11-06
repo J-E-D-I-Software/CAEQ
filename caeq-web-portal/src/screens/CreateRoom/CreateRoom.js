@@ -9,6 +9,7 @@ import createRoom from '../../client/Services/Services.POST';
 import './createRoom.scss';
 
 import { Link, useNavigate } from 'react-router-dom';
+import { getRoom } from '../../client/Services/Services.GET';
 
 const CreateRoomOffer = () => {
     const searchParams = useParams();
@@ -20,6 +21,16 @@ const CreateRoomOffer = () => {
         imageUrl: null,
     })
     const [imageUrl, setImageUrl] = useState(null);
+
+    useEffect(() => {
+        if (searchParams.id) {
+            getRoom(searchParams.id)
+                .then((response) => {
+                    
+                    setData(response);
+                })
+        }
+    }, []);
 
     const updateData = (key, value) => {
         setData({ ...data, [key]: value });
@@ -38,7 +49,10 @@ const CreateRoomOffer = () => {
             FireError('El salón debe tener una capacidad de personas');
             return;
         }
-
+        if (!/^\d+$/.test(data.capacity)) {
+            FireError('La capacidad debe ser un número entero válido.');
+            return;
+        }
         event.preventDefault();
 
         const formData = new FormData();
@@ -82,12 +96,14 @@ const CreateRoomOffer = () => {
                         label='Costo'
                         getVal={data.cost}
                         setVal={(value) => updateData('cost', value)}
+                        maxDigits={10}
                     />
                     <NumberInput
                         require
                         label='Capacidad'
                         getVal={data.capacity}
                         setVal={(value) => updateData('capacity', value)}
+                        maxDigits={10}
                     />
                     <TextInput
                         label='Especificaciones'

@@ -187,6 +187,16 @@ const routes = [
         roles: ['caeq'],
     },
     {
+        path: '/Servicios/Salon/:id',
+        name: 'Modificar Salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component:CreateRoomOffer,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
         path: '/Directorio',
         name: 'Directorio',
         icon: DirectorioIcon,

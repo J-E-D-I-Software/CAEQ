@@ -9,3 +9,10 @@ export async function getAllRooms(page = 1, filtersParams = '') {
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
+
+export async function getRoom(id) {
+    let endpoint = `${baseApiEndpoint}/services/${id}`;
+
+    const response = await axios.get(endpoint);
+    return response.data.data.document;
+}

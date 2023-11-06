@@ -16,10 +16,10 @@ const RoomCard = ({showMoreBtn=true, ...props}) => {
                     
             </div>
             <div className="card-col-2">
-                <a href={props.imageUrl}>
-                    {props.imageUrl ? (
+                <a href={props.roomPhoto}>
+                    {props.roomPhoto ? (
                 
-                        <img src={props.imageUrl} />
+                        <img src={props.roomPhoto} />
                 
                     ) : (
                         
@@ -33,13 +33,13 @@ const RoomCard = ({showMoreBtn=true, ...props}) => {
                 <p>Capacidad: {props.capacity} persona(s)</p>
                 
                     <div className="card-button">
-                            <BaseButton className="mb-1" type="primary" onClick={()=> navigate(`/Rooms/${props._id}`)}>
+                            <BaseButton className="mb-1" type="primary" onClick={()=> navigate(`/Servicios/${props._id}`)}>
                                 Ver detalles
                             </BaseButton>
                             
                         {showMoreBtn &&
                             <RestrictByRole allowedRoles={['caeq']}>
-                                <BaseButton type="primary" onClick={()=> navigate(`/Cursos/Curso/${props._id}`)}>
+                                <BaseButton type="primary" onClick={()=> navigate(`/Servicios/Salon/${props._id}`)}>
                                     Modificar
                                 </BaseButton>
                             </RestrictByRole>

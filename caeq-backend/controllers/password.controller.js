@@ -76,9 +76,6 @@ exports.forgotPasswordCaeqUser = catchAsync(async (req, res, next) => {
     const resetToken = await forgotPassword(CaeqUser, req.body.email, req, 'caeq', res);
     res.status(200).json({
         status: 'success',
-        data: {
-            resetToken,
-        },
         message: 'Correo para recuperar tu contraseña enviado.',
     });
 });
@@ -97,7 +94,7 @@ exports.resetPasswordCaeqUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        message: 'Contraseña cambiada con exito. Quiza debas iniciar sesion de nuevo',
+        message: 'Contraseña cambiada con éxito. Quizá debas iniciar sesión de nuevo',
     });
 });
 
@@ -110,12 +107,8 @@ exports.forgotPasswordArchitectUser = catchAsync(async (req, res, next) => {
         'architect',
         res
     );
-
     res.status(200).json({
         status: 'success',
-        data: {
-            resetToken,
-        },
         message: 'Correo para recuperar tu contraseña enviado.',
     });
 });

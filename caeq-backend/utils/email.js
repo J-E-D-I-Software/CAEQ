@@ -102,6 +102,16 @@ module.exports = class Email {
         );
     }
 
+        /**
+     * It sends an email for inscription alerts
+     */
+    async sendInscriptionAlert() {
+        await this.send(
+            "inscriptionAlert",
+            "Confirmación de Inscripción en Cursos"
+         );
+    }
+
     /**
      * Send an email to notify that an administrator's request is accepted.
      */

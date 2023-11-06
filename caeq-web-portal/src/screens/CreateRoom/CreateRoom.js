@@ -8,8 +8,11 @@ import BaseButton from '../../components/buttons/BaseButton';
 import createRoom from '../../client/Services/Services.POST';
 import './createRoom.scss';
 
+
 import { Link, useNavigate } from 'react-router-dom';
 import { getRoom } from '../../client/Services/Services.GET';
+import updateRoom from '../../client/Services/Services.PATCH';
+
 
 const CreateRoomOffer = () => {
     const searchParams = useParams();
@@ -58,12 +61,13 @@ const CreateRoomOffer = () => {
         const formData = new FormData();
         Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
 
-        if (imageUrl) formData.set('imageUrl', imageUrl);
+        if (imageUrl) formData.set('imageUrl', imageUrl)
 
         let response = null;
         const swal = FireLoading('Guardando...');
         try {
-            response = await createRoom(formData);
+            if (searchParams.id) response = await updateRoom(searchParams.id, formData);
+            else response = await createRoom(formData);
 
             swal.close();
             FireSucess('Oferta de salón guardada');

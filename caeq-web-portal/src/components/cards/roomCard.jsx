@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import BaseButton from "../buttons/BaseButton";
 import RestrictByRole from '../restrictAccess/RestrictByRole';
-import PhotoTemplate from '../../components/images/salon_foto.jpg'
+import PhotoTemplate from '../../components/images/salon_foto.jpg';
 import './roomCard.scss';
 
 const RoomCard = ({showMoreBtn=true, ...props}) => {
@@ -17,7 +17,7 @@ const RoomCard = ({showMoreBtn=true, ...props}) => {
             </div>
             <div className="card-col-2">
                 <a href={props.roomPhoto}>
-                    {props.roomPhoto ? (
+                    {props.roomPhoto && props.roomPhoto!=="null" ? (
                 
                         <img src={props.roomPhoto} />
                 

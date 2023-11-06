@@ -44,14 +44,13 @@ const ArchitectPersonalData = (props) => {
         e.preventDefault();
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(editedData.email);
-        if (!isValidEmail){
-            FireError('Por favor ingresa un correo electrónico válido.')
+        if (!isValidEmail) {
+            FireError('Por favor ingresa un correo electrónico válido.');
             return;
         }
         const form = new FormData();
         form.append('fullName', editedData.fullName); //Ya esta
         form.append('dateOfBirth', editedData.dateOfBirth); //Ya esta
-        form.append('age', editedData.age); //Ya esta
         form.append('gender', editedData.gender); //Ya esta
         form.append('homeAddress', editedData.homeAddress); //Ya esta
         form.append('cellphone', editedData.cellphone); //Ya esta
@@ -67,7 +66,7 @@ const ArchitectPersonalData = (props) => {
             const response = await updateArchitectUserByID(searchParams.id, form);
             setData(response.data);
             swal.close();
-            FireSucess('Los Cambios se han guardado correctamente');
+            FireSucess('Los cambios se han guardado correctamente');
             navigate('/Perfil');
         } catch (error) {
             swal.close();
@@ -112,7 +111,9 @@ const ArchitectPersonalData = (props) => {
                     <DateInput
                         label='Fecha de nacimiento'
                         getVal={
-                            editedData.dateOfBirth ? editedData.dateOfBirth.split('T')[0] : ''
+                            editedData.dateOfBirth
+                                ? editedData.dateOfBirth.split('T')[0]
+                                : ''
                         }
                         setVal={(value) =>
                             setEditedData({ ...editedData, dateOfBirth: value })

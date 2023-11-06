@@ -7,14 +7,14 @@ const GatheringSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        maxLength: [60, 'El nombre de la asamblea no puede exceder 40 letras.'],
+        maxLength: [60, 'El nombre de la asamblea no puede exceder 60 letras.'],
     },
     meetingLink: {
         type: String,
     },
     meetingTime: {
         type: String,
-        maxLength: [20, 'El tiempo de la asamblea no puede exceder 20 letras.'],
+        maxLength: [20, 'El tiempo de la asamblea no puede exceder 30 letras.'],
     },
     moreInfo: {
         type: String,
@@ -26,6 +26,7 @@ const GatheringSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 31,
+        default: 1,
     },
     month: {
         type: Number,
@@ -50,6 +51,14 @@ GatheringSchema.pre('save', async function (next) {
     if (!this.title && this.date) {
         this.title = `Asamblea del ${this.date.toLocaleDateString('es-MX')}`;
     }
+
+    if (!this.year && this.date) {
+        this.year = this.date.getFullYear();
+    }
+    if (!this.month && this.date) {
+        this.year = this.date.getMonth();
+    }
+
     return next();
 });
 

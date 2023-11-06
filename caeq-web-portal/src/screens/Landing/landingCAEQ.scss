@@ -29,16 +29,22 @@
         font-weight: 700;
         line-height: normal;
         margin-bottom: 20px;
+        
         @media (max-width: 768px) {
             flex-direction: column;
             text-align: center;
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            margin-bottom: 20px;
         }
         /* Title CAEQ */
         .main {
             font-size: 50px;
             text-align: center;
             @media (max-width: 768px) {
-                font-size: large;
+                font-size:larger;
                 flex-direction: column;
                 text-align: center;
             }
@@ -49,7 +55,7 @@
             font-size: 25px;
             text-align: center;
             @media (max-width: 768px) {
-                font-size: small;
+                font-size: large;
                 flex-direction: column;
                 text-align: center;
             }
@@ -70,6 +76,7 @@
 
         .button {
             margin-top: 1rem;
+            width: 200px;
             @media (max-width: 768px) {
                 font-size: small;
             }

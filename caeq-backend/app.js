@@ -1,3 +1,4 @@
+const origin = require('./utils/domain.js');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -31,14 +32,12 @@ const aggregationsRouter = require('./routes/aggregations.route');
 const sessionRouter = require('./routes/session.route');
 const gatheringRouter = require('./routes/gathering.route');
 const attendeesRouter = require('./routes/attendees.route');
-const inscriptionRouter = require('./routes/inscription.route');
-const paymentRouter = require('./routes/payment.route');
 
 const app = express();
 
 app.enable('trust proxy');
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', origin);
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
@@ -46,7 +45,6 @@ app.use(function (req, res, next) {
     res.header('Cross-Origin-Resource-Policy', 'same-site');
     res.header('Cross-Origin-Resource-Policy', 'cross-origin');
     res.header('Cross-Origin-Embedder-Policy', 'credentialless');
-    //res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' *");
     res.header(
         'Content-Security-Policy',
         "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
@@ -120,15 +118,10 @@ app.use('/aggregations', aggregationsRouter);
 app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/attendees', attendeesRouter);
-app.use('/inscription', inscriptionRouter);
-app.use('/payment', paymentRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-    const error = new AppError(
-        `Can´t find ${req.originalUrl} on this server`,
-        404
-    );
+    const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
 
     next(error);
 });

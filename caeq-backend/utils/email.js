@@ -118,10 +118,7 @@ module.exports = class Email {
      */
     async sendAdminRejected() {
         // esto va a ser una pug template
-        await this.send(
-            'adminRejected',
-            'Hemos rechazado tu perfil de acceso.'
-        );
+        await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
     }
 
     /*
@@ -148,14 +145,7 @@ module.exports = class Email {
      */
     static async sendAnouncementToEveryone(users, subject, message, imageUrl) {
         const promises = users.map(async (user) => {
-            const email = new Email(
-                user,
-                '',
-                subject,
-                message,
-                imageUrl,
-                imageUrl
-            );
+            const email = new Email(user, '', subject, message, imageUrl, imageUrl);
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);

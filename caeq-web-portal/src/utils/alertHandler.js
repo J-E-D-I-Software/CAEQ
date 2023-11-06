@@ -75,3 +75,21 @@ export async function FireQuestion(
         cancelButtonText: rejectText,
     });
 }
+
+/**
+ * It's a function that returns a promise that resolves to a boolean value
+ * @param title - The title of the notification.
+ * @param icon - The icon of the notification.
+ * @param position - The position of the notification.
+ * @returns A promise.
+ */
+export async function FireNotification(title, icon = 'success', position = 'top-end') {
+    return MySwal.fire({
+        position: position,
+        icon: icon,
+        title: title,
+        showConfirmButton: false,
+        toast: true,
+        timer: 1000,
+    });
+}

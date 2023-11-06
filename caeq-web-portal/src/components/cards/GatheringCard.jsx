@@ -20,11 +20,13 @@ const GatheringCard = ({ data, ...props }) => {
 
     // Function to format the date to "dd/mm/yy"
     function formatDateToDdMmYy(dateString) {
-        const date = new Date(dateString);
-        const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-        return new Intl.DateTimeFormat('es-ES', options).format(date);
+        const [year, month, day] = dateString.split('-');
+
+        // Crea una fecha en UTC para evitar problemas de zona horaria
+        const date = new Date(Date.UTC(year, month - 1, day));
+
+        return date.toLocaleDateString('es-MX');
     }
-    
 
     return (
         <div className='gathering-card'>
@@ -56,7 +58,7 @@ const GatheringCard = ({ data, ...props }) => {
             <div className='gathering-card--row'>
                 <div className='gathering-card--row--icon'>
                     <img src={CalendarIcon} height={30} />
-                    <p>{data.date ? formatDateToDdMmYy(data.date) : 'No hay fecha'}</p>
+                    <p>{data.date ? data.date.substring(0, 10) : 'No hay fecha'}</p>
                 </div>
             </div>
             <div className='gathering-card--row'>
@@ -67,6 +69,22 @@ const GatheringCard = ({ data, ...props }) => {
                     </p>
                 </div>
             </div>
+            {data._id ? (
+                <div className='gathering-card--row--buttons'>
+                    <BaseButton
+                        type='primary'
+                        onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}>
+                        Asistencias
+                    </BaseButton>
+                    <BaseButton
+                        type='primary'
+                        onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
+                        Editar
+                    </BaseButton>
+                </div>
+            ) : (
+                <></>
+            )}
         </div>
     );
 };

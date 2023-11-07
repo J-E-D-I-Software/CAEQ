@@ -23,11 +23,15 @@ const limits = {
 const uploadImage = async (file, resource) => {
     let { originalname, buffer } = file;
 
+    //buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
     buffer = await sharp(buffer).toFormat('jpeg').jpeg({ quality: 90 }).toBuffer();
-
+    
     const timestamp = Date.now();
     const name = originalname.split('.')[0];
+    console.log('originalname', originalname)
+    console.log('name', name)
     const type = file.mimetype.split('/')[1];
+    console.log('type', type)
     const fileName = `${name}_${resource}_${timestamp}.${type}`;
 
     const imageRef = storage.child(fileName);
@@ -46,6 +50,7 @@ const uploadPDF = async (file, resource) => {
     const name = originalname.split('.')[0];
     const type = file.mimetype.split('/')[1];
     const fileName = `${name}_${resource}_${timestamp}.${type}`;
+    
     const pdfRef = storage.child(fileName);
 
     const snapshot = await pdfRef.put(buffer);
@@ -97,8 +102,13 @@ exports.formatMoreInfo = catchAsync(async (req, res, next) => {
 /* A middleware that is used to format the image before it is uploaded to the server. */
 exports.formatPaymentImage = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
+    console.log("controllador del archivo",req.file)
 
-    // FORMAT file
+    if(!req.file.mimetype.includes('pdf')) { 
+        console.log('es imagen')
+        req.body.billImageURL = await uploadImage(req.file, 'bill');
+        return next();
+    }    
     req.body.billImageURL = await uploadPDF(req.file, 'bill');
 
     next();

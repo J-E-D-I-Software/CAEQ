@@ -83,6 +83,13 @@ const caeqUserTestData = [
         passwordConfirm: 'password123',
         verified: false,
     },
+    {
+        fullName: 'Jorge Castro',
+        email: 'jcastro@tec.mx',
+        password: 'password123',
+        passwordConfirm: 'password123',
+        verified: false,
+    },
 ];
 
 module.exports = caeqUserTestData;

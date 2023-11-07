@@ -32,8 +32,8 @@ router
 
 // Rutas que requieren autenticación "caeq"
 router.use(restrictTo('caeq'));
-router.route('/acceptPayment').post(acceptPayment);
-router.route('/declinePayment').post(declinePayment);
+router.route('/acceptPayment').patch(acceptPayment);
+router.route('/declinePayment').patch(declinePayment);
 
 // Rutas que requieren autenticación "caeq"
 router.use(restrictTo('caeq'));

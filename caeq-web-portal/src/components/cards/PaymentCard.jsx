@@ -29,7 +29,7 @@ const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPa
             </div>
 
             <div className='payment-image'>
-                <img  src={containsPDF ? pdfPlaceholder : billimageURL}/>
+                <img  src={containsPDF ? pdfPlaceholder  : billimageURL}/>
             </div>
             
             <div className='payment-card-buttons'>

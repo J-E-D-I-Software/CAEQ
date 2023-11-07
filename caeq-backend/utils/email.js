@@ -6,7 +6,7 @@ const sgMail = require("@sendgrid/mail");
 // Read env variables and save them
 dotenv.config({ path: "../.env" });
 
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV === "test") {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
@@ -38,42 +38,43 @@ module.exports = class Email {
      * @returns {Promise} A promise that resolves when the email is sent.
      */
     async send(template, subject) {
-        // if (process.env.NODE_ENV !== 'test') {
-        //     return;
-        // }
+        try {
+            console.log("subject", subject);
+            console.log("URL de la imagen:", this.imageUrl);
+            const html = pug.renderFile(
+                `${__dirname}/../views/emails/${template}.pug`,
+                // The second argument will be an object of data that will populate the template
+                {
+                    firstName: this.firstName,
+                    url: this.url,
+                    subject,
+                    message: this.message,
+                    imageUrl: this.imageUrl,
+                }
+            );
 
-        console.log("subject", subject);
-        console.log("URL de la imagen:", this.imageUrl);
-        const html = pug.renderFile(
-            `${__dirname}/../views/emails/${template}.pug`,
-            // The second argument will be an object of data that will populate the template
-            {
-                firstName: this.firstName,
-                url: this.url,
+            // define email options
+            const mailOptions = {
+                from: this.from,
+                to: this.to,
                 subject,
-                message: this.message,
-                imageUrl: this.imageUrl,
-            }
-        );
+                html,
+                // npm i html-to-text
+                text: htmlToText(html, { wordwrap: 130 }),
+            };
 
-        // define email options
-        const mailOptions = {
-            from: this.from,
-            to: this.to,
-            subject,
-            html,
-            // npm i html-to-text
-            text: htmlToText(html, { wordwrap: 130 }),
-        };
-
-        return sgMail.send(mailOptions);
+            return await sgMail.send(mailOptions);
+        } catch (error) {
+            console.error(error);
+            throw new Error("Error sending email");
+        }
     }
 
     /**
      * Send a welcome email to the user.
      * @example
      * const user = {
-     *     email: 'pablocesarjimenezvilleda@gmail.com',
+     *     email: 'pablocesarjimenezvilleda@gmail.com', r   
      *     fullName: 'Pablo Jimenez',
      * };
      * const email = new Email(user, 'www.google.com')

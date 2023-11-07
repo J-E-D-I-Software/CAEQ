@@ -4,6 +4,7 @@ const Course = require('../models/course.model');
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');
+const { getCourse } = require('./course.controller');
 
 exports.getAllInscriptions = factory.getAll(Inscription, [
     { path: 'user', select: 'email fullName' }, // You can select the user fields you need
@@ -68,18 +69,15 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         course: courseId,
         user: req.user._id,
     });
+    console.log('cuso', course)
 
-   /* try {
-        await new Email(
-            req.user,
-            process.env.LANDING_URL,
-            course
-        ).sendInscriptionAlert();
+   try {
+        await new Email(req.user).sendWelcomeAdmin();
     } catch (error) {
         return next(
             new AppError('Hemos tenido problemas enviando un correo de confirmación.', 500)
         );
-    }*/
+    }
 
     res.status(200).json({
         status: 'success',

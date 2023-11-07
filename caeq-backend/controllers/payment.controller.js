@@ -90,6 +90,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
 
 exports.acceptPayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
+    console.log('controller Payment',req.body)
 
     // Check if payment exists
     let payment = await Payment.findById(paymentId).populate(['user', 'course']);

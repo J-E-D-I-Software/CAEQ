@@ -4,7 +4,7 @@ import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 import PaymentCard from '../../components/cards/PaymentCard';
 
-import { patchAcceptAdmin, patchRejectAdmin } from '../../client/CaeqUser/CaeqUser.PATCH';
+import { patchAcceptPayment, patchRejectPaymenet } from '../../client/Payment/Payment.PATCH';
 import {
     FireError,
     FireSucess,
@@ -57,7 +57,7 @@ const AcceptAdmin = () => {
             }
 
             const swal = FireLoading('Aceptando pago...');
-            //const response = await patchAcceptAdmin(id);
+            const response = await patchAcceptPayment(id);
 
             setPayments(payments.filter((payment) => payment._id !== id));
 
@@ -67,7 +67,7 @@ const AcceptAdmin = () => {
             FireError(error.response.data.message);
             if (
                 error.response.data.message ===
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.'
+                'Hemos tenido problemas enviando un correo de verificacion.'
             ) {
                 setPayments(payments.filter((payment) => payment._id !== id));
             }

@@ -23,6 +23,7 @@ import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 import Services from './screens/Services/Services';
+import A_Services from './screens/Arch_Services/A_Services';
 import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
@@ -197,9 +198,20 @@ const routes = [
         Component: Services,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq'],
     },
     {
-        path: 'Servicios/CrearSalon',
+        path: '/ServiciosA',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: A_Services,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['architect'],
+    },
+    {
+        path: '/Servicios/CrearSalon',
         name: 'Crear oferta de salón',
         icon: ServicesIcon,
         iconWhite: ServicesIconWhite,

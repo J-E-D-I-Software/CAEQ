@@ -23,7 +23,7 @@ import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 import Services from './screens/Services/Services';
-import A_Services from './screens/Arch_Services/A_Services';
+import AServices from './screens/Arch_Services/AServices';
 import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
@@ -205,7 +205,7 @@ const routes = [
         name: 'Servicios',
         icon: ServicesIcon,
         iconWhite: ServicesIconWhite,
-        Component: A_Services,
+        Component: AServices,
         isPrivate: true,
         inNavbar: true,
         roles: ['architect'],

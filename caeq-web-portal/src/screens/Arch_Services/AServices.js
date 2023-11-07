@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getAllRooms } from "../../client/Services/Services.GET";
 import { FireError, FireLoading } from "../../utils/alertHandler";
 
-const Services = () => {
+const AServices = () => {
     const [rooms, setRooms] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
     const [orderBy, setOrderBy] = useState('');
@@ -105,4 +105,4 @@ const Services = () => {
     );
 };
 
-export default Services;
+export default AServices;

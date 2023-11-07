@@ -27,7 +27,6 @@ const ArchitectDetail = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
-
     const [updateHours, setUpdateHours] = useState(false);
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
@@ -100,10 +99,15 @@ const ArchitectDetail = (props) => {
             (async () => {
                 try {
                     const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(architectId);
+                    const attendances = await getAttendancesByArchitect(
+                        architectId
+                    );
                     setAttendances(attendances);
                 } catch (error) {
-                    console.error('Error al obtener asistencias por arquitecto', error);
+                    console.error(
+                        'Error al obtener asistencias por arquitecto',
+                        error
+                    );
                 }
             })();
         }
@@ -230,8 +234,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
-                    en guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz
+                    clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>

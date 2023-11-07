@@ -7,7 +7,7 @@ const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
  * It makes a GET request to the endpoint `/courses` and returns the response data.
  * @returns An array of objects.
  */
-export async function getAllCourses(page = 1, filtersParams = '') {
+export async function getAllCourses(page=1, filtersParams='') {
     let endpoint = `${baseApiEndpoint}/courses?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
 
     const response = await axios.get(endpoint);

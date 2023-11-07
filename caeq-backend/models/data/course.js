@@ -17,7 +17,7 @@ const courseData = [
         capacity: 10,
         teacherName: "Juan Ernesto Cevilla",
         teacherReview: "Excelente profesor. Siempre atento a los alumnos y responde las preguntas de forma comleta y asertiva.",
-        paymentInfo: "",
+        paymentInfo: "Banco - Multiva | Cuenta - 00007059493 | Clabe - 132180000070594936",
         imageUrl: "https://caeq.org/wp-content/uploads/2023/08/MAMPOSTERIA-ESTRUCTURAL_Mesa-de-trabajo-1.png",
     },
     {
@@ -59,7 +59,7 @@ const courseData = [
         capacity: 10,
         teacherName: "Juan Ernesto Cevilla",
         teacherReview: "Excelente profesor. Siempre atento a los alumnos y responde las preguntas de forma comleta y asertiva.",
-        paymentInfo: "",
+        paymentInfo: "Banco - Multiva | Cuenta - 00007059493 | Clabe - 132180000070594936",
         imageUrl: "https://caeq.org/wp-content/uploads/2023/09/EXCEL-INTERMEDIO-AVANZADO_Mesa-de-trabajo-1.png",
     },
 ];

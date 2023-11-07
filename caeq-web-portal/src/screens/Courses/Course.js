@@ -69,6 +69,10 @@ const Course = (props) => {
                 'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá  automaticamente'
             );
 
+            if(!confirmation.isConfirmed) {
+                return
+            }
+
             if (!paymentFile) {
                 FireError('Por favor, selecciona un archivo de comprobante de pago.');
                 return;
@@ -209,7 +213,7 @@ const Course = (props) => {
                                     type="primary"
                                     onClick={(e) => handlePaymentStart(e)}
                                 >
-                                    Iniciar Pago
+                                    Iniciar Proceso de Inscripción
                                 </BaseButton>
                             </>
                         )}

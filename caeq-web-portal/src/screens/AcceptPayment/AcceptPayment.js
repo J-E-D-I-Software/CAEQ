@@ -33,6 +33,7 @@ const AcceptAdmin = () => {
         (async () => {
             try {
                 const payments = await getAllPayments();
+                console.log("payment",payments)
                 setPayments(payments);
             } catch (error) {
                 FireError(error.response.data.message);
@@ -139,7 +140,7 @@ const AcceptAdmin = () => {
                     fullName={payment.user.fullName}
                     userId={payment.user._id}
                     courseName={payment.course.courseName}
-                    invoice={payment.wantsInvoice}
+                    invoice={formatBooleanValue(payment.wantsInvoice)}
                     priceToPay={payment.course.price}
                     teacherName={payment.course.teacherName}
                     billimageURL={payment.billImageURL}

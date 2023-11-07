@@ -9,8 +9,6 @@ import './roomCard.scss';
 const RoomCard = ({showMoreBtn=true, ...props}) => {
     const navigate = useNavigate();
 
-console.log(props.specifications);
-
     return (
         <div className='room-card'>
             <div className='card-col-1'>

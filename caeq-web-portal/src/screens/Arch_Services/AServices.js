@@ -7,9 +7,6 @@ import PaginationNav from "../../components/pagination/PaginationNav";
 import { useEffect, useState } from "react";
 import { getAllRooms } from "../../client/Services/Services.GET";
 import { FireError, FireLoading } from "../../utils/alertHandler";
-import axios from "axios";
-import baseApiEndpoint from "../../client/backendConfig";
-import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 const Services = () => {
     const [rooms, setRooms] = useState([]);
@@ -64,12 +61,12 @@ const Services = () => {
     };
 
     return (
-        <div className="services">
-            <div className="services-title">
+        <div className='services'>
+            <div className='services-title'>
                 <h1>Servicios CAEQ</h1>
             </div>
-            <div className="services-content">
-                <div className="services-subtitle">
+            <div className='services-content'>
+                <div className='services-subtitle'>
                     <h1>Renta de salones</h1>
                 </div>
                 <div>
@@ -82,20 +79,20 @@ const Services = () => {
                 </div>
             </div>
             
-            <div className="services-cards">
+            <div className='services-cards'>
                 {rooms.map((room, i) => (
                     <RoomCard key={i} {...room} />
                 ))}
             </div>
-            <div className="services-pagination">
+            <div className='services-pagination'>
                 <PaginationNav 
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
                     page={paginationPage} 
                 />
             </div>
-            <div className="services-content">
-                <div className="services-subtitle">
+            <div className='services-content'>
+                <div className='services-subtitle'>
                     <h1>Tabulador de Bitácoras</h1>
                 </div>
                 <div className='services-row'>

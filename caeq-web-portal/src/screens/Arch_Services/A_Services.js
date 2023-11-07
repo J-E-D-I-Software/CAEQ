@@ -6,7 +6,9 @@ import '../Services/Services.scss';
 import PaginationNav from "../../components/pagination/PaginationNav";
 import { useEffect, useState } from "react";
 import { getAllRooms } from "../../client/Services/Services.GET";
-import { FireError } from "../../utils/alertHandler";
+import { FireError, FireLoading } from "../../utils/alertHandler";
+import axios from "axios";
+import baseApiEndpoint from "../../client/backendConfig";
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 const Services = () => {
@@ -56,6 +58,11 @@ const Services = () => {
         setPaginationPage(paginationPage + 1);
     };
 
+    const handleDownload = () => {
+        const swal = FireLoading('Descargando tabulador de Excel...');
+        window.open(`https://firebasestorage.googleapis.com/v0/b/caeq-system.appspot.com/o/TABULADOR-COSTO-BITACORAS.xlsx?alt=media&token=37f9e07b-3077-477f-8acd-7b407345f7c8`, '_blank');
+    };
+
     return (
         <div className="services">
             <div className="services-title">
@@ -86,6 +93,16 @@ const Services = () => {
                     onClickAfter={handleNextPage}
                     page={paginationPage} 
                 />
+            </div>
+            <div className="services-content">
+                <div className="services-subtitle">
+                    <h1>Tabulador de Bitácoras</h1>
+                </div>
+                <div className='services-row'>
+                <BaseButton type='primary' onClick={handleDownload}>
+                    Descargar Tabulador
+                </BaseButton>
+            </div>
             </div>
         </div>
     );

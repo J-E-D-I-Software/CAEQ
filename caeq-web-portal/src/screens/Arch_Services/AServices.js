@@ -79,6 +79,9 @@ const AServices = () => {
                 <div className='services-subtitle'>
                     <h1>Renta de salones</h1>
                 </div>
+                <div className='services-message'>
+                    <p>Para mayores informes o reservar un espacio, favor de comunicarse al CAEQ.</p>
+                </div>
                 <div>
                     <DropdownInput
                         getVal={orderBy}

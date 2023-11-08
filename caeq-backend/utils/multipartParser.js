@@ -93,10 +93,6 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                         body[key] = req.body[key];
                     }
                 });
-                Object.keys(body).map((key) => {
-                    console.log(`${key}: ${body[key]}`);
-                });
-
                 req.body = body;
                 next();
             });

@@ -16,6 +16,7 @@ import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/Direct
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
+import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -23,7 +24,7 @@ import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
 import Services from './screens/Services/Services';
-import A_Services from './screens/Arch_Services/A_Services';
+import A_Services from './screens/Arch_Services/AServices.js';
 import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
@@ -318,6 +319,14 @@ const routes = [
         Component: LandingCAEQ,
         isPrivate: false,
         inNavbar: false,
+    },
+    {
+        path: '/AcceptPayment',
+        name: 'Pagos por aceptar',
+        Component: AcceptPayment,
+        isPrivate: true,
+        inNavbar: false,
+        roles:['caeq']
     },
     {
         path: '/Directorio-Publico',

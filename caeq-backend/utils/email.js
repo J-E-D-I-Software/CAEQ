@@ -6,9 +6,9 @@ const sgMail = require('@sendgrid/mail');
 // Read env variables and save them
 dotenv.config({ path: '../.env' });
 
-if (process.env.NODE_ENV !== 'test') {
+//if (process.env.NODE_ENV !== 'test') {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-}
+//}
 
 /* Create a class called Email.*/
 module.exports = class Email {
@@ -107,10 +107,11 @@ module.exports = class Email {
      */
     async sendAdminAccepted() {
         // esto va a ser una pug template
-        await this.send(
+        const response = await this.send(
             'adminAccepted',
             'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
         );
+        console.log('response email.js', response);
     }
 
     /**

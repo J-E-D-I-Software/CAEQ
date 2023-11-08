@@ -92,4 +92,27 @@ export async function FireNotification(title, icon = 'success', position = 'top-
         toast: true,
         timer: 1000,
     });
+
+    
+}
+
+export async function FireQuestionInput(
+    question,
+    warning,
+    confirmText = 'Acepto',
+    rejectText = 'Cancelar'
+) {
+    let kaka = null;
+    return kaka = MySwal.fire({
+        title: question,
+        text: warning,
+        icon: 'info',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonColor: '#EEA300',
+        cancelButtonColor: '#AB3428',
+        confirmButtonText: confirmText,
+        cancelButtonText: rejectText,             
+    }).getInput();
+
 }

@@ -169,13 +169,13 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
 
     // Uncomment after emails after payed
     // // Send welcome email
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);

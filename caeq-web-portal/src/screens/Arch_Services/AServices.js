@@ -67,6 +67,16 @@ const AServices = () => {
             </div>
             <div className='services-content'>
                 <div className='services-subtitle'>
+                    <h1>Tabulador de Bitácoras</h1>
+                </div>
+                <div className='services-row'>
+                <BaseButton type='primary' onClick={handleDownload}>
+                    Descargar Tabulador
+                </BaseButton>
+            </div>
+            </div>
+            <div className='services-content'>
+                <div className='services-subtitle'>
                     <h1>Renta de salones</h1>
                 </div>
                 <div>
@@ -90,16 +100,6 @@ const AServices = () => {
                     onClickAfter={handleNextPage}
                     page={paginationPage} 
                 />
-            </div>
-            <div className='services-content'>
-                <div className='services-subtitle'>
-                    <h1>Tabulador de Bitácoras</h1>
-                </div>
-                <div className='services-row'>
-                <BaseButton type='primary' onClick={handleDownload}>
-                    Descargar Tabulador
-                </BaseButton>
-            </div>
             </div>
         </div>
     );

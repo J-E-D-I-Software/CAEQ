@@ -16,9 +16,8 @@ const AttendeesData = require('./data/attendee.js');
 const Gathering = require('./gathering.model');
 const GatheringData = require('./data/gathering.js');
 const Inscription = require('./inscription.model');
-const Services = require('./roomOffer.model.js')
+const Services = require('./roomOffer.model.js');
 const ServicesData = require('./data/services.js');
-
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -53,11 +52,18 @@ const setUpArchitectUserData = catchAsync(async () => {
  */
 const setUpSessionData = catchAsync(async () => {
     const courses = await Course.find();
-    const user1 = await ArchitectUser.findOne({ email: 'relisib653@mugadget.com' });
-    const user2 = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
+    const user1 = await ArchitectUser.findOne({
+        email: 'relisib653@mugadget.com',
+    });
+    const user2 = await ArchitectUser.findOne({
+        email: 'rigigit647@soebing.com',
+    });
 
     // Add attendees to sessions
     SessionsData[0].attendees = [user1._id, user2._id];
+    SessionsData[1].attendees = [user1._id, user2._id];
+    SessionsData[2].attendees = [user1._id, user2._id];
+    SessionsData[3].attendees = [user1._id];
 
     SessionsData[0].course = courses[0]._id;
     SessionsData[1].course = courses[0]._id;
@@ -66,13 +72,13 @@ const setUpSessionData = catchAsync(async () => {
     SessionsData[4].course = courses[1]._id;
     SessionsData[5].course = courses[1]._id;
     SessionsData[6].course = courses[2]._id;
-    
+
     await populateDb(Session, SessionsData);
 });
 
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
-    const architect = await ArchitectUser.find()
+    const architect = await ArchitectUser.find();
     //  console.log(architect[1].fullName)
     //  console.log(architect[1]._id)
     AttendeesData[0].idGathering = gatherings[0]._id;
@@ -92,7 +98,7 @@ const setUpAttendeesData = catchAsync(async () => {
     AttendeesData[5].idArchitect = architect[1]._id;
     AttendeesData[6].idArchitect = architect[1]._id;
     AttendeesData[7].idArchitect = architect[2]._id;
-    
+
     await populateDb(Attendees, AttendeesData);
     //console.log(AttendeesData)
 });
@@ -119,27 +125,33 @@ const setUpGatheringData = catchAsync(async () => {
     await populateDb(Gathering, GatheringData);
 });
 
- const setUpServicesData = catchAsync(async () => {
+const setUpServicesData = catchAsync(async () => {
     await populateDb(Services, ServicesData);
 });
 
 /**
  * Set up 'Inscription' data by populating the database with the provided test data.
- * 
+ *
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
  */
 const setUpInsciptionData = catchAsync(async () => {
-    const course = await Course.findOne({ courseName: 'Mampostería industrial' });
-    const user1 = await ArchitectUser.findOne({ email: 'relisib653@mugadget.com' });
-    const user2 = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
+    const course = await Course.findOne({
+        courseName: 'Mampostería industrial',
+    });
+    const user1 = await ArchitectUser.findOne({
+        email: 'relisib653@mugadget.com',
+    });
+    const user2 = await ArchitectUser.findOne({
+        email: 'rigigit647@soebing.com',
+    });
     const inscriptionData = [
         {
             course: course._id,
-            user: user1._id
+            user: user1._id,
         },
         {
             course: course._id,
-            user: user2._id
+            user: user2._id,
         },
     ];
     await populateDb(Inscription, inscriptionData);

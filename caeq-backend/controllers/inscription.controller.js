@@ -1,6 +1,7 @@
 const factory = require('./handlerFactory.controller');
 const Inscription = require('../models/inscription.model');
 const Course = require('../models/course.model');
+const Session = require('../models/session.model');
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');

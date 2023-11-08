@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getAllRooms } from "../../client/Services/Services.GET";
 import { FireError, FireLoading } from "../../utils/alertHandler";
 
-const Services = () => {
+const AServices = () => {
     const [rooms, setRooms] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
     const [orderBy, setOrderBy] = useState('');
@@ -67,7 +67,20 @@ const Services = () => {
             </div>
             <div className='services-content'>
                 <div className='services-subtitle'>
+                    <h1>Tabulador de Bitácoras</h1>
+                </div>
+                <div className='services-row'>
+                <BaseButton type='primary' onClick={handleDownload}>
+                    Descargar Tabulador
+                </BaseButton>
+            </div>
+            </div>
+            <div className='services-content'>
+                <div className='services-subtitle'>
                     <h1>Renta de salones</h1>
+                </div>
+                <div className='services-message'>
+                    <p>Para mayores informes o reservar un espacio, favor de comunicarse al CAEQ.</p>
                 </div>
                 <div>
                     <DropdownInput
@@ -91,18 +104,8 @@ const Services = () => {
                     page={paginationPage} 
                 />
             </div>
-            <div className='services-content'>
-                <div className='services-subtitle'>
-                    <h1>Tabulador de Bitácoras</h1>
-                </div>
-                <div className='services-row'>
-                <BaseButton type='primary' onClick={handleDownload}>
-                    Descargar Tabulador
-                </BaseButton>
-            </div>
-            </div>
         </div>
     );
 };
 
-export default Services;
+export default AServices;

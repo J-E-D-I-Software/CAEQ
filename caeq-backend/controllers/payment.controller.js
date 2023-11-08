@@ -21,6 +21,7 @@ exports.createPayment = factory.createOne(Payment);
  */
 exports.startPayment = catchAsync(async (req, res, next) => {
     const course = await Course.findById(req.body.courseId);
+    console.log(course);
     if (!course) {
         return next(new AppError('No se encontró ningún curso con esta clave.', 404));
     }

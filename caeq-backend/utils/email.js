@@ -151,4 +151,8 @@ module.exports = class Email {
         });
         await Promise.all(promises);
     }
+
+    static async send(){
+        
+    }
 };

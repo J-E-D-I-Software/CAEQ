@@ -19,7 +19,6 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     {
                         length: req.headers['content-length'],
                         limit: '30mb',
-                        encoding: contentType.parse(req).parameters.charset,
                     },
                     rawBodyOptions
                 ),

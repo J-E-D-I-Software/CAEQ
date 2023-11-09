@@ -138,19 +138,19 @@ const Signup = () => {
         form.append('professionalLicense', professionalLicense);
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil', positionsInCouncil);
-        form.append('file', linkINE);
+        form.append('linkINE', linkINE);
+        form.append('passwordConfirm', passwordConfirm);
+        form.append('password', password);
         const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
         form.append('authorizationToShareInfo', isAuthorized);
-        form.append('password', password);
-        form.append('passwordConfirm', passwordConfirm);
 
-        if (linkCAEQCard) form.append('file', linkCAEQCard);
-        if (linkCV) form.append('file', linkCV);
-        if (linkCURP) form.append('file', linkCURP);
-        if (linkProfesisonalLicense) form.append('file', linkProfesisonalLicense);
-        if (linkBachelorsDegree) form.append('file', linkBachelorsDegree);
-        if (linkAddressCertificate) form.append('file', linkAddressCertificate);
-        if (linkBirthCertificate) form.append('file', linkBirthCertificate);
+        if (linkCAEQCard) form.append('linkCAEQCard', linkCAEQCard);
+        if (linkCV) form.append('linkCV', linkCV);
+        if (linkCURP) form.append('linkCURP', linkCURP);
+        if (linkProfesisonalLicense) form.append('linkProfesisonalLicense', linkProfesisonalLicense);
+        if (linkBachelorsDegree) form.append('linkBachelorsDegree', linkBachelorsDegree);
+        if (linkAddressCertificate) form.append('linkAddressCertificate', linkAddressCertificate);
+        if (linkBirthCertificate) form.append('linkBirthCertificate', linkBirthCertificate);
 
         const swal = FireLoading('Registrando arquitecto...');
 
@@ -188,7 +188,7 @@ const Signup = () => {
             FireError(message);
             return;
         }
-        
+
         swal.close();
         FireSucess('Te has registrado con éxito');
         navigate('/Principal');

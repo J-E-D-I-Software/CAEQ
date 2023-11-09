@@ -60,6 +60,7 @@ const Signup = () => {
     const [positionsInCouncil, setPositionsInCouncil] = useState('2023-10-10');
     const [linkCV, setLinkCV] = useState('');
     const [linkINE, setLinkINE] = useState('');
+    const [linkCAEQCard, setLinkCAEQCard] = useState('');
     const [linkCURP, setLinkCURP] = useState('');
     const [linkProfesisonalLicense, setLinkProfesisonalLicense] = useState('');
     const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
@@ -381,46 +382,52 @@ const Signup = () => {
                             />
                             <FileInput
                                 require
-                                label='Suba una foto de su INE'
+                                label='Adjuntar foto del INE (frente y reverso)'
                                 getVal={linkINE}
                                 setVal={setLinkINE}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba su curriculum'
+                                label='Adjuntar Credencial CAEQ'
+                                getVal={linkCAEQCard}
+                                setVal={setLinkCAEQCard}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Currículum Vitae'
                                 getVal={linkCV}
                                 setVal={setLinkCV}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba su CURP'
+                                label='Adjuntar CURP'
                                 getVal={linkCURP}
                                 setVal={setLinkCURP}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba su Cédula Profesional'
+                                label='Adjuntar Cédula Profesional'
                                 getVal={linkProfesisonalLicense}
                                 setVal={setLinkProfesisonalLicense}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba su título profesional'
+                                label='Adjuntar Título Profesional'
                                 getVal={linkBachelorsDegree}
                                 setVal={setLinkBachelorsDegree}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba un comprobante de domicilio no mayor a 3 meses'
+                                label='Adjuntar comprobante de domicilio (no mayor a 3 meses)'
                                 getVal={linkAddressCertificate}
                                 setVal={setLinkAddressCertificate}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Suba su Acta de Nacimiento'
+                                label='Adjuntar Acta de Nacimiento'
                                 getVal={linkBirthCertificate}
                                 setVal={setLinkBirthCertificate}
-                                accept="image/*,application/pdf"
+                                accept='image/*,application/pdf'
                             />
                             <DropdownInput
                                 label='¿Autoriza compartir su información?'

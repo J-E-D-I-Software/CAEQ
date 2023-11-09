@@ -144,14 +144,6 @@ const Signup = () => {
         const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
         form.append('authorizationToShareInfo', isAuthorized);
 
-        if (linkCAEQCard) form.append('linkCAEQCard', linkCAEQCard);
-        if (linkCV) form.append('linkCV', linkCV);
-        if (linkCURP) form.append('linkCURP', linkCURP);
-        if (linkProfesisonalLicense) form.append('linkProfesisonalLicense', linkProfesisonalLicense);
-        if (linkBachelorsDegree) form.append('linkBachelorsDegree', linkBachelorsDegree);
-        if (linkAddressCertificate) form.append('linkAddressCertificate', linkAddressCertificate);
-        if (linkBirthCertificate) form.append('linkBirthCertificate', linkBirthCertificate);
-
         const swal = FireLoading('Registrando arquitecto...');
 
         // Check if user exists
@@ -187,6 +179,32 @@ const Signup = () => {
                             'Error al crear usuario';
             FireError(message);
             return;
+        }
+
+        // Post files
+        const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
+            linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
+        const errors = [];
+        for (let i = 0; i < filesToUpload.length; i++) {
+            const file = filesToUpload[i];
+            if (file) {
+                const formFile = new FormData();
+                formFile.append('file', file);
+                try {
+                    const response = await updateArchitectUserByID(user._id, formFile);
+                    if (response.status !== 'success')
+                        throw new Error('Error al subir archivo');
+                } catch (error) {
+                    console.error(error);
+                    errors.push(file.name);
+                }
+            }
+        }
+
+        if (errors.length > 0) {
+        FireError('Su cuenta se ha creado. Sin embargo, ' +
+        `ocurrió un error al subir los siguientes archivos:\n${errors.join(', ')}`);
+        return;
         }
 
         swal.close();

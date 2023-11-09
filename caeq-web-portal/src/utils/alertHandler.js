@@ -93,3 +93,44 @@ export async function FireNotification(title, icon = 'success', position = 'top-
         timer: 1000,
     });
 }
+
+
+/**
+ * Displays a question input modal dialog using SweetAlert2 library.
+ * @async
+ * @param {string} question - The question to display in the modal dialog.
+ * @param {string} warning - The warning message to display in the modal dialog.
+ * @param {string} [confirmText='Acepto'] - The text to display on the confirm button.
+ * @param {string} [rejectText='Cancelar'] - The text to display on the reject button.
+ * @returns {Promise<SweetAlertResult>} A promise that resolves with the result of the modal dialog.
+ * @throws {Error} If SweetAlert2 library is not available.
+ * @example
+ * const result = await FireQuestionInput('Are you sure?', 'This action cannot be undone.');
+ * if (result.isConfirmed) {
+ *   // User clicked the confirm button
+ * } else {
+ *   // User clicked the reject button or closed the modal dialog
+ * }
+ */
+export async function FireQuestionInput(
+    question,
+    warning,
+    confirmText = 'Acepto',
+    rejectText = 'Cancelar'
+) {
+    let alert = null;
+    return alert = MySwal.fire({
+        title: question,
+        text: warning,
+        icon: 'info',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonColor: '#EEA300',
+        cancelButtonColor: '#AB3428',
+        confirmButtonText: confirmText,
+        cancelButtonText: rejectText,             
+    }).getInput();
+
+}
+
+

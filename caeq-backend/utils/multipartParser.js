@@ -18,7 +18,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 Object.assign(
                     {
                         length: req.headers['content-length'],
-                        limit: '10mb',
+                        limit: '50mb',
                         encoding: contentType.parse(req).parameters.charset,
                     },
                     rawBodyOptions
@@ -31,7 +31,6 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     }
                 }
             );
-            console.log('FILE PARSER');
         } else {
             next();
         }
@@ -67,7 +66,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 } else req.body[fieldname] = value;
             });
 
-            busboy.on('file', (fieldname, file, filename, encodign, mimetype) => {
+            busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
                 let fileBuffer = Buffer.from('');
                 file.on('data', (data) => {
                     fileBuffer = Buffer.concat([fileBuffer, data]);
@@ -76,7 +75,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     req.files.push({
                         fieldname,
                         originalname: filename,
-                        encodign,
+                        encoding,
                         mimetype,
                         buffer: fileBuffer,
                     })

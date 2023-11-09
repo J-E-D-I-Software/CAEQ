@@ -105,12 +105,15 @@ const Signup = () => {
     }, []);
 
     const handleSignup = async (e) => {
+        e.preventDefault();
+
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
             FireError('Por favor ingresa un correo electrónico válido.');
             return;
         }
+
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -140,7 +143,14 @@ const Signup = () => {
         form.append('authorizationToShareInfo', isAuthorized);
         form.append('password', password);
         form.append('passwordConfirm', passwordConfirm);
-        e.preventDefault();
+
+        if (linkCAEQCard) form.append('file', linkCAEQCard);
+        if (linkCV) form.append('file', linkCV);
+        if (linkCURP) form.append('file', linkCURP);
+        if (linkProfesisonalLicense) form.append('file', linkProfesisonalLicense);
+        if (linkBachelorsDegree) form.append('file', linkBachelorsDegree);
+        if (linkAddressCertificate) form.append('file', linkAddressCertificate);
+        if (linkBirthCertificate) form.append('file', linkBirthCertificate);
 
         const swal = FireLoading('Registrando arquitecto...');
 
@@ -177,7 +187,7 @@ const Signup = () => {
         }
 
         // Post files
-        const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
+       /*  const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
                                 linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
         const errors = [];
         for (let i = 0; i < filesToUpload.length; i++) {
@@ -200,7 +210,7 @@ const Signup = () => {
             FireError('Su cuenta se ha creado. Sin embargo, ' +
             `ocurrió un error al subir los siguientes archivos:\n${errors.join(', ')}`);
             return;
-        }
+        } */
             
         swal.close();
         FireSucess('Te has registrado con éxito');

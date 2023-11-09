@@ -30,22 +30,34 @@ exports.calculateAccreditedInscription = catchAsync(async (req, res, next) => {
         });
     }
 
-    const updatePromises = inscriptions.map((inscription) => {
+    const updatedInscriptions = inscriptions.map((inscription) => {
         if (
             attendants[inscription.user] &&
             attendants[inscription.user] >= minSessionAttendance
         ) {
             inscription.accredited = true;
+        } else {
+            inscription.accredited = false;
         }
 
         return inscription.save();
     });
 
-    await Promise.all(updatePromises);
+    await Promise.all(updatedInscriptions);
+
+    const accreditedInscriptions = await Inscription.find({
+        course: req.params.id,
+    }).populate([
+        { path: 'user', select: 'email fullName collegiateNumber' }, // You can select the user fields you need
+        {
+            path: 'course',
+            select: 'courseName teachers modality description topics',
+        }, // Include fields from the course model
+    ]);
 
     res.status(200).json({
         status: 'success',
-        results: inscriptions.length,
-        data: { document: inscriptions },
+        results: accreditedInscriptions.length,
+        data: { documents: accreditedInscriptions },
     });
 });

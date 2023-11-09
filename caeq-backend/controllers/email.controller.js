@@ -26,3 +26,20 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
         message: "Correo enviado a todos los usuarios.",
     });
 });
+
+exports.sendPaymentAcceptedAlert = catchAsync(async (req, res, next) => {
+    console.log('soyese', req.body)
+    const { user, course} = req.body;
+
+    try {
+        const response = await Email.sendPaymentAcceptedAlert(user, course)
+    } catch (error) {
+        console.log('error email controller', error)
+        return next(new AppError('Hubo un problema al enviar el correo.'))
+    }
+    
+    res.status(200).json({
+        status: 'success',
+        message: 'Correo enviado con éxito.'
+    });
+});

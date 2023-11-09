@@ -6,9 +6,9 @@ const sgMail = require('@sendgrid/mail');
 // Read env variables and save them
 dotenv.config({ path: '../.env' });
 
-if (process.env.NODE_ENV !== 'test') {
+//if (process.env.NODE_ENV !== 'test') {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-}
+//}
 
 /* Create a class called Email.*/
 module.exports = class Email {
@@ -21,7 +21,7 @@ module.exports = class Email {
      * @param {string} [message=''] - The message body of the email.
      * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
-    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
+    constructor(user, url = '', subject = '', message = '', imageUrl = '', course = null) {
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
         this.url = url;
@@ -29,6 +29,12 @@ module.exports = class Email {
         this.message = message;
         this.imageUrl = imageUrl;
         this.from = { email: process.env.MAIL_USERNAME };
+        
+        //Course Info
+        this.courseName = course.courseName;
+        this.courseTeacher = course.teacherName;
+        this.courseDescription = course.description;
+        this.courseImageUrl = course.imageUrl
     }
 
     /**
@@ -149,5 +155,10 @@ module.exports = class Email {
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);
+    }
+
+    static async sendPaymentAcceptedAlert(user, course){
+        const email = new Email(user,'','','','',course);
+        return email.send('InscriptionAlert','¡Su inscripción ha sido confirmada!') 
     }
 };

@@ -113,21 +113,17 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
         course: payment.course,
         user: payment.user,
     });
-    /*
+    
     try {
         // Send payment accepted confirmation email
-        await new Email(
-            payment.user,
-            '',
-            payment.course
-        ).sendPaymentAcceptedAlert();
+        await new Email.sendPaymentAcceptedAlert(payment.user, payment.cours);
 
         // Send inscription confirmation email
-        await new Email(
-            payment.user,
-            process.env.LANDING_URL,
-            payment.course
-        ).sendInscriptonAlert();
+        // await new Email(
+        //     payment.user,
+        //     process.env.LANDING_URL,
+        //     payment.course
+        // ).sendInscriptonAlert();
     } catch (error) {
         return next(
             new AppError(
@@ -135,7 +131,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }*/
+    }
 
     res.status(200).json({
         status: 'success',

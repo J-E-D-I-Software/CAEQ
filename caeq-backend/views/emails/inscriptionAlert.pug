@@ -1,9 +1,11 @@
 extends baseEmail
 
 block content
-  p Hola #{firstName},
-  p Hemos confirmado tu inscripción al curso: #{course.courseName}.
-  p #{course.description}
+  p Hola Arq. #{firstName},
+  p Se confirmó su pago y ha sido inscrito al curso:
+  p #{courseName}.
+  p Descripción del curso: 
+  p #{courseDescription}
   table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
     tbody
       tr
@@ -12,5 +14,5 @@ block content
             tbody
               tr
                 td
-                  img(src=`${course.imageUrl}`, style='width:100%')
-  p ¡Esperamos que este curso sea de tu agrado y aprendas mucho en él!
+                  img(src=`${courseImageUrl}`, style='width:100%')
+  p ¡Esperamos que este curso sea de su agrado y aprenda mucho en el!

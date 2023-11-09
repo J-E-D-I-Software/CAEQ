@@ -182,36 +182,13 @@ const Signup = () => {
                 setArchitectUserSaved(response.data.user);
             }
         } catch (error) {
-            FireError(error.response.data.message);
+            const message = error.response.data.message || 
+                            error.response.data.error || 
+                            'Error al crear usuario';
+            FireError(message);
             return;
         }
-
-        // Post files
-       /*  const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
-                                linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
-        const errors = [];
-        for (let i = 0; i < filesToUpload.length; i++) {
-            const file = filesToUpload[i];
-            if (file) {
-                const formFile = new FormData();
-                formFile.append('file', file);
-                try {
-                    const response = await updateArchitectUserByID(user._id, formFile);
-                    if (response.status !== 'success')
-                        throw new Error('Error al subir archivo');
-                } catch (error) {
-                    console.error(error);
-                    errors.push(file.name);
-                }
-            }
-        }
-
-        if (errors.length > 0) {
-            FireError('Su cuenta se ha creado. Sin embargo, ' +
-            `ocurrió un error al subir los siguientes archivos:\n${errors.join(', ')}`);
-            return;
-        } */
-            
+        
         swal.close();
         FireSucess('Te has registrado con éxito');
         navigate('/Principal');

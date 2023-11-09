@@ -18,7 +18,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 Object.assign(
                     {
                         length: req.headers['content-length'],
-                        limit: '50mb',
+                        limit: '30mb',
                         encoding: contentType.parse(req).parameters.charset,
                     },
                     rawBodyOptions

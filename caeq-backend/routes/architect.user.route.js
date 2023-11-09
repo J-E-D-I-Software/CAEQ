@@ -25,7 +25,7 @@ router.get('/public', getAllPublicArchitectUsers);
 router.post(
     '/auth/signup',
     fileParser,
-    filesController.formatCV,
+    filesController.formatGenericFile,
     signUpArchitectUser
 );
 router.post('/auth/login', loginArchitectUser);
@@ -35,7 +35,7 @@ router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')
     .get(getArchitectUser)
-    .patch(fileParser, filesController.formatCV, updateArchitectUser)
+    .patch(fileParser, filesController.formatGenericFile, updateArchitectUser)
     .delete(deleteArchitectUser);
 
 module.exports = router;

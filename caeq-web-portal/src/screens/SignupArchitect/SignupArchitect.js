@@ -13,6 +13,7 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
 import {
     FireError,
@@ -34,33 +35,39 @@ import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
  * <Signup />
  */
 const Signup = () => {
-    const [fullName, setfullName] = useState('');
-    const [email, setEmail] = useState('');
+    const [fullName, setfullName] = useState('Edgar R');
+    const [email, setEmail] = useState('test@example.com');
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
 
     const [DRONumber, setDRONumber] = useState('');
-    const [collegiateNumber, setCollegiateNumber] = useState('');
-    const [memberType, setMemberType] = useState('');
-    const [classification, setClassification] = useState('');
-    const [gender, setGender] = useState('');
-    const [cellphone, setCellphone] = useState('');
-    const [homePhone, setHomePhone] = useState('');
-    const [officePhone, setOfficePhone] = useState('');
-    const [homeAddress, setHomeAdress] = useState('');
-    const [workAddress, setWorkAddress] = useState('');
-    const [emergencyContact, setEmergencyContact] = useState('');
-    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('');
-    const [dateOfAdmission, setDateOfAdmission] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [university, setUniversity] = useState('');
-    const [professionalLicense, setProfessionalLicense] = useState('');
-    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('');
-    const [positionsInCouncil, setPositionsInCouncil] = useState('');
+    const [collegiateNumber, setCollegiateNumber] = useState('1000');
+    const [memberType, setMemberType] = useState('Miembro de número');
+    const [classification, setClassification] = useState('Expresidente');
+    const [gender, setGender] = useState('Hombre');
+    const [cellphone, setCellphone] = useState('4272293948');
+    const [homePhone, setHomePhone] = useState('4272293948');
+    const [officePhone, setOfficePhone] = useState('4272293948');
+    const [homeAddress, setHomeAdress] = useState('4272293948');
+    const [workAddress, setWorkAddress] = useState('4272293948');
+    const [emergencyContact, setEmergencyContact] = useState('4272293948');
+    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('4272293948');
+    const [dateOfAdmission, setDateOfAdmission] = useState('2000');
+    const [dateOfBirth, setDateOfBirth] = useState('2023-10-10');
+    const [university, setUniversity] = useState('2023-10-10er');
+    const [professionalLicense, setProfessionalLicense] = useState('2023-10-10');
+    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('2023-10-10');
+    const [positionsInCouncil, setPositionsInCouncil] = useState('2023-10-10');
     const [linkCV, setLinkCV] = useState('');
-    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
+    const [linkINE, setLinkINE] = useState('');
+    const [linkCURP, setLinkCURP] = useState('');
+    const [linkProfesisonalLicense, setLinkProfesisonalLicense] = useState('');
+    const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
+    const [linkAddressCertificate, setLinkAddressCertificate] = useState('');
+    const [linkBirthCertificate, setLinkBirthCertificate] = useState('');
+    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('true');
+    const [password, setPassword] = useState('password123');
+    const [passwordConfirm, setConfirmPassword] = useState('password123'); // Nuevo estado para la confirmación de contraseña
 
     const options = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
     const member = [
@@ -127,12 +134,14 @@ const Signup = () => {
         form.append('professionalLicense', professionalLicense);
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil', positionsInCouncil);
-        form.append('file', linkCV);
+        form.append('file', linkINE);
         const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
         form.append('authorizationToShareInfo', isAuthorized);
         form.append('password', password);
         form.append('passwordConfirm', passwordConfirm);
         e.preventDefault();
+
+        const swal = FireLoading('Registrando arquitecto...');
 
         // Check if user exists
         let user = null;
@@ -153,21 +162,48 @@ const Signup = () => {
 
         // Post user
         try {
-            const swal = FireLoading('Registrando arquitecto...');
             const response = await postSignupArchitectUsers(form);
             if (response.status === 'success') {
                 const token = response.token;
-
+                user = response.data.user;
                 setUserType(token);
                 setToken(token);
                 setArchitectUserSaved(response.data.user);
             }
-            swal.close();
-            FireSucess('Te has registrado con éxito');
-            navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
+            return;
         }
+
+        // Post files
+        const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
+                                linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
+        const errors = [];
+        for (let i = 0; i < filesToUpload.length; i++) {
+            const file = filesToUpload[i];
+            if (file) {
+                const formFile = new FormData();
+                formFile.append('file', file);
+                try {
+                    const response = await updateArchitectUserByID(user._id, formFile);
+                    if (response.status !== 'success')
+                        throw new Error('Error al subir archivo');
+                } catch (error) {
+                    console.error(error);
+                    errors.push(file.name);
+                }
+            }
+        }
+
+        if (errors.length > 0) {
+            FireError('Su cuenta se ha creado. Sin embargo, ' +
+            `ocurrió un error al subir los siguientes archivos:\n${errors.join(', ')}`);
+            return;
+        }
+            
+        swal.close();
+        FireSucess('Te has registrado con éxito');
+        navigate('/Principal');
     };
 
     return (
@@ -344,9 +380,47 @@ const Signup = () => {
                                 setVal={setPositionsInCouncil}
                             />
                             <FileInput
+                                require
+                                label='Suba una foto de su INE'
+                                getVal={linkINE}
+                                setVal={setLinkINE}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
                                 label='Suba su curriculum'
                                 getVal={linkCV}
                                 setVal={setLinkCV}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
+                                label='Suba su CURP'
+                                getVal={linkCURP}
+                                setVal={setLinkCURP}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
+                                label='Suba su Cédula Profesional'
+                                getVal={linkProfesisonalLicense}
+                                setVal={setLinkProfesisonalLicense}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
+                                label='Suba su título profesional'
+                                getVal={linkBachelorsDegree}
+                                setVal={setLinkBachelorsDegree}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
+                                label='Suba un comprobante de domicilio no mayor a 3 meses'
+                                getVal={linkAddressCertificate}
+                                setVal={setLinkAddressCertificate}
+                                accept="image/*,application/pdf"
+                            />
+                            <FileInput
+                                label='Suba su Acta de Nacimiento'
+                                getVal={linkBirthCertificate}
+                                setVal={setLinkBirthCertificate}
+                                accept="image/*,application/pdf"
                             />
                             <DropdownInput
                                 label='¿Autoriza compartir su información?'

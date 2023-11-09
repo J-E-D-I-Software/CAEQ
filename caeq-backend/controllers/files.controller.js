@@ -89,6 +89,20 @@ exports.formatCV = catchAsync(async (req, res, next) => {
     next();
 });
 
+exports.formatGenericFile = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+    const [fileType, specificType] = req.file.mimetype.split('/');
+    const fieldName = req.file.fieldName;
+    if (specificType === 'pdf') {
+        req.body[fieldName] = await uploadPDF(req.file, 'pdf');
+    }
+    else if (fileType === 'image') {
+        req.body[fieldName] = await uploadImage(req.file, 'image');
+    }
+    // Use next when you need the url in the next controllers. Delete the response from above.
+    next();
+});
+
 exports.formatMoreInfo = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
     req.body.moreInfo = await uploadPDF(req.file, 'info');

@@ -100,7 +100,7 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     linkINE: {
         type: String,
-        required: [false],
+        required: [false, 'Es necesario subir tu INE para poder validar tu identidad!'],
     },
     linkCURP: {
         type: String,

@@ -21,27 +21,14 @@ module.exports = class Email {
      * @param {string} [message=''] - The message body of the email.
      * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
-    constructor(user=null, url = '', subject = '', message = '', imageUrl = '', course=null) {
-        if(user != null){
-            this.to = user.email;
-        }
-            this.firstName = user.fullName.split(' ')[0];
-            this.url = url;
-            this.subject = subject;
-            this.message = message;
-            this.imageUrl = imageUrl;
-            this.from = { email: process.env.MAIL_USERNAME };
-
-        if(course != null ){
-            this.courseName = course.courseName;
-            this.courseModality = course.modality;
-            this.courseDescription = course.description;
-            this.courseImageUrl = course.imageUrl;
-            console.log('emanil', this.courseName)
-        }
-        
-        //Course Info
-    
+    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
+        this.to = user.email;
+        this.firstName = user.fullName.split(' ')[0];
+        this.url = url;
+        this.subject = subject;
+        this.message = message;
+        this.imageUrl = imageUrl;
+        this.from = { email: process.env.MAIL_USERNAME };
     }
 
     /**
@@ -66,11 +53,6 @@ module.exports = class Email {
                 subject,
                 message: this.message,
                 imageUrl: this.imageUrl,
-                courseName: this.courseName,
-                courseModality: this.courseModality,
-                courseDescription: this.courseDescription,
-                courseImageUrl: this.courseImageUrl,
-
             }
         );
 
@@ -167,11 +149,5 @@ module.exports = class Email {
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);
-    }
-
-    static async sendPaymentAcceptedAlert(user, course){
-        const email = new Email(user,'','','','',course);
-        console.log('utils emial', course)
-        return email.send('InscriptionAlert','¡Su inscripción ha sido confirmada!') 
     }
 };

@@ -13,7 +13,9 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
     }
 
     try {
-        const addressee = await Architect.find({ email: { $ne: null } });
+        //const addressee = await Architect.find({ email: { $ne: null } });
+        
+        const addressee = await Architect.find({ email: { $eq: 'cvjj1504@outlook.com'} });
         console.log("addressee", addressee);
         await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
     } catch (error) {

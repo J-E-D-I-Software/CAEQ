@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
-
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import '../DirectoryArchitectDetail/DirectoryArchitectDetail.scss';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -25,7 +24,7 @@ const ArchitectPersonalData = (props) => {
                     setData(response);
                     setEditedData(response);
                 })
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
     /**
@@ -42,6 +41,14 @@ const ArchitectPersonalData = (props) => {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+
+        const currentDate = new Date();
+        const dateBirth = new Date(editedData.dateOfBirth);
+        if (dateBirth > currentDate) {
+            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            return;
+        }
+
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(editedData.email);
         if (!isValidEmail) {

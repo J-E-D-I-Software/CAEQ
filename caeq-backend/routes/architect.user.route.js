@@ -13,6 +13,7 @@ const {
     loginArchitectUser,
     signUpArchitectUser,
     protect,
+    restrictTo,
 } = require(`${__dirname}/../controllers/auth.controller.js`);
 const {
     forgotPasswordArchitectUser,
@@ -22,20 +23,22 @@ const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
 
 router.get('/public', getAllPublicArchitectUsers);
-router.post(
-    '/auth/signup',
-    fileParser,
-    filesController.formatCV,
-    signUpArchitectUser
-);
+router.post('/auth/signup', fileParser, filesController.formatCV, signUpArchitectUser);
 router.post('/auth/login', loginArchitectUser);
 router.post('/forgot-password', forgotPasswordArchitectUser);
 router.patch('/reset-password/:token', resetPasswordArchitectUser);
 router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
+
 router
     .route('/:id')
-    .get(getArchitectUser)
-    .patch(fileParser, filesController.formatCV, updateArchitectUser)
-    .delete(deleteArchitectUser);
+    .get(protect, restrictTo('caeq', 'self'), getArchitectUser)
+    .patch(
+        protect,
+        restrictTo('caeq', 'self'),
+        fileParser,
+        filesController.formatCV,
+        updateArchitectUser
+    )
+    .delete(protect, restrictTo('caeq', 'self'), deleteArchitectUser);
 
 module.exports = router;

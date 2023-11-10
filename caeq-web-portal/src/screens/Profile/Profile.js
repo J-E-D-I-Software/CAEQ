@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
+<<<<<<< HEAD
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 
+=======
+import { FireError } from '../../utils/alertHandler';
+>>>>>>> f81164de9feac0b382791b241975081e7f814187
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
@@ -41,9 +45,10 @@ const Profile = (props) => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
                 .then((response) => setProfile(response))
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
+<<<<<<< HEAD
     useEffect(() => {
         (async () => {
             try {
@@ -71,6 +76,8 @@ const Profile = (props) => {
         })();
     }, [SavedUser._id]);
 
+=======
+>>>>>>> f81164de9feac0b382791b241975081e7f814187
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
     let age = currentDate.getUTCFullYear() - dobValue.getUTCFullYear();

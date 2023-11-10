@@ -455,12 +455,7 @@ const ArchitectDetail = (props) => {
             <div>
                 <p>
                     <h1>Horas Acreditadas</h1>
-                    <div className='architect-row'>
-                        <h2>
-                            (i) Las horas calculadas son del 15 de marzo al 14
-                            de marzo del año siguiente.
-                        </h2>
-                    </div>
+                    <div></div>
                     {courseHours
                         .sort((prev, next) => next.endYear - prev.endYear)
                         .map((courseHour) => (
@@ -473,6 +468,15 @@ const ArchitectDetail = (props) => {
                             </p>
                         ))}
                 </p>
+                <h3>
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo
+                    del año siguiente.
+                </h3>
+                <h3>
+                    (i) Para modificar las horas de un colegiado, debe acceder
+                    al curso, completar sus asistencias y terminar el curso para
+                    que le sean sumadas.
+                </h3>
             </div>
         </div>
     );

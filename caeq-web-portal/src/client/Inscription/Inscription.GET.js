@@ -13,3 +13,10 @@ export async function getCourseInscriptions(id) {
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
+
+export async function getCourseHours(id) {
+    let endpoint = `${baseApiEndpoint}/inscription/myCourseHours/${id}`;
+
+    const response = await axios.get(endpoint);
+    return response.data.data.documents;
+}

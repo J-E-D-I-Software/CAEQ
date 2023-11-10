@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -20,6 +21,7 @@ const Profile = (props) => {
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
     const [attendanceByYear, setAttendanceByYear] = useState({});
+    const [courseHours, setCourseHours] = useState([]);
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -48,9 +50,10 @@ const Profile = (props) => {
         (async () => {
             try {
                 const architectId = SavedUser._id;
-                const attendances = await getAttendancesByArchitect(architectId);
+                const attendances = await getAttendancesByArchitect(
+                    architectId
+                );
                 setAttendances(attendances);
-                console.log('Asistencias', attendances);
 
                 // Calculate attendance by year
                 const attendanceByYear = {};
@@ -65,8 +68,14 @@ const Profile = (props) => {
                     }
                 }
                 setAttendanceByYear(attendanceByYear);
+
+                const accreditedHours = await getCourseHours(SavedUser._id);
+                setCourseHours(accreditedHours);
             } catch (error) {
-                console.error('Error al obtener asistencias por arquitecto', error);
+                console.error(
+                    'Error al obtener asistencias por arquitecto',
+                    error
+                );
             }
         })();
     }, [SavedUser._id]);
@@ -83,17 +92,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className="profile">
+        <div className='profile'>
             <h1>Datos Personales</h1>
-            <div className="profile-row">
-                <BaseButton type="primary" onClick={handleRoute}>
+            <div className='profile-row'>
+                <BaseButton type='primary' onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -114,7 +123,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -136,9 +145,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -156,20 +165,32 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
                         </p>
                         <p>
                             <span>Horas Acreditadas: </span>
-                            {profile.capacitationHours}
+
+                            {courseHours
+                                .sort(
+                                    (prev, next) => next.endYear - prev.endYear
+                                )
+                                .map((courseHour) => (
+                                    <p>
+                                        {courseHour.startYear} -{' '}
+                                        {courseHour.endYear} :{' '}
+                                        {courseHour.value}
+                                    </p>
+                                ))}
                         </p>
                         <p>
                             <span>Asistencias por Año:</span>
                             {Object.keys(attendanceByYear).map((year) => (
                                 <p key={year}>
-                                    {year}: {attendanceByYear[year] || 0} asistencias
+                                    {year}: {attendanceByYear[year] || 0}{' '}
+                                    asistencias
                                 </p>
                             ))}
                         </p>
@@ -184,9 +205,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -204,7 +225,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}

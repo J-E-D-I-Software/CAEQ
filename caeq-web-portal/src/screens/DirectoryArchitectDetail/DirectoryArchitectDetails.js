@@ -12,6 +12,7 @@ import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 
 import {
     memberOptions,
@@ -27,12 +28,12 @@ const ArchitectDetail = (props) => {
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
-
     const [updateHours, setUpdateHours] = useState(false);
 
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
+    const [courseHours, setCourseHours] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -67,6 +68,9 @@ const ArchitectDetail = (props) => {
                     }
                 );
 
+                const accreditedHours = await getCourseHours(searchParams.id);
+                setCourseHours(accreditedHours);
+
                 setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
@@ -100,10 +104,15 @@ const ArchitectDetail = (props) => {
             (async () => {
                 try {
                     const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(architectId);
+                    const attendances = await getAttendancesByArchitect(
+                        architectId
+                    );
                     setAttendances(attendances);
                 } catch (error) {
-                    console.error('Error al obtener asistencias por arquitecto', error);
+                    console.error(
+                        'Error al obtener asistencias por arquitecto',
+                        error
+                    );
                 }
             })();
         }
@@ -230,8 +239,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
-                    en guardar cambios.
+                    (i) Modifica la información que sea necesaria. Al terminar,
+                    haz clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -429,12 +438,6 @@ const ArchitectDetail = (props) => {
                     )}
                 </div>
             </div>
-            <div>
-                <div>
-                    <AttendancesComponent attendances={attendances} />
-                </div>
-            </div>
-
             <div className='architect-row'>
                 <BaseButton
                     type='primary'
@@ -443,6 +446,33 @@ const ArchitectDetail = (props) => {
                 >
                     Guardar Cambios
                 </BaseButton>
+            </div>
+            <div>
+                <div>
+                    <AttendancesComponent attendances={attendances} />
+                </div>
+            </div>
+            <div>
+                <p>
+                    <h1>Horas Acreditadas</h1>
+                    <div className='architect-row'>
+                        <h2>
+                            (i) Las horas calculadas son del 15 de marzo al 14
+                            de marzo del año siguiente.
+                        </h2>
+                    </div>
+                    {courseHours
+                        .sort((prev, next) => next.endYear - prev.endYear)
+                        .map((courseHour) => (
+                            <p className='list-data'>
+                                <span className='list-data-year'>
+                                    {courseHour.startYear} -{' '}
+                                    {courseHour.endYear}
+                                </span>{' '}
+                                : {courseHour.value} horas
+                            </p>
+                        ))}
+                </p>
             </div>
         </div>
     );

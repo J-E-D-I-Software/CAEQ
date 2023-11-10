@@ -138,6 +138,15 @@ const setUpInsciptionData = catchAsync(async () => {
     const course = await Course.findOne({
         courseName: 'Mampostería industrial',
     });
+    const course2 = await Course.findOne({
+        courseName: 'Excel intermedio',
+    });
+    const course3 = await Course.findOne({
+        courseName: 'Modelado y análisis de estructuras con SAP2000',
+    });
+    const course4 = await Course.findOne({
+        courseName: 'Curso de prueba',
+    });
     const user1 = await ArchitectUser.findOne({
         email: 'relisib653@mugadget.com',
     });
@@ -148,10 +157,26 @@ const setUpInsciptionData = catchAsync(async () => {
         {
             course: course._id,
             user: user1._id,
+            accredited: true,
         },
         {
             course: course._id,
             user: user2._id,
+        },
+        {
+            course: course2._id,
+            user: user1._id,
+            accredited: true,
+        },
+        {
+            course: course3._id,
+            user: user1._id,
+            accredited: true,
+        },
+        {
+            course: course4._id,
+            user: user1._id,
+            accredited: true,
         },
     ];
     await populateDb(Inscription, inscriptionData);

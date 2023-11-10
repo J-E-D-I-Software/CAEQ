@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
+import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
+import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import './Profile.scss';
 
 /**
@@ -16,12 +18,20 @@ const Profile = (props) => {
     const SavedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
+    const [attendances, setAttendances] = useState([]);
+    const [attendanceByYear, setAttendanceByYear] = useState({});
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
         : '';
     const normalDate = date.split('/').reverse().join('/');
     const startDate = new Date(profile.dateOfAdmission);
+
+    const [selectedYear, setSelectedYear] = useState(null);
+
+    const handleYearClick = (year) => {
+        setSelectedYear((prevYear) => (prevYear === year ? null : year));
+    };
 
     const handleRoute = (id) => {
         navigate(`/Perfil/${SavedUser._id}`);
@@ -33,6 +43,33 @@ const Profile = (props) => {
                 .then((response) => setProfile(response))
                 .catch((error) => FireError(error.response.data.message));
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const architectId = SavedUser._id;
+                const attendances = await getAttendancesByArchitect(architectId);
+                setAttendances(attendances);
+                console.log('Asistencias', attendances);
+
+                // Calculate attendance by year
+                const attendanceByYear = {};
+                for (const asistencia of attendances) {
+                    const year = asistencia.idGathering.year;
+                    if (asistencia.attended) {
+                        if (!attendanceByYear[year]) {
+                            attendanceByYear[year] = 1;
+                        } else {
+                            attendanceByYear[year]++;
+                        }
+                    }
+                }
+                setAttendanceByYear(attendanceByYear);
+            } catch (error) {
+                console.error('Error al obtener asistencias por arquitecto', error);
+            }
+        })();
+    }, [SavedUser._id]);
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -129,6 +166,15 @@ const Profile = (props) => {
                             {profile.capacitationHours}
                         </p>
                         <p>
+                            <span>Asistencias por Año:</span>
+                            {Object.keys(attendanceByYear).map((year) => (
+                                <p key={year}>
+                                    {year}: {attendanceByYear[year] || 0} asistencias
+                                </p>
+                            ))}
+                        </p>
+
+                        <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}
                         </p>
@@ -173,10 +219,15 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Municipio: </span>
-                            {profile.municipalityOfLabor}
+                            list' {profile.municipalityOfLabor}
                         </p>
                     </div>
                 </WhiteContainer>
+            </div>
+            <div>
+                <div>
+                    <AttendancesComponent attendances={attendances} />
+                </div>
             </div>
         </div>
     );

@@ -29,6 +29,7 @@ const DropdownInput = ({
     onChange,
     placeholder = 'Elija una opción',
     require = false,
+    hasPlaceholder = true,
 }) => {
     const isRequired = require;
 
@@ -65,7 +66,7 @@ const DropdownInput = ({
                     value={selectedOption}
                     onChange={changeOption}
                     required={isRequired}>
-                    <option value=''>{placeholder}</option>
+                    {hasPlaceholder ? <option value=''>{placeholder}</option> : null}
                     {options.map((option) => (
                         <option key={option} value={option}>
                             {booleanToLabel[option] || option}

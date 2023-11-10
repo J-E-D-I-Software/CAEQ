@@ -29,9 +29,16 @@ class APIFeatures {
             /\b(gte|gt|lte|lt|regex|np|in )\b/g,
             (match) => `$${match}`
         );
+        console.log(typeof queryString);
+        console.log(queryString);
+        queryString = queryString.replace(
+            /"\$regex":"([^"]*)"/g,
+            '"$regex": "$1", "$options": "i"'
+        );
+        console.log(queryString);
+        let query = JSON.parse(queryString);
 
-        queryString = queryString.replace(/"\$regex":"(.+?)"/g, '"$regex": "$1", "$options": "i"');
-        this.query.find(JSON.parse(queryString));
+        this.query.find(query);
 
         return this;
     }

@@ -6,6 +6,8 @@ import AcceptAdmin from './screens/AcceptAdmin/AcceptAdmin';
 import Courses from './screens/Courses/Courses';
 import Course from './screens/Courses/Course';
 import CreateGathering from './screens/CreateGathering/CreateGathering';
+import Gatherings from './screens/Gatherings/Gatherings';
+import RegisterAttendees from './screens/RegisterAttendees/RegisterAttendees';
 import Profile from './screens/Profile/Profile';
 import EditProfile from './screens/Profile/EditProfile';
 import CreateOrUpdateCourse from './screens/Courses/CreateOrUpdateCourse';
@@ -20,6 +22,9 @@ import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin'
 import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';
 import ArquitecForgotPassword from './screens/ForgotPasswordArchitect/ForgotPasswordArchitect';
 import ArchitecResetPassword from './screens/ResetPasswordArchitect/ResetPasswordArchitect';
+import Services from './screens/Services/Services';
+import AServices from './screens/Arch_Services/AServices';
+import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
@@ -30,6 +35,8 @@ import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
 import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
 import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
+import ServicesIcon from '../src/components/icons/ServicesIcon.png';
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png'; 
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
@@ -105,7 +112,15 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
-        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas',
+        name: 'Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: Gatherings,
+        isPrivate: true,
+        inNavbar: true,
     },
     {
         path: '/Asambleas/Asamblea',
@@ -123,6 +138,16 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asistencias/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: RegisterAttendees,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -165,7 +190,46 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-
+    {
+        path: '/Servicios',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: Services,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
+    },
+    {
+        path: '/ServiciosA',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: AServices,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['architect'],
+    },
+    {
+        path: '/Servicios/CrearSalon',
+        name: 'Crear oferta de salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: CreateRoomOffer,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Servicios/Salon/:id',
+        name: 'Modificar Salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component:CreateRoomOffer,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
     {
         path: '/Directorio',
         name: 'Directorio',

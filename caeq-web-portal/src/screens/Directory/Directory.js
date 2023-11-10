@@ -304,25 +304,25 @@ const Directory = () => {
                         placeholder='Clasificación'
                     />
 
-<div className='DropdownInputs-row'>
-                    <DropdownInput
-                        getVal={FilterMemberType}
-                        setVal={setFilterMemberType}
-                        options={[
-                            'Miembro de número',
-                            'Miembro Adherente',
-                            'Miembro Pasante',
-                            'Miembro Vitalicio',
-                            'Miembro Honorario',
-                        ]}
-                        placeholder='Tipo de miembro'
-                    />
-                    <DropdownInput
-                        getVal={specialtyName}
-                        setVal={(specialty) => handleSpecialtyChange(specialty)}
-                        options={specialtiesName}
-                        placeholder='Especialidad'
-                    />
+                    <div className='DropdownInputs-row'>
+                        <DropdownInput
+                            getVal={FilterMemberType}
+                            setVal={setFilterMemberType}
+                            options={[
+                                'Miembro de número',
+                                'Miembro Adherente',
+                                'Miembro Pasante',
+                                'Miembro Vitalicio',
+                                'Miembro Honorario',
+                            ]}
+                            placeholder='Tipo de miembro'
+                        />
+                        <DropdownInput
+                            getVal={specialtyName}
+                            setVal={(specialty) => handleSpecialtyChange(specialty)}
+                            options={specialtiesName}
+                            placeholder='Especialidad'
+                        />
                     </div>
                 </div>
             </div>
@@ -365,17 +365,17 @@ const Directory = () => {
                     </div>
                 </div>
             </div>
-            <br/>
+            <br />
             <div className='DateInput-row'>
-                    <DropdownInput
-                        getVal={currentRights}
-                        setVal={setCurrentRights}
-                        options={[true, false]}
-                        placeholder='Derechos vigentes'
-                    />
+                <DropdownInput
+                    getVal={currentRights}
+                    setVal={setCurrentRights}
+                    options={[true, false]}
+                    placeholder='Derechos vigentes'
+                />
             </div>
 
-            <br/>
+            <br />
 
             <div className='directory-row directory-pagination'>
                 <PaginationNav

@@ -14,13 +14,27 @@ const {
 const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
 
-router.route('/')
+router
+    .route('/')
     .get(getAllCourses)
-    .post(protect, restrictTo('caeq'), fileParser, filesController.formatImage, createCourse);
+    .post(
+        protect,
+        restrictTo('caeq'),
+        fileParser,
+        filesController.formatImage,
+        createCourse
+    );
 
-    router.route('/:id')
+router
+    .route('/:id')
     .get(getCourse)
-    .patch(protect, restrictTo('caeq'), fileParser, filesController.formatImage, updateCourse)
+    .patch(
+        protect,
+        restrictTo('caeq'),
+        fileParser,
+        filesController.formatImage,
+        updateCourse
+    )
     .delete(protect, restrictTo('caeq'), deleteCourse);
 
 module.exports = router;

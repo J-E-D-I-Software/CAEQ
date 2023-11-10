@@ -39,7 +39,9 @@ const Course = (props) => {
     const handleInscription = async (e) => {
         e.preventDefault();
         try {
-            const swal = FireLoading('Estamos en proceso de tramitar su solicitud. Por favor, espere un momento...');
+            const swal = FireLoading(
+                'Estamos en proceso de tramitar su solicitud. Por favor, espere un momento...'
+            );
             const response = await createInscription(searchParams.id);
             if (response.status === 'success') {
                 FireSucess('Inscripción exitosa.');
@@ -55,9 +57,7 @@ const Course = (props) => {
         e.preventDefault();
 
         if (!paymentFile) {
-            FireError(
-                'Por favor, selecciona un archivo de comprobante de pago.'
-            );
+            FireError('Por favor, selecciona un archivo de comprobante de pago.');
             return;
         }
 
@@ -82,41 +82,25 @@ const Course = (props) => {
         <div className='course'>
             <div className='course-row'>
                 <h1>{data.courseName}</h1>
-                <h2 className="course-price">
+                <h2 className='course-price'>
                     {data.price ? `$${data.price}` : 'Gratuito'}
                 </h2>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='primary'
-                        onClick={() =>
-                            navigate(`/Cursos/Curso/${searchParams.id}`)
-                        }
-                    >
+                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>
                         Modificar
                     </BaseButton>
                 </RestrictByRole>
                 <RestrictByRole allowedRoles={['architect']}>
                     {data.price ? ( // Verifica si el curso tiene precio
-                        <>
-                            <BaseButton
-                                type='primary'
-                                onClick={(e) => handlePaymentStart(e)}
-                            >
-                                Iniciar Pago
-                            </BaseButton>
-                        </>
+                        <></>
                     ) : (
-                        <BaseButton
-                            type='primary'
-                            onClick={(e) => handleInscription(e)}
-                        >
+                        <BaseButton type='primary' onClick={(e) => handleInscription(e)}>
                             Inscribirme
                         </BaseButton>
                     )}
                 </RestrictByRole>
-                <h2 className='course-price'>
-                    {data.price ? `$${data.price}` : 'Gratuito'}
-                </h2>
             </div>
 
             <div className='course-row course-data'>
@@ -175,39 +159,37 @@ const Course = (props) => {
                             <p className='text-area'>{data.temario}</p>
                         </div>
                     </div>
-                    {data.price !== undefined &&
-                        data.price !== null &&
-                        data.price !== 0 && (
-                            <>
-                                <h3>Información de Pago</h3>
-                                <span>{data.paymentInfo}</span>
-                                <hr></hr>
-                                <h3>Costo del Curso</h3>
-                                <h2 className="course-price">
-                                    {data.price ? `$${data.price}` : 'Gratuito'}
-                                </h2>
-                                <hr></hr>
-                                <FileInput
-                                    label='Subir Comprobante'
-                                    accept='.jpg,.jpeg,.png,.pdf'
-                                    getVal={() => paymentFile}
-                                    setVal={(file) => setPaymentFile(file)}
-                                />
-                                <hr></hr>
+                    <RestrictByRole allowedRoles={['architect']}>
+                        {data.price !== undefined &&
+                            data.price !== null &&
+                            data.price !== 0 && (
+                                <>
+                                    <h3>Información de Pago</h3>
+                                    <span>{data.paymentInfo}</span>
+                                    <hr></hr>
+                                    <h3>Costo del Curso</h3>
+                                    <h2 className='course-price'>
+                                        {data.price ? `$${data.price}` : 'Gratuito'}
+                                    </h2>
+                                    <hr></hr>
+                                    <FileInput
+                                        label='Subir Comprobante'
+                                        accept='.jpg,.jpeg,.png,.pdf'
+                                        getVal={() => paymentFile}
+                                        setVal={(file) => setPaymentFile(file)}
+                                    />
+                                    <hr></hr>
 
-                                <BaseButton
-                                    type="primary"
-                                    onClick={(e) => handlePaymentStart(e)}
-                                >
-                                    Iniciar Pago
-                                </BaseButton>
-                            </>
-                        )}
-                   
+                                    <BaseButton
+                                        type='primary'
+                                        onClick={(e) => handlePaymentStart(e)}>
+                                        Iniciar Pago
+                                    </BaseButton>
+                                </>
+                            )}
+                    </RestrictByRole>
                 </div>
-                
             </div>
-            
         </div>
     );
 };

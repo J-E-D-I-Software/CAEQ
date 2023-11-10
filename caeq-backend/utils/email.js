@@ -22,7 +22,27 @@ module.exports = class Email {
      * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
     constructor(user=null, url = '', subject = '', message = '', imageUrl = '', course=null) {
-        if(user != null){
+
+
+        if(user === null || user === ''){
+            return next(
+                new AppError(`El usuario no puede ser: ${user}. Ingresa un usuario válido. ` , 404)
+            )
+        }
+
+        if(course === null || course === ''){
+            return next(
+                new AppError(`El curso no puede ser: ${course}. Ingresa un curso válido.`,400)
+            )
+        }
+        
+        if(course != null ){
+            this.courseName = course.courseName;
+            this.courseModality = course.modality;
+            this.courseDescription = course.description;
+            this.courseImageUrl = course.imageUrl;
+        }
+        if(user != null) {
             this.to = user.email;
         }
             this.firstName = user.fullName.split(' ')[0];
@@ -31,17 +51,7 @@ module.exports = class Email {
             this.message = message;
             this.imageUrl = imageUrl;
             this.from = { email: process.env.MAIL_USERNAME };
-
-        if(course != null ){
-            this.courseName = course.courseName;
-            this.courseModality = course.modality;
-            this.courseDescription = course.description;
-            this.courseImageUrl = course.imageUrl;
-            console.log('emanil', this.courseName)
-        }
         
-        //Course Info
-    
     }
 
     /**
@@ -54,9 +64,11 @@ module.exports = class Email {
         // if (process.env.NODE_ENV !== 'test') {
         //     return;
         // }
-
-        console.log('subject', subject);
-        console.log('URL de la imagen:', this.imageUrl);
+        if(!template || !subject){
+            return next(
+                new AppError(`El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`, 404)
+            )
+        }
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template
@@ -171,7 +183,12 @@ module.exports = class Email {
 
     static async sendPaymentAcceptedAlert(user, course){
         const email = new Email(user,'','','','',course);
-        console.log('utils emial', course)
-        return email.send('InscriptionAlert','¡Su inscripción ha sido confirmada!') 
+        return email.send('acceptPaymentAndInscription','¡Su inscripción ha sido confirmada!') 
+    }
+
+    static async sendPaymentRejectedAlert(user, course, declinedReason){
+        console.log("razón de recahzo",declinedReason)
+        const email = new Email(user,'','',declinedReason,'',course);
+        return email.send('rejectPayment','Su pago ha sido rechazado') 
     }
 };

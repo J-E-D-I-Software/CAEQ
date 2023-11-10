@@ -118,12 +118,6 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
         // Send payment accepted confirmation email
         const response = await Email.sendPaymentAcceptedAlert(payment.user, payment.course);
         console.log('response desde payment controller', response)
-        // Send inscription confirmation email
-        // await new Email(
-        //     payment.user,
-        //     process.env.LANDING_URL,
-        //     payment.course
-        // ).sendInscriptonAlert();
     } catch (error) {
         return next(
             new AppError(
@@ -141,6 +135,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
 
 exports.declinePayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
+    const declinedReason = req.body.declinedReason;
 
     // Check if payment exists
     let payment = await Payment.findById(paymentId).populate(['user', 'course']);
@@ -163,13 +158,10 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     await Course.findByIdAndUpdate(payment.course._id, {
         capacity: payment.course.capacity + 1,
     });
-    /*
+    
     try {
-        await new Email(
-            payment.user,
-            '',
-            payment.course
-        ).sendPaymentRejectedAlert();
+        // Send payment rejected confirmation email
+        const response = await Email.sendPaymentRejectedAlert(payment.user, payment.course, declinedReason);
     } catch (error) {
         return next(
             new AppError(
@@ -177,7 +169,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }*/
+    }
     // Send payment rejected confirmation email
 
     res.status(200).json({

@@ -4,7 +4,7 @@ import AcceptIcon from '../icons/AcceptIcon.png'
 import RejectIcon from '../icons/RejectIcon.png'
 import pdfPlaceholder from '../images/download-active.png'
 import './PaymentCard.scss'
-const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
+const PaymentCard = ({ id, fullName, userId, courseId, billimageURL, courseName, priceToPay, teacherName, invoice, acceptPayment, rejectPayment }) => {
 
 
 
@@ -15,6 +15,7 @@ const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPa
     };
     const url = billimageURL;
     const containsPDF = /\.pdf/.test(url);
+    const navigate = `/Curso/${courseId}`
 
     return (
         <div className='payment-card'>
@@ -23,7 +24,7 @@ const PaymentCard = ({ id, fullName, userId, billimageURL, courseName, priceToPa
                 <h2>{fullName}</h2>
                 <h3>¿Desea Facturar? {invoice}</h3>
                 <div className='payment-description'>
-                    <p>Curso: '{courseName}'</p>
+                    <p>Curso: <a href={navigate}> '{courseName}'</a></p>
                     <p>Profesor: {teacherName} | Costo: {priceToPay} </p>
                 </div>
             </div>

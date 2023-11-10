@@ -4,7 +4,7 @@ import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 import PaymentCard from '../../components/cards/PaymentCard';
 
-import { patchAcceptPayment, patchRejectPaymenet } from '../../client/Payment/Payment.PATCH';
+import { patchAcceptPayment, patchDeclinedPayment } from '../../client/Payment/Payment.PATCH';
 import {
     FireError,
     FireSucess,
@@ -89,22 +89,23 @@ const AcceptAdmin = () => {
             if (!confirmation.isConfirmed) {
                 return;
             }
-
+            
             const swal = FireLoading('Rechazando administrador...');
-            //const response = await patchRejectAdmin(id);
+            const response = await patchDeclinedPayment(id, confirmation.value);
 
             setPayments(payments.filter((admin) => admin._id !== id));
 
             swal.close();
             FireSucess('Pago rechazado con éxito');
         } catch (error) {
-            FireError(error.response.data.message);
-            if (
-                error.response.data.message ===
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
-            ) {
-                setPayments(payments.filter((admin) => admin._id !== id));
-            }
+            console.log('error',error)
+            //FireError(error.response.data.message);
+            // if (
+            //     error.response.data.message ===
+            //     'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
+            // ) {
+            //     setPayments(payments.filter((admin) => admin._id !== id));
+            // }
         }
     };
 
@@ -140,6 +141,7 @@ const AcceptAdmin = () => {
                     id = {payment._id}
                     fullName={payment.user.fullName}
                     userId={payment.user._id}
+                    courseId={payment.course._id}
                     courseName={payment.course.courseName}
                     invoice={formatBooleanValue(payment.wantsInvoice)}
                     priceToPay={payment.course.price}

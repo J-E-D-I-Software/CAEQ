@@ -16,11 +16,12 @@ export async function patchAcceptPayment(id) {
 }
 
 
-export async function patchRejectPaymenet(id) {
+export async function patchDeclinedPayment(id, declinedReason) {
     let endpoint = `${baseApiEndpoint}/payment/declinePayment`;
 
     const body = {
         paymentId: id,
+        declinedReason: declinedReason,
     };
 
     const response = await axios.patch(endpoint, body);

@@ -118,19 +118,38 @@ export async function FireQuestionInput(
     confirmText = 'Acepto',
     rejectText = 'Cancelar'
 ) {
-    let alert = null;
-    return alert = MySwal.fire({
+    return await MySwal.fire({
         title: question,
         text: warning,
         icon: 'info',
-        input: 'text',
         showCancelButton: true,
         confirmButtonColor: '#EEA300',
         cancelButtonColor: '#AB3428',
         confirmButtonText: confirmText,
-        cancelButtonText: rejectText,             
-    }).getInput();
+        cancelButtonText: rejectText,
+        allowOutsideClick: false,
+        showCloseButton: true,
+        inputPlaceholder: 'Esciba el motivo del rechazo.',
+        input: 'text',
+    });
 
 }
+
+// const {value: razonRechazo, isConfirmed: isConfirmed} = await MySwal.fire({
+//     title: question,
+//     text: warning,
+//     icon: 'info',
+//     showCancelButton: true,
+//     confirmButtonColor: '#EEA300',
+//     cancelButtonColor: '#AB3428',
+//     confirmButtonText: confirmText,
+//     cancelButtonText: rejectText,
+//     allowOutsideClick: false,
+//     showCloseButton: true,
+//     inputPlaceholder: 'Esciba el motivo del rechazo.',
+//     input: 'text',
+// });
+
+// return razonRechazo,isConfirmed;
 
 

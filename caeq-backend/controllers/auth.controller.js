@@ -1,5 +1,6 @@
 const CaeqUser = require('../models/caeq.user.model');
 const ArchitectUser = require('../models/architect.user.model');
+const RegisterRequest = require('../models/regiesterRequests.model');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -86,6 +87,31 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
 });
 
 /**
+ * Asynchronously creates a registration request for an architect.
+ *
+ * @param {Object} req - The request object containing the registration information.
+ * @param {Object} existingUser - The existing user object, if any.
+ * @param {Object} res - The response object used to send the registration status.
+ * @returns {Promise<void>} - A Promise that resolves when the registration process is complete.
+ */
+async function createRegistrationRequest(req, existingUser, res) {
+    const updatedArchitect = await ArchitectUser.create(req.body);
+
+    await RegisterRequest.create({
+        overwrites: existingUser,
+        newInfo: updatedArchitect,
+        architectNumber: updatedArchitect.collegiateNumber,
+    });
+
+    res.status(200).json({
+        status: 'success',
+        message: `Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto número ${updatedArchitect.collegiateNumber} perfil y te de acceso al portal.`,
+    });
+
+    return;
+}
+
+/**
  * Creates a new architect user.
  *
  * @param {object} req - The request object.
@@ -94,58 +120,19 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const { collegiateNumber } = req.body;
-    let newUser;
+    const password = req.body.password;
+    const passwordConfirm = req.body.passwordConfirm;
+
+    if (password !== passwordConfirm) {
+        return next(new AppError('Tus contraseñas deben coincidir.'));
+    }
 
     // Check if user already exists
     const existingUser = await ArchitectUser.findOne({ collegiateNumber });
 
     if (existingUser) {
-        if (existingUser.isLegacy === true && existingUser.isOverwritten === false) {
-            const password = req.body.password;
-            const passwordConfirm = req.body.passwordConfirm;
-
-            if (password !== passwordConfirm) {
-                return next(new AppError('Tus contraseñas deben coincidir.'));
-            }
-
-            delete req.body.password;
-            delete req.body.passwordConfirm;
-
-            // Update existing user
-            newUser = await ArchitectUser.findOneAndUpdate(
-                { _id: existingUser._id },
-                { $set: req.body },
-                {
-                    new: true,
-                    runValidators: true,
-                    useFindAndModify: true,
-                }
-            );
-
-            // Update password
-            newUser = await ArchitectUser.findOneAndUpdate(
-                { _id: existingUser._id },
-                {
-                    $set: {
-                        password: await bcrypt.hash(password, 12),
-                        isOverwritten: true,
-                    },
-                },
-                {
-                    new: true,
-                    runValidators: false,
-                    useFindAndModify: true,
-                }
-            );
-        } else if (
-            existingUser.isLegacy === true &&
-            existingUser.isOverwritten === true
-        ) {
-            return next(
-                new AppError(
-                    'Una persona ya se ha inscrito en el portal con estos datos. Crea una nueva cuenta o si crees que es un error contacta a gerencia.'
-                )
-            );
+        if (existingUser.isLegacy === true) {
+            return await createRegistrationRequest(req, existingUser, res);
         } else if (
             existingUser.isLegacy === false &&
             existingUser.isOverwritten === true
@@ -162,20 +149,20 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
                 )
             );
         }
-    } else {
-        // Create new user
-        newUser = await ArchitectUser.create(req.body);
     }
 
+    let newUser;
+    newUser = await ArchitectUser.create(req.body);
+
     // Uncomment after emails after payed
-    // // Send welcome email
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    // Send welcome email
+    try {
+        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+    } catch (error) {
+        return next(
+            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
+        );
+    }
 
     // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);

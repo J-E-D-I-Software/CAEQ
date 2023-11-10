@@ -16,12 +16,15 @@ export async function getCourseInscriptions(id) {
 
 /**
  * Gets the inscriptions of the currently authenticated architect.
- *
+ * 
  * @returns {Promise} A promise that resolves with the response data when the operation is successful.
  */
+
+const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
+
 export async function getMyInscriptions() {
     let endpoint = `${baseApiEndpoint}/inscription/myInscriptions`;
 
     const response = await axios.get(endpoint);
-    return response.data.data.documents;
+    return response.data.data.document;
 }

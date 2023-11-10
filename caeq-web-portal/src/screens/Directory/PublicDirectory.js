@@ -68,7 +68,7 @@ const PublicDirectory = () => {
                 <InputText
                     getVal={getArchitect}
                     setVal={setArchitect}
-                    placeholder='Buscar'
+                    placeholder='Nombre del colegiado'
                 />
             </label>
 

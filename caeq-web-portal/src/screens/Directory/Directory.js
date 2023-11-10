@@ -303,64 +303,76 @@ const Directory = () => {
                         options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
                         placeholder='Clasificación'
                     />
-                    <DropdownInput
-                        getVal={FilterMemberType}
-                        setVal={setFilterMemberType}
-                        options={[
-                            'Miembro de número',
-                            'Miembro Adherente',
-                            'Miembro Pasante',
-                            'Miembro Vitalicio',
-                            'Miembro Honorario',
-                        ]}
-                        placeholder='Tipo de miembro'
-                    />
-                    <DropdownInput
-                        getVal={specialtyName}
-                        setVal={(specialty) => handleSpecialtyChange(specialty)}
-                        options={specialtiesName}
-                        placeholder='Especialidad'
-                    />
+
+                    <div className='DropdownInputs-row'>
+                        <DropdownInput
+                            getVal={FilterMemberType}
+                            setVal={setFilterMemberType}
+                            options={[
+                                'Miembro de número',
+                                'Miembro Adherente',
+                                'Miembro Pasante',
+                                'Miembro Vitalicio',
+                                'Miembro Honorario',
+                            ]}
+                            placeholder='Tipo de miembro'
+                        />
+                        <DropdownInput
+                            getVal={specialtyName}
+                            setVal={(specialty) => handleSpecialtyChange(specialty)}
+                            options={specialtiesName}
+                            placeholder='Especialidad'
+                        />
+                    </div>
                 </div>
             </div>
 
             <br />
-
             <div className='inputNumber-date-row'>
-                <div className='inputNumber-row'>
-                    <h3> Año de admisión </h3>
-                    <InputNumber
-                        placeholder='Admitido después de:'
-                        getVal={admisionInitial}
-                        setVal={setAdmisionInitial}
-                    />
-                    <InputNumber
-                        placeholder='Admitido antes de:'
-                        getVal={admisionFinal}
-                        setVal={setAdmisionFinal}
-                    />
+                <div className='InputContainer'>
+                    <div className='Input-title'>
+                        <h3> Año de admisión </h3>
+                    </div>
+                    <div className='Input-row'>
+                        <InputNumber
+                            placeholder='Admitido después de:'
+                            getVal={admisionInitial}
+                            setVal={setAdmisionInitial}
+                        />
+                        <InputNumber
+                            placeholder='Admitido antes de:'
+                            getVal={admisionFinal}
+                            setVal={setAdmisionFinal}
+                        />
+                    </div>
                 </div>
-                <div className='DateInput-row'>
-                    <h3> Fecha de nacimiento </h3>
-                    <DateInput
-                        placeholder='Nacido después de:'
-                        getVal={birthInitial}
-                        setVal={setBirthInitial}
-                    />
-                    <DateInput
-                        placeholder='Nacido antes de:'
-                        getVal={birthFinal}
-                        setVal={setBirthFinal}
-                    />
+
+                <div className='DateInput-container'>
+                    <div className='DateInput-title'>
+                        <h3> Fecha de nacimiento </h3>
+                    </div>
+                    <div className='DateInput-row'>
+                        <DateInput
+                            placeholder='Nacido después de:'
+                            getVal={birthInitial}
+                            setVal={setBirthInitial}
+                        />
+                        <DateInput
+                            placeholder='Nacido antes de:'
+                            getVal={birthFinal}
+                            setVal={setBirthFinal}
+                        />
+                    </div>
                 </div>
-                <div className='DateInput-row'>
-                    <DropdownInput
-                        getVal={currentRights}
-                        setVal={setCurrentRights}
-                        options={[true, false]}
-                        placeholder='Derechos vigentes'
-                    />
-                </div>
+            </div>
+            <br />
+            <div className='DateInput-row'>
+                <DropdownInput
+                    getVal={currentRights}
+                    setVal={setCurrentRights}
+                    options={[true, false]}
+                    placeholder='Derechos vigentes'
+                />
             </div>
 
             <br />

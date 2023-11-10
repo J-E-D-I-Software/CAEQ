@@ -21,37 +21,14 @@ module.exports = class Email {
      * @param {string} [message=''] - The message body of the email.
      * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
-    constructor(user=null, url = '', subject = '', message = '', imageUrl = '', course=null) {
-
-
-        if(user === null || user === ''){
-            return next(
-                new AppError(`El usuario no puede ser: ${user}. Ingresa un usuario válido. ` , 404)
-            )
-        }
-
-        if(course === null || course === ''){
-            return next(
-                new AppError(`El curso no puede ser: ${course}. Ingresa un curso válido.`,400)
-            )
-        }
-        
-        if(course != null ){
-            this.courseName = course.courseName;
-            this.courseModality = course.modality;
-            this.courseDescription = course.description;
-            this.courseImageUrl = course.imageUrl;
-        }
-        if(user != null) {
-            this.to = user.email;
-        }
-            this.firstName = user.fullName.split(' ')[0];
-            this.url = url;
-            this.subject = subject;
-            this.message = message;
-            this.imageUrl = imageUrl;
-            this.from = { email: process.env.MAIL_USERNAME };
-        
+    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
+        this.to = user.email;
+        this.firstName = user.fullName.split(' ')[0];
+        this.url = url;
+        this.subject = subject;
+        this.message = message;
+        this.imageUrl = imageUrl;
+        this.from = { email: process.env.MAIL_USERNAME };
     }
 
     /**
@@ -64,11 +41,9 @@ module.exports = class Email {
         // if (process.env.NODE_ENV !== 'test') {
         //     return;
         // }
-        if(!template || !subject){
-            return next(
-                new AppError(`El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`, 404)
-            )
-        }
+
+        console.log('subject', subject);
+        console.log('URL de la imagen:', this.imageUrl);
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template
@@ -78,11 +53,6 @@ module.exports = class Email {
                 subject,
                 message: this.message,
                 imageUrl: this.imageUrl,
-                courseName: this.courseName,
-                courseModality: this.courseModality,
-                courseDescription: this.courseDescription,
-                courseImageUrl: this.courseImageUrl,
-
             }
         );
 
@@ -179,16 +149,5 @@ module.exports = class Email {
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);
-    }
-
-    static async sendPaymentAcceptedAlert(user, course){
-        const email = new Email(user,'','','','',course);
-        return email.send('acceptPaymentAndInscription','¡Su inscripción ha sido confirmada!') 
-    }
-
-    static async sendPaymentRejectedAlert(user, course, declinedReason){
-        console.log("razón de recahzo",declinedReason)
-        const email = new Email(user,'','',declinedReason,'',course);
-        return email.send('rejectPayment','Su pago ha sido rechazado') 
     }
 };

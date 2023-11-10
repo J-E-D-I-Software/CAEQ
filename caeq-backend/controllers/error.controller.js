@@ -150,14 +150,12 @@ const handleValidationErrorDB = (err) => {
  * @param {function} next - The next function.
  */
 module.exports = (err, req, res, next) => {
-    console.log(err);
     res.locals.error = err;
     err.status = err.status || 'error';
     err.statusCode = err.statusCode || 500;
 
     if (process.env.NODE_ENV === 'development') {
         console.log('Error Name:', err.name);
-        console.log('Error code:', err.code);
     }
     if (
         process.env.NODE_ENV === 'development' ||

@@ -1,6 +1,5 @@
 const Busboy = require('busboy');
 const getRawBody = require('raw-body');
-const contentType = require('content-type');
 
 const allowedMethods = ['POST', 'PUT', 'PATCH'];
 const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [

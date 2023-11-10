@@ -5,7 +5,6 @@ const Email = require("../utils/email");
 const Architect = require("../models/architect.user.model");
 
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
-    console.log("req.body", req.body); //Ya llegamos a
     const { subject, message, imageUrl } = req.body; // Asunto, Cuerpo, Imagen
 
     if (!subject || !message) {
@@ -14,7 +13,6 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
 
     try {
         const addressee = await Architect.find({ email: { $ne: null } });
-        console.log("addressee", addressee);
         await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
     } catch (error) {
         console.log("error email controller", error);

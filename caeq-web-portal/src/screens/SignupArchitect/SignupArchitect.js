@@ -22,6 +22,7 @@ import {
     FireQuestion,
 } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
+import { resizeImage } from '../../utils/files';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 
 /**
@@ -113,6 +114,12 @@ const Signup = () => {
             FireError('Por favor ingresa un correo electrónico válido.');
             return;
         }
+        
+        // Reduce file size
+        let fileINE = linkINE;
+        if (linkINE?.type.includes('image') && linkINE?.size > 3000000) {
+            fileINE = await resizeImage(linkINE);
+        }   
 
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
@@ -138,7 +145,7 @@ const Signup = () => {
         form.append('professionalLicense', professionalLicense);
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil', positionsInCouncil);
-        form.append('linkINE', linkINE);
+        form.append('linkINE', fileINE);
         form.append('passwordConfirm', passwordConfirm);
         form.append('password', password);
         const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
@@ -146,7 +153,7 @@ const Signup = () => {
 
         const swal = FireLoading('Registrando arquitecto...');
 
-        // Check if user exists
+        //  Check if user exists
         let user = null;
         try {
             user = await getArchitectUserByColegiateNumber(collegiateNumber);
@@ -186,8 +193,14 @@ const Signup = () => {
             linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
         const errors = [];
         for (let i = 0; i < filesToUpload.length; i++) {
-            const file = filesToUpload[i];
+            let file = filesToUpload[i];
+            
             if (file) {
+                // If file size is over 5mb we have to compress it for the backend
+                if (file.type?.includes('image') && file.size > 3000000) {
+                    file = await resizeImage(file);
+                }
+
                 const formFile = new FormData();
                 formFile.append('file', file);
                 try {
@@ -202,9 +215,9 @@ const Signup = () => {
         }
 
         if (errors.length > 0) {
-        FireError('Su cuenta se ha creado. Sin embargo, ' +
-        `ocurrió un error al subir los siguientes archivos:\n${errors.join(', ')}`);
-        return;
+            FireError('Su cuenta se ha creado. Sin embargo, ' +
+                `ocurrió un error al subir los siguientes archivos:\n${errors.join('\n')}`);
+            return;
         }
 
         swal.close();

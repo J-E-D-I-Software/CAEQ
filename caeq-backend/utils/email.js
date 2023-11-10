@@ -42,8 +42,6 @@ module.exports = class Email {
         //     return;
         // }
 
-        console.log('subject', subject);
-        console.log('URL de la imagen:', this.imageUrl);
         const html = pug.renderFile(
             `${__dirname}/../views/emails/${template}.pug`,
             // The second argument will be an object of data that will populate the template

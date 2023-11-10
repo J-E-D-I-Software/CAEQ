@@ -1,7 +1,16 @@
-// Requiring firebase (as our db)
-const firebase = require('firebase');
 // Importing our configuration to initialize our app
-const config = require('./config');
+const { 
+    STORAGE_BUCKET,
+    FIREBASE_CREDENTIALS_FILE 
+} = process.env;
+
 // Creates and initializes a Firebase app instance. Pass options as param
-const db = firebase.initializeApp(config.firebaseConfig);
+const admin = require('firebase-admin');
+const credentials = require(`../keys/${FIREBASE_CREDENTIALS_FILE}`);
+
+const db = admin.initializeApp({
+    credential: admin.credential.cert(credentials),
+    storageBucket: STORAGE_BUCKET,
+});
+
 module.exports = db;

@@ -51,7 +51,6 @@ function Anouncements() {
             e.preventDefault();
 
             const response = await sendEmailToEveryone(form);
-            console.log("this response", response);
 
             swal.close();
             FireSucess(response.message);

@@ -50,7 +50,9 @@ const Course = (props) => {
                 return;
             }
 
-            const swal = FireLoading('Inscribiéndote al curso...');
+            const swal = FireLoading(
+                'Inscribiéndote al curso...'
+            );
             const response = await createInscription(searchParams.id);
             if (response.status === 'success') {
                 FireSucess('Inscripción exitosa.');
@@ -101,14 +103,13 @@ const Course = (props) => {
         <div className="course">
             <div className="course-row">
                 <h1>{data.courseName}</h1>
-                <h2 className="course-price">
+                <h2 className='course-price'>
                     {data.price ? `$${data.price}` : 'Gratuito'}
                 </h2>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
-                        type="primary"
-                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}
-                    >
+                        type='primary'
+                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>
                         Modificar
                     </BaseButton>
                 </RestrictByRole>
@@ -116,7 +117,7 @@ const Course = (props) => {
                     {data.price ? ( // Verifica si el curso tiene precio
                         <></>
                     ) : (
-                        <BaseButton type="primary" onClick={handleInscription}>
+                        <BaseButton type='primary' onClick={(e) => handleInscription(e)}>
                             Inscribirme
                         </BaseButton>
                     )}
@@ -181,41 +182,41 @@ const Course = (props) => {
                     </div>
                     <RestrictByRole allowedRoles={['architect']}>
 
-                    {data.price !== undefined &&
-                        data.price !== null &&
-                        data.price !== 0 && (
-                            <>
-                                <h3>Información de Pago</h3>
-                                <span>{data.paymentInfo}</span>
-                                <hr></hr>
-                                <h3>Costo del Curso</h3>
-                                <h2 className="course-price">
-                                    {data.price ? `$${data.price}` : 'Gratuito'}
-                                </h2>
+                    <RestrictByRole allowedRoles={['architect']}>
+                        {data.price !== undefined &&
+                            data.price !== null &&
+                            data.price !== 0 && (
+                                <>
+                                    <h3>Información de Pago</h3>
+                                    <span>{data.paymentInfo}</span>
+                                    <hr></hr>
+                                    <h3>Costo del Curso</h3>
+                                    <h2 className='course-price'>
+                                        {data.price ? `$${data.price}` : 'Gratuito'}
+                                    </h2>
                                 <DropdownInput
                                     label='¿Requiere factura?'
                                     options={decide}
                                     getVal={wantsInvoice}
                                     setVal={setInvoice}
                                 />
-                                <hr></hr>
-                                <FileInput
-                                    label="Subir Comprobante"
-                                    accept=".jpg,.jpeg,.png,.pdf"
-                                    getVal={() => paymentFile}
-                                    setVal={(file) => setPaymentFile(file)}
-                                />
-                                <hr></hr>
+                                    <hr></hr>
+                                    <FileInput
+                                        label="Subir Comprobante"
+                                        accept=".jpg,.jpeg,.png,.pdf"
+                                        getVal={() => paymentFile}
+                                        setVal={(file) => setPaymentFile(file)}
+                                    />
+                                    <hr></hr>
 
-                                <BaseButton
-                                    type="primary"
-                                    onClick={(e) => handlePaymentStart(e)}
-                                >
-                                    Iniciar Proceso de Inscripción
-                                </BaseButton>
-                            </>
-                        )}
-                         </RestrictByRole>
+                                    <BaseButton
+                                        type='primary'
+                                        onClick={(e) => handlePaymentStart(e)}>
+                                        Iniciar Proceso de Inscripción
+                                    </BaseButton>
+                                </>
+                            )}
+                         </RestrictByRole> </RestrictByRole>
                 </div>
             </div>
         </div>

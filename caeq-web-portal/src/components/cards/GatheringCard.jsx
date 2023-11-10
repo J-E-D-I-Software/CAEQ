@@ -29,40 +29,40 @@ const GatheringCard = ({ data, ...props }) => {
     }
 
     return (
-        <div className='gathering-card'>
-            <div className='gathering-card--title'>
+        <div className="gathering-card">
+            <div className="gathering-card--title">
                 {data.title ? data.title : `Asamblea del ${data.date}`}
             </div>
-            <div className='gathering-card--subtitle'>Convocatoria</div>
+            <div className="gathering-card--subtitle">Convocatoria</div>
             <a href={data.moreInfo}>
                 {data.moreInfo ? (
                     <img
-                        className='image-more-info'
+                        className="image-more-info"
                         src={DownloadActive}
-                        alt='Descargar convocatoria'
+                        alt="Descargar convocatoria"
                     />
                 ) : (
                     <img
-                        className='image-more-info'
+                        className="image-more-info"
                         src={DownloadInactive}
-                        alt='Descargar convocatoria'
+                        alt="Descargar convocatoria"
                     />
                 )}
             </a>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
                     <img src={ClockIcon} height={30} />
                     <p>{data.meetingTime ? data.meetingTime : 'No hay horario'}</p>
                 </div>
             </div>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
                     <img src={CalendarIcon} height={30} />
                     <p>{data.date ? data.date.substring(0, 10) : 'No hay fecha'}</p>
                 </div>
             </div>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
                     <img src={LocationIcon} height={30} />
                     <p>
                         <a href={data.meetingLink}>Link de zoom</a>
@@ -70,17 +70,21 @@ const GatheringCard = ({ data, ...props }) => {
                 </div>
             </div>
             {data._id ? (
-                <div className='gathering-card--row--buttons'>
-                    <BaseButton
-                        type='primary'
-                        onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}>
-                        Asistencias
-                    </BaseButton>
-                    <BaseButton
-                        type='primary'
-                        onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
-                        Editar
-                    </BaseButton>
+                <div className="gathering-card--row--buttons">
+                    <RestrictByRole allowedRoles={['caeq']}>
+                        <BaseButton
+                            type="primary"
+                            onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}
+                        >
+                            Asistencias
+                        </BaseButton>
+                        <BaseButton
+                            type="primary"
+                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}
+                        >
+                            Editar
+                        </BaseButton>
+                    </RestrictByRole>
                 </div>
             ) : (
                 <></>

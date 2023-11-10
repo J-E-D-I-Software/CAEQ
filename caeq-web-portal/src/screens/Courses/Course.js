@@ -179,6 +179,8 @@ const Course = (props) => {
                             <p className="text-area">{data.temario}</p>
                         </div>
                     </div>
+                    <RestrictByRole allowedRoles={['architect']}>
+
                     {data.price !== undefined &&
                         data.price !== null &&
                         data.price !== 0 && (
@@ -213,6 +215,7 @@ const Course = (props) => {
                                 </BaseButton>
                             </>
                         )}
+                         </RestrictByRole>
                 </div>
             </div>
         </div>

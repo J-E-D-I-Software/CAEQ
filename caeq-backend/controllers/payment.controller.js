@@ -136,6 +136,9 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
 exports.declinePayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
     const declinedReason = req.body.declinedReason;
+    if (!declinedReason) {
+        return next(new AppError('Debes proporcionar una razón para rechazar el pago.', 400));
+    }
 
     // Check if payment exists
     let payment = await Payment.findById(paymentId).populate(['user', 'course']);

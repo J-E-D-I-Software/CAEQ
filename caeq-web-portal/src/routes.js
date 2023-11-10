@@ -16,6 +16,7 @@ import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/Direct
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
+import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -82,6 +83,15 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: Courses,
+        isPrivate: true,
+        inNavbar: true,
+    },
+    {
+        path: '/MisCursos',
+        name: 'MisCursos',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: MyInscription,
         isPrivate: true,
         inNavbar: true,
     },

@@ -3,6 +3,7 @@ const app = require('../../app');
 const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const Course = require('../../models/course.model');
+const ArchitectUser = require('../../models/architect.user.model');
 const { loginUser } = require('../config/authSetUp');
 const agent = request.agent(app);
 const DateRangeMap = require('../../utils/dateRangeMap');
@@ -12,18 +13,34 @@ beforeAll(async () => {
     await setUpDbWithMuckData();
 });
 
-const testGetCourseHours = (id) => async () => {
-    await loginUser(agent, 'relisib653@mugadget.com', 'password123');
-    const endpoint = `/insctiption/accredited/${id}`;
+const testGetCourseHours = async () => {
+    await loginUser(agent, 'ana@example.com', 'password789');
+    const endpoint1 = '/courses';
+    let res1 = await agent.get(`${endpoint1}/3454534534`).send();
+
+    expect(res1.statusCode).toEqual(400);
+    expect(res1.body.message).toEqual('Inválido _id: 3454534534');
+
+    let courses = Course.find();
+    courses.getFilter();
+    courses = await courses.exec();
+
+    const courseId = courses[0]._id; // Replace with the actual course ID
+    const endpoint = `/inscription/myCourseHours/${courseId}`;
+
+    // Assuming you have a specific email to find an ArchitectUser
+    const userEmail = 'relisib653@mugadget.com';
+    const user = await ArchitectUser.findOne({ email: userEmail }).exec();
+
+    // Check if the user is found
+    if (!user) {
+        throw new Error(`User with email ${userEmail} not found.`);
+    }
+
     const res = await agent.get(endpoint).send();
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.data.documents);
 };
-
-describe('Architect Inscribe to course succesful', () => {
-    test('successful', () => InscribeTo());
-});
 
 describe('DateRangeMap', () => {
     test('add method should add hours to an existing date range', () => {

@@ -13,3 +13,15 @@ export async function getCourseInscriptions(id) {
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
+
+/**
+ * Gets the inscriptions of the currently authenticated architect.
+ *
+ * @returns {Promise} A promise that resolves with the response data when the operation is successful.
+ */
+export async function getMyInscriptions() {
+    let endpoint = `${baseApiEndpoint}/inscription/myInscriptions`;
+
+    const response = await axios.get(endpoint);
+    return response.data.data.documents;
+}

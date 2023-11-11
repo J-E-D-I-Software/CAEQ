@@ -107,6 +107,7 @@ const Directory = () => {
                     filters,
                     effectiveOrderBy
                 );
+
                 setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
@@ -127,6 +128,18 @@ const Directory = () => {
         currentRights,
         orderBy,
     ]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const specialties = await getAllSpecialties();
+
+                setSpecialties(specialties);
+
+                setSpecialtiesName(specialties.map((specialty) => specialty.name));
+            } catch (error) {}
+        })();
+    }, []);
 
     useEffect(() => {
         (async () => {

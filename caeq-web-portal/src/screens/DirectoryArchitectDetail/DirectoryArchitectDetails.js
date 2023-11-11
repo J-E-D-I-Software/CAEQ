@@ -129,6 +129,16 @@ const ArchitectDetail = (props) => {
      * @returns {Promise<void>}
      */
     const handleSaveChanges = async (e) => {
+        e.preventDefault();
+
+        const currentDate = new Date();
+        const dateAdmission = new Date(editedData.dateOfAdmission, 0, 1);
+
+        if (dateAdmission > currentDate) {
+            FireError('Tu fecha de admisión no puede estar en el futuro.');
+            return;
+        }
+
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
@@ -161,8 +171,6 @@ const ArchitectDetail = (props) => {
         form.append('file', editedData.linkCV);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
-
-        e.preventDefault();
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {

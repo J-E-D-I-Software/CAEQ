@@ -23,7 +23,7 @@ const PublicTable = ({ data }) => {
     const headerMappings = {
         fullName: 'Nombre completo',
         DRONumber: 'Número de DRO',
-        specialty: 'Especialidad',
+        specialties: 'Especialidades',
         cellphone: 'Número de celular',
         linkCV: 'Link de CV',
         email: 'Correo electrónico',
@@ -43,7 +43,7 @@ const PublicTable = ({ data }) => {
 
     const renderTableHeader = () => (
         <tr>
-            {columnsToShow.map((column) =>
+            {Object.keys(headerMappings).map((column) =>
                 columnVisibility[column] && column !== '_id' && column !== '_id' ? (
                     <th key={column} className='sticky-column'>
                         <div className='header-content'>
@@ -70,7 +70,7 @@ const PublicTable = ({ data }) => {
 
         return data.map((row, rowIndex) => (
             <tr key={rowIndex} className='fila-sombrada'>
-                {columnsToShow.map((column) =>
+                {Object.keys(headerMappings).map((column) =>
                     columnVisibility[column] && column !== '_id' ? (
                         <td key={column} className='sticky-column'>
                             {/* Aplicar el formato solo a las celdas con valores booleanos o fechas */}
@@ -87,6 +87,8 @@ const PublicTable = ({ data }) => {
                                 formatDate(row[column])
                             ) : column === 'dateOfAdmission' && row[column] ? (
                                 formatDate(row[column])
+                            ) : column === 'specialties' && row[column] ? (
+                                row[column].map((specialty) => specialty.name).join(', ')
                             ) : (
                                 row[column]
                             )}

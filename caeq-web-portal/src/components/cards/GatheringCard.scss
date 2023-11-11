@@ -23,6 +23,7 @@
         flex-direction: row;
         align-items: center;
 
+
         p {
             display: block;
             margin-left: 5px;
@@ -34,4 +35,9 @@
         align-items: center;
         gap: 4px;
     }
+    .download-button.click {
+            color:#eea300;
+            background-color: rgb(255, 255, 255);
+    }
+
 }

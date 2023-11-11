@@ -42,7 +42,7 @@
   background-color: #062E52;
   color: #fff;
   min-width: 200px;
-  position: relative;
+  position: sticky;
 }
 
 .tabla td {
@@ -86,4 +86,9 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
+}
+
+.sticky-column {
+    position: sticky;
+    top: 0;
 }

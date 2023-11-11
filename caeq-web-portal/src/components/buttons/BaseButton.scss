@@ -23,7 +23,7 @@
 .active {
     background-color: #eea300; /* Cambio de color al pasar el ratón */
     transform: translateY(-3px);
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .button:hover {
@@ -76,12 +76,17 @@
 }
 
 .button-disabled {
-    color: #eff9f0;
+    color: #fab82b;
     background-color: #4d585e;
 }
 
 .button-disabled:hover {
     background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}
+
+.button-click {
+    color: #000000;
+    background-color: #e0e0e0;
 }
 
 .button-navbar {

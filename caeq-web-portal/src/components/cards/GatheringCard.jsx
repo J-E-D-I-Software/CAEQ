@@ -7,6 +7,7 @@ import ClockIcon from '../../components/icons/Clock.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
 import DownloadActive from '../../components/images/download-active.png';
 import DownloadInactive from '../../components/images/download-inactive.png';
+import FlechaIcon from '../../components/icons/flechaIcon.png';
 import './GatheringCard.scss';
 
 /**
@@ -28,60 +29,63 @@ const GatheringCard = ({ data, ...props }) => {
         return date.toLocaleDateString('es-MX');
     }
 
+    const handleButtonClick = () => {
+        if (data.moreInfo) {
+            window.location.href = data.moreInfo;
+        }
+    };
+
     return (
-        <div className='gathering-card'>
-            <div className='gathering-card--title'>
+        <div className="gathering-card">
+            <div className="gathering-card--title">
                 {data.title ? data.title : `Asamblea del ${data.date}`}
             </div>
-            <div className='gathering-card--subtitle'>Convocatoria</div>
-            <a href={data.moreInfo}>
-                {data.moreInfo ? (
-                    <img
-                        className='image-more-info'
-                        src={DownloadActive}
-                        alt='Descargar convocatoria'
-                    />
-                ) : (
-                    <img
-                        className='image-more-info'
-                        src={DownloadInactive}
-                        alt='Descargar convocatoria'
-                    />
-                )}
-            </a>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
+            <div className="gathering-card--subtitle">Convocatoria</div>
+            <div className="gathering-card--row">
+                <BaseButton
+                    type={data.moreInfo ? 'primary' : 'disabled'}
+                    className="download-button"
+                    onClick={handleButtonClick}
+                    disabled={!data.moreInfo}
+                >
+                    {data.moreInfo
+                        ? 'Descargar Convocatoria'
+                        : 'Convocatoria no disponible'}
+                </BaseButton>
+            </div>
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
                     <img src={ClockIcon} height={30} />
                     <p>{data.meetingTime ? data.meetingTime : 'No hay horario'}</p>
                 </div>
             </div>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
                     <img src={CalendarIcon} height={30} />
                     <p>{data.date ? data.date.substring(0, 10) : 'No hay fecha'}</p>
                 </div>
             </div>
-            <div className='gathering-card--row'>
-                <div className='gathering-card--row--icon'>
-                    <img src={LocationIcon} height={30} />
+            <div className="gathering-card--row">
+                <div className="gathering-card--row--icon">
+                    <img src={FlechaIcon} height={30} />
                     <p>
                         <a href={data.meetingLink}>Link de zoom</a>
                     </p>
                 </div>
             </div>
             {data._id ? (
-                <div className='gathering-card--row--buttons'>
+                <div className="gathering-card--row--buttons">
                     <RestrictByRole allowedRoles={['caeq']}>
                         <BaseButton
-                            type='primary'
-                            onClick={() =>
-                                navigate(`/Asambleas/Asistencias/${data._id}`)
-                            }>
+                            type="primary"
+                            onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}
+                        >
                             Asistencias
                         </BaseButton>
                         <BaseButton
-                            type='primary'
-                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
+                            type="primary"
+                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}
+                        >
                             Editar
                         </BaseButton>
                     </RestrictByRole>

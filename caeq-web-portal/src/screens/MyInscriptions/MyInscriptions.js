@@ -47,7 +47,7 @@ const MyInscription = (props) => {
     return (
         <div className='courses'>
             <div className='courses--row'>
-                <h1>Mis Cursos</h1>
+                <h1>Mis Cursos Inscritos</h1>
             </div>
 
             <div className='courses--row courses__filters'>
@@ -75,11 +75,11 @@ const MyInscription = (props) => {
             </div>
 
             <div className='courses--row courses__courses-section'>
-            {courses.map((mycourse, i) => (
-    <InscriptionCard key={i} {...(mycourse || {})} />
-))}
-
+                {courses.map((mycourse, i) => (
+                    <InscriptionCard key={i} {...mycourse} />
+                ))}
             </div>
+
 
             <div className='courses--row courses__courses-pagination'>
                 <PaginationNav page={paginationPage} />

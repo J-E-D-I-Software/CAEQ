@@ -19,6 +19,7 @@ import Principal from './screens/Principal/Principal';
 import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 
+
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
 import PrincipalAdmin from './screens/PrincipalAdmin/PrincipalAdmin';

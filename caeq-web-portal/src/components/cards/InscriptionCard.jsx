@@ -4,9 +4,7 @@ import './InscriptionCard.scss';
 
 const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
     const navigate = useNavigate();
-    console.log(props);
-
-    // Accede a las propiedades dentro de la propiedad 'course'
+    // Accede a las propiedades dentro de la propiedad 'mycourse'
     let description = props.course.description.slice(0, 130);
     if (props.course.description.length > 130)
         description += '...';
@@ -52,7 +50,7 @@ const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
                             <BaseButton
                                 className='mb-1'
                                 type='primary'
-                                onClick={() => navigate(`/Curso/${props._id}`)}
+                                onClick={() => navigate(`/Curso/${props.course._id}`)}
                             >
                                 Ver más
                             </BaseButton>

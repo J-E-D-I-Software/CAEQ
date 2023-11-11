@@ -21,6 +21,9 @@ const Courses = (props) => {
     const [paginationPage, setPaginationPage] = useState(1);
     const navigate = useNavigate();
 
+
+    // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
+    // 
     useEffect(() => {
         const fetchData = async () => {
             let filters = '';

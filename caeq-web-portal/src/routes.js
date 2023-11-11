@@ -94,7 +94,7 @@ const routes = [
         iconWhite: CursosIconWhite,
         Component: MyInscription,
         isPrivate: true,
-        inNavbar: true,
+        inNavbar: false,
     },
     {
         path: '/Curso/:id',

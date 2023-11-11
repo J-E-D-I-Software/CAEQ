@@ -22,8 +22,8 @@ export async function getCourseInscriptions(id) {
 
 const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
 
-export async function getMyInscriptions() {
-    let endpoint = `${baseApiEndpoint}/inscription/myInscriptions`;
+export async function getMyInscriptions(page = 1, filtersParams = '') {
+    let endpoint = `${baseApiEndpoint}/inscription/myInscriptions?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.document;

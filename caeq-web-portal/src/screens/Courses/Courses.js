@@ -57,6 +57,12 @@ const Courses = (props) => {
                         Crear curso
                     </BaseButton>
                 </RestrictByRole>
+                <RestrictByRole allowedRoles={['architect']}>
+                <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/MisCursos')}>
+                        Mis Inscripciones
+                    </BaseButton>
+
+                </RestrictByRole>
                 <TextInput
                     placeholder='Buscar'
                     getVal={filterSearchByName}

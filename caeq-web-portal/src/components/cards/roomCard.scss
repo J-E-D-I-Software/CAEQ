@@ -11,6 +11,7 @@
         align-items: center;
 
         h2 {
+            align-items: center;
             justify-self: end;
         }
 
@@ -18,10 +19,16 @@
             justify-self: end;
             padding-right: 50px;
             color: green;
+            font-weight: bold;
         }
     }
 
     .card-col-2 {
+
+        a {
+            pointer-events: none;
+            cursor: default;
+        }
 
         img { 
             width: 100%; 
@@ -39,6 +46,7 @@
 
         p {
             padding-left: 20px;
+            font-weight: bold;
         }
 
         .card-button {

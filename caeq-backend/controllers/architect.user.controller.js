@@ -5,6 +5,10 @@ const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
+exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
+    'newInfo',
+    'overwrites',
+]);
 exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties');
 exports.createArchitectUser = factory.createOne(ArchitectUser);
 exports.updateArchitectUser = factory.updateOne(ArchitectUser);
@@ -65,6 +69,7 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
 
     await ArchitectUser.findByIdAndUpdate(registerRequest.overwrites, {
         ...newArchitectInfo,
+        email: newArchitectInfo.email,
         isLegacy: true,
         overwritten: true,
     });

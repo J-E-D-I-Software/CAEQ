@@ -94,7 +94,13 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  * @returns {Promise<void>} - A Promise that resolves when the registration process is complete.
  */
 async function createRegistrationRequest(req, existingUser, res) {
-    const updatedArchitect = await ArchitectUser.create(req.body);
+    const email = req.body.email;
+    delete req.body.email;
+    const updatedArchitect = await ArchitectUser.create({
+        ...req.body,
+        email: `${Date.now()}${email}`,
+        newEmail: email,
+    });
 
     await RegisterRequest.create({
         overwrites: existingUser,
@@ -123,7 +129,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password !== passwordConfirm) {
-        return next(new AppError('Tus contraseñas deben coincidir.'));
+        return next(new AppError('Tus contraseñas deben coincidir.', 400));
     }
 
     // Check if user already exists
@@ -202,13 +208,16 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(
             new AppError(
-                'Email incorrecto. No hay un usuario registrado con este correo.',
+                'Email incorrecto. No hay un usuario registrado con este correo. Si te registraste recientemente, por favor espera a que un administrador verifique tu perfil.',
                 401
             )
         );
     } else if (!(await user.correctPassword(password, user.password))) {
         return next(
-            new AppError('Contraseña incorrecta. Intente de nuevo por favor.', 401)
+            new AppError(
+                'Contraseña incorrecta. Intente de nuevo por favor. Si te registraste recientemente, por favor espera a que un administrador verifique tu perfil.',
+                401
+            )
         );
     }
 

@@ -138,6 +138,9 @@ const ArchitectUserSchema = new mongoose.Schema({
         trim: true,
         validate: [validator.isEmail, 'Necesitas un correo válido.'],
     },
+    newEmail: {
+        type: String,
+    },
     password: {
         type: String,
         required: [true, 'Por favor provee una contraseña.'],

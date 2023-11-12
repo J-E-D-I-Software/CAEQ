@@ -6,8 +6,9 @@ import PaginationNav from '../../components/pagination/PaginationNav';
 import './MyInscriptions.scss';
 import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
-import { getMyInscriptions } from '../../client/Inscription/Inscription.GET'
+import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
 import { useNavigate } from 'react-router-dom';
+import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 /**
  * Page that displays MyInscriptions.
@@ -32,10 +33,7 @@ const MyInscription = (props) => {
             }
 
             const data = await getMyInscriptions(paginationPage, filters);
-            console.log(data);
             setCourses(data);
-            console.log(courses)
-            
         };
         try {
             fetchData();
@@ -45,43 +43,47 @@ const MyInscription = (props) => {
     }, [filterSearchByName, filterModality, orderBy]);
 
     return (
-        <div className='courses'>
-            <div className='courses--row'>
+        <div className="courses">
+            <div className="courses--row">
                 <h1>Mis Cursos Inscritos</h1>
             </div>
+            <div className="courses--row courses__filters">
+                <RestrictByRole allowedRoles={['architect']}>
+                    <BaseButton type="primary" onClick={() => navigate('/MisCursos')}>
+                        Mis Asistencias a cursos
+                    </BaseButton>
+                </RestrictByRole>
 
-            <div className='courses--row courses__filters'>
                 <TextInput
-                    placeholder='Buscar'
+                    placeholder="Buscar"
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
-                <div className='courses--row'>
+                <div className="courses--row">
                     <DropdownInput
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
-                        placeholder='Filtrar modalidad'
+                        placeholder="Filtrar modalidad"
                     />
 
                     <DropdownInput
                         getVal={orderBy}
                         setVal={setOrderBy}
                         options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
-                        placeholder='Ordenar'
+                        placeholder="Ordenar"
                     />
                 </div>
             </div>
 
-            <div className='courses--row courses__courses-section'>
+            <div className="courses--row courses__courses-section">
                 {courses.map((mycourse, i) => (
                     <InscriptionCard key={i} {...mycourse} />
                 ))}
             </div>
 
-
-            <div className='courses--row courses__courses-pagination'>
+            <div className="courses--row courses__courses-pagination">
                 <PaginationNav page={paginationPage} />
             </div>
         </div>

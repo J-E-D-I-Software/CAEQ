@@ -24,6 +24,9 @@ const Course = (props) => {
     const [data, setData] = useState({});
     const decide = ['SÍ', 'NO'];
 
+
+    // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
+    // 
     useEffect(() => {
         if (searchParams.id) {
             getCourse(searchParams.id)

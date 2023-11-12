@@ -21,9 +21,6 @@ const Courses = (props) => {
     const [paginationPage, setPaginationPage] = useState(1);
     const navigate = useNavigate();
 
-
-    // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
-    // 
     useEffect(() => {
         const fetchData = async () => {
             let filters = '';
@@ -46,56 +43,59 @@ const Courses = (props) => {
     }, [filterSearchByName, filterModality, orderBy]);
 
     return (
-        <div className='courses'>
-            <div className='courses--row'>
+        <div className="courses">
+            <div className="courses--row">
                 <h1>Oferta de cursos</h1>
             </div>
 
-            <div className='courses--row courses__filters'>
+            <div className="courses--row courses__filters">
                 <RestrictByRole allowedRoles={['caeq']}>
-                <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/AcceptPayment')}>
+                    <BaseButton
+                        type="primary"
+                        className="accept-payment"
+                        onClick={() => navigate('/AcceptPayment')}
+                    >
                         Ver solicitudes de pago
                     </BaseButton>
-                    <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
+                    <BaseButton type="primary" onClick={() => navigate('/Cursos/Curso')}>
                         Crear curso
                     </BaseButton>
                 </RestrictByRole>
                 <RestrictByRole allowedRoles={['architect']}>
-                <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/MisCursos')}>
+                    <BaseButton type="primary" onClick={() => navigate('/MisCursos')}>
                         Mis Inscripciones
                     </BaseButton>
-
                 </RestrictByRole>
                 <TextInput
-                    placeholder='Buscar'
+                    placeholder="Buscar"
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
-                <div className='courses--row'>
+                <div className="courses--row">
                     <DropdownInput
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
-                        placeholder='Filtrar modalidad'
+                        placeholder="Filtrar modalidad"
                     />
 
                     <DropdownInput
                         getVal={orderBy}
                         setVal={setOrderBy}
                         options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
-                        placeholder='Ordenar'
+                        placeholder="Ordenar"
                     />
                 </div>
             </div>
 
-            <div className='courses--row courses__courses-section'>
+            <div className="courses--row courses__courses-section">
                 {courses.map((course, i) => (
                     <CourseCard key={i} {...course} />
                 ))}
             </div>
 
-            <div className='courses--row courses__courses-pagination'>
+            <div className="courses--row courses__courses-pagination">
                 <PaginationNav page={paginationPage} />
             </div>
         </div>

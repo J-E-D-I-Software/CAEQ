@@ -51,33 +51,34 @@ exports.getAllPublicArchitectUsers = catchAsync(async (req, res) => {
  * acceptArchitectUser(req, res, next);
  */
 exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
-    const architectId = req.params.id;
+    const registrationRequestId = req.params.id;
 
-    const architect = (
-        await ArchitectUser.find({ _id: architectId }).select({
-            verified: 1,
-            fullName: 1,
-            email: 1,
-        })
-    )[0];
-    if (!architect || architect.verified === true) {
-        return next(
-            new AppError('No se puede realizar esta petición en este administrador.', 400)
-        );
+    const registerRequest = await RegisterRequest.findById(
+        registrationRequestId
+    ).populate('newInfo');
+
+    if (!registerRequest) {
+        return next(new AppError('La petición de registro ya no existe.', 400));
     }
 
-    await ArchitectUser.findByIdAndUpdate(architectId, { verified: true });
+    const newArchitectInfo = registerRequest.newInfo;
 
-    // Uncomment after emails after payed
+    await ArchitectUser.findByIdAndUpdate(registerRequest.overwrites, {
+        ...newArchitectInfo,
+        isLegacy: true,
+        overwritten: true,
+    });
+
+    await ArchitectUser.findByIdAndDelete(newArchitectInfo._id);
+
+    await RegisterRequest.findByIdAndDelete(registrationRequestId);
+
+    // Uncomment after emails are payed
     try {
-        await new Email(architect).sendAdminAccepted();
+        await new Email(newArchitectInfo).sendAdminAccepted();
     } catch (error) {
-        return next(
-            new AppError(
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
-                500
-            )
-        );
+        // Production logging
+        console.log(error);
     }
 
     res.status(200).json({
@@ -101,24 +102,28 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
  * rejectArchitectUser(req, res, next);
  */
 exports.rejectArchitectUser = catchAsync(async (req, res, next) => {
-    const architectId = req.params.id;
+    const registrationRequestId = req.params.id;
 
-    const architect = await ArchitectUser.findByIdAndDelete(architectId);
+    const registerRequest = await RegisterRequest.findById(registrationRequestId);
 
-    // Uncomment after emails after payed
+    if (!registerRequest) {
+        return next(new AppError('La petición de registro ya no existe.', 400));
+    }
+
+    await ArchitectUser.findByIdAndDelete(registerRequest.newInfo);
+
+    await RegisterRequest.findByIdAndDelete(registrationRequestId);
+
+    // Uncomment after emails are payed
     try {
-        await new Email(architect).sendAdminRejected();
+        await new Email(newArchitectInfo).sendAdminRejected();
     } catch (error) {
-        return next(
-            new AppError(
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.',
-                500
-            )
-        );
+        // Production logging
+        console.log(error);
     }
 
     res.status(200).json({
         status: 'success',
-        message: 'Solicitud de acceso al sistema rechazada. Se ha eliminado la petición.',
+        message: 'Arquitecto verificado. El usuario ahora cuenta con acceso al portal.',
     });
 });

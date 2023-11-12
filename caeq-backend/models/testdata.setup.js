@@ -111,8 +111,12 @@ const setUpCourseData = catchAsync(async () => {
  */
 const setUpregisterRequests = catchAsync(async () => {
     const user1 = await ArchitectUser.findOne({ email: 'jcastr@tec.mx' });
-    const user2 = await ArchitectUser.findOne({ email: 'javier@example.com' });
-    const user3 = await ArchitectUser.findOne({ email: 'isabel@example.com' });
+    const user2 = await ArchitectUser.findOne({
+        email: '97et9et7e90rt7javier@example.com',
+    });
+    const user3 = await ArchitectUser.findOne({
+        email: '2654874682754723isabel@example.com',
+    });
 
     const registerRequestData = [
         {

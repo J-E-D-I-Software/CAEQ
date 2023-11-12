@@ -133,7 +133,10 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     }
 
     // Check if user already exists
-    const existingUser = await ArchitectUser.findOne({ collegiateNumber });
+    const existingUser = await ArchitectUser.findOne({
+        collegiateNumber,
+    });
+    console.log('User', existingUser);
 
     if (existingUser) {
         if (existingUser.isLegacy === true) {
@@ -144,13 +147,15 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
         ) {
             return next(
                 new AppError(
-                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.'
+                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.',
+                    400
                 )
             );
         } else {
             return next(
                 new AppError(
-                    'Algo salió muy mal.No hemos podido sobreescribir los datos.'
+                    'Algo salió muy mal.No hemos podido sobreescribir los datos.',
+                    400
                 )
             );
         }

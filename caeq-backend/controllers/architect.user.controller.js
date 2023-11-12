@@ -3,6 +3,8 @@ const ArchitectUser = require('../models/architect.user.model');
 const RegisterRequest = require('../models/regiesterRequests.model');
 const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const Email = require('../utils/email');
 
 exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
 exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
@@ -59,7 +61,10 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
 
     const registerRequest = await RegisterRequest.findById(
         registrationRequestId
-    ).populate('newInfo');
+    ).populate({
+        path: 'newInfo',
+        select: '-_id -email -isLegacy -overwritten -collegiateNumber +password',
+    });
 
     if (!registerRequest) {
         return next(new AppError('La petición de registro ya no existe.', 400));
@@ -68,13 +73,15 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
     const newArchitectInfo = registerRequest.newInfo;
 
     await ArchitectUser.findByIdAndUpdate(registerRequest.overwrites, {
-        ...newArchitectInfo,
-        email: newArchitectInfo.email,
+        email: newArchitectInfo.newEmail,
         isLegacy: true,
         overwritten: true,
+        collegiateNumber: registerRequest.architectNumber,
+        ...newArchitectInfo._doc,
     });
 
-    await ArchitectUser.findByIdAndDelete(newArchitectInfo._id);
+    const registerRequestNewInfo = await RegisterRequest.findById(registrationRequestId);
+    await ArchitectUser.findByIdAndDelete(registerRequestNewInfo.newInfo);
 
     await RegisterRequest.findByIdAndDelete(registrationRequestId);
 
@@ -109,19 +116,21 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
 exports.rejectArchitectUser = catchAsync(async (req, res, next) => {
     const registrationRequestId = req.params.id;
 
-    const registerRequest = await RegisterRequest.findById(registrationRequestId);
+    const registerRequest = await RegisterRequest.findById(
+        registrationRequestId
+    ).populate('newInfo');
 
     if (!registerRequest) {
         return next(new AppError('La petición de registro ya no existe.', 400));
     }
 
-    await ArchitectUser.findByIdAndDelete(registerRequest.newInfo);
+    await ArchitectUser.findByIdAndDelete(registerRequest.newInfo._id);
 
     await RegisterRequest.findByIdAndDelete(registrationRequestId);
 
     // Uncomment after emails are payed
     try {
-        await new Email(newArchitectInfo).sendAdminRejected();
+        await new Email(registerRequest.newInfo).sendAdminRejected();
     } catch (error) {
         // Production logging
         console.log(error);
@@ -129,6 +138,6 @@ exports.rejectArchitectUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        message: 'Arquitecto verificado. El usuario ahora cuenta con acceso al portal.',
+        message: 'Solicitud eliminada. El usuario no fue aceptado en el portal.',
     });
 });

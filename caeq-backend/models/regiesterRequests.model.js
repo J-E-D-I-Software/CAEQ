@@ -5,14 +5,11 @@ const registerRequest = new mongoose.Schema(
         overwrites: {
             type: mongoose.Schema.ObjectId,
             ref: 'architect.user',
-            required: [
-                true,
-                'Se necesita nueva información para sobreescribir a un colegiado.',
-            ],
+            required: [true, 'Se necesita un colegiado al que sobreescribir.'],
         },
         newInfo: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Course',
+            ref: 'architect.user',
             required: [
                 true,
                 'Se necesita nueva información para sobreescribir a un colegiado.',

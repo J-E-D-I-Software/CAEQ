@@ -70,13 +70,12 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
     });
 
     // Uncomment after emails after payed
-    // try {
-    //     await new Email(newUser).sendWelcomeAdmin();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser).sendWelcomeAdmin();
+    } catch (error) {
+        // Prod logging
+        console.log(error);
+    }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -154,14 +153,12 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     let newUser;
     newUser = await ArchitectUser.create(req.body);
 
-    // Uncomment after emails after payed
     // Send welcome email
     try {
         await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
     } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-        );
+        // Prod logging
+        console.log(error);
     }
 
     // Send JWT token

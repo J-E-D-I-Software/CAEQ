@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
-
+import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
@@ -41,7 +41,7 @@ const Profile = (props) => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
                 .then((response) => setProfile(response))
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
     useEffect(() => {
@@ -83,17 +83,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className="profile">
+        <div className='profile'>
             <h1>Datos Personales</h1>
-            <div className="profile-row">
-                <BaseButton type="primary" onClick={handleRoute}>
+            <div className='profile-row'>
+                <BaseButton type='primary' onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -114,7 +114,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
@@ -136,9 +136,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -156,7 +156,7 @@ const Profile = (props) => {
                             {profile.positionsInCouncil}
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -184,9 +184,9 @@ const Profile = (props) => {
             </div>
 
             <h1>Información Profesional</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -204,7 +204,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}

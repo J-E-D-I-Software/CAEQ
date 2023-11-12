@@ -121,6 +121,12 @@ const handleCastErrorDB = (err) => {
  * @returns The value of the duplicate field.
  */
 const handleDuplicateFieldsDB = (err) => {
+    if (err.keyPattern.collegiateNumber) {
+        return new AppError(
+            'El número de colegiado está duplicado: ' + err.keyValue.collegiateNumber,
+            400
+        );
+    }
     // To remove it we use a regular expression.
     const value = err.errmsg.match(/(["'])(\\?.)*?\1/); // nos matchea todos
     const message = `Valor duplicado: ${value[0]}. Por favor use otro valor.`;

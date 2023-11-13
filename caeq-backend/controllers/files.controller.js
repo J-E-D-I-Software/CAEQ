@@ -70,7 +70,6 @@ exports.formatCV = catchAsync(async (req, res, next) => {
 
 exports.formatGenericFile = catchAsync(async (req, res, next) => {
     for (const file of req.files) {
-        console.log(file);
         const [fileType, specificType] = file.mimetype.split('/');
         req.body[file.fieldname] = await uploadFile(file, specificType);
     }

@@ -7,6 +7,7 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
+import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
@@ -19,7 +20,7 @@ import {
     authorizationOptions,
     classificationOptions,
     lifeInsuranceOptions,
-    anuuityOptions,
+    annuityOptions,
 } from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
 
 const ArchitectDetail = (props) => {
@@ -49,6 +50,12 @@ const ArchitectDetail = (props) => {
                     architect.lifeInsurance = 'No';
                 } else {
                     architect.lifeInsurance = 'Si';
+                }
+
+                if (architect.annuity !== true) {
+                    architect.annuity = 'No';
+                } else {
+                    architect.annuity = 'Si';
                 }
 
                 setData(architect);
@@ -134,15 +141,32 @@ const ArchitectDetail = (props) => {
      * @returns {Promise<void>}
      */
     const handleSaveChanges = async (e) => {
+        e.preventDefault();
+
+        const currentDate = new Date();
+        const dateAdmission = new Date(editedData.dateOfAdmission, 0, 1);
+
+        if (dateAdmission > currentDate) {
+            FireError('Tu fecha de admisión no puede estar en el futuro.');
+            return;
+        }
+
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
         editedData.lifeInsurance =
             editedData.lifeInsurance === 'Si' ? true : false;
+        editedData.annuity = editedData.annuity === 'Si' ? true : false;
 
-        selectedSpecialties.forEach((specialty, i) => {
-            form.append(`specialties[${i}]`, specialty.value);
-        });
+        if (selectedSpecialties.length > 0) {
+            // If there are selected specialties, add them to the form
+            selectedSpecialties.forEach((specialty, i) => {
+                form.append(`specialties[${i}]`, specialty.value);
+            });
+        } else {
+            // If no specialties are selected, send a fake ID to indicate no specialties
+            form.append('specialties', '131233213123213132132132');
+        }
 
         form.append('DRONumber', editedData.DRONumber);
         form.append('collegiateNumber', editedData.collegiateNumber);
@@ -157,6 +181,7 @@ const ArchitectDetail = (props) => {
         form.append('capacitationHours', editedData.capacitationHours);
         form.append('hoursAttended', editedData.hoursAttended);
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
+        form.append('annuity', editedData.annuity);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
         form.append(
             'authorizationToShareInfo',
@@ -165,8 +190,6 @@ const ArchitectDetail = (props) => {
         form.append('file', editedData.linkCV);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
-
-        e.preventDefault();
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
@@ -228,9 +251,9 @@ const ArchitectDetail = (props) => {
         return filteredOptions;
     };
 
-    const getAnuuityOptions = () => {
-        const filteredOptions = Object.keys(anuuityOptions).filter(
-            (option) => option !== editedData.anuuity
+    const getAnnuityOptions = () => {
+        const filteredOptions = Object.keys(annuityOptions).filter(
+            (option) => option !== editedData.annuity
         );
         return filteredOptions;
     };
@@ -239,8 +262,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    (i) Modifica la información que sea necesaria. Al terminar,
-                    haz clic en guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz
+                    clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -372,8 +395,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Poliza de Seguro'
-                        placeholder='Poliza de Seguro'
+                        label='Póliza de Seguro'
+                        placeholder='Póliza de Seguro'
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({
@@ -382,7 +405,7 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-                    <TextInput
+                    <NumberInput
                         label='Horas de Capacitación'
                         placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
@@ -395,16 +418,17 @@ const ArchitectDetail = (props) => {
                     />
                     <DropdownInput
                         label='Pago de Anualidad'
-                        placeholder={editedData.anuuity}
-                        options={getAnuuityOptions()}
-                        getVal={editedData.anuuity}
+                        placeholder={editedData.annuity}
+                        options={getAnnuityOptions()}
+                        getVal={editedData.annuity}
                         setVal={(value) =>
                             setEditedData({
                                 ...editedData,
-                                anuuity: value,
+                                annuity: value,
                             })
                         }
                     />
+
                     <TextInput
                         label='Posiciones en Consejo'
                         placeholder='Posiciones en Consejo'

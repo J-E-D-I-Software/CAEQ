@@ -4,7 +4,7 @@ import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.G
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import { getCourseHours } from '../../client/Inscription/Inscription.GET';
-
+import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
@@ -43,7 +43,7 @@ const Profile = (props) => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
                 .then((response) => setProfile(response))
-                .catch((error) => navigate('/404'));
+                .catch((error) => FireError(error.response.data.message));
     }, []);
 
     useEffect(() => {

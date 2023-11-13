@@ -4,6 +4,7 @@ const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const ArchitectUser = require('../../models/architect.user.model');
 const Specialty = require('../../models/specialty.model');
 const app = require('../../app');
+const { loginAdmin } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
@@ -75,6 +76,7 @@ const testGetArchitectsBySpecialty = () => async () => {
 };
 
 const testGetArchitectUser = async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = '/architectusers';
     let res = await agent.get(`${endpoint}/3454534534`).send();
 

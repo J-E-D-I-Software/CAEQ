@@ -59,6 +59,27 @@
     max-width: 0.5rem;
   }
 
+  .InputContainer,
+  .DateInput-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .Input-title,
+  .DateInput-title {
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  
+  .Input-row,
+  .DateInput-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
+  
+
   .inputNumber-row h3,
   .DateInput-row h3 {
     text-align: center;
@@ -91,6 +112,7 @@
   @media (max-width: 768px) {
     .directory-header {
       flex-direction: column;
+      padding: 90px;
     }
   }
 

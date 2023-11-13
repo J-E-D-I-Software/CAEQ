@@ -33,7 +33,6 @@ export async function getAttendee(id) {
 export async function getAttendancesByArchitect(idArchitect) {
     let endpoint = `${baseApiEndpoint}/attendees/architect/${idArchitect}`;
     const response = await axios.get(endpoint);
-    console.log('enpoin', endpoint)
-    console.log('Respuesta de getAttendancesByArchitect:', response.data.data.attendees);
+    
     return response.data.data.attendees;
 }

@@ -97,6 +97,20 @@ const Signup = () => {
     }, []);
 
     const handleSignup = async (e) => {
+        e.preventDefault();
+        const currentDate = new Date();
+        const dateAdmission = new Date(dateOfAdmission, 0, 1);
+        const dateBirth = new Date(dateOfBirth);
+
+        if (dateAdmission > currentDate) {
+            FireError('Tu fecha de admisión no puede estar en el futuro.');
+            return;
+        }
+        if (dateBirth > currentDate) {
+            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            return;
+        }
+
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
@@ -132,7 +146,6 @@ const Signup = () => {
         form.append('authorizationToShareInfo', isAuthorized);
         form.append('password', password);
         form.append('passwordConfirm', passwordConfirm);
-        e.preventDefault();
 
         // Check if user exists
         let user = null;

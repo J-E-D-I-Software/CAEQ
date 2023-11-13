@@ -219,7 +219,7 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Municipio: </span>
-                            list' {profile.municipalityOfLabor}
+                            {profile.municipalityOfLabor}
                         </p>
                     </div>
                 </WhiteContainer>

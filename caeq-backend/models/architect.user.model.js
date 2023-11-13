@@ -170,6 +170,10 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    isRequest: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 // Indexing admin properties for optimized search

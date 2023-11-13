@@ -11,14 +11,14 @@ export async function getAllArchitectUsers(
     filtersParams = '',
     pageLimit = 100
 ) {
-    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${pageLimit}&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${pageLimit}&isRequest=false&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
 
 export async function getAllPublicArchitectUsers(page = 1, filtersParams = '') {
-    let endpoint = `${baseApiEndpoint}/architectusers/public?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/architectusers/public?page=${page}&limit=${paginationPageLimit}&isRequest=false&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;
@@ -57,6 +57,20 @@ export async function getArchitectUserByColegiateNumber(collegiateNumber) {
  */
 export async function getArchitectUsers() {
     let endpoint = `${baseApiEndpoint}/architectusers`;
+
+    const response = await axios.get(endpoint);
+
+    return response.data.data.documents;
+}
+
+/**
+ * Retrieves a list of architect user registration requests from the server.
+ * @async
+ * @function getArchitectUsers
+ * @returns {Promise<Array>} A promise that resolves to an array of architect user documents.
+ */
+export async function getArchitectRegistrationRequest() {
+    let endpoint = `${baseApiEndpoint}/architectusers/registration-requests`;
 
     const response = await axios.get(endpoint);
 

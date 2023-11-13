@@ -63,7 +63,7 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
         registrationRequestId
     ).populate({
         path: 'newInfo',
-        select: '-_id -email -isLegacy -overwritten -collegiateNumber +password',
+        select: '-_id -email -isLegacy -overwritten -collegiateNumber -isRequest +password',
     });
 
     if (!registerRequest) {
@@ -77,6 +77,7 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
         isLegacy: true,
         overwritten: true,
         collegiateNumber: registerRequest.architectNumber,
+        isRequest: false,
         ...newArchitectInfo._doc,
     });
 

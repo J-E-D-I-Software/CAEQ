@@ -100,6 +100,7 @@ async function createRegistrationRequest(req, existingUser, res) {
         ...req.body,
         email: `${Date.now()}${email}`,
         newEmail: email,
+        isRequest: true,
     });
 
     await RegisterRequest.create({

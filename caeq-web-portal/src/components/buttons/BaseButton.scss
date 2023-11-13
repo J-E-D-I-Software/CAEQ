@@ -9,7 +9,7 @@
   font-weight: 800;
   line-height: normal;
   letter-spacing: 1.615px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); 
   display: flex; 
   flex-direction: column; 
   align-items: center; 
@@ -21,15 +21,15 @@
 }
 
 .active {
-    background-color: #eea300; /* Cambio de color al pasar el ratón */
+    background-color: #eea300; 
     transform: translateY(-3px);
     color: rgb(255, 255, 255);
 }
 
 .button:hover {
-    background-color: #e0e0e0; /* Cambio de color al pasar el ratón */
-    transform: translateY(-3px); /* Elevación al pasar el ratón */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombreado */
+    background-color: #e0e0e0; 
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); 
 }
 
 .button-navbar:active {
@@ -45,7 +45,7 @@
     color: #ffffff;
 }
 .button-primary:hover {
-    background-color: #fab82b; /* Cambio de color al pasar el ratón */
+    background-color: #fab82b; 
 }
 
 .button-cancel {
@@ -54,7 +54,7 @@
     border: solid #ab3428 2px;
 }
 .button-cancel:hover {
-    background-color: #ffffff; /* Cambio de color al pasar el ratón */
+    background-color: #ffffff; 
 }
 
 .button-success {
@@ -63,7 +63,7 @@
 }
 
 .button-success:hover {
-    background-color: #0f9c89; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #0f9c89; 
 }
 
 .button-fail {
@@ -72,7 +72,7 @@
 }
 
 .button-fail:hover {
-    background-color: #c73c2f; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #c73c2f; 
 }
 
 .button-disabled {
@@ -81,26 +81,22 @@
 }
 
 .button-disabled:hover {
-    background-color: #6e7475; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+    background-color: #6e7475; 
 }
 
-.button-click {
-    color: #000000;
-    background-color: #e0e0e0;
-}
 
 .button-navbar {
     background-color: #eff9f0;
     width: 200px;
     height: 45px;
-    border-radius: 10px; /* Reducir la redondez del borde */
+    border-radius: 10px;
 }
 
 .button-navbar:hover {
-    background-color: #fab82b; /* Cambio de color al pasar el ratón */
+    background-color: #fab82b; 
 }
 
-/* Estilos para icono y etiqueta */
+
 .button-content {
     text-align: center;
     flex-grow: 2;
@@ -108,4 +104,13 @@
 
 .icon img {
     max-width: 24px;
+}
+
+.button-secondary {
+    color: #ffffff;
+    background-color: #062e52;
+}
+
+.button-secondary:hover {
+    background-color: #062e52;
 }

@@ -40,10 +40,9 @@ const GatheringCard = ({ data, ...props }) => {
             <div className="gathering-card--title">
                 {data.title ? data.title : `Asamblea del ${data.date}`}
             </div>
-            <div className="gathering-card--subtitle">Convocatoria</div>
             <div className="gathering-card--row">
                 <BaseButton
-                    type={data.moreInfo ? 'primary' : 'disabled'}
+                    type={data.moreInfo ? 'secondary' : 'disabled'}
                     className="download-button"
                     onClick={handleButtonClick}
                     disabled={!data.moreInfo}

@@ -50,7 +50,6 @@ const Profile = (props) => {
                 const architectId = SavedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
-                console.log('Asistencias', attendances);
 
                 // Calculate attendance by year
                 const attendanceByYear = {};

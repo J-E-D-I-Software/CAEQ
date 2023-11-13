@@ -36,29 +36,29 @@ import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
  * <Signup />
  */
 const Signup = () => {
-    const [fullName, setfullName] = useState('');
-    const [email, setEmail] = useState('');
+    const [fullName, setfullName] = useState('Edgar');
+    const [email, setEmail] = useState('admin@admin.com');
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
 
     const [DRONumber, setDRONumber] = useState('');
-    const [collegiateNumber, setCollegiateNumber] = useState('');
-    const [memberType, setMemberType] = useState('');
-    const [classification, setClassification] = useState('');
-    const [gender, setGender] = useState('');
-    const [cellphone, setCellphone] = useState('');
-    const [homePhone, setHomePhone] = useState('');
-    const [officePhone, setOfficePhone] = useState('');
-    const [homeAddress, setHomeAdress] = useState('');
-    const [workAddress, setWorkAddress] = useState('');
-    const [emergencyContact, setEmergencyContact] = useState('');
-    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('');
-    const [dateOfAdmission, setDateOfAdmission] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [university, setUniversity] = useState('');
-    const [professionalLicense, setProfessionalLicense] = useState('');
-    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('');
-    const [positionsInCouncil, setPositionsInCouncil] = useState('');
+    const [collegiateNumber, setCollegiateNumber] = useState('435345345345');
+    const [memberType, setMemberType] = useState('Miembro de número');
+    const [classification, setClassification] = useState('Expresidente');
+    const [gender, setGender] = useState('Hombre');
+    const [cellphone, setCellphone] = useState('4272293948');
+    const [homePhone, setHomePhone] = useState('4272293948');
+    const [officePhone, setOfficePhone] = useState('4272293948');
+    const [homeAddress, setHomeAdress] = useState('4272293948');
+    const [workAddress, setWorkAddress] = useState('4272293948');
+    const [emergencyContact, setEmergencyContact] = useState('4272293948');
+    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('4272293948');
+    const [dateOfAdmission, setDateOfAdmission] = useState('2000');
+    const [dateOfBirth, setDateOfBirth] = useState('2000-09-09');
+    const [university, setUniversity] = useState('4272293948');
+    const [professionalLicense, setProfessionalLicense] = useState('4272293948');
+    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('4272293948');
+    const [positionsInCouncil, setPositionsInCouncil] = useState('4272293948');
     const [linkCV, setLinkCV] = useState('');
     const [linkINE, setLinkINE] = useState('');
     const [linkCAEQCard, setLinkCAEQCard] = useState('');
@@ -67,9 +67,9 @@ const Signup = () => {
     const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
     const [linkAddressCertificate, setLinkAddressCertificate] = useState('');
     const [linkBirthCertificate, setLinkBirthCertificate] = useState('');
-    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('false');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
+    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('SÍ');
+    const [password, setPassword] = useState('admin12345');
+    const [passwordConfirm, setConfirmPassword] = useState('admin12345'); // Nuevo estado para la confirmación de contraseña
 
     const options = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
     const member = [
@@ -111,25 +111,31 @@ const Signup = () => {
         const dateBirth = new Date(dateOfBirth);
 
         if (dateAdmission > currentDate) {
-            FireError('Tu fecha de admisión no puede estar en el futuro.');
+            FireError('La fecha de admisión es inválida.');
             return;
         }
         if (dateBirth > currentDate) {
-            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            FireError('La fecha de nacimiento es inválida.');
             return;
         }
 
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
-            FireError('Por favor ingresa un correo electrónico válido.');
+            FireError('Por favor ingrese un correo electrónico válido.');
             return;
         }
+
+        if (authorizationToShareInfo == null || authorizationToShareInfo === '') {
+            FireError('Por favor indique si autoriza compartir su información.');
+        }
+        const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
+
         
         // Reduce file size
         let fileINE = linkINE;
         if (!linkINE) {
-            FireError('Por favor adjunta una foto de tu INE al derecho y al revés.');
+            FireError('Por favor adjunte una foto de su INE al derecho y al revés.');
             return;
         }
         if (linkINE.type.includes('image') && 
@@ -164,7 +170,6 @@ const Signup = () => {
         form.append('linkINE', fileINE);
         form.append('passwordConfirm', passwordConfirm);
         form.append('password', password);
-        const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
         form.append('authorizationToShareInfo', isAuthorized);
 
         const swal = FireLoading('Registrando arquitecto...');
@@ -205,11 +210,12 @@ const Signup = () => {
         }
 
         // Post files
-        const filesToUpload = [linkCV, linkCURP, linkProfesisonalLicense, 
-            linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate];
+        const filesToUpload = {linkCV, linkCURP, linkProfesisonalLicense, linkCAEQCard,
+            linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate};
         const errors = [];
-        for (let i = 0; i < filesToUpload.length; i++) {
-            let file = filesToUpload[i];
+        for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
+            const fileName = Object.keys(filesToUpload)[i];
+            let file = filesToUpload[fileName];
             
             if (file) {
                 // If file size is over 5mb we have to compress it for the backend
@@ -218,7 +224,7 @@ const Signup = () => {
                 }
 
                 const formFile = new FormData();
-                formFile.append('file', file);
+                formFile.append(fileName, file);
                 try {
                     const response = await updateArchitectUserByID(user._id, formFile);
                     if (response.status !== 'success')

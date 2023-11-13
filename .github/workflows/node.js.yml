@@ -64,7 +64,7 @@ jobs:
 
             - name: Echo 
               run: |
-                  echo "${{ secrets.GOOGLE_CREDENTIALS_CONTENT }}"
+                  echo -e "${{ secrets.GOOGLE_CREDENTIALS_CONTENT }}"
               working-directory: ${{ github.workspace }}/caeq-backend
             
             - name: Cat 

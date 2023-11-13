@@ -15,7 +15,7 @@ import './Profile.scss';
  * @returns {JSX.Element} - The JSX element representing the user's profile.
  */
 const Profile = (props) => {
-    const SavedUser = getArchitectUserSaved();
+    const savedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
@@ -25,21 +25,14 @@ const Profile = (props) => {
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
         : '';
     const normalDate = date.split('/').reverse().join('/');
-    const startDate = new Date(profile.dateOfAdmission);
-
-    const [selectedYear, setSelectedYear] = useState(null);
-
-    const handleYearClick = (year) => {
-        setSelectedYear((prevYear) => (prevYear === year ? null : year));
-    };
 
     const handleRoute = (id) => {
-        navigate(`/Perfil/${SavedUser._id}`);
+        navigate(`/Perfil/${savedUser._id}`);
     };
 
     useEffect(() => {
-        if (SavedUser._id)
-            getArchitectUserById(SavedUser._id)
+        if (savedUser._id)
+            getArchitectUserById(savedUser._id)
                 .then((response) => setProfile(response))
                 .catch((error) => FireError(error.response.data.message));
     }, []);
@@ -47,7 +40,7 @@ const Profile = (props) => {
     useEffect(() => {
         (async () => {
             try {
-                const architectId = SavedUser._id;
+                const architectId = savedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
 
@@ -68,7 +61,7 @@ const Profile = (props) => {
                 console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
-    }, [SavedUser._id]);
+    }, [savedUser._id]);
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();

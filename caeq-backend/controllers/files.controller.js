@@ -71,8 +71,7 @@ exports.formatCV = catchAsync(async (req, res, next) => {
 exports.formatGenericFile = catchAsync(async (req, res, next) => {
     for (const file of req.files) {
         const [fileType, specificType] = file.mimetype.split('/');
-        const fieldName = file.fieldName;
-        req.body[fieldName] = await uploadFile(file, specificType);
+        req.body[file.fieldname] = await uploadFile(file, specificType);
     }
     // Use next when you need the url in the next controllers. Delete the response from above.
     next();

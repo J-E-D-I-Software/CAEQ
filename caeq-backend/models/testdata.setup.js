@@ -144,9 +144,6 @@ const setUpInsciptionData = catchAsync(async () => {
     const course3 = await Course.findOne({
         courseName: 'Modelado y análisis de estructuras con SAP2000',
     });
-    const course4 = await Course.findOne({
-        courseName: 'Curso de prueba',
-    });
     const user1 = await ArchitectUser.findOne({
         email: 'relisib653@mugadget.com',
     });
@@ -170,11 +167,6 @@ const setUpInsciptionData = catchAsync(async () => {
         },
         {
             course: course3._id,
-            user: user1._id,
-            accredited: true,
-        },
-        {
-            course: course4._id,
             user: user1._id,
             accredited: true,
         },

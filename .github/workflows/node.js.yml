@@ -64,7 +64,7 @@ jobs:
 
             - name: Serger 
               run: |
-                  cd keys && cat caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
+                  echo "${{ secrets.GOOGLE_CREDENTIALS_CONTENT }}"
               working-directory: ${{ github.workspace }}/caeq-backend
 
             - name: Run tests

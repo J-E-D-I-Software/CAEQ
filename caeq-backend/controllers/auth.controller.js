@@ -109,9 +109,21 @@ async function createRegistrationRequest(req, existingUser, res) {
         architectNumber: updatedArchitect.collegiateNumber,
     });
 
+    updatedArchitect.email = email;
+    // Send welcome email
+    try {
+        await new Email(
+            updatedArchitect,
+            process.env.LANDING_URL
+        ).sendWelcomeUserRegistrationRequested();
+    } catch (error) {
+        // Prod logging
+        console.log(error);
+    }
+
     res.status(200).json({
         status: 'success',
-        message: `Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto número ${updatedArchitect.collegiateNumber} perfil y te de acceso al portal.`,
+        message: `Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado ${updatedArchitect.collegiateNumber} y te de acceso al portal.`,
     });
 
     return;

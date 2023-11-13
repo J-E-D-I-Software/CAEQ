@@ -156,10 +156,10 @@ const Signup = () => {
         }
         if (user) {
             const continueSignUp = await FireQuestion(
-                'Arquitecto ya existente',
+                'Número de colegiado ya registrado.',
                 `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
-                ¿Es usted ${user.fullName}?
-                ¿Desea continuar y actualizar con la información proporcionada?`
+                ¿Es usted ${user.fullName}? Si no es usted, por favor verifique que el número de colegiado que ingresó es correcto.
+                ¿Desea continuar y actualizar con la información proporcionada? Un administrador revisará sus datos y le dará acceso a la plataforma en breve.`
             );
             if (!continueSignUp.isConfirmed) return;
         }
@@ -168,16 +168,22 @@ const Signup = () => {
         try {
             const swal = FireLoading('Registrando arquitecto...');
             const response = await postSignupArchitectUsers(form);
-            if (response.status === 'success') {
+            console.log(response);
+            if (response.status === 'success' && response.statusCode === 201) {
                 const token = response.token;
 
                 setUserType(token);
                 setToken(token);
                 setArchitectUserSaved(response.data.user);
+
+                swal.close();
+                FireSucess('Te has registrado con éxito');
+                navigate('/Principal');
+            } else {
+                swal.close();
+                FireSucess(response.message);
+                navigate('/');
             }
-            swal.close();
-            FireSucess('Te has registrado con éxito');
-            navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
         }

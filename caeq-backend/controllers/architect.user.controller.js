@@ -88,7 +88,8 @@ exports.acceptArchitectUser = catchAsync(async (req, res, next) => {
 
     // Uncomment after emails are payed
     try {
-        await new Email(newArchitectInfo).sendAdminAccepted();
+        newArchitectInfo.email = newArchitectInfo.newEmail;
+        await new Email(newArchitectInfo).sendArchitectAccepted();
     } catch (error) {
         // Production logging
         console.log(error);
@@ -131,7 +132,8 @@ exports.rejectArchitectUser = catchAsync(async (req, res, next) => {
 
     // Uncomment after emails are payed
     try {
-        await new Email(registerRequest.newInfo).sendAdminRejected();
+        registerRequest.newInfo.email = registerRequest.newInfo.newEmail;
+        await new Email(registerRequest.newInfo).sendArchitectRejected();
     } catch (error) {
         // Production logging
         console.log(error);

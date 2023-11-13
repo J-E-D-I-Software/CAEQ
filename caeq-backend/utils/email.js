@@ -57,11 +57,9 @@ module.exports = class Email {
         //     return;
         // }
         if (!template || !subject) {
-            return next(
-                new AppError(
-                    `El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`,
-                    404
-                )
+            return new AppError(
+                `El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`,
+                404
             );
         }
 
@@ -181,6 +179,12 @@ module.exports = class Email {
         await Promise.all(promises);
     }
 
+    /**
+     * Sends an email alert to a user when their payment has been accepted for a course.
+     * @param {Object} user - The user object to send the email to.
+     * @param {Object} course - The course object for which the payment was accepted.
+     * @returns {Promise} A promise that resolves when the email has been sent.
+     */
     static async sendPaymentAcceptedAlert(user, course) {
         const email = new Email(user, '', '', '', '', course);
         return email.send(
@@ -189,8 +193,14 @@ module.exports = class Email {
         );
     }
 
+    /**
+     * Sends a payment rejected alert email to the user.
+     * @param {Object} user - The user object.
+     * @param {Object} course - The course object.
+     * @param {string} declinedReason - The reason for the payment rejection.
+     * @returns {Promise} A promise that resolves when the email is sent.
+     */
     static async sendPaymentRejectedAlert(user, course, declinedReason) {
-        console.log('razón de recahzo', declinedReason);
         const email = new Email(user, '', '', declinedReason, '', course);
         return email.send('rejectPayment', 'Su pago ha sido rechazado');
     }

@@ -4,15 +4,18 @@ import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 import PaymentCard from '../../components/cards/PaymentCard';
 
-import { patchAcceptPayment, patchDeclinedPayment } from '../../client/Payment/Payment.PATCH';
+import {
+    patchAcceptPayment,
+    patchDeclinedPayment,
+} from '../../client/Payment/Payment.PATCH';
 import {
     FireError,
     FireSucess,
     FireLoading,
     FireQuestion,
-    FireQuestionInput
+    FireQuestionInput,
 } from '../../utils/alertHandler';
-import {getAllPayments } from '../../client/Payment/Payment.GET';
+import { getAllPayments } from '../../client/Payment/Payment.GET';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -33,7 +36,7 @@ const AcceptAdmin = () => {
         (async () => {
             try {
                 const payments = await getAllPayments();
-                console.log("payment",payments)
+
                 setPayments(payments);
             } catch (error) {
                 FireError(error.response.data.message);
@@ -57,9 +60,7 @@ const AcceptAdmin = () => {
             }
 
             const swal = FireLoading('Aceptando pago...');
-            console.log("sisoy",id);
             const response = await patchAcceptPayment(id);
-            console.log("rancho",id);
             setPayments(payments.filter((payment) => payment._id !== id));
 
             swal.close();
@@ -89,7 +90,7 @@ const AcceptAdmin = () => {
             if (!confirmation.isConfirmed) {
                 return;
             }
-            
+
             const swal = FireLoading('Rechazando administrador...');
             const response = await patchDeclinedPayment(id, confirmation.value);
 
@@ -98,14 +99,7 @@ const AcceptAdmin = () => {
             swal.close();
             FireSucess('Pago rechazado con éxito');
         } catch (error) {
-            console.log('error',error)
-            //FireError(error.response.data.message);
-            // if (
-            //     error.response.data.message ===
-            //     'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.'
-            // ) {
-            //     setPayments(payments.filter((admin) => admin._id !== id));
-            // }
+            FireError(error.response.data.mesge);
         }
     };
 
@@ -114,43 +108,47 @@ const AcceptAdmin = () => {
      * @param {boolean} value - The boolean value to format.
      * @returns {string} - "Yes" if the value is true, "No" if it's false.
      */
-        const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
+    const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
 
     return (
         <div className='accept-payment-container'>
             <div className='payment-row'>
                 <h1>Pagos de los Cursos</h1>
                 <h2>
-                    El propósito de esta sección es aceptar los pagos a los diferentes cursos que se ofrecen en la plataforma.
+                    El propósito de esta sección es aceptar los pagos a los diferentes
+                    cursos que se ofrecen en la plataforma.
                 </h2>
             </div>
             <div className='payment-row-instruction'>
                 <img src={AcceptIcon} alt={`Accept Icon`} />
-                    <h3>
-                        De click a este icono para aceptar el pago de un curso e inscribirlo automáticamente.
-                    </h3>
-            </div>
-            <div className='payment-row-instruction'>
-                    <img src={RejectIcon} alt={`Reject Icon`} />
                 <h3>
-                    De click a este icono para rechazar el pago de un curso e informar al colegiado el motivo.
+                    De click a este icono para aceptar el pago de un curso e inscribirlo
+                    automáticamente.
                 </h3>
             </div>
-            <div className='payment-cards'> 
-                {payments.map((payment) => (<PaymentCard
-                    id = {payment._id}
-                    fullName={payment.user.fullName}
-                    userId={payment.user._id}
-                    courseId={payment.course._id}
-                    courseName={payment.course.courseName}
-                    invoice={formatBooleanValue(payment.wantsInvoice)}
-                    priceToPay={payment.course.price}
-                    teacherName={payment.course.teacherName}
-                    billimageURL={payment.billImageURL}
-                    acceptPayment={handleAccept}
-                    rejectPayment={handleReject}
-                 />))}
-               
+            <div className='payment-row-instruction'>
+                <img src={RejectIcon} alt={`Reject Icon`} />
+                <h3>
+                    De click a este icono para rechazar el pago de un curso e informar al
+                    colegiado el motivo.
+                </h3>
+            </div>
+            <div className='payment-cards'>
+                {payments.map((payment) => (
+                    <PaymentCard
+                        id={payment._id}
+                        fullName={payment.user.fullName}
+                        userId={payment.user._id}
+                        courseId={payment.course._id}
+                        courseName={payment.course.courseName}
+                        invoice={formatBooleanValue(payment.wantsInvoice)}
+                        priceToPay={payment.course.price}
+                        teacherName={payment.course.teacherName}
+                        billimageURL={payment.billImageURL}
+                        acceptPayment={handleAccept}
+                        rejectPayment={handleReject}
+                    />
+                ))}
             </div>
         </div>
     );

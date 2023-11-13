@@ -119,9 +119,8 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
 
     try {
         // Send payment accepted confirmation email
-        await Email.sendPaymentAcceptedAlert(payment.user, payment.course);
+        const reponse = await Email.sendPaymentAcceptedAlert(payment.user, payment.course)
     } catch (error) {
-        console.log(error);
         return next(
             new AppError(
                 'Hemos tenido problemas enviando un correo de confirmación.',

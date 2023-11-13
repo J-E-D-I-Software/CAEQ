@@ -4,7 +4,6 @@ import baseApiEndpoint from "../backendConfig";
 
 export async function patchAcceptPayment(id) {
     let endpoint = `${baseApiEndpoint}/payment/acceptPayment`;
-    console.log("pipipi",id);
 
     const body = {
         paymentId: id,

@@ -47,7 +47,6 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     try {
         await new Email(caeqUser).sendAdminAccepted();
     } catch (error) {
-        console.log(error);
         return next(
             new AppError(
                 'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',

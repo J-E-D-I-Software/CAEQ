@@ -116,7 +116,8 @@ const Signup = () => {
         
         // Reduce file size
         let fileINE = linkINE;
-        if (linkINE?.type.includes('image') && linkINE?.size > 3000000) {
+        if (linkINE?.type && linkINE.type.includes('image') && 
+            linkINE?.size > 3000000) {
             fileINE = await resizeImage(linkINE);
         }   
 

@@ -232,7 +232,7 @@ const testRegistrationCreation = async () => {
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body).toBeTruthy();
     expect(resTest1.body.message).toEqual(
-        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto número 45672 perfil y te de acceso al portal.'
+        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
     );
 
     const resLoginTest = await agent.post('/architectusers/auth/login').send({

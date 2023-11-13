@@ -77,8 +77,8 @@ const caeqUserTestData = [
         verified: true,
     },
     {
-        fullName: 'Olivia Parker',
-        email: 'olivia@example.com',
+        fullName: 'Jorge Castro',
+        email: 'cvjj1504@outlook.com',
         password: 'password123',
         passwordConfirm: 'password123',
         verified: false,

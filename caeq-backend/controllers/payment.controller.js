@@ -7,8 +7,11 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
 exports.getAllPayments = factory.getAll(Payment, [
-    { path: 'user', select: 'email name postalCode age educationLevel' },
-    { path: 'course', select: 'courseName teachers modality description cost capacity startDate endDate bankAccount',},
+    { path: 'user', select: 'email fullName age' },
+    {
+        path: 'course',
+        select: 'courseName teacherName modality description price capacity startDate endDate paymentInfo',
+    },
 ]);
 exports.getPayment = factory.getOne(Payment, ['user', 'course']);
 exports.createPayment = factory.createOne(Payment);
@@ -66,6 +69,7 @@ exports.startPayment = catchAsync(async (req, res, next) => {
         course: course._id,
         user: req.user._id,
         billImageURL: req.body.billImageURL,
+        wantsInvoice: req.body.wantsInvoice,
     });
     /*
     // Send payment notification email
@@ -112,21 +116,10 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
         course: payment.course,
         user: payment.user,
     });
-    /*
+
     try {
         // Send payment accepted confirmation email
-        await new Email(
-            payment.user,
-            '',
-            payment.course
-        ).sendPaymentAcceptedAlert();
-
-        // Send inscription confirmation email
-        await new Email(
-            payment.user,
-            process.env.LANDING_URL,
-            payment.course
-        ).sendInscriptonAlert();
+        const reponse = await Email.sendPaymentAcceptedAlert(payment.user, payment.course)
     } catch (error) {
         return next(
             new AppError(
@@ -134,7 +127,7 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }*/
+    }
 
     res.status(200).json({
         status: 'success',
@@ -144,6 +137,12 @@ exports.acceptPayment = catchAsync(async (req, res, next) => {
 
 exports.declinePayment = catchAsync(async (req, res, next) => {
     const paymentId = req.body.paymentId;
+    const declinedReason = req.body.declinedReason;
+    if (!declinedReason) {
+        return next(
+            new AppError('Debes proporcionar una razón para rechazar el pago.', 400)
+        );
+    }
 
     // Check if payment exists
     let payment = await Payment.findById(paymentId).populate(['user', 'course']);
@@ -166,13 +165,14 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
     await Course.findByIdAndUpdate(payment.course._id, {
         capacity: payment.course.capacity + 1,
     });
-    /*
+
     try {
-        await new Email(
+        // Send payment rejected confirmation email
+        const response = await Email.sendPaymentRejectedAlert(
             payment.user,
-            '',
-            payment.course
-        ).sendPaymentRejectedAlert();
+            payment.course,
+            declinedReason
+        );
     } catch (error) {
         return next(
             new AppError(
@@ -180,7 +180,7 @@ exports.declinePayment = catchAsync(async (req, res, next) => {
                 500
             )
         );
-    }*/
+    }
     // Send payment rejected confirmation email
 
     res.status(200).json({

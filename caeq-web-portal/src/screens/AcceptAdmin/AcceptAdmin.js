@@ -149,8 +149,21 @@ const AcceptAdmin = () => {
             const swal = FireLoading('Aceptando usuario...');
             const response = await patchAcceptRegistration(id);
 
+            const newUser = registration.newInfo;
+            const oldUser = registration.overwrites;
+
             setRegistrations(
-                registrations.filter((registration) => registration._id !== id)
+                registrations
+                    .filter((registration) => registration._id !== id)
+                    .map((registration) => {
+                        if (registration.overwrites._id === oldUser._id) {
+                            registration.overwrites = newUser;
+                            registration.overwrites.email = newUser.newEmail;
+                        }
+                        console.log(registration);
+
+                        return registration;
+                    })
             );
 
             swal.close();

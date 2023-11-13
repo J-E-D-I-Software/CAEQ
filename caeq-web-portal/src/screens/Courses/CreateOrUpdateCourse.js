@@ -1,6 +1,11 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FireError, FireSucess, FireLoading, FireNotification } from '../../utils/alertHandler';
+import {
+    FireError,
+    FireSucess,
+    FireLoading,
+    FireNotification,
+} from '../../utils/alertHandler';
 import CourseCard from '../../components/cards/CourseCard';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
@@ -71,9 +76,7 @@ const CreateOrUpdateCourse = () => {
 
             getCourseInscriptions(searchParams.id)
                 .then((response) => setInscriptions(response))
-                .catch((error) =>
-                    console.error('Error fetching data: ', error)
-                );
+                .catch((error) => console.error('Error fetching data: ', error));
             getAllSessions(searchParams.id).then((response) => {
                 setSessions(response);
                 if (response.length > 0) setSessionSelected(response[0]);
@@ -102,9 +105,7 @@ const CreateOrUpdateCourse = () => {
         // Validations
         if (data.pricing === 'Gratuito') data.price = 0;
         else if (!data.pricing) {
-            FireError(
-                'Es necesario declarar si el cursos es gratuito o de paga'
-            );
+            FireError('Es necesario declarar si el cursos es gratuito o de paga');
             return;
         }
 
@@ -118,20 +119,11 @@ const CreateOrUpdateCourse = () => {
             return;
         }
 
-        if (data.courseName.length > 70) {
-            FireError(
-                'Se acepta un máximo de 70 caracteres para el nombre del curso'
-            );
-            return;
-        }
-
         if (data.startDate && data.endDate) {
             const startD = new Date(data.startDate);
             const endD = new Date(data.endDate);
             if (endD < startD) {
-                FireError(
-                    'La fecha fin debe de ir después de la fecha de inicio'
-                );
+                FireError('La fecha fin debe de ir después de la fecha de inicio');
                 return;
             }
         }
@@ -143,17 +135,14 @@ const CreateOrUpdateCourse = () => {
 
         // Build FormData
         const formData = new FormData();
-        Object.entries(data).forEach((entry) =>
-            formData.append(entry[0], entry[1])
-        );
+        Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
 
         if (image) formData.set('imageUrl', image);
 
         let response = null;
         const swal = FireLoading('Guardando...');
         try {
-            if (searchParams.id)
-                response = await updateCourse(searchParams.id, formData);
+            if (searchParams.id) response = await updateCourse(searchParams.id, formData);
             else response = await createCourse(formData);
 
             if (!response._id) throw 'Error: ' + response;
@@ -191,18 +180,13 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Guardando...');
         try {
             const courseId = searchParams.id;
-            const mode = Number.isInteger(sessionSelected._id)
-                ? 'create'
-                : 'update';
+            const mode = Number.isInteger(sessionSelected._id) ? 'create' : 'update';
             if (mode === 'create') {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
                 const newSession = await createSession(sessionSelected);
                 setSessionSelected(newSession);
-                setSessions([
-                    ...sessions.slice(0, sessions.length - 1),
-                    newSession,
-                ]);
+                setSessions([...sessions.slice(0, sessions.length - 1), newSession]);
             } else {
                 await updateSession(sessionSelected._id, sessionSelected);
             }
@@ -232,9 +216,7 @@ const CreateOrUpdateCourse = () => {
         try {
             await deleteSession(sessionSelected._id);
             setSessions(
-                sessions.filter(
-                    (session) => session._id !== sessionSelected._id
-                )
+                sessions.filter((session) => session._id !== sessionSelected._id)
             );
             setSessionSelected(sessions[0]);
             swal.close();
@@ -296,16 +278,17 @@ const CreateOrUpdateCourse = () => {
         event.preventDefault();
         if (!session?.attendees) return false;
         if (didUserAttendedSession(user, session))
-            session.attendees = session.attendees.filter(x => x !== user._id);
-        else
-            session.attendees.push(user._id);
+            session.attendees = session.attendees.filter((x) => x !== user._id);
+        else session.attendees.push(user._id);
         updateSession(session._id, session)
-        .then( () => {
-            const element = event.target;
-            element.checked = !element.checked;
-            FireNotification('Asistencia actualizada');
-        })
-        .catch(() => FireNotification('Ocurrió un problema, por favor intente de nuevo'));
+            .then(() => {
+                const element = event.target;
+                element.checked = !element.checked;
+                FireNotification('Asistencia actualizada');
+            })
+            .catch(() =>
+                FireNotification('Ocurrió un problema, por favor intente de nuevo')
+            );
     };
 
     return (
@@ -337,17 +320,13 @@ const CreateOrUpdateCourse = () => {
                     <div className='create-course--form-group'>
                         <label
                             htmlFor='pricing'
-                            className='create-course__label-input label-input'
-                        >
+                            className='create-course__label-input label-input'>
                             Curso gratuito o pagado
                         </label>
                         <select
                             className='dropdown-input'
-                            onChange={(e) =>
-                                updateData('pricing', e.target.value)
-                            }
-                            value={data.pricing}
-                        >
+                            onChange={(e) => updateData('pricing', e.target.value)}
+                            value={data.pricing}>
                             <option value='Gratuito'>Gratuito</option>
                             <option value='Pagado'>Pagado</option>
                         </select>
@@ -362,9 +341,7 @@ const CreateOrUpdateCourse = () => {
                             <TextInput
                                 label='Datos de pago'
                                 getVal={data.paymentInfo}
-                                setVal={(value) =>
-                                    updateData('paymentInfo', value)
-                                }
+                                setVal={(value) => updateData('paymentInfo', value)}
                                 placeholder='Cuenta a dónde hay que hacer el depósito'
                             />
                         </Fragment>
@@ -399,17 +376,13 @@ const CreateOrUpdateCourse = () => {
                     <div className='create-course--form-group'>
                         <label
                             htmlFor='pricing'
-                            className='create-course__label-input label-input'
-                        >
+                            className='create-course__label-input label-input'>
                             Modalidad
                         </label>
                         <select
                             className='dropdown-input'
-                            onChange={(e) =>
-                                updateData('modality', e.target.value)
-                            }
-                            value={data.modality}
-                        >
+                            onChange={(e) => updateData('modality', e.target.value)}
+                            value={data.modality}>
                             <option value='Presencial'>Presencial</option>
                             <option value='Remoto'>Remoto</option>
                         </select>
@@ -427,10 +400,7 @@ const CreateOrUpdateCourse = () => {
                         allowDecimals={false}
                     />
                     <div className='create-course--form-group'>
-                        <label
-                            htmlFor='startDate'
-                            className='create-course__label-input'
-                        >
+                        <label htmlFor='startDate' className='create-course__label-input'>
                             Fecha de inicio
                         </label>
                         <input
@@ -438,16 +408,11 @@ const CreateOrUpdateCourse = () => {
                             className='date-input'
                             value={data.startDate}
                             type='date'
-                            onChange={(e) =>
-                                updateData('startDate', e.target.value)
-                            }
+                            onChange={(e) => updateData('startDate', e.target.value)}
                         />
                     </div>
                     <div className='create-course--form-group'>
-                        <label
-                            htmlFor='endDate'
-                            className='create-course__label-input'
-                        >
+                        <label htmlFor='endDate' className='create-course__label-input'>
                             Fecha de finalización
                         </label>
                         <input
@@ -455,9 +420,7 @@ const CreateOrUpdateCourse = () => {
                             className='date-input'
                             value={data.endDate}
                             type='date'
-                            onChange={(e) =>
-                                updateData('endDate', e.target.value)
-                            }
+                            onChange={(e) => updateData('endDate', e.target.value)}
                         />
                     </div>
                     <TextInput
@@ -485,10 +448,7 @@ const CreateOrUpdateCourse = () => {
                         setVal={setImage}
                     />
 
-                    <BaseButton
-                        type='primary'
-                        onClick={(e) => onSubmitCourse(e)}
-                    >
+                    <BaseButton type='primary' onClick={(e) => onSubmitCourse(e)}>
                         {searchParams.id ? 'Guardar curso' : 'Crear curso'}
                     </BaseButton>
                 </div>
@@ -507,8 +467,7 @@ const CreateOrUpdateCourse = () => {
                                             : ''
                                     }
                                     onClick={() => setSessionSelected(session)}
-                                    key={i}
-                                >
+                                    key={i}>
                                     {session.date
                                         ? formatDate(session.date.slice(0, 10))
                                         : `Sesión ${i + 1} (sin guardar)`}
@@ -531,8 +490,7 @@ const CreateOrUpdateCourse = () => {
                                                 time: data.schedule,
                                             },
                                         ]);
-                                    }}
-                                >
+                                    }}>
                                     <div>+</div>
                                 </li>
                             )}
@@ -549,16 +507,10 @@ const CreateOrUpdateCourse = () => {
                                 setVal={(val) => onUpdateSession('time', val)}
                                 placeholder='14:00 hrs'
                             />
-                            <BaseButton
-                                type='primary'
-                                onClick={onSubmitSession}
-                            >
+                            <BaseButton type='primary' onClick={onSubmitSession}>
                                 Guardar
                             </BaseButton>
-                            <BaseButton
-                                type='fail'
-                                onClick={onSubmitDeleteSession}
-                            >
+                            <BaseButton type='fail' onClick={onSubmitDeleteSession}>
                                 Eliminar
                             </BaseButton>
                         </div>
@@ -576,21 +528,25 @@ const CreateOrUpdateCourse = () => {
                                         {inscriptions.map((inscription, i) => (
                                             <tr key={i}>
                                                 <td>
-                                                    <input 
-                                                        type='checkbox' 
-                                                        checked={didUserAttendedSession(inscription.user, sessionSelected)}
-                                                        onChange={(e) => onUpdateAttendance(e, inscription.user, sessionSelected)}
-                                                        />
+                                                    <input
+                                                        type='checkbox'
+                                                        checked={didUserAttendedSession(
+                                                            inscription.user,
+                                                            sessionSelected
+                                                        )}
+                                                        onChange={(e) =>
+                                                            onUpdateAttendance(
+                                                                e,
+                                                                inscription.user,
+                                                                sessionSelected
+                                                            )
+                                                        }
+                                                    />
                                                 </td>
                                                 <td>
-                                                    {
-                                                        inscription.user
-                                                            .collegiateNumber
-                                                    }
+                                                    {inscription.user.collegiateNumber}
                                                 </td>
-                                                <td>
-                                                    {inscription.user.fullName}
-                                                </td>
+                                                <td>{inscription.user.fullName}</td>
                                             </tr>
                                         ))}
                                     </tbody>

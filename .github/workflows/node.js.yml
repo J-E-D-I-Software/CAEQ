@@ -60,7 +60,7 @@ jobs:
             - name: Set google credentials file
               run: |
                   mkdir -p keys/ && echo $GOOGLE_CREDENTIALS_CONTENT > keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
-                  ls
+                  cd keys && cat caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
               working-directory: ${{ github.workspace }}/caeq-backend
 
             - name: Run tests

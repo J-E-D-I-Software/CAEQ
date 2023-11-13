@@ -254,7 +254,7 @@ const AcceptAdmin = () => {
                 </div>
             </div>
             <div className='accept-admin'>
-                <h1>Usuarios por registrar</h1>
+                <h1>Colegiados por registrar</h1>
                 <h2>
                     El propósito de esta sección es conceder autorizaciones a otras
                     cuentas para permitirles el acceso al portal de arquitectos. Las

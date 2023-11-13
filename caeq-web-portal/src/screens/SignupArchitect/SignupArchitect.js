@@ -116,7 +116,11 @@ const Signup = () => {
         
         // Reduce file size
         let fileINE = linkINE;
-        if (linkINE?.type && linkINE.type.includes('image') && 
+        if (!linkINE) {
+            FireError('Por favor adjunta una foto de tu INE al derecho y al revés.');
+            return;
+        }
+        if (linkINE.type.includes('image') && 
             linkINE?.size > 3000000) {
             fileINE = await resizeImage(linkINE);
         }   

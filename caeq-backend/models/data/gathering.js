@@ -11,7 +11,7 @@ const gathering = [
     },
     {
         isExtraordinary: false,
-        title: 'Reunión de Invierno 2022',
+        title: 'Reunión de Invierno 2022 jAJA JAJA JAJA',
         meetingLink: 'https://ejemplo.com/asamblea3',
         meetingTime: '4:30 PM',
         moreInfo: 'Asamblea de invierno para tratar temas estacionales.',

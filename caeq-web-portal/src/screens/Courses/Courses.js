@@ -62,7 +62,7 @@ const Courses = (props) => {
                     </BaseButton>
                 </RestrictByRole>
                 <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton type="primary" onClick={() => navigate('/MisCursos')}>
+                    <BaseButton type="secondary" onClick={() => navigate('/MisCursos')}>
                         Mis Inscripciones
                     </BaseButton>
                 </RestrictByRole>

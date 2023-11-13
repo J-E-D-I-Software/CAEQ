@@ -16,6 +16,7 @@ jobs:
 
         env:
             STORAGE_BUCKET: ${{secrets.STORAGE_BUCKET}}
+            GOOGLE_CREDENTIALS_FILE: ${{secrets.GOOGLE_CREDENTIALS_FILE}}
             NODE_ENV: testing
             DATABASE_CONNECTION: ${{ secrets.DATABASE_CONNECTION }}
             DATABASE_USER: ${{ secrets.DATABASE_USER }}
@@ -55,6 +56,10 @@ jobs:
               run: |
                   npm install
               working-directory: ${{ github.workspace }}/caeq-backend
+
+            - name: Set google credentials file
+              run: |
+                  echo "$GOOGLE_CREDENTIALS_CONTENT" > ${{ github.workspace }}/caeq-backend/keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
 
             - name: Run tests
               run: |

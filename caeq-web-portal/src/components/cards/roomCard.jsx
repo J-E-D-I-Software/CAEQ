@@ -39,10 +39,11 @@ const RoomCard = ({showMoreBtn=true, ...props}) => {
                                 Swal.fire({
                                     title: props.name,
                                     html: props.specifications ? props.specifications.replaceAll('-', '<br>-'): 'No hay más detalles de este salón.',
-                                    imageUrl: "https://caeq.org/wp-content/uploads/2016/09/Salo%CC%81n-Principal-1.jpg",
+                                    imageUrl: props.RoomPhoto,
                                     imageWidth: 400,
                                     imageHeight: 200,
-                                    imageAlt: "Custom image"
+                                    imageAlt: "Custom image",
+                                    confirmButtonColor: '#FAB82B',
                                   })}>
                                 Ver detalles
                             </BaseButton>

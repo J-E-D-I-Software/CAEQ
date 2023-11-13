@@ -36,29 +36,29 @@ import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
  * <Signup />
  */
 const Signup = () => {
-    const [fullName, setfullName] = useState('Edgar');
-    const [email, setEmail] = useState('admin@admin.com');
+    const [fullName, setfullName] = useState('');
+    const [email, setEmail] = useState('');
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
 
     const [DRONumber, setDRONumber] = useState('');
-    const [collegiateNumber, setCollegiateNumber] = useState('435345345345');
-    const [memberType, setMemberType] = useState('Miembro de número');
-    const [classification, setClassification] = useState('Expresidente');
-    const [gender, setGender] = useState('Hombre');
-    const [cellphone, setCellphone] = useState('4272293948');
-    const [homePhone, setHomePhone] = useState('4272293948');
-    const [officePhone, setOfficePhone] = useState('4272293948');
-    const [homeAddress, setHomeAdress] = useState('4272293948');
-    const [workAddress, setWorkAddress] = useState('4272293948');
-    const [emergencyContact, setEmergencyContact] = useState('4272293948');
-    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('4272293948');
-    const [dateOfAdmission, setDateOfAdmission] = useState('2000');
-    const [dateOfBirth, setDateOfBirth] = useState('2000-09-09');
-    const [university, setUniversity] = useState('4272293948');
-    const [professionalLicense, setProfessionalLicense] = useState('4272293948');
-    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('4272293948');
-    const [positionsInCouncil, setPositionsInCouncil] = useState('4272293948');
+    const [collegiateNumber, setCollegiateNumber] = useState('');
+    const [memberType, setMemberType] = useState('');
+    const [classification, setClassification] = useState('');
+    const [gender, setGender] = useState('');
+    const [cellphone, setCellphone] = useState('');
+    const [homePhone, setHomePhone] = useState('');
+    const [officePhone, setOfficePhone] = useState('');
+    const [homeAddress, setHomeAdress] = useState('');
+    const [workAddress, setWorkAddress] = useState('');
+    const [emergencyContact, setEmergencyContact] = useState('');
+    const [mainProfessionalActivity, setMainProfessionalActivity] = useState('');
+    const [dateOfAdmission, setDateOfAdmission] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [university, setUniversity] = useState('');
+    const [professionalLicense, setProfessionalLicense] = useState('');
+    const [municipalityOfLabor, setMunicipalityOfLabor] = useState('');
+    const [positionsInCouncil, setPositionsInCouncil] = useState('');
     const [linkCV, setLinkCV] = useState('');
     const [linkINE, setLinkINE] = useState('');
     const [linkCAEQCard, setLinkCAEQCard] = useState('');
@@ -67,9 +67,9 @@ const Signup = () => {
     const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
     const [linkAddressCertificate, setLinkAddressCertificate] = useState('');
     const [linkBirthCertificate, setLinkBirthCertificate] = useState('');
-    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('SÍ');
-    const [password, setPassword] = useState('admin12345');
-    const [passwordConfirm, setConfirmPassword] = useState('admin12345'); // Nuevo estado para la confirmación de contraseña
+    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('NO');
+    const [password, setPassword] = useState('');
+    const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
 
     const options = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
     const member = [

@@ -50,35 +50,32 @@ const Profile = (props) => {
         (async () => {
             try {
                 const architectId = SavedUser._id;
-                const attendances = await getAttendancesByArchitect(
-                    architectId
-                );
+                const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
 
-                // Calculate attendance by year
-                const attendanceByYear = {};
-                for (const asistencia of attendances) {
-                    const year = asistencia.idGathering.year;
-                    if (asistencia.attended) {
-                        if (!attendanceByYear[year]) {
-                            attendanceByYear[year] = 1;
-                        } else {
-                            attendanceByYear[year]++;
+                if (attendances.length > 0) {
+                    // Calculate attendance by year
+                    const attendanceByYear = {};
+                    for (const asistencia of attendances) {
+                        const year = asistencia.idGathering.year;
+                        if (asistencia.attended) {
+                            if (!attendanceByYear[year]) {
+                                attendanceByYear[year] = 1;
+                            } else {
+                                attendanceByYear[year]++;
+                            }
                         }
                     }
+                    setAttendanceByYear(attendanceByYear);
                 }
-                setAttendanceByYear(attendanceByYear);
 
                 const accreditedHours = await getCourseHours(SavedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
-                console.error(
-                    'Error al obtener asistencias por arquitecto',
-                    error
-                );
+                console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
-    }, [SavedUser._id]);
+    }, []);
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -174,13 +171,10 @@ const Profile = (props) => {
                             <span>Horas Acreditadas: </span>
 
                             {courseHours
-                                .sort(
-                                    (prev, next) => next.endYear - prev.endYear
-                                )
+                                .sort((prev, next) => next.endYear - prev.endYear)
                                 .map((courseHour) => (
                                     <p>
-                                        {courseHour.startYear} -{' '}
-                                        {courseHour.endYear} :{' '}
+                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
                                         {courseHour.value}
                                     </p>
                                 ))}
@@ -189,8 +183,7 @@ const Profile = (props) => {
                             <span>Asistencias por Año:</span>
                             {Object.keys(attendanceByYear).map((year) => (
                                 <p key={year}>
-                                    {year}: {attendanceByYear[year] || 0}{' '}
-                                    asistencias
+                                    {year}: {attendanceByYear[year] || 0} asistencias
                                 </p>
                             ))}
                         </p>

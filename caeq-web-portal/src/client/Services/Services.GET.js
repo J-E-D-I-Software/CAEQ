@@ -10,6 +10,10 @@ export async function getAllRooms(page = 1, filtersParams = '') {
     return response.data.data.documents;
 }
 
+/**
+ * It makes a GET request to the endpoint `/salon/:id` and returns the response data.
+ * @returns An object.
+ */
 export async function getRoom(id) {
     let endpoint = `${baseApiEndpoint}/services/${id}`;
 

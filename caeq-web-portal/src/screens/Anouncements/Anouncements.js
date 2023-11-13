@@ -71,9 +71,10 @@ function Anouncements() {
                     getVal={subject}
                     setVal={setSubject}
                 />
-                <LargeTextInput
+                <LargeTextInput 
                     label='Mensaje del Correo'
                     placeholder='Hola, le invitamos a conocer la nueva plataforma CAEQ.'
+                    maxlenght = {10000}
                     getVal={message}
                     setVal={setMessage}
                 />

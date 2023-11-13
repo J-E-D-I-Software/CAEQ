@@ -13,6 +13,7 @@ const {
     loginArchitectUser,
     signUpArchitectUser,
     protect,
+    restrictTo,
 } = require(`${__dirname}/../controllers/auth.controller.js`);
 const {
     forgotPasswordArchitectUser,
@@ -32,10 +33,17 @@ router.post('/auth/login', loginArchitectUser);
 router.post('/forgot-password', forgotPasswordArchitectUser);
 router.patch('/reset-password/:token', resetPasswordArchitectUser);
 router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
+
 router
     .route('/:id')
-    .get(getArchitectUser)
-    .patch(fileParser, filesController.formatGenericFile, updateArchitectUser)
-    .delete(deleteArchitectUser);
+    .get(protect, restrictTo('caeq', 'self'), getArchitectUser)
+    .patch(
+        protect,
+        restrictTo('caeq', 'self'),
+        fileParser,
+        filesController.formatGenericFile,
+        updateArchitectUser
+    )
+    .delete(protect, restrictTo('caeq', 'self'), deleteArchitectUser);
 
 module.exports = router;

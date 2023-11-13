@@ -71,16 +71,20 @@ const GatheringCard = ({ data, ...props }) => {
             </div>
             {data._id ? (
                 <div className='gathering-card--row--buttons'>
-                    <BaseButton
-                        type='primary'
-                        onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}>
-                        Asistencias
-                    </BaseButton>
-                    <BaseButton
-                        type='primary'
-                        onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
-                        Editar
-                    </BaseButton>
+                    <RestrictByRole allowedRoles={['caeq']}>
+                        <BaseButton
+                            type='primary'
+                            onClick={() =>
+                                navigate(`/Asambleas/Asistencias/${data._id}`)
+                            }>
+                            Asistencias
+                        </BaseButton>
+                        <BaseButton
+                            type='primary'
+                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
+                            Editar
+                        </BaseButton>
+                    </RestrictByRole>
                 </div>
             ) : (
                 <></>

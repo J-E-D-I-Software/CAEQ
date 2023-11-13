@@ -14,7 +14,9 @@ exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);
 exports.getAllPublicArchitectUsers = async (req, res) => {
     let query = ArchitectUser.find({
         authorizationToShareInfo: true,
-    }).select('fullName DRONumber cellphone specialty linkCV email');
+    })
+        .select('fullName DRONumber cellphone specialties linkCV email')
+        .populate('specialties');
 
     const features = new APIFeatures(query, req.query)
         .filter()

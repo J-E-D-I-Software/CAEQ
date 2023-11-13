@@ -50,7 +50,7 @@ const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
                             <BaseButton
                                 className='mb-1'
                                 type='primary'
-                                onClick={() => navigate(`/Curso/${props.course._id}`)}
+                                onClick={() => navigate(`/MisCursos/${props.course._id}`)}                                
                             >
                                 Ver más
                             </BaseButton>

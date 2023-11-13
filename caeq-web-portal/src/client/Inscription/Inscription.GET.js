@@ -11,6 +11,7 @@ export async function getCourseInscriptions(id) {
     let endpoint = `${baseApiEndpoint}/inscription?course=${id}`;
 
     const response = await axios.get(endpoint);
+    console.log(response);
     return response.data.data.documents;
 }
 
@@ -27,4 +28,18 @@ export async function getMyInscriptions(page = 1, filtersParams = '') {
 
     const response = await axios.get(endpoint);
     return response.data.data.document;
+}
+
+
+/**
+ * Gets the inscriptions of architects to a course.
+ *
+ * @param {string} id - The ID of the course.
+ * @returns {Promise} A promise that resolves with the response data when the inscribe operation is successful.
+ */
+export async function getInscription(id) {
+    let endpoint = `${baseApiEndpoint}/inscription/${id}`;
+
+    const response = await axios.get(endpoint);
+    return response.data.document;
 }

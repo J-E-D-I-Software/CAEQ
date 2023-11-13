@@ -18,6 +18,7 @@ import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
 import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
+import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
 
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
@@ -94,6 +95,15 @@ const routes = [
         icon: CursosIcon,
         iconWhite: CursosIconWhite,
         Component: MyInscription,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/MisCursos/:id',
+        name: 'MiCurso',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: Inscriptiondetail,
         isPrivate: true,
         inNavbar: false,
     },

@@ -168,7 +168,7 @@ const Signup = () => {
         try {
             const swal = FireLoading('Registrando arquitecto...');
             const response = await postSignupArchitectUsers(form);
-            console.log(response);
+
             if (response.status === 'success' && response.statusCode === 201) {
                 const token = response.token;
 

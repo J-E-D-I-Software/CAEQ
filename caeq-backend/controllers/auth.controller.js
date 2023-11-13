@@ -149,7 +149,6 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const existingUser = await ArchitectUser.findOne({
         collegiateNumber,
     });
-    console.log('User', existingUser);
 
     if (existingUser) {
         if (existingUser.isLegacy === true) {

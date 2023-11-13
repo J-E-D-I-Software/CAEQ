@@ -59,7 +59,7 @@ jobs:
 
             - name: Set google credentials file
               run: |
-                  echo "$GOOGLE_CREDENTIALS_CONTENT" > ${{ github.workspace }}/caeq-backend/keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
+                  echo $GOOGLE_CREDENTIALS_CONTENT > ${{ github.workspace }}/caeq-backend/keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
 
             - name: Run tests
               run: |

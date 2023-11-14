@@ -50,6 +50,9 @@ const Courses = (props) => {
 
             <div className='courses--row courses__filters'>
                 <RestrictByRole allowedRoles={['caeq']}>
+                <BaseButton type='primary' className='accept-payment' onClick={() => navigate('/AcceptPayment')}>
+                        Ver solicitudes de pago
+                    </BaseButton>
                     <BaseButton type='primary' onClick={() => navigate('/Cursos/Curso')}>
                         Crear curso
                     </BaseButton>

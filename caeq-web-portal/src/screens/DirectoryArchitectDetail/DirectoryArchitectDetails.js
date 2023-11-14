@@ -523,16 +523,16 @@ const ArchitectDetail = (props) => {
                     )}
                     <FileInput
                         label='Cédula Profesional'
-                        getVal={editedData.linkProfesisonalLicense}
+                        getVal={editedData.linkProfessionalLicense}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkProfesisonalLicense: value })
+                            setEditedData({ ...editedData, linkProfessionalLicense: value })
                         }
                         accept='image/*,application/pdf'
                     />
-                    {editedData.linkProfesisonalLicense ? (
+                    {editedData.linkProfessionalLicense ? (
                         <p>
                             Archivo Actual:
-                            <a href={editedData.linkProfesisonalLicense}>
+                            <a href={editedData.linkProfessionalLicense}>
                                 <span>Descargar cédula profesional</span>
                             </a>
                         </p>

@@ -255,8 +255,8 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Cédula Profesional: </span>
-                            {profile.linkProfesisonalLicense ?
-                                <a href={profile.linkProfesisonalLicense}>Visualizar</a>
+                            {profile.linkProfessionalLicense ?
+                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
                                 : 'No hay documento guardado'
                             }
                         </p>

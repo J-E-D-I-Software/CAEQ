@@ -9,7 +9,7 @@ const {
 let admin;
 let db;
 
-if (NODE_ENV !== 'test') {
+if (NODE_ENV !== 'testing') {
     // Only initialize Firebase if not running tests
     admin = require('firebase-admin');
     const credentials = require(`../keys/${GOOGLE_CREDENTIALS_FILE}`);

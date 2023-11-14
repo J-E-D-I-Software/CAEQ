@@ -15,7 +15,7 @@ const RoomCard = ({showMoreBtn=true, ...props}) => {
             <div className='card-col-1'>
                 <h2>{props.name}</h2>
                 
-                <p>{currencyFormat(props.cost)}</p>
+                <p>{currencyFormat(props.cost)} + IVA</p>
                     
             </div>
             <div className='card-col-2'>

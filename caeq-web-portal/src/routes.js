@@ -19,6 +19,7 @@ import Principal from './screens/Principal/Principal';
 import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
+import InscriptionAsistance from './screens/MyInscriptions/InscriptionAsistance';
 
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
@@ -99,6 +100,13 @@ const routes = [
         inNavbar: false,
     },
     {
+        path: '/AsistenciasCursos',
+        name: 'Mis Asistencias a Cursos',
+        Component: InscriptionAsistance,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
         path: '/MisCursos/:id',
         name: 'MiCurso',
         icon: CursosIcon,
@@ -129,8 +137,6 @@ const routes = [
     {
         path: '/Cursos/Curso/:id',
         name: 'Curso',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,

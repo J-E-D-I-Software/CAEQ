@@ -19,7 +19,7 @@ import './GatheringCard.scss';
 const GatheringCard = ({ data, ...props }) => {
     const navigate = useNavigate();
 
-    // Function to format the date to "dd/mm/yy"
+    // Function to format the date to 'dd/mm/yy'
     function formatDateToDdMmYy(dateString) {
         const [year, month, day] = dateString.split('-');
 
@@ -36,14 +36,14 @@ const GatheringCard = ({ data, ...props }) => {
     };
 
     return (
-        <div className="gathering-card">
-            <div className="gathering-card--title">
+        <div className='gathering-card'>
+            <div className='gathering-card--title'>
                 {data.title ? data.title : `Asamblea del ${data.date}`}
             </div>
-            <div className="gathering-card--row">
+            <div className='gathering-card--row'>
                 <BaseButton
                     type={data.moreInfo ? 'secondary' : 'disabled'}
-                    className="download-button"
+                    className='download-button'
                     onClick={handleButtonClick}
                     disabled={!data.moreInfo}
                 >
@@ -52,20 +52,20 @@ const GatheringCard = ({ data, ...props }) => {
                         : 'Convocatoria no disponible'}
                 </BaseButton>
             </div>
-            <div className="gathering-card--row">
-                <div className="gathering-card--row--icon">
+            <div className='gathering-card--row'>
+                <div className='gathering-card--row--icon'>
                     <img src={ClockIcon} height={30} />
                     <p>{data.meetingTime ? data.meetingTime : 'No hay horario'}</p>
                 </div>
             </div>
-            <div className="gathering-card--row">
-                <div className="gathering-card--row--icon">
+            <div className='gathering-card--row'>
+                <div className='gathering-card--row--icon'>
                     <img src={CalendarIcon} height={30} />
                     <p>{data.date ? data.date.substring(0, 10) : 'No hay fecha'}</p>
                 </div>
             </div>
-            <div className="gathering-card--row">
-                <div className="gathering-card--row--icon">
+            <div className='gathering-card--row'>
+                <div className='gathering-card--row--icon'>
                     <img src={FlechaIcon} height={30} />
                     <p>
                         <a href={data.meetingLink}>Link de zoom</a>
@@ -73,16 +73,16 @@ const GatheringCard = ({ data, ...props }) => {
                 </div>
             </div>
             {data._id ? (
-                <div className="gathering-card--row--buttons">
+                <div className='gathering-card--row--buttons'>
                     <RestrictByRole allowedRoles={['caeq']}>
                         <BaseButton
-                            type="primary"
+                            type='primary'
                             onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}
                         >
                             Asistencias
                         </BaseButton>
                         <BaseButton
-                            type="primary"
+                            type='primary'
                             onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}
                         >
                             Editar

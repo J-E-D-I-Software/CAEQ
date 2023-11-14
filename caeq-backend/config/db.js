@@ -19,10 +19,13 @@ if (NODE_ENV !== 'testing') {
         storageBucket: STORAGE_BUCKET,
     });
 } else {
-    // For tests, you might want to use a mock or a different configuration
-    // For example, you can use the Firebase Emulator Suite or a mock library
-    admin = require('firebase-admin/lib/mocks');
-    db = admin.initializeApp();
+    // Mock firebase-admin for testing
+    db = () => {
+        file: () => {
+            save: async () => null;
+            getSignedUrl: async () => 'https://example.com/luisgarcia-cv.pdf';
+        }
+    };
 }
 
 module.exports = db;

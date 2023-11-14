@@ -56,22 +56,7 @@ jobs:
               run: |
                   npm install
               working-directory: ${{ github.workspace }}/caeq-backend
-
-            - name: Set google credentials file
-              run: |
-                  mkdir -p keys/ && echo -e "${{ secrets.GOOGLE_CREDENTIALS_CONTENT }}" > keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
-              working-directory: ${{ github.workspace }}/caeq-backend
-
-            - name: Echo 
-              run: |
-                  echo -e "${{ secrets.GOOGLE_CREDENTIALS_CONTENT }}"
-              working-directory: ${{ github.workspace }}/caeq-backend
-            
-            - name: Cat 
-              run: |
-                  cat keys/caeq-system-firebase-adminsdk-3ud6m-6bda1b0c0e.json
-              working-directory: ${{ github.workspace }}/caeq-backend
-
+              
             - name: Run tests
               run: |
                   npm run test

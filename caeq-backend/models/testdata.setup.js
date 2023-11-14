@@ -78,9 +78,8 @@ const setUpSessionData = catchAsync(async () => {
 
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
-    const architect = await ArchitectUser.find();
-    //  console.log(architect[1].fullName)
-    //  console.log(architect[1]._id)
+    const architect = await ArchitectUser.find()
+    
     AttendeesData[0].idGathering = gatherings[0]._id;
     AttendeesData[1].idGathering = gatherings[1]._id;
     AttendeesData[2].idGathering = gatherings[2]._id;
@@ -214,4 +213,23 @@ exports.setUpCaeqUserData = catchAsync(async () => {
 exports.setUpArchitectUserData = catchAsync(async () => {
     await setUpSpecialtyData();
     await setUpArchitectUserData();
+});
+
+/**
+ * Clear all mucked data from the database.
+ *
+ * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
+ * It deletes all the documents from the collections used in the 'setUpDbWithMuckData' function.
+ */
+exports.clearMuckedData = catchAsync(async () => {
+    await CaeqUser.deleteMany({});
+    await ArchitectUser.deleteMany({});
+    await Course.deleteMany({});
+    await Specialty.deleteMany({});
+    await Session.deleteMany({});
+    await Attendees.deleteMany({});
+    await Gathering.deleteMany({});
+    await Inscription.deleteMany({});
+    await Services.deleteMany({});
+    console.log('Mucked data cleared from DB');
 });

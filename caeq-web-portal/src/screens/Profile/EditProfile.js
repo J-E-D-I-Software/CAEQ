@@ -77,7 +77,7 @@ const ArchitectPersonalData = (props) => {
             return;
         }
 
-        const filesToUpload = ['linkINE', 'linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfesisonalLicense', 
+        const filesToUpload = ['linkINE', 'linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
                     'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
         for (const field of filesToUpload) {
             const file = editedData[field];
@@ -228,7 +228,7 @@ const ArchitectPersonalData = (props) => {
                         label='Adjuntar Cédula Profesional'
                         accept='image/*,application/pdf'
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkProfesisonalLicense: value })
+                            setEditedData({ ...editedData, linkProfessionalLicense: value })
                         }
                     />
                     <FileInput

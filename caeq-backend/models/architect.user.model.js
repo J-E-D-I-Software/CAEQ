@@ -110,7 +110,7 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [false],
     },
-    linkProfesisonalLicense: { // Cedula
+    linkProfessionalLicense: { // Cedula
         type: String,
         required: [false],
     },

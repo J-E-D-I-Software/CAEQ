@@ -63,7 +63,7 @@ const Signup = () => {
     const [linkINE, setLinkINE] = useState('');
     const [linkCAEQCard, setLinkCAEQCard] = useState('');
     const [linkCURP, setLinkCURP] = useState('');
-    const [linkProfesisonalLicense, setLinkProfesisonalLicense] = useState('');
+    const [linkProfessionalLicense, setlinkProfessionalLicense] = useState('');
     const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
     const [linkAddressCertificate, setLinkAddressCertificate] = useState('');
     const [linkBirthCertificate, setLinkBirthCertificate] = useState('');
@@ -210,7 +210,7 @@ const Signup = () => {
         }
 
         // Post files
-        const filesToUpload = {linkCV, linkCURP, linkProfesisonalLicense, linkCAEQCard,
+        const filesToUpload = {linkCV, linkCURP, linkProfessionalLicense, linkCAEQCard,
             linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate};
         const errors = [];
         for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
@@ -447,8 +447,8 @@ const Signup = () => {
                             />
                             <FileInput
                                 label='Adjuntar Cédula Profesional'
-                                getVal={linkProfesisonalLicense}
-                                setVal={setLinkProfesisonalLicense}
+                                getVal={linkProfessionalLicense}
+                                setVal={setlinkProfessionalLicense}
                                 accept='image/*,application/pdf'
                             />
                             <FileInput

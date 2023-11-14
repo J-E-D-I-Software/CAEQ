@@ -1,11 +1,9 @@
 .room-card {
-
     display: block;
     border-radius: 15px;
     box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
 
     .card-col-1 {
-        
         display: grid;
         grid-template-columns: repeat(1, 3fr 2fr);
         align-items: center;
@@ -17,22 +15,18 @@
         p {
             justify-self: end;
             padding-right: 50px;
-            color: green;
         }
     }
 
     .card-col-2 {
-
-        img { 
-            width: 100%; 
-            height: 345px; 
+        img {
+            width: 100%;
+            height: 345px;
             object-fit: cover;
-
         }
     }
 
     .card-col-3 {
-        
         display: grid;
         grid-template-columns: repeat(1, 3fr 1fr);
         align-items: center;
@@ -42,7 +36,7 @@
         }
 
         .card-button {
-            padding: 20px ;
+            padding: 20px;
             padding-right: 50px;
             display: flex;
             gap: 10px;
@@ -56,13 +50,14 @@
 
     .cost-card {
         display: flex;
-        justify-content:end;
+        justify-content: end;
         align-items: center;
         color: green;
     }
-
-
-
+    .card-price {
+        font-weight: bold;
+        color: #136f63;
+    }
 }
 
 @media (max-width: 768px) {
@@ -71,37 +66,27 @@
         padding-bottom: 10px;
 
         .card-col-1 {
-        
-    
             h2 {
                 padding-right: 15px;
                 justify-self: end;
-                
             }
         }
 
         .card-col-3 {
-    
             .card-button {
                 padding-right: 55px;
-            
             }
         }
-    
     }
-    
 }
 
 @media (max-width: 390px) {
     .room-card {
-
         .card-col-1 {
-    
             h2 {
                 padding-top: 10px;
                 padding-left: 30px;
-                justify-self:baseline;
-                
+                justify-self: baseline;
             }
 
             p {
@@ -111,30 +96,26 @@
         }
 
         .card-col-2 {
-
-            img { 
-                width: 100%; 
-                height: 265px; 
+            img {
+                width: 100%;
+                height: 265px;
                 object-fit: cover;
-    
             }
         }
 
         .card-col-3 {
-        
             display: inline;
             align-items: center;
-    
+
             p {
                 padding-left: 60px;
             }
-    
+
             .card-button {
-                padding: 10px ;
+                padding: 10px;
                 padding-right: 12px;
                 display: grid;
             }
         }
     }
-    
 }

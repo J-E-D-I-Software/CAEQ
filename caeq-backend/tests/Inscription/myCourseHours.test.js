@@ -55,7 +55,7 @@ const testAddHours = () => {
 
     const key = Array.from(dateRangeMap.map.keys())[0];
 
-    console.log(dayeRangeMap.getYears());
+    console.log(dateRangeMap.getYears());
 
     expect(dateRangeMap.map.get(key)).toEqual(value + hoursToAdd);
 };

@@ -24,7 +24,7 @@ const testAcceptRejectAdmin = async () => {
     const resTest1 = await agent.patch('/caequsers/acceptadmin').send({
         admin: testAdmin1,
     });
-
+    console.log(resTest1.body);
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body).toBeTruthy();
     expect(resTest1.body.message).toEqual(

@@ -20,7 +20,7 @@ if (NODE_ENV !== 'testing') {
     });
 } else {
     // Mock firebase-admin for testing
-    db = () => {
+    db = {
         storage: () => {
             bucket: () => {
                 file: () => {
@@ -28,7 +28,7 @@ if (NODE_ENV !== 'testing') {
                     getSignedUrl: async () => 'https://example.com/luisgarcia-cv.pdf';
                 }
             };
-        };
+        }
     };
 }
 

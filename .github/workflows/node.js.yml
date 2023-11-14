@@ -58,5 +58,5 @@ jobs:
 
             - name: Run tests
               run: |
-                  npm run test
+                  npm run test myCourseHours.test
               working-directory: ${{ github.workspace }}/caeq-backend

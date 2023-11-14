@@ -10,6 +10,14 @@ exports.createCourse = factory.createOne(Course);
 exports.updateCourse = factory.updateOne(Course);
 exports.deleteCourse = factory.deleteOne(Course);
 
+/**
+ * A function that calculates accredited inscriptions for courses.
+ * To be able to do this, it is necessary to have the '.id' of the courese we are looking to calculate.
+ *
+ * @param {object} req - Request objetct.
+ * @param {object} res - Response object.
+ * @param {function} next - Next middleware function.
+ */
 exports.calculateAccreditedInscription = catchAsync(async (req, res, next) => {
     const inscriptions = await Inscription.find({
         course: req.params.id,

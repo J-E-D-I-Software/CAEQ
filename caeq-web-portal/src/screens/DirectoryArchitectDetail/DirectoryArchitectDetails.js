@@ -182,7 +182,7 @@ const ArchitectDetail = (props) => {
             return;
         }
 
-        const filesToUpload = ['linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfesisonalLicense', 
+        const filesToUpload = ['linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
         'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
         for (const field of filesToUpload) {
             const file = editedData[field];

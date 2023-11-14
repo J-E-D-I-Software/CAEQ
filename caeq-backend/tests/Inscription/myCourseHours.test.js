@@ -42,35 +42,39 @@ const testGetCourseHours = async () => {
     expect(res.statusCode).toEqual(200);
 };
 
+const testAddHours = () => {
+    const dateRangeMap = new DateRangeMap();
+    const date = new Date('2023-01-01');
+    const value = 5;
+    const hoursToAdd = 3;
+
+    dateRangeMap.add(date, value);
+    dateRangeMap.add(date, hoursToAdd);
+
+    expect(dateRangeMap.map.size).toEqual(1);
+
+    const key = Array.from(dateRangeMap.map.keys())[0];
+
+    expect(dateRangeMap.map.get(key)).toEqual(value + hoursToAdd);
+};
+
+const newRange = () => {
+    const dateRangeMap = new DateRangeMap();
+    const date = new Date('2023-01-01');
+    const hoursToAdd = 3;
+
+    dateRangeMap.add(date, hoursToAdd);
+
+    expect(dateRangeMap.map.size).toEqual(1);
+
+    const key = Array.from(dateRangeMap.map.keys())[0];
+
+    expect(dateRangeMap.map.get(key)).toEqual(hoursToAdd);
+};
+
 describe('Architect gets hours of course', () => {
-    test('add method should add hours to an existing date range', () => {
-        const dateRangeMap = new DateRangeMap();
-        const date = new Date('2023-01-01');
-        const value = 5;
-        const hoursToAdd = 3;
+    test('add method should add hours to an existing date range', () => testAddHours());
 
-        dateRangeMap.set(date, value);
-        dateRangeMap.add(date, hoursToAdd);
-
-        expect(dateRangeMap.map.size).toEqual(1);
-
-        const key = Array.from(dateRangeMap.map.keys())[0];
-
-        expect(dateRangeMap.map.get(key)).toEqual(value + hoursToAdd);
-    });
-
-    test('add method should create a new date range if none exists', () => {
-        const dateRangeMap = new DateRangeMap();
-        const date = new Date('2023-01-01');
-        const hoursToAdd = 3;
-
-        dateRangeMap.add(date, hoursToAdd);
-
-        expect(dateRangeMap.map.size).toEqual(1);
-
-        const key = Array.from(dateRangeMap.map.keys())[0];
-
-        expect(dateRangeMap.map.get(key)).toEqual(hoursToAdd);
-    });
+    test('add method should create a new date range if none exists', () => newRange());
     test('successful', () => testGetCourseHours());
 });

@@ -91,12 +91,14 @@ const CreateRoomOffer = () => {
                 <div className='room-input'>
                     <TextInput
                         require
+                        placeholder='ej. Salón Roberto Ruíz'
                         label='Nombre del salón'
                         getVal={data.name}
                         setVal={(value) => updateData('name', value)}
                     />
                     <NumberInput
                         require
+                        placeholder='ej. 1200'
                         label='Costo'
                         getVal={data.cost}
                         setVal={(value) => updateData('cost', value)}
@@ -104,12 +106,14 @@ const CreateRoomOffer = () => {
                     />
                     <NumberInput
                         require
+                        placeholder='ej. 20'
                         label='Capacidad'
                         getVal={data.capacity}
                         setVal={(value) => updateData('capacity', value)}
                         maxDigits={10}
                     />
                     <TextInput
+                        placeholder='Para que el texto este en forma de lista, usa un guión (-)'
                         label='Especificaciones'
                         getVal={data.specifications}
                         setVal={(value) => updateData('specifications', value)}

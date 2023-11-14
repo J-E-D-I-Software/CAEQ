@@ -158,8 +158,8 @@ const Signup = () => {
             const continueSignUp = await FireQuestion(
                 'Número de colegiado ya registrado.',
                 `El arquitecto con número de colegiado ${collegiateNumber} ya existe.
-                ¿Es usted ${user.fullName}? Si no es usted, por favor verifique que el número de colegiado que ingresó es correcto.
-                ¿Desea continuar y actualizar con la información proporcionada? Un administrador revisará sus datos y le dará acceso a la plataforma en breve.`
+                ¿Es usted ${user.fullName}? Si no es usted, por favor verifique que el número de colegiado que ingresó es correcto. Presione cancelar.
+                ¿Desea continuar y actualizar con la información proporcionada? Presione aceptar. Un administrador revisará sus datos y le dará acceso a la plataforma en breve.`
             );
             if (!continueSignUp.isConfirmed) return;
         }

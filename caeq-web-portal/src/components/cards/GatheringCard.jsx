@@ -7,6 +7,7 @@ import ClockIcon from '../../components/icons/Clock.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
 import DownloadActive from '../../components/images/download-active.png';
 import DownloadInactive from '../../components/images/download-inactive.png';
+import FlechaIcon from '../../components/icons/flechaIcon.png';
 import './GatheringCard.scss';
 
 /**
@@ -18,7 +19,7 @@ import './GatheringCard.scss';
 const GatheringCard = ({ data, ...props }) => {
     const navigate = useNavigate();
 
-    // Function to format the date to "dd/mm/yy"
+    // Function to format the date to 'dd/mm/yy'
     function formatDateToDdMmYy(dateString) {
         const [year, month, day] = dateString.split('-');
 
@@ -28,27 +29,29 @@ const GatheringCard = ({ data, ...props }) => {
         return date.toLocaleDateString('es-MX');
     }
 
+    const handleButtonClick = () => {
+        if (data.moreInfo) {
+            window.location.href = data.moreInfo;
+        }
+    };
+
     return (
         <div className='gathering-card'>
             <div className='gathering-card--title'>
                 {data.title ? data.title : `Asamblea del ${data.date}`}
             </div>
-            <div className='gathering-card--subtitle'>Convocatoria</div>
-            <a href={data.moreInfo}>
-                {data.moreInfo ? (
-                    <img
-                        className='image-more-info'
-                        src={DownloadActive}
-                        alt='Descargar convocatoria'
-                    />
-                ) : (
-                    <img
-                        className='image-more-info'
-                        src={DownloadInactive}
-                        alt='Descargar convocatoria'
-                    />
-                )}
-            </a>
+            <div className='gathering-card--row'>
+                <BaseButton
+                    type={data.moreInfo ? 'secondary' : 'disabled'}
+                    className='download-button'
+                    onClick={handleButtonClick}
+                    disabled={!data.moreInfo}
+                >
+                    {data.moreInfo
+                        ? 'Descargar Convocatoria'
+                        : 'Convocatoria no disponible'}
+                </BaseButton>
+            </div>
             <div className='gathering-card--row'>
                 <div className='gathering-card--row--icon'>
                     <img src={ClockIcon} height={30} />
@@ -63,7 +66,7 @@ const GatheringCard = ({ data, ...props }) => {
             </div>
             <div className='gathering-card--row'>
                 <div className='gathering-card--row--icon'>
-                    <img src={LocationIcon} height={30} />
+                    <img src={FlechaIcon} height={30} />
                     <p>
                         <a href={data.meetingLink}>Link de zoom</a>
                     </p>
@@ -74,14 +77,14 @@ const GatheringCard = ({ data, ...props }) => {
                     <RestrictByRole allowedRoles={['caeq']}>
                         <BaseButton
                             type='primary'
-                            onClick={() =>
-                                navigate(`/Asambleas/Asistencias/${data._id}`)
-                            }>
+                            onClick={() => navigate(`/Asambleas/Asistencias/${data._id}`)}
+                        >
                             Asistencias
                         </BaseButton>
                         <BaseButton
                             type='primary'
-                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}>
+                            onClick={() => navigate(`/Asambleas/Asamblea/${data._id}`)}
+                        >
                             Editar
                         </BaseButton>
                     </RestrictByRole>

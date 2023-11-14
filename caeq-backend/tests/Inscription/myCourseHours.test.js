@@ -42,7 +42,7 @@ const testGetCourseHours = async () => {
     expect(res.statusCode).toEqual(200);
 };
 
-describe('DateRangeMap', () => {
+describe('Architect gets hours of course', () => {
     test('add method should add hours to an existing date range', () => {
         const dateRangeMap = new DateRangeMap();
         const date = new Date('2023-01-01');
@@ -52,12 +52,11 @@ describe('DateRangeMap', () => {
         dateRangeMap.set(date, value);
         dateRangeMap.add(date, hoursToAdd);
 
-        expect(dateRangeMap.map.size).toBe(1);
+        expect(dateRangeMap.map.size).toEqual(1);
 
         const key = Array.from(dateRangeMap.map.keys())[0];
-        const [start, end] = key.split(' - ');
 
-        expect(dateRangeMap.map.get(key)).toBe(value + hoursToAdd);
+        expect(dateRangeMap.map.get(key)).toEqual(value + hoursToAdd);
     });
 
     test('add method should create a new date range if none exists', () => {
@@ -67,15 +66,11 @@ describe('DateRangeMap', () => {
 
         dateRangeMap.add(date, hoursToAdd);
 
-        expect(dateRangeMap.map.size).toBe(1);
+        expect(dateRangeMap.map.size).toEqual(1);
 
         const key = Array.from(dateRangeMap.map.keys())[0];
-        const [start, end] = key.split(' - ');
 
-        expect(dateRangeMap.map.get(key)).toBe(hoursToAdd);
+        expect(dateRangeMap.map.get(key)).toEqual(hoursToAdd);
     });
-});
-
-describe('Architect gets hours of course', () => {
     test('successful', () => testGetCourseHours());
 });

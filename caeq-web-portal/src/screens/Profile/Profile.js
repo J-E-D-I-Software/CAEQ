@@ -76,13 +76,13 @@ const Profile = (props) => {
 
     return (
         <div className='profile'>
-            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <BaseButton type='primary' onClick={handleRoute}>
-                    Editar Datos Personales
+                    Editar Datos de Perfil
                 </BaseButton>
             </div>
 
+            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <WhiteContainer>
                     <div className='profile-col'>

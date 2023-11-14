@@ -116,9 +116,7 @@ exports.myInscriptions = catchAsync(async (req, res, next) => {
 exports.myCourseHours = catchAsync(async (req, res, next) => {
     const inscriptions = await Inscription.find({
         user: req.params.id,
-    })
-        .populate('course')
-        .sort({ updatedAt: -1 });
+    }).populate('course');
 
     const dateMap = new DateRange();
 

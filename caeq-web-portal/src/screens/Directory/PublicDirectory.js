@@ -20,6 +20,18 @@ const PublicDirectory = () => {
     useEffect(() => {
         (async () => {
             try {
+                setPaginationPage(1);
+                let filters = '';
+                filters += `fullName[regex]=${getArchitect}`;
+                let architects = await getAllPublicArchitectUsers(1, filters);
+                setArchitectUsers(architects);
+            } catch (error) {}
+        })();
+    }, [getArchitect]);
+
+    useEffect(() => {
+        (async () => {
+            try {
                 let filters = '';
                 filters += `fullName[regex]=${getArchitect}`;
                 let architects = await getAllPublicArchitectUsers(
@@ -29,7 +41,7 @@ const PublicDirectory = () => {
                 setArchitectUsers(architects);
             } catch (error) {}
         })();
-    }, [paginationPage, getArchitect]);
+    }, [paginationPage]);
 
     /**
      * Handles the action of returning to the previous page in pagination.
@@ -56,7 +68,7 @@ const PublicDirectory = () => {
                 <InputText
                     getVal={getArchitect}
                     setVal={setArchitect}
-                    placeholder='Buscar'
+                    placeholder='Nombre del colegiado'
                 />
             </label>
 
@@ -66,9 +78,7 @@ const PublicDirectory = () => {
                         <PublicTable data={architectUsers} />
                     </div>
                 ) : (
-                    <p className='no-data-message'>
-                        No hay colegiados disponibles
-                    </p>
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
             </div>
             <div className='directory-row directory-pagination'>

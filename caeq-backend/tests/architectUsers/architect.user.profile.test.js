@@ -3,6 +3,7 @@ const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const Profile = require('../../models/architect.user.model');
 const app = require('../../app');
+const { loginAdmin } = require('../config/authSetUp');
 
 const agent = request.agent(app);
 
@@ -14,6 +15,7 @@ const testGetProfile = async () => {
 };
 
 const testGetOneProfile = async () => {
+    await loginAdmin(agent, 'john@example.com', 'password123');
     let endpoint = '/architectusers';
     let res = await agent.get(endpoint).send();
     let id = res.body.data.documents[0]._id;

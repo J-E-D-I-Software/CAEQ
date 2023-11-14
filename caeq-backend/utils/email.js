@@ -2,6 +2,7 @@ const pug = require('pug');
 const dotenv = require('dotenv');
 const { htmlToText } = require('html-to-text');
 const sgMail = require('@sendgrid/mail');
+const AppError = require('./appError');
 
 // Read env variables and save them
 dotenv.config({ path: '../.env' });
@@ -21,7 +22,21 @@ module.exports = class Email {
      * @param {string} [message=''] - The message body of the email.
      * @param {string} [imageUrl=''] - The URL of an image to include in the email.
      */
-    constructor(user, url = '', subject = '', message = '', imageUrl = '') {
+    constructor(
+        user = null,
+        url = '',
+        subject = '',
+        message = '',
+        imageUrl = '',
+        course = null
+    ) {
+        if (course != null) {
+            this.courseName = course.courseName;
+            this.courseModality = course.modality;
+            this.courseDescription = course.description;
+            this.courseImageUrl = course.imageUrl;
+        }
+
         this.to = user.email;
         this.firstName = user.fullName.split(' ')[0];
         this.url = url;
@@ -41,20 +56,33 @@ module.exports = class Email {
         // if (process.env.NODE_ENV !== 'test') {
         //     return;
         // }
+        if (!template || !subject) {
+            return new AppError(
+                `El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`,
+                404
+            );
+        }
 
-        console.log('subject', subject);
-        console.log('URL de la imagen:', this.imageUrl);
-        const html = pug.renderFile(
-            `${__dirname}/../views/emails/${template}.pug`,
-            // The second argument will be an object of data that will populate the template
-            {
-                firstName: this.firstName,
-                url: this.url,
-                subject,
-                message: this.message,
-                imageUrl: this.imageUrl,
-            }
-        );
+        let html;
+        try {
+            html = pug.renderFile(
+                `${__dirname}/../views/emails/${template}.pug`,
+                // The second argument will be an object of data that will populate the template
+                {
+                    firstName: this.firstName,
+                    url: this.url,
+                    subject,
+                    message: this.message,
+                    imageUrl: this.imageUrl,
+                    courseName: this.courseName,
+                    courseModality: this.courseModality,
+                    courseDescription: this.courseDescription,
+                    courseImageUrl: this.courseImageUrl,
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        }
 
         // define email options
         const mailOptions = {
@@ -149,5 +177,31 @@ module.exports = class Email {
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);
+    }
+
+    /**
+     * Sends an email alert to a user when their payment has been accepted for a course.
+     * @param {Object} user - The user object to send the email to.
+     * @param {Object} course - The course object for which the payment was accepted.
+     * @returns {Promise} A promise that resolves when the email has been sent.
+     */
+    static async sendPaymentAcceptedAlert(user, course) {
+        const email = new Email(user, '', '', '', '', course);
+        return email.send(
+            'acceptPaymentAndInscription',
+            '¡Su inscripción ha sido confirmada!'
+        );
+    }
+
+    /**
+     * Sends a payment rejected alert email to the user.
+     * @param {Object} user - The user object.
+     * @param {Object} course - The course object.
+     * @param {string} declinedReason - The reason for the payment rejection.
+     * @returns {Promise} A promise that resolves when the email is sent.
+     */
+    static async sendPaymentRejectedAlert(user, course, declinedReason) {
+        const email = new Email(user, '', '', declinedReason, '', course);
+        return email.send('rejectPayment', 'Su pago ha sido rechazado');
     }
 };

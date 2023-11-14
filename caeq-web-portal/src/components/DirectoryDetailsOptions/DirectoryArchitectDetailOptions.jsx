@@ -7,15 +7,20 @@ const memberOptions = [
 ];
 
 const authorizationOptions = { Si: true, No: false };
-const anuuityOptions = { Si: true, No: false };
+const annuityOptions = { Si: true, No: false };
 const lifeInsuranceOptions = { Si: true, No: false };
 
-const classificationOptions = ['Expresidente', 'Ninguno', 'Docente', 'Convenio'];
+const classificationOptions = [
+    'Expresidente',
+    'Ninguno',
+    'Docente',
+    'Convenio',
+];
 
 export {
     memberOptions,
     authorizationOptions,
     classificationOptions,
     lifeInsuranceOptions,
-    anuuityOptions,
+    annuityOptions,
 };

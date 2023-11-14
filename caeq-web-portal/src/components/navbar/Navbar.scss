@@ -29,6 +29,20 @@
             width: 20px;
         }
     }
+
+    @media screen and (max-width: 435px) {
+        display: none;
+        column-gap: 5px;
+
+        button {
+            font-size: 8px;
+            min-width: 60px;
+        }
+
+        img {
+            width: 20px;
+        }
+    }
 }
 
 .navbar-button {
@@ -43,4 +57,5 @@
         row-gap: 10px;
         flex-direction: column;
     }
+    
 }

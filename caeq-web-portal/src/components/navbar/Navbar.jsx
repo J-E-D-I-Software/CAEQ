@@ -1,5 +1,6 @@
 import NavbarButton from '../buttons/NavbarButton';
 import BaseButton from '../buttons/BaseButton';
+import BurgerMenu from './BurgerMenu';
 import './Navbar.scss';
 import routes from '../../routes';
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +27,7 @@ const Navbar = () => {
 
     return (
         <div className='navbar'>
+            <BurgerMenu />
             <div className='navbar-button'>
                 <BaseButton type='fail' onClick={handleLogout}>
                     Cerrar sesión

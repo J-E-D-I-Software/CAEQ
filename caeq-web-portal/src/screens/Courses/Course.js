@@ -183,7 +183,7 @@ const Course = (props) => {
                             <p className="text-area">{data.temario}</p>
                         </div>
                     </div>
-                    <RestrictByRole allowedRoles={['architect']}>
+                  
 
                     <RestrictByRole allowedRoles={['architect']}>
                         {data.price !== undefined &&
@@ -219,7 +219,7 @@ const Course = (props) => {
                                     </BaseButton>
                                 </>
                             )}
-                         </RestrictByRole> </RestrictByRole>
+                         </RestrictByRole> 
                 </div>
             </div>
         </div>

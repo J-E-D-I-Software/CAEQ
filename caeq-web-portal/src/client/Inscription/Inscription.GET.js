@@ -11,7 +11,6 @@ export async function getCourseInscriptions(id) {
     let endpoint = `${baseApiEndpoint}/inscription?course=${id}`;
 
     const response = await axios.get(endpoint);
-    console.log(response);
     return response.data.data.documents;
 }
 

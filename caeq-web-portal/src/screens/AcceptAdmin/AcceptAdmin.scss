@@ -10,7 +10,7 @@
     flex-direction: column;
     width: 100%;
 
-    padding: 20px;
+    padding: 20px 30px 50px 30px;
 
     h1 {
         font-size: 32px;
@@ -19,6 +19,7 @@
         font-size: 24px;
         display: block;
         margin-left: 10px;
+        word-break: break-word;
     }
 
     .instruction {
@@ -32,6 +33,12 @@
         img {
             width: 57px;
             height: 57px;
+        }
+
+        @media  screen and (max-width: 768px) {
+            flex-direction: column-reverse;
+            text-align: left;
+            
         }
     }
 

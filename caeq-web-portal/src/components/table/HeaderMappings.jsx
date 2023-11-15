@@ -1,3 +1,4 @@
+const currentYear = new Date().getFullYear();
 const headerMappings = {
     collegiateNumber: 'Número de colegiado',
     DRONumber: 'Número de DRO',
@@ -25,15 +26,9 @@ const headerMappings = {
     emergencyContact: 'Nombre de contacto de emergencia',
     positionsInCouncil: 'Cargos en consejos directivos',
     annuity: 'Anualidad pagada',
-    capacitationHours: 'Horas de capacitación',
-    gathering_assistances_1: 'Asistencias a asambleas 1',
-    gathering_assistances_2: 'Asistencias a asambleas 2',
-    gathering_assistances_3: 'Asistencias a asambleas 3',
-    courses_assistances_1: 'Asistencias a cursos 1',
-    courses_assistances_2: 'Asistencias a cursos 2',
-    courses_assistances_3: 'Asistencias a cursos 3',
-
-    
+    [currentYear]: `Asistencias a asambleas ${currentYear}`,
+    [currentYear-1]: `Asistencias a asambleas ${currentYear-1}`,
+    [currentYear-2]: `Asistencias a asambleas ${currentYear-2}`,
 };
 
 export default headerMappings;

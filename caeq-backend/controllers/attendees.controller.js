@@ -43,31 +43,29 @@ exports.getAttendeesMostRecentYears = async (req, res) => {
         const attendees = await Attendee.find({ idArchitect }).populate({ path: 'idGathering', model: Gathering });
 
         const currentYear = new Date().getFullYear();
+        const mostRecentYears = new Map();
+        mostRecentYears.set(currentYear, 0)
+        mostRecentYears.set(currentYear - 1, 0)
+        mostRecentYears.set(currentYear - 2, 0)
+        
 
-        const mostRecentYearsAttendees = attendees.map((attendee) => {
-            const mostRecentYears = new Set();
-
-            if (attendee.idGathering) {
-                const asistencia = attendee.idGathering;
-                if (asistencia.year) {
-                    const gatheringYear = parseInt(asistencia.year, 10);
-                    if (gatheringYear >= currentYear -2  && gatheringYear <= currentYear) {
-                        mostRecentYears.add(gatheringYear.toString());
-                    }
-                }
+        attendees.forEach((attendee) => {
+            const yearToNumber = parseInt(attendee.idGathering.year)
+            if (mostRecentYears.has(yearToNumber)) {
+                mostRecentYears.set(yearToNumber, mostRecentYears.get(yearToNumber) + 1)
             }
-
-            return {
-                idArchitect: attendee.idArchitect,
-                mostRecentYears: Array.from(mostRecentYears).slice(0, 3).map(Number),
-            };
         });
+
+        const yearCount = {}
+        yearCount[currentYear] = mostRecentYears.get(currentYear)
+        yearCount[currentYear - 1] = mostRecentYears.get(currentYear - 1)
+        yearCount[currentYear - 2] = mostRecentYears.get(currentYear - 2)
 
         res.status(200).json({
             status: 'success',
-            results: mostRecentYearsAttendees.length,
-            data: { mostRecentYearsAttendees },
-        });
+            results: 3,
+            data: {yearCount, id: idArchitect},
+        })
     } catch (err) {
         console.error(err);
         res.status(500).json({

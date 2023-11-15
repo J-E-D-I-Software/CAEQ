@@ -111,7 +111,20 @@ const Directory = () => {
                     effectiveOrderBy
                 );
 
-                setArchitectUsers(architects);
+                const mostRecentYearAttendances = await Promise.all(
+                    architects.map(async (architect) => {
+                        const architectId = architect._id;
+                        const recentYears = await getAttendeesMostRecentYears(architectId);
+                        
+                        architect = {...architect, ...recentYears.yearCount};
+
+                        return architect
+                    })
+                );
+
+                console.log(mostRecentYearAttendances)
+
+                setArchitectUsers(mostRecentYearAttendances);
             } catch (error) {
                 // Handle error
             }
@@ -177,6 +190,7 @@ const Directory = () => {
     */
     
     
+    
 
     useEffect(() => {
         (async () => {
@@ -230,7 +244,13 @@ const Directory = () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(1, filters, 100000);
 
-        const architectsDownload = architects.map((val) => {
+        const architectsDownload = await Promise.all(architects.map(async (val) => {
+            const architectId = val._id;
+            const recentYears = await getAttendeesMostRecentYears(architectId);
+                
+            val = {...val, ...recentYears.yearCount};
+
+             
             delete val._id;
 
             // Create a new object with mapped headers
@@ -257,15 +277,8 @@ const Directory = () => {
                 }
             }
 
-            val['gathering_assistances_1'] = calculateAssistances(val, 1);
-            val['gathering_assistances_2'] = calculateAssistances(val, 2);
-            val['gathering_assistances_3'] = calculateAssistances(val, 3);
-            val['courses_assistances_1'] = calculateCoursesAssistances(val, 1);
-            val['courses_assistances_2'] = calculateCoursesAssistances(val, 2);
-            val['courses_assistances_3'] = calculateCoursesAssistances(val, 3);
-
-            return mappedObject, val;
-        });
+            return mappedObject;
+        }));
 
         swal.close();
         FireSucess('La descarga se iniciará en breve.');

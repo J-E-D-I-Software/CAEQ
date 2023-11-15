@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const populateDb = require('../utils/populateDb');
 const catchAsync = require('../utils/catchAsync');
 const CaeqUser = require('./caeq.user.model');
@@ -73,7 +72,6 @@ const setUpSessionData = catchAsync(async () => {
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
     const architect = await ArchitectUser.find()
-    
     AttendeesData[0].idGathering = gatherings[0]._id;
     AttendeesData[1].idGathering = gatherings[1]._id;
     AttendeesData[2].idGathering = gatherings[2]._id;
@@ -93,7 +91,6 @@ const setUpAttendeesData = catchAsync(async () => {
     AttendeesData[7].idArchitect = architect[2]._id;
     
     await populateDb(Attendees, AttendeesData);
-    //console.log(AttendeesData)
 });
 
 /**

@@ -6,7 +6,7 @@ import '../Services/Services.scss';
 import PaginationNav from "../../components/pagination/PaginationNav";
 import { useEffect, useState } from "react";
 import { getAllRooms } from "../../client/Services/Services.GET";
-import { FireError, FireMessage } from "../../utils/alertHandler";
+import { FireError, FireLoading } from "../../utils/alertHandler";
 
 const AServices = () => {
     const [rooms, setRooms] = useState([]);
@@ -56,8 +56,9 @@ const AServices = () => {
     };
 
     const handleDownload = () => {
-        const swal = FireMessage('Descargando tabulador de Excel...');
+        const swal = FireLoading('Descargando tabulador de Excel...');
         window.open(`https://firebasestorage.googleapis.com/v0/b/caeq-system.appspot.com/o/TABULADOR-COSTO-BITACORAS.xlsx?alt=media&token=37f9e07b-3077-477f-8acd-7b407345f7c8`, '_blank');
+        swal.close();
     };
 
     return (

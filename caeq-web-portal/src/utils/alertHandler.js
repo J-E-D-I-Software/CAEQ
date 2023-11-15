@@ -41,7 +41,7 @@ export function FireSucess(message) {
  */
 export function FireMessage(message) {
     MySwal.fire({
-        title: "Descargando...",
+        title: message,
         icon: 'info',
         confirmButtonColor: '#FAB82B',
         });

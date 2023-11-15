@@ -37,7 +37,7 @@ import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
 import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import ServicesIcon from '../src/components/icons/ServicesIcon.png';
-import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png'; 
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
@@ -226,7 +226,7 @@ const routes = [
         name: 'Modificar Salón',
         icon: ServicesIcon,
         iconWhite: ServicesIconWhite,
-        Component:CreateRoomOffer,
+        Component: CreateRoomOffer,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -265,7 +265,6 @@ const routes = [
         Component: EditProfile,
         isPrivate: true,
         inNavbar: false,
-        roles: ['architect'],
         roles: ['architect'],
     },
     {

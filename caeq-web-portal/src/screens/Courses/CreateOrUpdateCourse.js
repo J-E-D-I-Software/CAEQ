@@ -1,7 +1,13 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FireError, FireSucess, FireLoading, FireNotification } from '../../utils/alertHandler';
 import { formatDate } from '../../utils/format';
+import {
+    FireError,
+    FireSucess,
+    FireLoading,
+    FireNotification,
+    FireQuestion,
+} from '../../utils/alertHandler';
 import CourseCard from '../../components/cards/CourseCard';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
@@ -11,13 +17,18 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { getCourse } from '../../client/Course/Course.GET';
 import createCourse from '../../client/Course/Course.POST';
-import updateCourse from '../../client/Course/Course.PATCH';
+import {
+    updateCourse,
+    accreditedHours,
+} from '../../client/Course/Course.PATCH';
 import { getAllSessions } from '../../client/Course/Session.GET';
 import { createSession } from '../../client/Course/Session.POST';
 import { updateSession } from '../../client/Course/Session.PATCH';
 import { deleteSession } from '../../client/Course/Session.DELETE';
 import './createCourse.scss';
 import { getCourseInscriptions } from '../../client/Inscription/Inscription.GET';
+import AcceptIcon from '../../components/icons/AcceptIcon.png';
+import RejectIcon from '../../components/icons/RejectIcon.png';
 
 /**
  * Page that if it receives a course id it will display an "Edit" mode
@@ -281,16 +292,46 @@ const CreateOrUpdateCourse = () => {
         event.preventDefault();
         if (!session?.attendees) return false;
         if (didUserAttendedSession(user, session))
-            session.attendees = session.attendees.filter(x => x !== user._id);
-        else
-            session.attendees.push(user._id);
+            session.attendees = session.attendees.filter((x) => x !== user._id);
+        else session.attendees.push(user._id);
         updateSession(session._id, session)
-        .then( () => {
-            const element = event.target;
-            element.checked = !element.checked;
-            FireNotification('Asistencia actualizada');
-        })
-        .catch(() => FireNotification('Ocurrió un problema, por favor intente de nuevo'));
+            .then(() => {
+                const element = event.target;
+                element.checked = !element.checked;
+                FireNotification('Asistencia actualizada');
+            })
+            .catch(() =>
+                FireNotification(
+                    'Ocurrió un problema, por favor intente de nuevo'
+                )
+            );
+    };
+
+    /**
+     * Handles the sum of accredited hours of an architect.
+     * @param {string} id - The ID of the course to be accredited.
+     */
+    const handleAccredited = async () => {
+        try {
+            const confirmation = await FireQuestion(
+                '¿Está seguro que desea cerrar el curso?',
+                'Esta acción no se puede deshacer. Las horas del curso se sumarán a los arquitectos que hayan cumplido con el 80% de asistencia.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Cerrando curso...');
+            const response = await accreditedHours(searchParams.id);
+
+            swal.close();
+            FireSucess('Horas de capacitación actualizadas');
+            console.log(response);
+            setInscriptions(response);
+        } catch (error) {
+            FireError(error.response.data.message);
+        }
     };
 
     return (
@@ -478,10 +519,16 @@ const CreateOrUpdateCourse = () => {
                     </BaseButton>
                 </div>
             </div>
-
+            <div>
+                <BaseButton type='primary' onClick={handleAccredited}>
+                    Terminar curso
+                </BaseButton>
+            </div>
             <div className='create-course--row'>
                 <div className='create-course--col'>
-                    <h1>Sesiones</h1>
+                    <div className='course--row'>
+                        <h1>Sesiones </h1>
+                    </div>
                     <div className='create-course--col create-course__sessions-table'>
                         <ul className='create-course__sessions-table__header'>
                             {console.log(sessionSelected)}
@@ -563,23 +610,48 @@ const CreateOrUpdateCourse = () => {
                                             <th>Lista de asistencia</th>
                                             <th>Número de colegiado</th>
                                             <th>Nombre completo</th>
+                                            <th>Acreditado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {inscriptions.map((inscription, i) => (
                                             <tr key={i}>
                                                 <td>
-                                                    <input 
-                                                        type='checkbox' 
-                                                        checked={didUserAttendedSession(inscription.user, sessionSelected)}
-                                                        onChange={(e) => onUpdateAttendance(e, inscription.user, sessionSelected)}
-                                                        />
+                                                    <input
+                                                        type='checkbox'
+                                                        checked={didUserAttendedSession(
+                                                            inscription.user,
+                                                            sessionSelected
+                                                        )}
+                                                        onChange={(e) =>
+                                                            onUpdateAttendance(
+                                                                e,
+                                                                inscription.user,
+                                                                sessionSelected
+                                                            )
+                                                        }
+                                                    />
                                                 </td>
                                                 <td>
                                                     {inscription.user.collegiateNumber}
                                                 </td>
                                                 <td>
                                                     {inscription.user.fullName}
+                                                </td>
+                                                <td>
+                                                    {inscription.accredited ? (
+                                                        <img
+                                                            src={AcceptIcon}
+                                                            width={25}
+                                                            alt={`Accept Icon`}
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={RejectIcon}
+                                                            width={25}
+                                                            alt={`Reject Icon`}
+                                                        />
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}

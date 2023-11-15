@@ -1,6 +1,5 @@
 const Busboy = require('busboy');
 const getRawBody = require('raw-body');
-const contentType = require('content-type');
 
 const allowedMethods = ['POST', 'PUT', 'PATCH'];
 const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
@@ -18,8 +17,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 Object.assign(
                     {
                         length: req.headers['content-length'],
-                        limit: '10mb',
-                        encoding: contentType.parse(req).parameters.charset,
+                        limit: '30mb',
                     },
                     rawBodyOptions
                 ),
@@ -31,7 +29,6 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     }
                 }
             );
-            console.log('FILE PARSER');
         } else {
             next();
         }
@@ -67,7 +64,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                 } else req.body[fieldname] = value;
             });
 
-            busboy.on('file', (fieldname, file, filename, encodign, mimetype) => {
+            busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
                 let fileBuffer = Buffer.from('');
                 file.on('data', (data) => {
                     fileBuffer = Buffer.concat([fileBuffer, data]);
@@ -76,7 +73,7 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                     req.files.push({
                         fieldname,
                         originalname: filename,
-                        encodign,
+                        encoding,
                         mimetype,
                         buffer: fileBuffer,
                     })
@@ -93,10 +90,6 @@ const fileParser = ({ rawBodyOptions, BusboyOptions } = {}) => [
                         body[key] = req.body[key];
                     }
                 });
-                Object.keys(body).map((key) => {
-                    console.log(`${key}: ${body[key]}`);
-                });
-
                 req.body = body;
                 next();
             });

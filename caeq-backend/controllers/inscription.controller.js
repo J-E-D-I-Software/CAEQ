@@ -12,7 +12,7 @@ exports.getAllInscriptions = factory.getAll(Inscription, [
     {
         path: 'course',
         select: 'courseName teachers modality description topics',
-    }, // Include fields from the course model
+    },
 ]);
 
 exports.getInscription = factory.getOne(Inscription, ['user', 'course']);
@@ -129,7 +129,6 @@ exports.myCourseHours = catchAsync(async (req, res, next) => {
         }
     });
 
-    // Get an array of objects containing start and end years along with their values
     const allYears = dateMap.getYears();
 
     res.status(200).json({

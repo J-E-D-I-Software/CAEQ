@@ -35,3 +35,45 @@ exports.getAttendeesByArchitect = async (req, res) => {
         });
     }
 };
+ 
+exports.getAttendeesMostRecentYears = async (req, res) => {
+    try {
+        const { idArchitect } = req.params;
+
+        const attendees = await Attendee.find({ idArchitect }).populate({ path: 'idGathering', model: Gathering });
+
+        const currentYear = new Date().getFullYear();
+
+        const mostRecentYearsAttendees = attendees.map((attendee) => {
+            const mostRecentYears = new Set();
+
+            if (attendee.idGathering) {
+                const asistencia = attendee.idGathering;
+                if (asistencia.year) {
+                    const gatheringYear = parseInt(asistencia.year, 10);
+                    if (gatheringYear >= currentYear -2  && gatheringYear <= currentYear) {
+                        mostRecentYears.add(gatheringYear.toString());
+                    }
+                }
+            }
+
+            return {
+                idArchitect: attendee.idArchitect,
+                mostRecentYears: Array.from(mostRecentYears).slice(0, 3).map(Number),
+            };
+        });
+
+        res.status(200).json({
+            status: 'success',
+            results: mostRecentYearsAttendees.length,
+            data: { mostRecentYearsAttendees },
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error al buscar asistencias.',
+        });
+    }
+};
+

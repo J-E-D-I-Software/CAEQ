@@ -37,3 +37,10 @@ export async function getAttendancesByArchitect(idArchitect) {
     console.log('Respuesta de getAttendancesByArchitect:', response.data.data.attendees);
     return response.data.data.attendees;
 }
+
+
+export async function getAttendeesMostRecentYears(idArchitect) {
+    let endpoint = `${baseApiEndpoint}/attendees/directory/${idArchitect}`;
+    const response = await axios.get(endpoint);
+}
+

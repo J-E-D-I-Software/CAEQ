@@ -12,6 +12,8 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 import { exportToExcel } from 'react-json-to-excel';
 import BaseButton from '../../components/buttons/BaseButton';
 import { FireSucess, FireLoading, FireError } from '../../utils/alertHandler';
+import { getAttendeesMostRecentYears } from '../../client/Attendees/Attendees.GET';
+import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import './directory.scss';
 
 /**
@@ -40,6 +42,7 @@ const Directory = () => {
     const [specialty, setSpecialty] = useState('');
     const [specialtyName, setSpecialtyName] = useState('');
     const [currentRights, setCurrentRights] = useState('');
+    const [mostRecentYearAttendances, setMostRecentYearAttendances] = useState('');
     const [orderBy, setOrderBy] = useState('collegiateNumber');
     const navigate = useNavigate();
     /**
@@ -141,6 +144,40 @@ const Directory = () => {
         })();
     }, []);
 
+    /*
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Get all architects
+                const architects = await getAllArchitectUsers();
+                
+                // Calculate most recent year attendance for each architect
+                const mostRecentYearAttendances = await Promise.all(
+                    architects.map(async (architect) => {
+                        const architectId = architect._id;
+                        const recentYears = await getAttendeesMostRecentYears(architectId);
+
+                        const mostRecentYear = Math.max(...recentYears, 0);
+
+                        return {
+                            architectId,
+                            mostRecentYear,
+                        };
+                    })
+                );
+    
+                setMostRecentYearAttendances(mostRecentYearAttendances);
+            } catch (error) {
+                console.error('Error al obtener asistencias por arquitecto', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    */
+    
+    
+
     useEffect(() => {
         (async () => {
             const effectiveOrderBy = orderBy || 'collegiateNumber';
@@ -220,13 +257,32 @@ const Directory = () => {
                 }
             }
 
-            return mappedObject;
+            val['gathering_assistances_1'] = calculateAssistances(val, 1);
+            val['gathering_assistances_2'] = calculateAssistances(val, 2);
+            val['gathering_assistances_3'] = calculateAssistances(val, 3);
+            val['courses_assistances_1'] = calculateCoursesAssistances(val, 1);
+            val['courses_assistances_2'] = calculateCoursesAssistances(val, 2);
+            val['courses_assistances_3'] = calculateCoursesAssistances(val, 3);
+
+            return mappedObject, val;
         });
 
         swal.close();
         FireSucess('La descarga se iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
+    };
+
+    const calculateAssistances = (architect, number) => {
+        // Example: Calculate the assistance based on the architect's data
+        // You need to replace this with your actual logic
+        return architect['some_data'] * number;
+    };
+    
+    const calculateCoursesAssistances = (architect, number) => {
+        // Example: Calculate courses assistance based on the architect's data
+        // You need to replace this with your actual logic
+        return architect['some_other_data'] / number;
     };
 
     /**

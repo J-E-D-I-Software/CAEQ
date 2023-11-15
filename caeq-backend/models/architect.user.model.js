@@ -110,19 +110,19 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [false],
     },
-    linkProfessionalLicense: { // Cedula
+    linkProfessionalLicense: {
         type: String,
         required: [false],
     },
-    linkBachelorsDegree: { // Titulo
+    linkBachelorsDegree: {
         type: String,
         required: [false],
     },
-    linkAddressCertificate: { // Comprobante de domicilio
+    linkAddressCertificate: {
         type: String,
         required: [false],
     },
-    linkBirthCertificate: { // Acta de nacimiento
+    linkBirthCertificate: {
         type: String,
         required: [false],
     },

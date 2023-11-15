@@ -10,16 +10,19 @@ const agent = request.agent(app);
 const testPatchArchitectUser = async () => {
     await loginAdmin(agent, 'john@example.com', 'password123');
     const endpoint = '/architectusers';
-    let res = await agent.patch(`${endpoint}/3454534534`).send();
+    let res = await agent.patch(`${endpoint}/3454534534`)
+        .type('multipart/form-data')
+        .field('fullName', 'Edgar Ramirez');
+    console.log(res.body);
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Inválido _id: 3454534534');
 
     let user = User.findOne({ email: 'jcastr@tec.mx' });
     user.getFilter();
     user = await user.exec();
-    res = await agent.patch(`${endpoint}/${user._id}`).send({
-        fullName: 'Edgar R.',
-    });
+    res = await agent.patch(`${endpoint}/${user._id}`)
+        .type('multipart/form-data')
+        .field('fullName', 'Edgar Ramirez');
     expect(res.statusCode).toEqual(200);
 };
 

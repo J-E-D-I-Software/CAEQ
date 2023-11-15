@@ -16,6 +16,7 @@ jobs:
 
         env:
             STORAGE_BUCKET: ${{secrets.STORAGE_BUCKET}}
+            GOOGLE_CREDENTIALS_FILE: ${{secrets.GOOGLE_CREDENTIALS_FILE}}
             NODE_ENV: testing
             DATABASE_CONNECTION: ${{ secrets.DATABASE_CONNECTION }}
             DATABASE_USER: ${{ secrets.DATABASE_USER }}
@@ -55,7 +56,7 @@ jobs:
               run: |
                   npm install
               working-directory: ${{ github.workspace }}/caeq-backend
-
+              
             - name: Run tests
               run: |
                   npm run test

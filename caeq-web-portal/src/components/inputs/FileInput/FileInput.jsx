@@ -1,5 +1,6 @@
 import React from 'react';
 import './FileInput.scss';
+import { FireError } from '../../../utils/alertHandler';
 
 /**
  * FileInput component for selecting and uploading files.
@@ -21,13 +22,22 @@ import './FileInput.scss';
  *   require={true}
  * />
  */
-const FileInput = ({ label, setVal, accept = '.pdf', require = false }) => {
+const FileInput = ({ label, setVal, accept = '.pdf', require = false, maxFileSize = 3000000 }) => {
     const isRequired = require;
     const onSelectFile = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
             setVal(undefined);
         } else {
-            setVal(e.target.files[0]);
+            const selectedFile = e.target.files[0];
+            if (maxFileSize && selectedFile.size > maxFileSize && selectedFile.type.includes('application')) {
+                FireError('El archivo es demasiado grande, intenta con uno nuevo.');
+                e.target.value = null;
+                return;
+
+            } else {
+                setVal(selectedFile);
+            }
+
         }
     };
 

@@ -14,6 +14,7 @@ import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import { getCourseHours } from '../../client/Inscription/Inscription.GET';
+import { resizeImage } from '../../utils/files';
 
 import {
     memberOptions,
@@ -151,6 +152,17 @@ const ArchitectDetail = (props) => {
             return;
         }
 
+        // Reduce file size
+        let fileINE = editedData.linkINE;
+        if (!editedData.linkINE) {
+            FireError('Por favor adjunta una foto de tu INE al derecho y al revés.');
+            return;
+        }
+        if (editedData.linkINE.type.includes('image') && 
+            editedData.linkINE?.size > 3000000) {
+            fileINE = await resizeImage(editedData.linkINE);
+        }   
+
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
@@ -188,6 +200,8 @@ const ArchitectDetail = (props) => {
             editedData.authorizationToShareInfo
         );
         form.append('file', editedData.linkCV);
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append('linkINE', editedData.linkINE);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
 
@@ -204,6 +218,38 @@ const ArchitectDetail = (props) => {
             swal.close();
             FireError(error.response.data.message);
         }
+
+        const filesToUpload = [editedData.linkCV, editedData.linkCURP, editedData.linkProfessionalLicense, 
+            editedData.linkBachelorsDegree, editedData.linkAddressCertificate, editedData.linkBirthCertificate];
+        const errors = [];
+        for (let i = 0; i < filesToUpload.length; i++) {
+            let file = filesToUpload[i];
+            
+            if (file) {
+                // If file size is over 5mb we have to compress it for the backend
+                if (file.type?.includes('image') && file.size > 3000000) {
+                    file = await resizeImage(file);
+                }
+
+                const formFile = new FormData();
+                formFile.append('file', file);
+                try {
+                    const response = await updateArchitectUserByID(searchParams.id, formFile);
+                    if (response.status !== 'success')
+                        throw new Error('Error al subir archivo');
+                } catch (error) {
+                    console.error(error);
+                    errors.push(file.name);
+                }
+            }
+        }
+
+        if (errors.length > 0) {
+            FireError(
+                `ocurrió un error al subir los siguientes archivos:\n${errors.join('\n')}`);
+            return;
+        }
+        
     };
 
     /**
@@ -367,9 +413,6 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-                </div>
-
-                <div className='architect-col'>
                     <DropdownInput
                         label='Autorización para compartir información'
                         placeholder={editedData.authorizationToShareInfo}
@@ -428,7 +471,6 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-
                     <TextInput
                         label='Posiciones en Consejo'
                         placeholder='Posiciones en Consejo'
@@ -440,6 +482,29 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
+                </div>
+
+                <div className='architect-col'>
+                    <FileInput
+                        label='INE'
+                        getVal={editedData.linkINE}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkINE: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkINE ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkINE}>
+                                <span>Descargar INE</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un INE registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
                     <FileInput
                         label='Curriculum Vitae'
                         placeholder='CV'
@@ -458,6 +523,126 @@ const ArchitectDetail = (props) => {
                     ) : (
                         <p>
                             <span>No hay CV registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Credencial CAEQ'
+                        getVal={editedData.linkCAEQCard}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCAEQCard: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkCAEQCard ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkCAEQCard}>
+                                <span>Descargar tarjeta de CAEQ</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay una tarjeta de CAEQ registrada. ¡Sube una!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='CURP'
+                        getVal={editedData.linkCURP}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCURP: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkCURP ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkCURP}>
+                                <span>Descargar CURP</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un CURP registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Cédula Profesional'
+                        getVal={editedData.linkProfessionalLicense}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkProfessionalLicense: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkProfessionalLicense ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkProfessionalLicense}>
+                                <span>Descargar cédula profesional</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay una cédula profesional registrada. ¡Sube una!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Título Profesional'
+                        getVal={editedData.linkBachelorsDegree}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBachelorsDegree: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkBachelorsDegree ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkBachelorsDegree}>
+                                <span>Descargar título profesional</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un título registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Comprobante de domicilio (no mayor a 3 meses)'
+                        getVal={editedData.linkAddressCertificate}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkAddressCertificate: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkAddressCertificate ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkAddressCertificate}>
+                                <span>Descargar comprobante de domicilio</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay comprobante de domicilio registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Acta de Nacimiento'
+                        getVal={editedData.linkBirthCertificate}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBirthCertificate: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkBirthCertificate ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkBirthCertificate}>
+                                <span>Descargar acta de nacimiento</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay acta de nacimiento registrada. ¡Sube una!</span>
                         </p>
                     )}
                 </div>

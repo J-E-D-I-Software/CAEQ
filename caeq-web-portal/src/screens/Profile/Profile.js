@@ -16,7 +16,7 @@ import './Profile.scss';
  * @returns {JSX.Element} - The JSX element representing the user's profile.
  */
 const Profile = (props) => {
-    const SavedUser = getArchitectUserSaved();
+    const savedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
@@ -27,21 +27,14 @@ const Profile = (props) => {
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
         : '';
     const normalDate = date.split('/').reverse().join('/');
-    const startDate = new Date(profile.dateOfAdmission);
-
-    const [selectedYear, setSelectedYear] = useState(null);
-
-    const handleYearClick = (year) => {
-        setSelectedYear((prevYear) => (prevYear === year ? null : year));
-    };
 
     const handleRoute = (id) => {
-        navigate(`/Perfil/${SavedUser._id}`);
+        navigate(`/Perfil/${savedUser._id}`);
     };
 
     useEffect(() => {
-        if (SavedUser._id)
-            getArchitectUserById(SavedUser._id)
+        if (savedUser._id)
+            getArchitectUserById(savedUser._id)
                 .then((response) => setProfile(response))
                 .catch((error) => FireError(error.response.data.message));
     }, []);
@@ -49,7 +42,7 @@ const Profile = (props) => {
     useEffect(() => {
         (async () => {
             try {
-                const architectId = SavedUser._id;
+                const architectId = savedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
 
@@ -76,6 +69,7 @@ const Profile = (props) => {
             }
         })();
     }, []);
+
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -119,16 +113,16 @@ const Profile = (props) => {
                             <span>Dirección: </span>
                             {profile.homeAddress}
                         </p>
-                    </div>
-                    <div className='profile-col'>
                         <p>
                             <span>Número Celular: </span>
                             {profile.cellphone}
                         </p>
                         <p>
-                            <span>Teléfono de casa: </span>
+                            <span>Teléfono de Casa: </span>
                             {profile.homePhone}
                         </p>
+                    </div>
+                    <div className='profile-col'>
                         <p>
                             <span>Correo Electrónico: </span>
                             {profile.email}
@@ -136,6 +130,31 @@ const Profile = (props) => {
                         <p>
                             <span>Contacto de Emergencia: </span>
                             {profile.emergencyContact}
+                        </p>
+                        <p>
+                            <span>INE: </span>
+                            <a href={profile.linkINE}>Visualizar</a>
+                        </p>
+                        <p>
+                            <span>CURP: </span>
+                            {profile.linkCURP ?
+                                <a href={profile.linkCURP}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
+                        </p>
+                        <p>
+                            <span>Acta de Nacimiento: </span>
+                            {profile.linkBirthCertificate ?
+                                <a href={profile.linkBirthCertificate}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
+                        </p>
+                        <p>
+                            <span>Comprobante de domicilio: </span>
+                            {profile.linkAddressCertificate ?
+                                <a href={profile.linkAddressCertificate}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
                         </p>
                     </div>
                 </WhiteContainer>
@@ -161,12 +180,12 @@ const Profile = (props) => {
                             <span>Puesto en Consejo: </span>
                             {profile.positionsInCouncil}
                         </p>
-                    </div>
-                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
                         </p>
+                    </div>
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Horas Acreditadas: </span>
 
@@ -187,12 +206,17 @@ const Profile = (props) => {
                                 </p>
                             ))}
                         </p>
-
                         <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}
                         </p>
-                        <p>.</p>
+                        <p>
+                            <span>Credencial CAEQ: </span>
+                            {profile.linkCAEQCard ?
+                                <a href={profile.linkCAEQCard}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
+                        </p>
                     </div>
                 </WhiteContainer>
             </div>
@@ -214,12 +238,6 @@ const Profile = (props) => {
                             {profile.university}
                         </p>
                         <p>
-                            <span>Link CV: </span>
-                            <a href={profile.linkCV}>Descargar</a>
-                        </p>
-                    </div>
-                    <div className='profile-col semi-col'>
-                        <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
                         </p>
@@ -231,9 +249,32 @@ const Profile = (props) => {
                                       .join(', ')
                                 : 'No especialidades'}
                         </p>
+                    </div>
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Municipio: </span>
                             list' {profile.municipalityOfLabor}
+                        </p>
+                        <p>
+                            <span>Currículum Vitae (CV): </span>
+                            {profile.linkCV ?
+                                <a href={profile.linkCV}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
+                        </p>
+                        <p>
+                            <span>Título Universitario: </span>
+                            {profile.linkBachelorsDegree ?
+                                <a href={profile.linkBachelorsDegree}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
+                        </p>
+                        <p>
+                            <span>Cédula Profesional: </span>
+                            {profile.linkProfessionalLicense ?
+                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
                         </p>
                     </div>
                 </WhiteContainer>

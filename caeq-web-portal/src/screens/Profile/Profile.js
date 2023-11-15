@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -20,6 +21,7 @@ const Profile = (props) => {
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
     const [attendanceByYear, setAttendanceByYear] = useState({});
+    const [courseHours, setCourseHours] = useState([]);
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -44,24 +46,30 @@ const Profile = (props) => {
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
 
-                // Calculate attendance by year
-                const attendanceByYear = {};
-                for (const asistencia of attendances) {
-                    const year = asistencia.idGathering.year;
-                    if (asistencia.attended) {
-                        if (!attendanceByYear[year]) {
-                            attendanceByYear[year] = 1;
-                        } else {
-                            attendanceByYear[year]++;
+                if (attendances.length > 0) {
+                    // Calculate attendance by year
+                    const attendanceByYear = {};
+                    for (const asistencia of attendances) {
+                        const year = asistencia.idGathering.year;
+                        if (asistencia.attended) {
+                            if (!attendanceByYear[year]) {
+                                attendanceByYear[year] = 1;
+                            } else {
+                                attendanceByYear[year]++;
+                            }
                         }
                     }
+                    setAttendanceByYear(attendanceByYear);
                 }
-                setAttendanceByYear(attendanceByYear);
+
+                const accreditedHours = await getCourseHours(SavedUser._id);
+                setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
-    }, [savedUser._id]);
+    }, []);
+
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -180,7 +188,15 @@ const Profile = (props) => {
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Horas Acreditadas: </span>
-                            {profile.capacitationHours}
+
+                            {courseHours
+                                .sort((prev, next) => next.endYear - prev.endYear)
+                                .map((courseHour) => (
+                                    <p>
+                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
+                                        {courseHour.value}
+                                    </p>
+                                ))}
                         </p>
                         <p>
                             <span>Asistencias por Año:</span>

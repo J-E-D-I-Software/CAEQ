@@ -1,18 +1,18 @@
 .architect-detail {
     align-self: center;
-    
-    h1 {
+
+    h1,
+    h3 {
         width: 100%;
         text-align: center;
     }
     h2 {
         margin-top: 20px;
         width: 100%;
-        
     }
-    span{
+    span {
         font-weight: bold;
-        color:  #eea300;
+        color: #eea300;
     }
 
     .architect-row {
@@ -23,25 +23,21 @@
         padding-left: 20px;
         column-gap: 20px;
         .architect-col {
-
             p {
                 padding-left: 20px;
             }
         }
-        .button{
+        .button {
             margin-right: 20px;
             margin-bottom: 20px;
-            
         }
     }
-    
 
     .architect-col {
         display: flex;
         flex-direction: column;
         width: 50%;
         margin-left: 0px;
-        
 
         .architect-row {
             display: flex;
@@ -57,7 +53,6 @@
             padding: 20px;
             width: 100%;
         }
-     
     }
 
     @media screen and (max-width: 767px) {
@@ -69,7 +64,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .architect-col {
             display: flex;
             flex-direction: column;
@@ -80,6 +75,14 @@
                 width: 100%;
                 height: 10%;
             }
+        }
+    }
+    .list-data {
+        font-size: 24px;
+        width: 100%;
+        text-align: center;
+        .list-data-year {
+            font-weight: 700;
         }
     }
 }

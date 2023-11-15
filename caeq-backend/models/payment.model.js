@@ -32,6 +32,10 @@ const paymentSchema = new mongoose.Schema(
             },
             required: [true, 'Se necesita un comprobante de pago.'],
         },
+        wantsInvoice: {
+            type: Boolean,
+            default: false, 
+        },
     },
     { timestamps: true }
 );

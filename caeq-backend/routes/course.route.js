@@ -6,6 +6,7 @@ const {
     createCourse,
     updateCourse,
     deleteCourse,
+    calculateAccreditedInscription,
 } = require(`${__dirname}/../controllers/course.controller.js`);
 const {
     protect,
@@ -36,5 +37,6 @@ router
         updateCourse
     )
     .delete(protect, restrictTo('caeq'), deleteCourse);
+router.route('/accredited/:id').patch(calculateAccreditedInscription);
 
 module.exports = router;

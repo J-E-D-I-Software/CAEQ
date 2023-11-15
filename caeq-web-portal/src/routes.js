@@ -16,6 +16,7 @@ import DirectoryArchitectDetails from './screens/DirectoryArchitectDetail/Direct
 import Directory from './screens/Directory/Directory';
 import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
+import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -36,7 +37,7 @@ import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
 import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import ServicesIcon from '../src/components/icons/ServicesIcon.png';
-import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png'; 
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
@@ -225,7 +226,7 @@ const routes = [
         name: 'Modificar Salón',
         icon: ServicesIcon,
         iconWhite: ServicesIconWhite,
-        Component:CreateRoomOffer,
+        Component: CreateRoomOffer,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -264,7 +265,6 @@ const routes = [
         Component: EditProfile,
         isPrivate: true,
         inNavbar: false,
-        roles: ['architect'],
         roles: ['architect'],
     },
     {
@@ -318,6 +318,14 @@ const routes = [
         Component: LandingCAEQ,
         isPrivate: false,
         inNavbar: false,
+    },
+    {
+        path: '/AcceptPayment',
+        name: 'Pagos por aceptar',
+        Component: AcceptPayment,
+        isPrivate: true,
+        inNavbar: false,
+        roles:['caeq']
     },
     {
         path: '/Directorio-Publico',

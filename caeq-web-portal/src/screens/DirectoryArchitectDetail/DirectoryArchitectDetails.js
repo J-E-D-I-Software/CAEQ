@@ -13,6 +13,7 @@ import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { resizeImage } from '../../utils/files';
 
 import {
@@ -34,6 +35,7 @@ const ArchitectDetail = (props) => {
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
+    const [courseHours, setCourseHours] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -68,9 +70,14 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                let currentSpecialties = architect.specialties.map((specialty) => {
-                    return { label: specialty.name, value: specialty._id };
-                });
+                let currentSpecialties = architect.specialties.map(
+                    (specialty) => {
+                        return { label: specialty.name, value: specialty._id };
+                    }
+                );
+
+                const accreditedHours = await getCourseHours(searchParams.id);
+                setCourseHours(accreditedHours);
 
                 setSelectedSpecialties(currentSpecialties);
             } catch (error) {
@@ -105,10 +112,15 @@ const ArchitectDetail = (props) => {
             (async () => {
                 try {
                     const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(architectId);
+                    const attendances = await getAttendancesByArchitect(
+                        architectId
+                    );
                     setAttendances(attendances);
                 } catch (error) {
-                    console.error('Error al obtener asistencias por arquitecto', error);
+                    console.error(
+                        'Error al obtener asistencias por arquitecto',
+                        error
+                    );
                 }
             })();
         }
@@ -154,7 +166,8 @@ const ArchitectDetail = (props) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
-        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
+        editedData.lifeInsurance =
+            editedData.lifeInsurance === 'Si' ? true : false;
         editedData.annuity = editedData.annuity === 'Si' ? true : false;
 
         if (selectedSpecialties.length > 0) {
@@ -171,7 +184,10 @@ const ArchitectDetail = (props) => {
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
         form.append('classification', editedData.classification);
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append(
+            'mainProfessionalActivity',
+            editedData.mainProfessionalActivity
+        );
         form.append('dateOfAdmission', editedData.dateOfAdmission);
         form.append('professionalLicense', editedData.professionalLicense);
         form.append('capacitationHours', editedData.capacitationHours);
@@ -179,6 +195,11 @@ const ArchitectDetail = (props) => {
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
         form.append('annuity', editedData.annuity);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
+        form.append(
+            'authorizationToShareInfo',
+            editedData.authorizationToShareInfo
+        );
+        form.append('file', editedData.linkCV);
         form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
         form.append('linkINE', editedData.linkINE);
         form.append('lifeInsurance', editedData.lifeInsurance);
@@ -186,7 +207,10 @@ const ArchitectDetail = (props) => {
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(searchParams.id, form);
+            const response = await updateArchitectUserByID(
+                searchParams.id,
+                form
+            );
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
@@ -284,8 +308,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    Modifique la información que sea necesaria. Al terminar, haz clic en
-                    guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz
+                    clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -623,16 +647,45 @@ const ArchitectDetail = (props) => {
                     )}
                 </div>
             </div>
+            <div className='architect-row'>
+                <BaseButton
+                    type='primary'
+                    className='button'
+                    onClick={handleSaveChanges}
+                >
+                    Guardar Cambios
+                </BaseButton>
+            </div>
             <div>
                 <div>
                     <AttendancesComponent attendances={attendances} />
                 </div>
             </div>
-
-            <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
-                    Guardar Cambios
-                </BaseButton>
+            <div>
+                <p>
+                    <h1>Horas Acreditadas</h1>
+                    <div></div>
+                    {courseHours
+                        .sort((prev, next) => next.endYear - prev.endYear)
+                        .map((courseHour) => (
+                            <p className='list-data'>
+                                <span className='list-data-year'>
+                                    {courseHour.startYear} -{' '}
+                                    {courseHour.endYear}
+                                </span>{' '}
+                                : {courseHour.value} horas
+                            </p>
+                        ))}
+                </p>
+                <h3>
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo
+                    del año siguiente.
+                </h3>
+                <h3>
+                    (i) Para modificar las horas de un colegiado, debe acceder
+                    al curso, completar sus asistencias y terminar el curso para
+                    que le sean sumadas.
+                </h3>
             </div>
         </div>
     );

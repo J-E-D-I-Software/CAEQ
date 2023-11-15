@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FireError, FireSucess, FireLoading, FireNotification } from '../../utils/alertHandler';
+import { formatDate } from '../../utils/format';
 import CourseCard from '../../components/cards/CourseCard';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
@@ -262,30 +263,6 @@ const CreateOrUpdateCourse = () => {
      */
     const onUpdateSession = (key, value) => {
         setSessionSelected({ ...sessionSelected, [key]: value });
-    };
-
-    /**
-     * Formats a date string to a more readable format
-     * @param {string} dateStr - the date string to be formatted
-     * @returns {string} - the formatted date string
-     */
-    const formatDate = (dateStr) => {
-        const [year, month, day] = dateStr.split('-');
-        const formattedMonth = [
-            'Ene',
-            'Feb',
-            'Mar',
-            'Abr',
-            'May',
-            'Jun',
-            'Jul',
-            'Ago',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dic',
-        ][Number(month) - 1];
-        return `${day} ${formattedMonth} ${year}`;
     };
 
     /**

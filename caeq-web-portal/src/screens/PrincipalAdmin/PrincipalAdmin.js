@@ -218,20 +218,20 @@ const PrincipalAdmin = () => {
   
 
     return (
-        <div className="graph-container">
+        <div className='graph-container'>
             <h1>Gráficas de Especialidades y Anualidades</h1>
-            <div className="grid-container">
-                <div className="column">
+            <div className='grid-container'>
+                <div className='column'>
                     <GraphContainer>
                         <Bar data={specialtyChartData2} options={barOptions} />
                     </GraphContainer>
                 </div>
-                <div className="column">
+                <div className='column'>
                     <GraphContainer>
                         <Pie data={specialtyChartData} options={pieOptions} />
                     </GraphContainer>
                 </div>
-                <div className="column">
+                <div className='column'>
                     <GraphContainer>
                         <Pie data={annuityChartData} options={pieOptions1} />
                     </GraphContainer>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import baseApiEndpoint from "../backendConfig";
+import { getToken } from "../../utils/auth";
 
 
 /**
@@ -44,6 +45,7 @@ export async function updateArchitectUserByID(id, data) {
     const response = await axios.patch(endpoint, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${getToken()}`,
         },
     });
     return response.data;

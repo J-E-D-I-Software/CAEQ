@@ -1,19 +1,26 @@
 const mongoose = require('mongoose');
 
-const inscriptionSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'architect.user',
-        required: [true, 'Campo de usuario necesario'],
+const inscriptionSchema = new mongoose.Schema(
+    {
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'architect.user',
+            required: [true, 'Campo de usuario necesario'],
+        },
+        course: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Course',
+            required: [true, 'Campo de curso necesario'],
+        },
+        accredited: {
+            type: Boolean,
+            default: false,
+        },
     },
-    course: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Course',
-        required: [true, 'Campo de curso necesario'],
-    },
-}, { timestamps: true });
+    { timestamps: true }
+);
 
-// Indexing inscription properties for optimized search 
+// Indexing inscription properties for optimized search
 inscriptionSchema.index({ user: 1 });
 inscriptionSchema.index({ course: 1 });
 

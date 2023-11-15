@@ -3,7 +3,7 @@ import '../PrincipalAdmin/PrincipalAdmin.scss'
 
 const Principal = () => {
     return (
-        <div class='principal-container'>
+        <div className='principal-container'>
           <h1>Bienvenido al portal CAEQ</h1>
           <h3>Cursos</h3>
           <p>En esta sección podras visualizar los próximos cursos impartidos por el Colegio. Además, tendrás la oportunidad de acceder a los detalles de cada curso, incluyendo información sobre la fecha, ubicación, costos. </p>

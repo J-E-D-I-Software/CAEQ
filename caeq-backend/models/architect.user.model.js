@@ -98,6 +98,34 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [false],
     },
+    linkINE: {
+        type: String,
+        required: [false],
+    },
+    linkCAEQCard: {
+        type: String,
+        required: [false],
+    },
+    linkCURP: {
+        type: String,
+        required: [false],
+    },
+    linkProfessionalLicense: {
+        type: String,
+        required: [false],
+    },
+    linkBachelorsDegree: {
+        type: String,
+        required: [false],
+    },
+    linkAddressCertificate: {
+        type: String,
+        required: [false],
+    },
+    linkBirthCertificate: {
+        type: String,
+        required: [false],
+    },
     university: {
         type: String,
         required: [true, 'Por favor dinos tu universidad!'],

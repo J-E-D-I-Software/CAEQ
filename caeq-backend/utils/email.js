@@ -29,13 +29,17 @@ module.exports = class Email {
         message = '',
         imageUrl = '',
         course = null,
-        gathering = null,
+        gathering = null
     ) {
         if (course != null) {
             this.courseName = course.courseName;
             this.courseModality = course.modality;
             this.courseDescription = course.description;
+            this.courseHours = course.numberHours;
             this.courseImageUrl = course.imageUrl;
+            this.courseSchedule =
+                course.schedule ||
+                'Para más información sobre las sesiones revise la página del curso en el portal.';
             this.courseStartDate = course.startDate.toISOString().split('T')[0];
             this.courseEndDate = course.endDate.toISOString().split('T')[0];
         }
@@ -94,6 +98,8 @@ module.exports = class Email {
                     courseImageUrl: this.courseImageUrl,
                     courseStartDate: this.courseStartDate,
                     courseEndDate: this.courseEndDate,
+                    courseSchedule: this.courseSchedule,
+                    courseHours: this.courseHours,
                     gatheringTitle: this.gatheringTitle,
                     gatheringLink: this.gatheringLink,
                     gatheringTime: this.gatheringTime,
@@ -251,7 +257,6 @@ module.exports = class Email {
         return email.send('rejectPayment', 'Su pago ha sido rechazado');
     }
 
-
     /**
      * Sends an email to the user notifying them that a new course has been created.
      * @param {Object} user - The user object to send the email to.
@@ -266,7 +271,6 @@ module.exports = class Email {
         await Promise.all(promises);
     }
 
-
     /**
      * Sends an email to all users in the provided array, notifying them of a new course.
      * @param {Array} users - An array of user objects to send the email to.
@@ -276,7 +280,10 @@ module.exports = class Email {
     static async sendNewGatheringCreatedEmail(users, gathering) {
         const promises = users.map(async (user) => {
             const email = new Email(user, '', '', '', '', null, gathering);
-            return email.send('newGatheringCreated', 'ASAMBLEA COLEGIO DE ARQUITECTOS DEL ESTADO DE QUERÉTARO');
+            return email.send(
+                'newGatheringCreated',
+                'ASAMBLEA COLEGIO DE ARQUITECTOS DEL ESTADO DE QUERÉTARO'
+            );
         });
         await Promise.all(promises);
     }

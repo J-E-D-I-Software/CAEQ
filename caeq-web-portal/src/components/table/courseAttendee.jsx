@@ -37,18 +37,17 @@ const CourseAttendee = ({ data, userId, course, hours }) => {
         </tbody>
     );
 
+
     return (
-        <div className='inscription-table'>
-            <div className='tabla-container'>
-                <div className='inscription-row'>
+        <div className='tabla-container'>
+            <div className='inscription-row'>
                     <h1>Nombre del curso: {course}</h1>
                 </div>
-                <div className='table-wrapper'>
-                    <table className='tabla'>
-                        <thead>{renderTableHeader()}</thead>
-                        {renderTableBody()}
-                    </table>
-                </div>
+            <div className='table-wrapper'>
+                <table className='tabla'>
+                    <thead>{renderTableHeader()}</thead>
+                    {renderTableBody()}
+                </table>
                 <div className='inscription-row'>
                     <h1>Horas totales acreditadas: {hours}</h1>
                     <h1>Mis asistencias totales a este curso: {attendedCount} de {totalSessions}</h1>

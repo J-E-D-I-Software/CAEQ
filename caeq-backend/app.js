@@ -94,7 +94,7 @@ app.use(compression());
 
 // LIMMIT REQUESTS
 const limiter = rateLimit({
-    max: 100000,
+    max: 10,
     // 1 hour
     windowMs: 60 * 60 * 1000,
     handler: function (req, res, next) {
@@ -107,6 +107,11 @@ const limiter = rateLimit({
     },
 });
 
+// Unlimited Routes
+app.use('/attendees', attendeesRouter);
+app.use('/inscription', inscriptionRouter);
+app.use('/specialties', specialtyRouter);
+
 app.use(limiter);
 
 // Routes
@@ -115,13 +120,10 @@ app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
 app.use('/courses', courseRouter);
 app.use('/email', emailRouter);
-app.use('/specialties', specialtyRouter);
 app.use('/aggregations', aggregationsRouter);
 app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
-app.use('/attendees', attendeesRouter);
 app.use('/services', servicesRouter);
-app.use('/inscription', inscriptionRouter);
 app.use('/payment', paymentRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES

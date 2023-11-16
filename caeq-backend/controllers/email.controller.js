@@ -5,11 +5,8 @@ const Email = require('../utils/email');
 const Course = require('../models/course.model');
 const Architect = require('../models/architect.user.model');
 
-
-
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
     const { subject, message, imageUrl } = req.body; // Asunto, Cuerpo, Imagen
-    console.log('imageUrl: ', imageUrl);
     if (!subject || !message) {
         return next(new AppError('Por favor ingresa un asunto y un mensaje.', 400));
     }
@@ -21,17 +18,28 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
     }
     let addressee;
     try {
-        if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
-            console.log('NODE_ENV', process.env.NODE_ENV)
+        if (
+            process.env.NODE_ENV === 'development' ||
+            process.env.NODE_ENV === 'testing'
+        ) {
             addressee = await Architect.find({
                 email: { $eq: 'josh152002@outlook.com' },
             });
-            const email = await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
-        } else{
+            const email = await Email.sendAnouncementToEveryone(
+                addressee,
+                subject,
+                message,
+                imageUrl
+            );
+        } else {
             addressee = await Architect.find({ email: { $ne: null } });
-            const email = await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
+            const email = await Email.sendAnouncementToEveryone(
+                addressee,
+                subject,
+                message,
+                imageUrl
+            );
         }
-
     } catch (error) {
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
@@ -43,21 +51,17 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
 });
 
 exports.sendEmailNotification = catchAsync(async (req, res, next) => {
-    try{
+    try {
         if (process.env.NODE_ENV === 'dev') {
             const addressee = await Architect.find({
                 email: { $eq: 'cvjj1504@outlook.com' },
             });
         } else {
             const addressee2 = await Architect.find({ anuuity: { $eq: true } });
-            const course = await Course.find().sort({createdAt: -1})
-            const email = await Email.sendNewCourseCreatedEmail(addressee2, req.body)
-            console.log('course',course)
+            const course = await Course.find().sort({ createdAt: -1 });
+            const email = await Email.sendNewCourseCreatedEmail(addressee2, req.body);
         }
-
-        console.log('body',req.body)
-        
-    }catch(error){
+    } catch (error) {
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
 

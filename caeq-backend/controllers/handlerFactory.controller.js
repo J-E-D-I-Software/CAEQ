@@ -4,7 +4,7 @@ const AppError = require('../utils/appError');
 const APIFeatures = require(`../utils/apiFeatures`);
 const Email = require('../utils/email');
 const Course = require('../models/course.model');
-const {sendEmailNotification} = require('./email.controller');
+const { sendEmailNotification } = require('./email.controller');
 
 /**
  * A function that deletes a document from the database.
@@ -49,16 +49,11 @@ exports.updateOne = (Model) =>
 /* This is a function that creates a new document in the database. */
 exports.createOne = (Model) =>
     catchAsync(async (req, res, next) => {
-
         const document = await Model.create(req.body);
 
-        if (Model === Course){
+        if (Model === Course) {
             const response = await sendEmailNotification();
-            console.log('resp', response)
         }
-
-        console.log('document', document);
-        
 
         res.status(201).json({
             status: 'success',

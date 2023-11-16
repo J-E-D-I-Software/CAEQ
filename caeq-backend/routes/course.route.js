@@ -25,7 +25,7 @@ router
         fileParser,
         filesController.formatImage,
         createCourse,
-    )
+    );
 
 router
     .route('/:id')

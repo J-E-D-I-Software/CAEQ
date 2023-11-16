@@ -47,7 +47,7 @@ const CreateOrUpdateCourse = () => {
         courseName: '',
         modality: 'Presencial',
         numberHours: 2,
-        startDate: new Date().toISOString(),
+        startDate: '',
         endDate: '',
         schedule: '',
         daysOfSession: '',
@@ -497,7 +497,7 @@ const CreateOrUpdateCourse = () => {
                     </div>
                     <DateInput
                         label='Fecha de Inicio'
-                        getVal={data.startDate ? data.startDate.slice(0, 10) : ''}
+                        getVal={data.startDate}
                         setVal={(value) =>
                             setData({ ...data, startDate: value })
                         }

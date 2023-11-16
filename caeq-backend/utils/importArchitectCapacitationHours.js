@@ -17,12 +17,13 @@ async function importArchitectCapacitationHours(csvFilePath) {
         .on('data', async (row) => {
             const properties = Object.keys(row);
             const collegiateNumber = row[properties[0]];
+            const annuity = row[properties[2]] === '1';
 
             if (!collegiateNumber) return;
 
             await ArchitectUser.findOneAndUpdate(
                 { collegiateNumber },
-                { capacitationHours: parseInt(row['HRS 2023']) }
+                { capacitationHours: parseInt(row['HRS 2023']), annuity: annuity }
             );
 
             updatedUsers++;

@@ -1,0 +1,19 @@
+.date-range-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        display: flex;
+        align-items: center;
+
+        * {
+            margin: 0 0.2rem;
+        }
+    }
+
+    .label {
+        margin-bottom: 0.5rem;
+    }
+}

@@ -49,7 +49,10 @@ function AttendancesComponent({ attendances }) {
                                             return (
                                                 <p key={asistencia._id}>
                                                     {date.toLocaleDateString('en-GB')} -
-                                                    Modalidad: {asistencia.modality}
+                                                    Modalidad:{' '}
+                                                    {asistencia.modality === 'Remoto'
+                                                        ? 'En línea'
+                                                        : asistencia.modality}
                                                 </p>
                                             );
                                         })}

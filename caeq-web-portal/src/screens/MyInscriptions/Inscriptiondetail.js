@@ -7,6 +7,7 @@ import ClockIcon from '../../components/icons/Clock.png';
 import TeacherIcon from '../../components/icons/Teacher.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
 import SatisfactionIcon from '../../components/icons/Satisfaction.png';
+import { formatDate } from '../../utils/format';
 import './Inscriptiondetail.scss';
 
 const Inscriptiondetail = (props) => {
@@ -59,31 +60,28 @@ const Inscriptiondetail = (props) => {
             </div>
 
             <div className="course-row course-data">
-                <div className="course-row">
+                <div className="course-row course-review">
                     <img src={SatisfactionIcon} height={40} />
                     <span>{data.teacherReview}</span>
                 </div>
 
                 <div className="course-row course-time">
                     <img src={CalendarIcon} height={40} />
-                    {startDate && (
-                      <span> {startDate.toISOString().slice(0, 10)}</span>  
+                    {startDate && endDate && (
+                        <p>
+                            <p>
+                                Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
+                            </p> 
+                            <p>
+                                Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
+                            </p>
+                        </p>
                     )}
                 </div>
 
-                <div className="course-row course-time">
-                    
-                    <img src={CalendarIcon} height={40} />
-                    {endDate && (
-                       <span> {endDate.toISOString().slice(0, 10)}</span>
-                    )}
-                </div>
-
-                 <div className="course-row">
-                    <span>{data.daysOfSession}</span>
-                </div>
-                <div className="course-row">
-                    <span>{data.schedule}</span>
+                <div>
+                    <p>{data.daysOfSession}</p>
+                    <p>{data.schedule}</p>
                 </div>
             </div>
       

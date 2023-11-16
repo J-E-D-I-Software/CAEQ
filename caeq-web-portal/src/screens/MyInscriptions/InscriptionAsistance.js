@@ -1,4 +1,7 @@
 import BaseButton from '../../components/buttons/BaseButton';
+import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
+import TextInput from '../../components/inputs/TextInput/TextInput';
+import InscriptionCard from '../../components/cards/InscriptionCard';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import './MyInscriptions.scss';
 import { FireError } from '../../utils/alertHandler';
@@ -14,7 +17,7 @@ import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 const InscriptionAsistance = (props) => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [session, setSession] = useState([]);
-    const [inscription, setInscription] = useState([]);
+    const [inscriptions, setInscriptions] = useState([]);
     const [filterModality, setFilterModality] = useState('');
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
@@ -28,8 +31,8 @@ const InscriptionAsistance = (props) => {
             if (filterModality) filters += `&modality=${filterModality}`;
 
             const data = await getMyInscriptionswithSessions(paginationPage, filters);
-            console.log(data);
-            setSession(data);
+            setSession(data.sessions);
+            setInscriptions(data.document);
         };
         try {
             fetchData();
@@ -38,19 +41,13 @@ const InscriptionAsistance = (props) => {
         }
     }, [filterSearchByName, filterModality]);
 
-    return (
+return (
         <div className="course"> {/* Cambié "classname" a "className" */}
-            <div className="course-row">
-                {
-                    console.log(session)}{
-                session.length > 0 ? (
-                    <div className='box-container'>
-                        <CourseAttendee data={session} />
-                    </div>
-                ) : (
-                    <p className='no-data-message'>No hay sesiones actuales</p>
-                )}
-            </div>
+            {inscriptions.map(inscription => (<div className='box-container'>
+                <div className="course-row">
+                    <CourseAttendee userId={inscription.user} data={session.filter(session => session.course == inscription.course._id)} />
+                </div>
+            </div>))}
         </div>
     );
 };

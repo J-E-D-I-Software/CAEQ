@@ -40,7 +40,7 @@ export async function getMyInscriptionswithSessions(page = 1, filtersParams = ''
     let endpoint = `${baseApiEndpoint}/inscription/myInscriptions?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
 
     const response = await axios.get(endpoint);
-    return response.data.data.sessions;
+    return response.data.data;
 }
 
 

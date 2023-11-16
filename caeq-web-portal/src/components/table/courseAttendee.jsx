@@ -1,84 +1,55 @@
 import React, { useState } from 'react';
-import './Table.scss';
-import CloseIcon from '../icons/Close.png';
-import AcceptIcon from '../icons/AcceptIcon.png';
+import './InscriptionTable.scss';
 import BaseButton from '../buttons/BaseButton';
-//import headerDates from './HeaderDates';
 import { Navigate } from 'react-router-dom';
+import AcceptIcon from '../icons/AcceptIcon.png';
+import RejectIcon from '../icons/RejectIcon.png';
 
-/**
- * An interactive table component that allows showing or hiding columns.
- * @param {Object[]} data - The data to populate the table.
- * @returns {JSX.Element} - A JSX element representing the interactive table.
- */
-const CourseAttendee = ({ data }) => {
-    console.log(data);
-    // Obtén todas las fechas únicas de las sesiones
-    const allDates = [...new Set(data.map(item => new Date(item.date).toISOString().split('T')[0]))];
-
-    // Estado para mantener la visibilidad de las columnas
-    const [columnVisibility, setColumnVisibility] = useState(() => {
-        const initialVisibility = {};
-        allDates.forEach((date) => {
-            initialVisibility[date] = true;
-        });
-        return initialVisibility;
-    });
-
+const CourseAttendee = ({ data, userId }) => {
+    const attendedSessions = data.sort((a,b) => new Date(a.date) - new Date(b.date)).map((session) => {
+        return [new Date(session.date).toLocaleDateString(), session.attendees.includes(userId)]
+    }) 
+    console.log(attendedSessions)
     const renderTableHeader = () => (
         <tr>
-            {allDates.map((date) =>
-                columnVisibility[date] ? (
-                    <th key={date} className='sticky-column'>
-                        <div className='header-content'>
-                            <span className='header-text'>{date}</span>
-                        </div>
-                    </th>
-                ) : null
-            )}
+            {attendedSessions.map((sessionTouple) => (
+                <th key={sessionTouple[0]} className='sticky-column'>
+                    <div className='header-content'>
+                        <span className='header-text'>{sessionTouple[0]}</span>
+                    </div>
+                </th>
+            ))}
         </tr>
     );
 
-    //const renderTableBody = () => {
-        /* for n in sessions:
-            key={column}
-            classname={
-                column=== 'date'
-                ? 'sticky-column'
-                : 'sticky-column'
-            } 
-            if {architects._id} in {attendees}:
-                <td>
-                    <img src={AcceptIcon} />
-                </td>
-            else:
-                <td>
-                    <img src={CloseIcon} />
-                </td>
-            */
-    //}
-
-    const renderTableBody = () => {
-        // Implementa el cuerpo de la tabla según sea necesario
-    }
+    const renderTableBody = () => (
+        <tbody>
+            <tr key={userId}>
+                {attendedSessions.map((sessionTouple) => (
+                    <td key={sessionTouple[0]}>
+                        {sessionTouple[1] ? <img src={AcceptIcon} /> : <img src={RejectIcon} />}
+                    </td>
+                ))}
+            </tr>
+        </tbody>
+    );
 
     return (
-        <div className='tabla-container'>
-            <BaseButton
-                type='primary'
-                className='restablecer-button'
-            >
-                Resetear tabla
-            </BaseButton>
-
+        <div className='inscription-table'>
+            <div className='inscription-row'>
+                <h1>Asistencias</h1>
+            </div>
+            <div className='tabla-container'>
             <div className='table-wrapper'>
                 <table className='tabla'>
                     <thead>{renderTableHeader()}</thead>
+                    {renderTableBody()}
                 </table>
             </div>
         </div>
+        </div>
+        
     );
-
 };
 
 export default CourseAttendee;

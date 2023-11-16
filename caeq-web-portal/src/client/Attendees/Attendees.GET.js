@@ -34,3 +34,12 @@ export async function getAttendancesByArchitect(idArchitect) {
     const response = await axios.get(endpoint);
     return response.data.data.attendees;
 }
+
+
+export async function getAttendeesMostRecentYears(idArchitect) {
+    let endpoint = `${baseApiEndpoint}/attendees/directory/${idArchitect}`;
+    const response = await axios.get(endpoint);
+
+    return response.data.data
+}
+

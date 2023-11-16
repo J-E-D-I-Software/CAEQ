@@ -7,6 +7,7 @@ const {
     updateAttendee,
     deleteAttendee,
     getAttendeesByArchitect,
+    getAttendeesMostRecentYears,
 } = require(`${__dirname}/../controllers/attendees.controller.js`);
 const { protect, restrictTo } = require(`${__dirname}/../controllers/auth.controller.js`);
 
@@ -18,5 +19,9 @@ router
     .get(getAttendee)
     .patch(protect, restrictTo('caeq'), updateAttendee)
     .delete(protect, restrictTo('caeq'), deleteAttendee);
+
+router.route('/architect/:idArchitect').get(getAttendeesByArchitect);
+
+router.route('/directory/:idArchitect').get(getAttendeesMostRecentYears);
 
 module.exports = router;

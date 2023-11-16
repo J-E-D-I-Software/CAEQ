@@ -35,6 +35,19 @@ export function FireSucess(message) {
 }
 
 /**
+ * It's a function that takes a message as a parameter and displays a success message using the
+ * SweetAlert2 library.
+ * @param message - The message you want to display.
+ */
+export function FireMessage(message) {
+    MySwal.fire({
+        title: message,
+        icon: 'info',
+        confirmButtonColor: '#FAB82B',
+        });
+}
+
+/**
  * It's a function that takes a message as a parameter and displays a loading message using the
  * SweetAlert2 library.
  * @param message - The message you want to display.

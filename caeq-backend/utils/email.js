@@ -125,7 +125,7 @@ module.exports = class Email {
     async sendWelcomeUserRegistrationRequested() {
         await this.send(
             'welcomeUserRegistrationPending',
-            'Bienvenido a la familia CAEQ! Pronto verificaremos tu perfil.'
+            'Bienvenido a la familia CAEQ! Pronto verificaremos su perfil.'
         );
     }
 

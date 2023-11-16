@@ -225,7 +225,7 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(
             new AppError(
-                'Email incorrecto. No hay un usuario registrado con este correo. Si te registraste recientemente, por favor espera a que un administrador verifique tu perfil.',
+                'Email incorrecto. No hay un usuario registrado con este correo. Si se registró recientemente, por favor espere a que un administrador verifique su perfil.',
                 401
             )
         );

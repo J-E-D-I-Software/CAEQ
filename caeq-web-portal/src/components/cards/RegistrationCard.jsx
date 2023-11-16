@@ -32,7 +32,10 @@ const RegistrationCard = ({
                     <h3>Nuevo</h3>
                     <p>Nombre: {newInfo.fullName}</p>
                     <p>Correo: {newInfo.newEmail}</p>
-                    <p>Ingreso: {newInfo.dateOfAdmission || 'Sin fecha de admisión'}</p>
+                    <p>
+                        Ingreso al colegio:{' '}
+                        {newInfo.dateOfAdmission || 'Sin fecha de admisión'}
+                    </p>
                     <p>DRO: {newInfo.DRONumber || 'Sin número'}</p>
                     <p>Celular: {newInfo.cellphone || 'Sin número celular'}</p>
                     <p>

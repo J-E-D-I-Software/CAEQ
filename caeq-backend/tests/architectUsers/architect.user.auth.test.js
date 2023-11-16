@@ -241,7 +241,7 @@ const testRegistrationCreation = async () => {
     expect(resLoginTest.statusCode).toEqual(401);
     expect(resLoginTest.body).toBeTruthy();
     expect(resLoginTest.body.message).toEqual(
-        'Email incorrecto. No hay un usuario registrado con este correo. Si te registraste recientemente, por favor espera a que un administrador verifique tu perfil.'
+        'Email incorrecto. No hay un usuario registrado con este correo. Si se registró recientemente, por favor espere a que un administrador verifique su perfil.'
     );
 };
 

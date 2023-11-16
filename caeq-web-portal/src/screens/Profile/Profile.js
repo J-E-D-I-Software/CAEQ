@@ -146,7 +146,10 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>INE: </span>
-                            <a href={profile.linkINE}>Visualizar</a>
+                            {profile.linkINE ?
+                                <a href={profile.linkINE}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
                         </p>
                         <p>
                             <span>CURP: </span>
@@ -327,7 +330,7 @@ const Profile = (props) => {
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Municipio: </span>
-                            list' {profile.municipalityOfLabor}
+                            {profile.municipalityOfLabor}
                         </p>
                         <p>
                             <span>Currículum Vitae (CV): </span>

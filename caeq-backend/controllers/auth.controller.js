@@ -1,5 +1,6 @@
 const CaeqUser = require('../models/caeq.user.model');
 const ArchitectUser = require('../models/architect.user.model');
+const RegisterRequest = require('../models/regiesterRequests.model');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -69,13 +70,12 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
     });
 
     // Uncomment after emails after payed
-    // try {
-    //     await new Email(newUser).sendWelcomeAdmin();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    try {
+        await new Email(newUser).sendWelcomeAdmin();
+    } catch (error) {
+        // Prod logging
+        console.log(error);
+    }
 
     // After signup a verified admin must approve the new admin
     res.status(200).json({
@@ -86,6 +86,50 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
 });
 
 /**
+ * Asynchronously creates a registration request for an architect.
+ *
+ * @param {Object} req - The request object containing the registration information.
+ * @param {Object} existingUser - The existing user object, if any.
+ * @param {Object} res - The response object used to send the registration status.
+ * @returns {Promise<void>} - A Promise that resolves when the registration process is complete.
+ */
+async function createRegistrationRequest(req, existingUser, res) {
+    const email = req.body.email;
+    delete req.body.email;
+    const updatedArchitect = await ArchitectUser.create({
+        ...req.body,
+        email: `${Date.now()}${email}`,
+        newEmail: email,
+        isRequest: true,
+    });
+
+    await RegisterRequest.create({
+        overwrites: existingUser,
+        newInfo: updatedArchitect,
+        architectNumber: updatedArchitect.collegiateNumber,
+    });
+
+    updatedArchitect.email = email;
+    // Send welcome email
+    try {
+        await new Email(
+            updatedArchitect,
+            process.env.LANDING_URL
+        ).sendWelcomeUserRegistrationRequested();
+    } catch (error) {
+        // Prod logging
+        console.log(error);
+    }
+
+    res.status(200).json({
+        status: 'success',
+        message: `Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado ${updatedArchitect.collegiateNumber} y te de acceso al portal.`,
+    });
+
+    return;
+}
+
+/**
  * Creates a new architect user.
  *
  * @param {object} req - The request object.
@@ -94,88 +138,51 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
  */
 exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const { collegiateNumber } = req.body;
-    let newUser;
+    const password = req.body.password;
+    const passwordConfirm = req.body.passwordConfirm;
+
+    if (password !== passwordConfirm) {
+        return next(new AppError('Tus contraseñas deben coincidir.', 400));
+    }
 
     // Check if user already exists
-    const existingUser = await ArchitectUser.findOne({ collegiateNumber });
+    const existingUser = await ArchitectUser.findOne({
+        collegiateNumber,
+    });
 
     if (existingUser) {
-        if (existingUser.isLegacy === true && existingUser.isOverwritten === false) {
-            const password = req.body.password;
-            const passwordConfirm = req.body.passwordConfirm;
-
-            if (password !== passwordConfirm) {
-                return next(new AppError('Tus contraseñas deben coincidir.'));
-            }
-
-            delete req.body.password;
-            delete req.body.passwordConfirm;
-
-            // Update existing user
-            newUser = await ArchitectUser.findOneAndUpdate(
-                { _id: existingUser._id },
-                { $set: req.body },
-                {
-                    new: true,
-                    runValidators: true,
-                    useFindAndModify: true,
-                }
-            );
-
-            // Update password
-            newUser = await ArchitectUser.findOneAndUpdate(
-                { _id: existingUser._id },
-                {
-                    $set: {
-                        password: await bcrypt.hash(password, 12),
-                        isOverwritten: true,
-                    },
-                },
-                {
-                    new: true,
-                    runValidators: false,
-                    useFindAndModify: true,
-                }
-            );
-        } else if (
-            existingUser.isLegacy === true &&
-            existingUser.isOverwritten === true
-        ) {
-            return next(
-                new AppError(
-                    'Una persona ya se ha inscrito en el portal con estos datos. Crea una nueva cuenta o si crees que es un error contacta a gerencia.'
-                )
-            );
+        if (existingUser.isLegacy === true) {
+            return await createRegistrationRequest(req, existingUser, res);
         } else if (
             existingUser.isLegacy === false &&
             existingUser.isOverwritten === true
         ) {
             return next(
                 new AppError(
-                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.'
+                    'El colegiado que intentas sobreescribir se inscribió recientemente y no forma parte del viejo sistema.',
+                    400
                 )
             );
         } else {
             return next(
                 new AppError(
-                    'Algo salió muy mal.No hemos podido sobreescribir los datos.'
+                    'Algo salió muy mal.No hemos podido sobreescribir los datos.',
+                    400
                 )
             );
         }
-    } else {
-        // Create new user
-        newUser = await ArchitectUser.create(req.body);
     }
 
-    // Uncomment after emails after payed
-    // // Send welcome email
-    // try {
-    //     await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
-    // } catch (error) {
-    //     return next(
-    //         new AppError('Hemos tenido problemas enviando un correo de bienvenida.', 500)
-    //     );
-    // }
+    let newUser;
+    newUser = await ArchitectUser.create(req.body);
+
+    // Send welcome email
+    try {
+        await new Email(newUser, process.env.LANDING_URL).sendWelcomeUser();
+    } catch (error) {
+        // Prod logging
+        console.log(error);
+    }
 
     // Send JWT token
     return createSendToken(newUser, 'architect', 201, req, res);
@@ -218,13 +225,16 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(
             new AppError(
-                'Email incorrecto. No hay un usuario registrado con este correo.',
+                'Email incorrecto. No hay un usuario registrado con este correo. Si se registró recientemente, por favor espere a que un administrador verifique su perfil.',
                 401
             )
         );
     } else if (!(await user.correctPassword(password, user.password))) {
         return next(
-            new AppError('Contraseña incorrecta. Intente de nuevo por favor.', 401)
+            new AppError(
+                'Contraseña incorrecta. Intente de nuevo por favor. Si te registraste recientemente, por favor espere a que un administrador verifique su perfil.',
+                401
+            )
         );
     }
 

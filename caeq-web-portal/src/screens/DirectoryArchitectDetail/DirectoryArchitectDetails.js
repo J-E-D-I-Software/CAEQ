@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
@@ -26,7 +26,6 @@ import {
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
@@ -152,17 +151,6 @@ const ArchitectDetail = (props) => {
             return;
         }
 
-        // Reduce file size
-        let fileINE = editedData.linkINE;
-        if (!editedData.linkINE) {
-            FireError('Por favor adjunta una foto de tu INE al derecho y al revés.');
-            return;
-        }
-        if (editedData.linkINE.type.includes('image') && 
-            editedData.linkINE?.size > 3000000) {
-            fileINE = await resizeImage(editedData.linkINE);
-        }   
-
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
@@ -217,39 +205,33 @@ const ArchitectDetail = (props) => {
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);
+            return;
         }
 
-        const filesToUpload = [editedData.linkCV, editedData.linkCURP, editedData.linkProfessionalLicense, 
-            editedData.linkBachelorsDegree, editedData.linkAddressCertificate, editedData.linkBirthCertificate];
-        const errors = [];
-        for (let i = 0; i < filesToUpload.length; i++) {
-            let file = filesToUpload[i];
-            
+        const filesToUpload = ['linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
+        'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
+        for (const field of filesToUpload) {
+            const file = editedData[field];
             if (file) {
                 // If file size is over 5mb we have to compress it for the backend
                 if (file.type?.includes('image') && file.size > 3000000) {
                     file = await resizeImage(file);
                 }
-
                 const formFile = new FormData();
-                formFile.append('file', file);
+                formFile.append(field, file);
                 try {
-                    const response = await updateArchitectUserByID(searchParams.id, formFile);
-                    if (response.status !== 'success')
-                        throw new Error('Error al subir archivo');
+                    await updateArchitectUserByID(searchParams.id, formFile);
                 } catch (error) {
-                    console.error(error);
-                    errors.push(file.name);
+                    swal.close();
+                    FireError(`Error al subir el archivo ${field}`);
+                    return;
                 }
             }
         }
 
-        if (errors.length > 0) {
-            FireError(
-                `ocurrió un error al subir los siguientes archivos:\n${errors.join('\n')}`);
-            return;
-        }
-        
+        swal.close();
+        FireSucess('Los Cambios se han guardado correctamente');
+
     };
 
     /**

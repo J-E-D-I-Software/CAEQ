@@ -6,7 +6,6 @@ const crypto = require('crypto');
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
-        unique: true,
         type: Number,
         required: [true, 'Por favor dinos tu número de colegiado!'],
     },
@@ -173,6 +172,9 @@ const ArchitectUserSchema = new mongoose.Schema({
         trim: true,
         validate: [validator.isEmail, 'Necesitas un correo válido.'],
     },
+    newEmail: {
+        type: String,
+    },
     password: {
         type: String,
         required: [true, 'Por favor provee una contraseña.'],
@@ -201,6 +203,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     isOverwritten: {
         type: Boolean,
         default: true,
+    },
+    isRequest: {
+        type: Boolean,
+        default: false,
     },
 });
 

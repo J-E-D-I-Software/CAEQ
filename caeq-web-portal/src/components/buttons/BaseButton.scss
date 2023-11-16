@@ -104,3 +104,12 @@
 .icon img {
     max-width: 24px;
 }
+
+.button-secondary {
+    color: #ffffff;
+    background-color: #062e52;
+}
+
+.button-secondary:hover {
+    background-color: #062e52; /* Cambio de color al pasar el ratón */ /* Elevación al pasar el ratón */
+}

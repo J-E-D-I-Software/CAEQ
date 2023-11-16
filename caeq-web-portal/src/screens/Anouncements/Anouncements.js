@@ -47,7 +47,7 @@ function Anouncements() {
             const form = new FormData();
             form.append("subject", subject);
             form.append("message", message);
-            form.append("emailImage", image);
+            form.append("file", image);
             e.preventDefault();
 
             const response = await sendEmailToEveryone(form);

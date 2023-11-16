@@ -13,6 +13,6 @@ const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
 
 router.route('/sendEmailToEveryone')
-    .post(protect, restrictTo('caeq'), fileParser, filesController.formatImage, sendToEveryone);
+    .post(protect, restrictTo('caeq'), fileParser, filesController.formatGenericFile, sendToEveryone);
 
 module.exports = router;

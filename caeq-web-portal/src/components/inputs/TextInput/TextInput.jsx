@@ -23,7 +23,7 @@ import './TextInput.scss';
  *   require={true}
  * />
  */
-const TextInput = ({ label, getVal, setVal, placeholder,require = false }) => {
+const TextInput = ({ label, getVal, setVal, placeholder,require = false, maxLength}) => {
     const isRequired = require;
 
     return (
@@ -42,6 +42,7 @@ const TextInput = ({ label, getVal, setVal, placeholder,require = false }) => {
                     value={getVal}
                     required={isRequired}
                     onChange={(e) => setVal(e.target.value)}
+                    maxLength={maxLength}
                 />
             </div>
         </label>

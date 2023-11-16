@@ -2,11 +2,9 @@ extends baseEmail
 
 block content
   h2 Hola Arq. #{firstName},
-  p Conoce el nuevo curso que se ha creado en el Colegio de Arquitectos del Estado de Querétaro (CAEQ).
   hr
-  h3 #{courseName}
-  p Modalidad: #{courseModality} | 
-  p Fechas: Del #{courseStartDate} al #{courseStartDate}
-  p Descripción del curso:
-  p #{courseDescription}
-  img(src=`${courseImageUrl}`)
+  h3 #{gatheringTitle}
+  p Fecha: #{gatheringDay}/#{gatheringMonth}/#{gatheringYear} | Hora: #{gatheringTime}
+  p Link de Acceso por Zoom: #{gatheringLink}
+
+  h2 <a href="#{gatheringMoreInfo}">Descarga la convocatoría</a>

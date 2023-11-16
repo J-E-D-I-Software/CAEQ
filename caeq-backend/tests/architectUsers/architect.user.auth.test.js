@@ -7,16 +7,16 @@ const agent = request.agent(app);
 
 const testArchitectLogin = async () => {
     const resTest1 = await agent.post('/architectusers/auth/login').send({
-        email: 'jcastr@tec.mx',
+        email: 'josh152002@outlook.com',
         password: 'password456',
     });
 
     expect(resTest1.statusCode).toEqual(201);
     expect(resTest1.body).toBeTruthy();
-    expect(resTest1.body.data.user.email).toEqual('jcastr@tec.mx');
+    expect(resTest1.body.data.user.email).toEqual('josh152002@outlook.com');
 
     const resTest2 = await agent.post('/architectusers/auth/login').send({
-        email: 'jcastr@tec.mx',
+        email: 'josh152002@outlook.com',
         password: 'wrongpass',
     });
 

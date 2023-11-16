@@ -9,7 +9,7 @@ const Architect = require('../models/architect.user.model');
 
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
     const { subject, message, imageUrl } = req.body; // Asunto, Cuerpo, Imagen
-
+    console.log('imageUrl: ', imageUrl);
     if (!subject || !message) {
         return next(new AppError('Por favor ingresa un asunto y un mensaje.', 400));
     }
@@ -26,14 +26,12 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
             addressee = await Architect.find({
                 email: { $eq: 'josh152002@outlook.com' },
             });
-            console.log(addressee)
+            const email = await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
+        } else{
+            addressee = await Architect.find({ email: { $ne: null } });
+            const email = await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
         }
-            // addressee = await Architect.find({ email: { $ne: null } });
-        
-        console.log('addressee', addressee)
-        const email = await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
 
-        console.log('email', email);
     } catch (error) {
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
@@ -51,16 +49,14 @@ exports.sendEmailNotification = catchAsync(async (req, res, next) => {
                 email: { $eq: 'cvjj1504@outlook.com' },
             });
         } else {
-            const addressee = await Architect.find({ anuuity: { $eq: true } });
+            const addressee2 = await Architect.find({ anuuity: { $eq: true } });
+            const course = await Course.find().sort({createdAt: -1})
+            const email = await Email.sendNewCourseCreatedEmail(addressee2, req.body)
+            console.log('course',course)
         }
 
-        const course = await Course.find().sort({createdAt: -1})
-
-        console.log('addressee', addressee);
-        console.log('Course', course);
-        // const email = await Email.sendNewCourseCreatedEmail(addressee, req.body)
+        console.log('body',req.body)
         
-
     }catch(error){
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }

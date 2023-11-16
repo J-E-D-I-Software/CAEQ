@@ -196,7 +196,7 @@ module.exports = class Email {
      */
     static async sendAnouncementToEveryone(users, subject, message, imageUrl) {
         const promises = users.map(async (user) => {
-            const email = new Email(user, '', subject, message, imageUrl, imageUrl);
+            const email = new Email(user, '', subject, message, imageUrl);
             return email.send('sendToEveryone', subject);
         });
         await Promise.all(promises);

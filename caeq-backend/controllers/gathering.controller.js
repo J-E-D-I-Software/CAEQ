@@ -18,11 +18,13 @@ exports.createGathering = catchAsync(async (req, res, next) => {
         if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
             const addressee = await Architect.find({email: { $eq: 'josh152002@outlook.com'}});
             const email = await Email.sendNewGatheringCreatedEmail(addressee, gathering);
+        } else {
+            const addressee2 = await Architect.find({ anuuity: { $eq: true } });
+            const email = await Email.sendNewGatheringCreatedEmail(addressee2, gathering);
         }
 
     }catch(error){
-        console.log('error', error);
-
+        return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
 
     res.status(201).json({

@@ -1,0 +1,12 @@
+extends baseEmail
+
+block content
+  h2 Hola Arq. #{firstName},
+  p Conoce el nuevo curso que se ha creado en el Colegio de Arquitectos del Estado de Querétaro (CAEQ).
+  hr
+  h3 #{courseName}
+  p Modalidad: #{courseModality} | 
+  p Fechas: Del #{courseStartDate} al #{courseStartDate}
+  p Descripción del curso:
+  p #{courseDescription}
+  img(src=`${courseImageUrl}`)

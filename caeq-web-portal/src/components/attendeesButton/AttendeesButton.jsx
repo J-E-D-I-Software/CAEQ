@@ -21,20 +21,15 @@ function AttendancesComponent({ attendances }) {
         <div>
             <h1>Asistencias a Asambleas</h1>
             <div className="Attendees-row">
-                {uniqueYears.map((year) => {
-                    const totalAssemblies = attendances.filter(
-                        (asistencia) =>
-                            asistencia.idGathering.year === year && asistencia.attended
-                    ).length;
-
-                    return (
+                {uniqueYears.length > 0 ? (
+                    uniqueYears.map((year) => (
                         <div key={year}>
                             <BaseButton
                                 className="year-button"
                                 type="primary"
                                 onClick={() => handleYearClick(year)}
                             >
-                                {`${year} (${totalAssemblies})`}
+                                {year}
                             </BaseButton>
                             {selectedYear === year && (
                                 <div className="list-data">
@@ -64,8 +59,10 @@ function AttendancesComponent({ attendances }) {
                                 </div>
                             )}
                         </div>
-                    );
-                })}
+                    ))
+                ) : (
+                    <h2>No hay asistencias registradas</h2>
+                )}
             </div>
         </div>
     );

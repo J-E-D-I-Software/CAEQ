@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { formatDate } from '../../utils/format';
 import {
     FireError,
     FireSucess,
     FireLoading,
     FireNotification,
+    FireQuestion,
 } from '../../utils/alertHandler';
 import CourseCard from '../../components/cards/CourseCard';
 import TextInput from '../../components/inputs/TextInput/TextInput';
@@ -15,13 +17,18 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { getCourse } from '../../client/Course/Course.GET';
 import createCourse from '../../client/Course/Course.POST';
-import updateCourse from '../../client/Course/Course.PATCH';
+import {
+    updateCourse,
+    accreditedHours,
+} from '../../client/Course/Course.PATCH';
 import { getAllSessions } from '../../client/Course/Session.GET';
 import { createSession } from '../../client/Course/Session.POST';
 import { updateSession } from '../../client/Course/Session.PATCH';
 import { deleteSession } from '../../client/Course/Session.DELETE';
 import './createCourse.scss';
 import { getCourseInscriptions } from '../../client/Inscription/Inscription.GET';
+import AcceptIcon from '../../components/icons/AcceptIcon.png';
+import RejectIcon from '../../components/icons/RejectIcon.png';
 
 /**
  * Page that if it receives a course id it will display an "Edit" mode
@@ -35,6 +42,7 @@ const CreateOrUpdateCourse = () => {
         _id: 1,
         date: '',
         time: '',
+        notSaved: true,
     });
     const [sessions, setSessions] = useState([{ _id: 1, date: '', time: '' }]);
     const [data, setData] = useState({
@@ -128,6 +136,16 @@ const CreateOrUpdateCourse = () => {
             }
         }
 
+        if (!data.startDate) {
+            FireError('Es necesario una fecha de inicio');
+            return;
+        }
+
+        if (!data.endDate) {
+            FireError('Es necesario una fecha de fin');
+            return;
+        }
+
         if (data.pricing === 'Gratuito') {
             data.price = 0;
             data.paymentInfo = '';
@@ -185,8 +203,11 @@ const CreateOrUpdateCourse = () => {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
                 const newSession = await createSession(sessionSelected);
-                setSessionSelected(newSession);
-                setSessions([...sessions.slice(0, sessions.length - 1), newSession]);
+                setSessionSelected({...newSession, notSaved: false});
+                setSessions([
+                    ...sessions.slice(0, sessions.length - 1),
+                    newSession,
+                ]);
             } else {
                 await updateSession(sessionSelected._id, sessionSelected);
             }
@@ -215,10 +236,19 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Eliminando...');
         try {
             await deleteSession(sessionSelected._id);
-            setSessions(
-                sessions.filter((session) => session._id !== sessionSelected._id)
-            );
-            setSessionSelected(sessions[0]);
+            const sessionsUpdated = sessions.filter(
+                (session) => session._id !== sessionSelected._id
+            )
+            setSessions(sessionsUpdated);
+            if (sessionsUpdated.length > 0)
+                setSessionSelected(sessionsUpdated[sessionsUpdated.length - 1]);
+            else
+                setSessionSelected({
+                    _id: 1,
+                    date: '',
+                    time: '',
+                    notSaved: true,
+                });
             swal.close();
             FireSucess('Sesión eliminada');
         } catch (error) {
@@ -236,30 +266,6 @@ const CreateOrUpdateCourse = () => {
      */
     const onUpdateSession = (key, value) => {
         setSessionSelected({ ...sessionSelected, [key]: value });
-    };
-
-    /**
-     * Formats a date string to a more readable format
-     * @param {string} dateStr - the date string to be formatted
-     * @returns {string} - the formatted date string
-     */
-    const formatDate = (dateStr) => {
-        const [year, month, day] = dateStr.split('-');
-        const formattedMonth = [
-            'Ene',
-            'Feb',
-            'Mar',
-            'Abr',
-            'May',
-            'Jun',
-            'Jul',
-            'Ago',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dic',
-        ][Number(month) - 1];
-        return `${day} ${formattedMonth} ${year}`;
     };
 
     /**
@@ -287,8 +293,37 @@ const CreateOrUpdateCourse = () => {
                 FireNotification('Asistencia actualizada');
             })
             .catch(() =>
-                FireNotification('Ocurrió un problema, por favor intente de nuevo')
+                FireNotification(
+                    'Ocurrió un problema, por favor intente de nuevo'
+                )
             );
+    };
+
+    /**
+     * Handles the sum of accredited hours of an architect.
+     * @param {string} id - The ID of the course to be accredited.
+     */
+    const handleAccredited = async () => {
+        try {
+            const confirmation = await FireQuestion(
+                '¿Está seguro que desea cerrar el curso?',
+                'Esta acción no se puede deshacer. Las horas del curso se sumarán a los arquitectos que hayan cumplido con el 80% de asistencia.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Cerrando curso...');
+            const response = await accreditedHours(searchParams.id);
+
+            swal.close();
+            FireSucess('Horas de capacitación actualizadas');
+            console.log(response);
+            setInscriptions(response);
+        } catch (error) {
+            FireError(error.response.data.message);
+        }
     };
 
     return (
@@ -408,21 +443,28 @@ const CreateOrUpdateCourse = () => {
                             className='date-input'
                             value={data.startDate}
                             type='date'
-                            onChange={(e) => updateData('startDate', e.target.value)}
+                            onChange={(e) =>
+                                updateData('startDate', e.target.value)
+                            }
+                            required={true}
                         />
                     </div>
-                    <div className='create-course--form-group'>
-                        <label htmlFor='endDate' className='create-course__label-input'>
-                            Fecha de finalización
-                        </label>
-                        <input
-                            name='endDate'
-                            className='date-input'
-                            value={data.endDate}
-                            type='date'
-                            onChange={(e) => updateData('endDate', e.target.value)}
-                        />
-                    </div>
+                    <DateInput
+                        label='Fecha de Inicio'
+                        getVal={data.startDate}
+                        setVal={(value) =>
+                            setData({ ...data, startDate: value })
+                        }
+                        require={true}
+                    />
+                    <DateInput
+                        label='Fecha de fin'
+                        getVal={data.endDate}
+                        setVal={(value) =>
+                            setData({ ...data, endDate: value })
+                        }
+                        require={true}
+                    />
                     <TextInput
                         label='Días de la sesión'
                         getVal={data.daysOfSession}
@@ -453,12 +495,19 @@ const CreateOrUpdateCourse = () => {
                     </BaseButton>
                 </div>
             </div>
-
+            <div>
+                <BaseButton type='primary' onClick={handleAccredited}>
+                    Terminar curso
+                </BaseButton>
+            </div>
             <div className='create-course--row'>
                 <div className='create-course--col'>
-                    <h1>Sesiones</h1>
+                    <div className='course--row'>
+                        <h1>Sesiones </h1>
+                    </div>
                     <div className='create-course--col create-course__sessions-table'>
                         <ul className='create-course__sessions-table__header'>
+                            {console.log(sessionSelected)}
                             {sessions.map((session, i) => (
                                 <li
                                     className={
@@ -470,7 +519,7 @@ const CreateOrUpdateCourse = () => {
                                     key={i}>
                                     {session.date
                                         ? formatDate(session.date.slice(0, 10))
-                                        : `Sesión ${i + 1} (sin guardar)`}
+                                        : `Sin guardar`}
                                 </li>
                             ))}
                             {sessions.length === 0 && (
@@ -482,12 +531,17 @@ const CreateOrUpdateCourse = () => {
                                 <li
                                     className='create-course__sessions__add'
                                     onClick={() => {
+                                        if (sessions.filter(x => x.notSaved).length > 0) {
+                                            FireError('Solo se puede tener una sesión sin guardar a la vez');
+                                            return;
+                                        }
                                         setSessions([
                                             ...sessions,
                                             {
                                                 _id: sessions.length,
                                                 date: '',
                                                 time: data.schedule,
+                                                notSaved: true,
                                             },
                                         ]);
                                     }}>
@@ -510,18 +564,24 @@ const CreateOrUpdateCourse = () => {
                             <BaseButton type='primary' onClick={onSubmitSession}>
                                 Guardar
                             </BaseButton>
-                            <BaseButton type='fail' onClick={onSubmitDeleteSession}>
-                                Eliminar
-                            </BaseButton>
+                            {!sessionSelected?.notSaved &&
+                                <BaseButton
+                                    type='fail'
+                                    onClick={onSubmitDeleteSession}
+                                >
+                                    Eliminar
+                                </BaseButton>
+                            }
                         </div>
                         <div className='create-course__sessions-table__content'>
-                            {inscriptions.length > 0 ? (
+                            {(!sessionSelected?.notSaved && inscriptions.length > 0) ? (
                                 <table className='styled-table'>
                                     <thead>
                                         <tr>
                                             <th>Lista de asistencia</th>
                                             <th>Número de colegiado</th>
                                             <th>Nombre completo</th>
+                                            <th>Acreditado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -546,7 +606,24 @@ const CreateOrUpdateCourse = () => {
                                                 <td>
                                                     {inscription.user.collegiateNumber}
                                                 </td>
-                                                <td>{inscription.user.fullName}</td>
+                                                <td>
+                                                    {inscription.user.fullName}
+                                                </td>
+                                                <td>
+                                                    {inscription.accredited ? (
+                                                        <img
+                                                            src={AcceptIcon}
+                                                            width={25}
+                                                            alt={`Accept Icon`}
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={RejectIcon}
+                                                            width={25}
+                                                            alt={`Reject Icon`}
+                                                        />
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>

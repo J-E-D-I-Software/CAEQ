@@ -7,6 +7,9 @@ const {
     updateArchitectUser,
     deleteArchitectUser,
     getAllPublicArchitectUsers,
+    getAllRegistrationRequests,
+    acceptArchitectUser,
+    rejectArchitectUser,
 } = require(`${__dirname}/../controllers/architect.user.controller.js`);
 
 const {
@@ -23,12 +26,24 @@ const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
 
 router.get('/public', getAllPublicArchitectUsers);
-router.post('/auth/signup', fileParser, filesController.formatCV, signUpArchitectUser);
+router.post(
+    '/auth/signup',
+    fileParser,
+    filesController.formatGenericFile,
+    signUpArchitectUser
+);
 router.post('/auth/login', loginArchitectUser);
 router.post('/forgot-password', forgotPasswordArchitectUser);
 router.patch('/reset-password/:token', resetPasswordArchitectUser);
-router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 
+router.route('/accept-architect/:id').patch(acceptArchitectUser);
+router.route('/reject-architect/:id').patch(rejectArchitectUser);
+
+router
+    .route('/registration-requests')
+    .get(protect, restrictTo('caeq'), getAllRegistrationRequests);
+
+router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')
     .get(protect, restrictTo('caeq', 'self'), getArchitectUser)
@@ -36,7 +51,7 @@ router
         protect,
         restrictTo('caeq', 'self'),
         fileParser,
-        filesController.formatCV,
+        filesController.formatGenericFile,
         updateArchitectUser
     )
     .delete(protect, restrictTo('caeq', 'self'), deleteArchitectUser);

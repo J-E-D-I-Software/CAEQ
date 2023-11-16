@@ -44,16 +44,11 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     await CaeqUser.findByIdAndUpdate(adminId, { verified: true });
 
     // Uncomment after emails after payed
-    // try {
-    //     await new Email(caeqUser).sendAdminAccepted();
-    // } catch (error) {
-    //     return next(
-    //         new AppError(
-    //             'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
-    //             500
-    //         )
-    //     );
-    // }
+    try {
+        await new Email(caeqUser).sendAdminAccepted();
+    } catch (error) {
+        console.log(error);
+    }
 
     res.status(200).json({
         status: 'success',
@@ -82,16 +77,11 @@ exports.rejectCaeqUser = catchAsync(async (req, res, next) => {
     const caeqUser = await CaeqUser.findByIdAndDelete(adminId);
 
     // Uncomment after emails after payed
-    // try {
-    //     await new Email(caeqUser).sendAdminRejected();
-    // } catch (error) {
-    //     return next(
-    //         new AppError(
-    //             'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.',
-    //             500
-    //         )
-    //     );
-    // }
+    try {
+        await new Email(caeqUser).sendAdminRejected();
+    } catch (error) {
+        console.log(error);
+    }
 
     res.status(200).json({
         status: 'success',

@@ -49,4 +49,13 @@
         flex-wrap: wrap;
         justify-content: space-around;
     }
+
+    .registration-cards {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 30px;
+    }
 }

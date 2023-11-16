@@ -17,6 +17,7 @@ const GatheringData = require('./data/gathering.js');
 const Inscription = require('./inscription.model');
 const Services = require('./roomOffer.model.js');
 const ServicesData = require('./data/services.js');
+const RegisterRequests = require('./regiesterRequests.model');
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -77,7 +78,7 @@ const setUpSessionData = catchAsync(async () => {
 
 const setUpAttendeesData = catchAsync(async () => {
     const gatherings = await Gathering.find();
-    const architect = await ArchitectUser.find()
+    const architect = await ArchitectUser.find();
     AttendeesData[0].idGathering = gatherings[0]._id;
     AttendeesData[1].idGathering = gatherings[1]._id;
     AttendeesData[2].idGathering = gatherings[2]._id;
@@ -106,6 +107,36 @@ const setUpAttendeesData = catchAsync(async () => {
  */
 const setUpCourseData = catchAsync(async () => {
     await populateDb(Course, CourseData);
+});
+
+/**
+ * Set up 'RegisterRequest' data by populating the database with the provided test data.
+ *
+ * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
+ */
+const setUpregisterRequests = catchAsync(async () => {
+    const user1 = await ArchitectUser.findOne({ email: 'josh152002@outlook.com' });
+    const user2 = await ArchitectUser.findOne({
+        email: '97et9et7e90rt7javier@example.com',
+    });
+    const user3 = await ArchitectUser.findOne({
+        email: '2654874682754723isabel@example.com',
+    });
+
+    const registerRequestData = [
+        {
+            overwrites: user1._id,
+            newInfo: user2._id,
+            architectNumber: 45672,
+        },
+        {
+            overwrites: user1._id,
+            newInfo: user3._id,
+            architectNumber: 45672,
+        },
+    ];
+
+    await populateDb(RegisterRequests, registerRequestData);
 });
 
 /**
@@ -186,6 +217,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpAttendeesData();
     await setUpInsciptionData();
     await setUpServicesData();
+    await setUpregisterRequests();
     console.log('Test data uploaded to DB');
 });
 

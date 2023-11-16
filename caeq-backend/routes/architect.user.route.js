@@ -7,6 +7,9 @@ const {
     updateArchitectUser,
     deleteArchitectUser,
     getAllPublicArchitectUsers,
+    getAllRegistrationRequests,
+    acceptArchitectUser,
+    rejectArchitectUser,
 } = require(`${__dirname}/../controllers/architect.user.controller.js`);
 
 const {
@@ -32,8 +35,15 @@ router.post(
 router.post('/auth/login', loginArchitectUser);
 router.post('/forgot-password', forgotPasswordArchitectUser);
 router.patch('/reset-password/:token', resetPasswordArchitectUser);
-router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 
+router.route('/accept-architect/:id').patch(acceptArchitectUser);
+router.route('/reject-architect/:id').patch(rejectArchitectUser);
+
+router
+    .route('/registration-requests')
+    .get(protect, restrictTo('caeq'), getAllRegistrationRequests);
+
+router.route('/').get(getAllArchitectUsers).post(createArchitectUser);
 router
     .route('/:id')
     .get(protect, restrictTo('caeq', 'self'), getArchitectUser)

@@ -115,7 +115,7 @@ const setUpCourseData = catchAsync(async () => {
  * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
  */
 const setUpregisterRequests = catchAsync(async () => {
-    const user1 = await ArchitectUser.findOne({ email: 'jcastr@tec.mx' });
+    const user1 = await ArchitectUser.findOne({ email: 'josh152002@outlook.com' });
     const user2 = await ArchitectUser.findOne({
         email: '97et9et7e90rt7javier@example.com',
     });

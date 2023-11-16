@@ -35,6 +35,8 @@ module.exports = class Email {
             this.courseModality = course.modality;
             this.courseDescription = course.description;
             this.courseImageUrl = course.imageUrl;
+            this.courseStartDate = course.startDate.toISOString().split('T')[0];
+            this.courseEndDate = course.endDate.toISOString().split('T')[0];
         }
 
         this.to = user.email;
@@ -53,9 +55,10 @@ module.exports = class Email {
      * @returns {Promise} A promise that resolves when the email is sent.
      */
     async send(template, subject) {
-        // if (process.env.NODE_ENV !== 'test') {
-        //     return;
+        // if (process.env.NODE_ENV === 'test') {
+        //      return;
         // }
+
         if (!template || !subject) {
             return new AppError(
                 `El template o el subject no pueden ser: ${template} o ${subject}. Ingresa un template y subject válidos.`,
@@ -78,6 +81,8 @@ module.exports = class Email {
                     courseModality: this.courseModality,
                     courseDescription: this.courseDescription,
                     courseImageUrl: this.courseImageUrl,
+                    courseStartDate: this.courseStartDate,
+                    courseEndDate: this.courseEndDate,
                 }
             );
         } catch (error) {
@@ -204,4 +209,21 @@ module.exports = class Email {
         const email = new Email(user, '', '', declinedReason, '', course);
         return email.send('rejectPayment', 'Su pago ha sido rechazado');
     }
+
+
+    /**
+     * Sends an email to the user notifying them that a new course has been created.
+     * @param {Object} user - The user object to send the email to.
+     * @param {Object} course - The course object that was created.
+     * @returns {Promise} A promise that resolves when the email has been sent.
+     */
+    static async sendNewCourseCreatedEmail(users, course) {
+        const promises = users.map(async (user) => {
+            const email = new Email(user, '', '', '', '', course);
+            return email.send('newCourseCreated', '¡Tenemos un nuevo curso para ti!');
+        });
+        await Promise.all(promises);
+    }
+
+
 };

@@ -27,9 +27,13 @@ const headerMappings = {
     emergencyContact: 'Nombre de contacto de emergencia',
     positionsInCouncil: 'Cargos en consejos directivos',
     annuity: 'Anualidad pagada',
+    [`cursos${currentYear}`]: `Asistencias a cursos ${currentYear}`,
+    [`cursos${currentYear - 1}`]: `Asistencias a cursos ${currentYear - 1}`,
+    [`cursos${currentYear - 2}`]: `Asistencias a cursos ${currentYear - 2}`,
     [currentYear]: `Asistencias a asambleas ${currentYear}`,
     [currentYear - 1]: `Asistencias a asambleas ${currentYear - 1}`,
     [currentYear - 2]: `Asistencias a asambleas ${currentYear - 2}`,
+    capacitation_hours: 'Horas de capacitación',
 };
 
 export default headerMappings;

@@ -94,7 +94,7 @@ app.use(compression());
 
 // LIMMIT REQUESTS
 const limiter = rateLimit({
-    max: 10000,
+    max: 100000,
     // 1 hour
     windowMs: 60 * 60 * 1000,
     handler: function (req, res, next) {

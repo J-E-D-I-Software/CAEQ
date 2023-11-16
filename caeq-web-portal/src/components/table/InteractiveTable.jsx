@@ -91,6 +91,9 @@ const InteractiveTable = ({ data, onRowClick }) => {
         currentYear - 2,
         currentYear - 1,
         currentYear,
+        `cursos${currentYear - 2}`,
+        `cursos${currentYear - 1}`,
+        `cursos${currentYear}`,
     ];
 
     /**

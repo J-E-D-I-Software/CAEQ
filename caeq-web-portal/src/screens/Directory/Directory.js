@@ -6,6 +6,7 @@ import InputText from '../../components/inputs/TextInput/TextInput';
 import InputNumber from '../../components/inputs/NumberInput/NumberInput.jsx';
 import { getAllArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import headerMappings from '../../components/table/HeaderMappings';
 import DateInput from '../../components/inputs/DateInput/DateInput';
@@ -116,13 +117,25 @@ const Directory = () => {
                         const architectId = architect._id;
                         const recentYears = await getAttendeesMostRecentYears(architectId);
                         
-                        architect = { ...architect, ...recentYears.yearCount };
+                        const myCourseHours = {}
+                        const currentYear = new Date().getFullYear();
+                        const courseHours = await getCourseHours(architectId);
+                        myCourseHours[`cursos${currentYear}`] = 0;
+                        myCourseHours[`cursos${currentYear - 1}`] = 0;
+                        myCourseHours[`cursos${currentYear - 2}`] = 0;
+                        courseHours.forEach(courseHour => {
+                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
+                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                            }
+                        });
+
+                        console.log("Mis cursos", myCourseHours)
+                        
+                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
 
                         return architect;
                     })
                 );
-
-                console.log(mostRecentYearAttendances)
 
                 setArchitectUsers(mostRecentYearAttendances);
             } catch (error) {
@@ -173,11 +186,24 @@ const Directory = () => {
                         const architectId = architect._id;
                         const recentYears = await getAttendeesMostRecentYears(architectId);
                         
-                        architect = {  ...recentYears.yearCount, ...architect };
+                        const myCourseHours = {}
+                        const currentYear = new Date().getFullYear();
+                        const courseHours = await getCourseHours(architectId);
+                        myCourseHours[`cursos${currentYear}`] = 0;
+                        myCourseHours[`cursos${currentYear - 1}`] = 0;
+                        myCourseHours[`cursos${currentYear - 2}`] = 0;
+                        courseHours.forEach(courseHour => {
+                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
+                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                            }
+                        });
+                        
+                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
 
                         return architect;
                     })
                 );
+
                 setArchitectUsers(mostRecentYearAttendances);
             } catch (error) {
                 // Handle error
@@ -223,9 +249,20 @@ const Directory = () => {
         const architectsDownload = await Promise.all(architects.map(async (val) => {
             const architectId = val._id;
             const recentYears = await getAttendeesMostRecentYears(architectId);
-                
-            val = {...val, ...recentYears.yearCount};
 
+            const myCourseHours = {}
+            const currentYear = new Date().getFullYear();
+            const courseHours = await getCourseHours(architectId);
+            myCourseHours[`cursos${currentYear}`] = 0;
+            myCourseHours[`cursos${currentYear - 1}`] = 0;
+            myCourseHours[`cursos${currentYear - 2}`] = 0;
+            courseHours.forEach(courseHour => {
+                if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
+                    myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                }
+            });
+                
+            val = {...val, ...recentYears.yearCount, ...myCourseHours};
              
             delete val._id;
 

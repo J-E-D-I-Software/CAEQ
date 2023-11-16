@@ -4,6 +4,7 @@ import { getCourse } from '../../client/Course/Course.GET';
 import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
 import { FireError, FireSucess, FireLoading, FireQuestion} from '../../utils/alertHandler';
+import { formatDate } from '../../utils/format';
 import BaseButton from '../../components/buttons/BaseButton';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import ClassroomIcon from '../../components/icons/Classroom.png';
@@ -134,30 +135,50 @@ const Course = (props) => {
                 </div>
                 <div className="course-row">
                     <img src={LocationIcon} height={40} />
-                    <span>{data.place}</span>
+                    <span>
+                        <p>Lugar</p>
+                        {data.place}
+                    </span>
                 </div>
                 <div className="course-row">
                     <img src={ClockIcon} height={40} />
-                    <span>{data.numberHours} horas acreditadas</span>
+                    <span>
+                        <p>Podrás acreditar</p>
+                        {data.numberHours} horas
+                    </span>
                 </div>
                 <div className="course-row">
                     <img src={TeacherIcon} height={40} />
-                    <span>{data.teacherName}</span>
+                    <span>
+                        <p>Impartido por</p>
+                        {data.teacherName} horas
+                    </span>
                 </div>
             </div>
 
             <div className="course-row course-data">
                 <div className="course-row">
                     <img src={SatisfactionIcon} height={40} />
-                    <span>{data.teacherReview}</span>
+                    <span>
+                        <p>Reseña</p>
+                        {data.teacherReview}
+                    </span>
                 </div>
                 <div className="course-row course-time">
                     <img src={CalendarIcon} height={40} />
                     {startDate && endDate && (
-                        <span>
-                            {startDate.toISOString().slice(0, 10)} -{' '}
-                            {endDate.toISOString().slice(0, 10)}
-                        </span>
+                        <>
+                            <p>
+                                <span>
+                                    Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
+                                </span>
+                            </p> 
+                            <p>
+                                <span>
+                                    Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
+                                </span>
+                            </p>
+                        </>
                     )}
                     <span>{data.daysOfSession}</span>
                     <span>{data.schedule}</span>

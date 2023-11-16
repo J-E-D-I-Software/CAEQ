@@ -120,10 +120,19 @@ module.exports = class Email {
     }
 
     /**
+     * Send a welcome email to a user trying to access the system.
+     */
+    async sendWelcomeUserRegistrationRequested() {
+        await this.send(
+            'welcomeUserRegistrationPending',
+            'Bienvenido a la familia CAEQ! Pronto verificaremos su perfil.'
+        );
+    }
+
+    /**
      * Send a welcome email to an administrator.
      */
     async sendWelcomeAdmin() {
-        // esto va a ser una pug template
         await this.send(
             'welcomeAdmin',
             'Bienvenido a la familia CAEQ! Un administrador revisará tu perfil.'
@@ -134,7 +143,6 @@ module.exports = class Email {
      * Send an email to notify that an administrator's request is accepted.
      */
     async sendAdminAccepted() {
-        // esto va a ser una pug template
         await this.send(
             'adminAccepted',
             'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
@@ -145,15 +153,30 @@ module.exports = class Email {
      * Send an email to notify that an administrator's request is rejected.
      */
     async sendAdminRejected() {
-        // esto va a ser una pug template
-        await this.send('adminRejected', 'Hemos rechazado tu perfil de acceso.');
+        await this.send('adminRejected', 'Hemos rechazado tu solicitud de acceso.');
+    }
+
+    /**
+     * Send an email to notify that an architect's request is accepted.
+     */
+    async sendArchitectAccepted() {
+        await this.send(
+            'architectAccepted',
+            'Hemos verificado tu perfil! Bienvenido a la familia CAEQ!'
+        );
+    }
+
+    /**
+     * Send an email to notify that an architect's request is rejected.
+     */
+    async sendArchitectRejected() {
+        await this.send('architectRejected', 'Hemos rechazado tu perfil de acceso.');
     }
 
     /*
      * Send a password reset email to the user.
      * Note: This method is commented out in the original code.
      */
-
     async sendPasswordReset() {
         await this.send(
             'passwordReset',

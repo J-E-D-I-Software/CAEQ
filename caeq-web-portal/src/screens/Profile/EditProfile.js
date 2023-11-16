@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import { resizeImage } from '../../utils/files';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import '../DirectoryArchitectDetail/DirectoryArchitectDetail.scss';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -13,15 +14,12 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 const ArchitectPersonalData = (props) => {
     const searchParams = useParams();
     const navigate = useNavigate();
-    const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
-    const date = new Date(editedData.dateOfBirth);
 
     useEffect(() => {
         if (searchParams.id)
             getArchitectUserById(searchParams.id)
                 .then((response) => {
-                    setData(response);
                     setEditedData(response);
                 })
                 .catch((error) => FireError(error.response.data.message));
@@ -30,67 +28,117 @@ const ArchitectPersonalData = (props) => {
     /**
      * Handles the save changes functionality for the DirectoryArchitectDetails screen.
      * @async
-     * @function handleSaveChanges
+     * @function handleCancel
      * @param {Event} e - The event object.
      * @returns {Promise<void>}
      */
-
     const handleCancel = () => {
         navigate(`/Perfil`);
     };
 
+    /**
+     * Handles the save changes functionality for the DirectoryArchitectDetails screen.
+     * @async
+     * @function handleSaveChanges
+     * @param {Event} e - The event object.
+     * @returns {Promise<void>}
+     */
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+        const swal = FireLoading('Guardando cambios... por favor espere');
 
+        const filesToUpload = ['linkINE', 'linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
+                                'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
+        const fieldsToUpdate = ['fullName', 'dateOfBirth', 'gender', 'homeAddress', 'cellphone', 
+                                'homePhone', 'email', 'emergencyContact'];
+        
+        // We don't want to update all fields, just the ones available in the form
+        const filteredData = {};
+        for (const field of Object.keys(editedData)) {
+            if ([...fieldsToUpdate, ...filesToUpload].includes(field)) {
+                filteredData[field] = editedData[field];
+            }
+        }
+
+        // Prevent blank values
+        const mapDisplayName = {fullName: 'nombre', dateOfBirth: 'fecha de nacimiento', gender: 'género',
+                                homeAddress: 'dirección', cellphone: 'número celular', homePhone: 'número de casa',
+                                email: 'correo electrónico', emergencyContact: 'contacto de emergencia'};
+        for (let i=0; i<Object.keys(filteredData).length; i++) {
+            const key = Object.keys(filteredData)[i];
+            const value = filteredData[key];
+            if ((value == null || value === '') && !filesToUpload.includes(key)) {
+                console.log(key);
+                FireError(`El campo ${mapDisplayName[key]} no puede estar vacío.`);
+                return;
+            }
+        }
+
+        // Prevent invalid values
         const currentDate = new Date();
-        const dateBirth = new Date(editedData.dateOfBirth);
+        const dateBirth = new Date(filteredData.dateOfBirth);
         if (dateBirth > currentDate) {
-            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            FireError('La fecha de nacimiento no puede ser mayor a la fecha actual.');
             return;
         }
 
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        const isValidEmail = emailRegex.test(editedData.email);
+        const isValidEmail = emailRegex.test(filteredData.email);
         if (!isValidEmail) {
-            FireError('Por favor ingresa un correo electrónico válido.');
+            FireError('Por favor, ingrese un correo electrónico válido.');
             return;
         }
+
+        // Update the architect user
         const form = new FormData();
-        form.append('fullName', editedData.fullName); //Ya esta
-        form.append('dateOfBirth', editedData.dateOfBirth); //Ya esta
-        form.append('gender', editedData.gender); //Ya esta
-        form.append('homeAddress', editedData.homeAddress); //Ya esta
-        form.append('cellphone', editedData.cellphone); //Ya esta
-        form.append('homePhone', editedData.homePhone); //Ya esta
-        form.append('email', editedData.email); //Ya esta
-        form.append('emergencyContact', editedData.emergencyContact); //Ya esta
-        form.append('file', editedData.linkCV);
+        for (const field of fieldsToUpdate) {
+            form.append(field, filteredData[field]);
+        }
 
-        e.preventDefault();
-
-        const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(searchParams.id, form);
-            setData(response.data);
-            swal.close();
-            FireSucess('Los cambios se han guardado correctamente');
-            navigate('/Perfil');
+            await updateArchitectUserByID(searchParams.id, form);
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);
-            navigate('/Perfil');
+            return;
         }
-    };
 
-    const gender = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
+        // Update the files
+        for (const field of filesToUpload) {
+            let file = filteredData[field];
+            if (file) {
+                // If file size is over 5mb we have to compress it for the backend
+                if (file.type?.includes('image') && file.size > 3000000) {
+                    file = await resizeImage(file);
+                }
+
+                const form = new FormData();
+                form.append(field, file);
+                try {
+                    const response = await updateArchitectUserByID(searchParams.id, form);
+                    if (response.status !== 'success')
+                        throw new Error('Error al subir archivo');
+                } catch (error) {
+                    swal.close();
+                    FireError(`Error al subir el archivo ${field}`);
+                    return;
+                }
+            }
+        }
+
+        swal.close();
+        FireSucess('Los cambios se han guardado correctamente');
+        navigate('/Perfil');
+    };
 
     /**
      * Returns an array of member options excluding the currently edited member type.
-     *
-     * @function
-     * @returns {Array} An array of member options.
-     */
-    const getGender = () => {
+    *
+    * @function
+    * @returns {Array} An array of member options.
+    */
+   const getGender = () => {
+        const gender = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
         const filteredOptions = gender.filter((option) => option !== editedData.gender);
         return filteredOptions;
     };
@@ -154,8 +202,6 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
-                </div>
-                <div className='architect-col'>
                     <TextInput
                         label='Número de casa'
                         placeholder='Número de casa'
@@ -180,20 +226,64 @@ const ArchitectPersonalData = (props) => {
                             setEditedData({ ...editedData, emergencyContact: value })
                         }
                     />
+                </div>
+                <div className='architect-col'>
                     <FileInput
-                        label='Curriculum Vitae'
-                        placeholder='CV'
-                        getVal={editedData.linkCV}
+                        label='Adjuntar foto del INE (frente y reverso)'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkINE: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar Credencial CAEQ'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCAEQCard: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar Currículum Vitae'
+                        accept='image/*,application/pdf'
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
                         }
                     />
-                    <p>
-                        Archivo Actual:{' '}
-                        <a href={editedData.linkCV}>
-                            <span>Descargar CV</span>
-                        </a>
-                    </p>
+                    <FileInput
+                        label='Adjuntar CURP'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCURP: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar Cédula Profesional'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkProfessionalLicense: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar Título Profesional'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBachelorsDegree: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar comprobante de Domicilio'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkAddressCertificate: value })
+                        }
+                    />
+                    <FileInput
+                        label='Adjuntar Acta de Nacimiento'
+                        accept='image/*,application/pdf'
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBirthCertificate: value })
+                        }
+                    />
                 </div>
             </div>
             <div className='architect-row'>

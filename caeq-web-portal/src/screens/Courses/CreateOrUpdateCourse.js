@@ -47,7 +47,7 @@ const CreateOrUpdateCourse = () => {
         courseName: '',
         modality: 'Presencial',
         numberHours: 2,
-        startDate: '',
+        startDate: new Date().toISOString(),
         endDate: '',
         schedule: '',
         daysOfSession: '',
@@ -145,6 +145,16 @@ const CreateOrUpdateCourse = () => {
                 );
                 return;
             }
+        }
+
+        if (!data.startDate) {
+            FireError('Es necesario una fecha de inicio');
+            return;
+        }
+
+        if (!data.endDate) {
+            FireError('Es necesario una fecha de fin');
+            return;
         }
 
         if (data.pricing === 'Gratuito') {
@@ -482,25 +492,25 @@ const CreateOrUpdateCourse = () => {
                             onChange={(e) =>
                                 updateData('startDate', e.target.value)
                             }
+                            required={true}
                         />
                     </div>
-                    <div className='create-course--form-group'>
-                        <label
-                            htmlFor='endDate'
-                            className='create-course__label-input'
-                        >
-                            Fecha de finalización
-                        </label>
-                        <input
-                            name='endDate'
-                            className='date-input'
-                            value={data.endDate}
-                            type='date'
-                            onChange={(e) =>
-                                updateData('endDate', e.target.value)
-                            }
-                        />
-                    </div>
+                    <DateInput
+                        label='Fecha de Inicio'
+                        getVal={data.startDate ? data.startDate.slice(0, 10) : ''}
+                        setVal={(value) =>
+                            setData({ ...data, startDate: value })
+                        }
+                        require={true}
+                    />
+                    <DateInput
+                        label='Fecha de fin'
+                        getVal={data.endDate}
+                        setVal={(value) =>
+                            setData({ ...data, endDate: value })
+                        }
+                        require={true}
+                    />
                     <TextInput
                         label='Días de la sesión'
                         getVal={data.daysOfSession}

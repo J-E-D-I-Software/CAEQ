@@ -22,6 +22,7 @@ const Profile = (props) => {
     const [attendances, setAttendances] = useState([]);
     const [attendanceByYear, setAttendanceByYear] = useState({});
     const [courseHours, setCourseHours] = useState([]);
+    const [currentRights, setCurrentRights] = useState('');
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -31,6 +32,8 @@ const Profile = (props) => {
     const handleRoute = (id) => {
         navigate(`/Perfil/${savedUser._id}`);
     };
+
+    const currentYear = new Date().getFullYear();
 
     useEffect(() => {
         if (savedUser._id)
@@ -43,7 +46,9 @@ const Profile = (props) => {
         (async () => {
             try {
                 const architectId = savedUser._id;
-                const attendances = await getAttendancesByArchitect(architectId);
+                const attendances = await getAttendancesByArchitect(
+                    architectId
+                );
                 setAttendances(attendances);
 
                 if (attendances.length > 0) {
@@ -62,14 +67,22 @@ const Profile = (props) => {
                     setAttendanceByYear(attendanceByYear);
                 }
 
-                const accreditedHours = await getCourseHours(SavedUser._id);
+                let accreditedHours = await getCourseHours(savedUser._id);
+                accreditedHours = accreditedHours.map((hours) => {
+                    if (hours.startYear === 2023 && hours.endYear === 2024) {
+                        hours.value = profile.capacitationHours + hours.value;
+                    }
+                    return hours;
+                });
                 setCourseHours(accreditedHours);
             } catch (error) {
-                console.error('Error al obtener asistencias por arquitecto', error);
+                console.error(
+                    'Error al obtener asistencias por arquitecto',
+                    error
+                );
             }
         })();
     }, []);
-
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -137,24 +150,31 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>CURP: </span>
-                            {profile.linkCURP ?
+                            {profile.linkCURP ? (
                                 <a href={profile.linkCURP}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                         <p>
                             <span>Acta de Nacimiento: </span>
-                            {profile.linkBirthCertificate ?
-                                <a href={profile.linkBirthCertificate}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            {profile.linkBirthCertificate ? (
+                                <a href={profile.linkBirthCertificate}>
+                                    Visualizar
+                                </a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                         <p>
                             <span>Comprobante de domicilio: </span>
-                            {profile.linkAddressCertificate ?
-                                <a href={profile.linkAddressCertificate}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            {profile.linkAddressCertificate ? (
+                                <a href={profile.linkAddressCertificate}>
+                                    Visualizar
+                                </a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                     </div>
                 </WhiteContainer>
@@ -184,16 +204,49 @@ const Profile = (props) => {
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
                         </p>
+                        <p>
+                            <span>
+                                Derechos vigentes:{' '}
+                                {profile.currentRights ? 'Sí' : 'No'}
+                            </span>
+                            <p>
+                                Anualidad pagada:{' '}
+                                {profile.annuity ? 'Sí' : 'No'}
+                            </p>
+
+                            {courseHours
+                                .filter(
+                                    (courseHour) =>
+                                        courseHour.startYear === currentYear
+                                )
+                                .sort(
+                                    (prev, next) => next.endYear - prev.endYear
+                                )
+                                .map((courseHour) => (
+                                    <p>
+                                        Horas de capacitación cumplidas en el
+                                        último año: {courseHour.value} horas
+                                        (Mín 40 hrs):{' '}
+                                        {courseHour.value >= 40
+                                            ? 'Sí cumple'
+                                            : 'No cumple'}
+                                    </p>
+                                ))}
+                        </p>
                     </div>
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Horas Acreditadas: </span>
 
                             {courseHours
-                                .sort((prev, next) => next.endYear - prev.endYear)
+                                .sort(
+                                    (prev, next) => next.endYear - prev.endYear
+                                )
+                                .slice(0, 3) // Select only the first three elements
                                 .map((courseHour) => (
                                     <p>
-                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
+                                        {courseHour.startYear} -{' '}
+                                        {courseHour.endYear} :{' '}
                                         {courseHour.value}
                                     </p>
                                 ))}
@@ -202,7 +255,8 @@ const Profile = (props) => {
                             <span>Asistencias por Año:</span>
                             {Object.keys(attendanceByYear).map((year) => (
                                 <p key={year}>
-                                    {year}: {attendanceByYear[year] || 0} asistencias
+                                    {year}: {attendanceByYear[year] || 0}{' '}
+                                    asistencias
                                 </p>
                             ))}
                         </p>
@@ -212,10 +266,11 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Credencial CAEQ: </span>
-                            {profile.linkCAEQCard ?
+                            {profile.linkCAEQCard ? (
                                 <a href={profile.linkCAEQCard}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                     </div>
                 </WhiteContainer>
@@ -257,24 +312,31 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Currículum Vitae (CV): </span>
-                            {profile.linkCV ?
+                            {profile.linkCV ? (
                                 <a href={profile.linkCV}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                         <p>
                             <span>Título Universitario: </span>
-                            {profile.linkBachelorsDegree ?
-                                <a href={profile.linkBachelorsDegree}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            {profile.linkBachelorsDegree ? (
+                                <a href={profile.linkBachelorsDegree}>
+                                    Visualizar
+                                </a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                         <p>
                             <span>Cédula Profesional: </span>
-                            {profile.linkProfessionalLicense ?
-                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            {profile.linkProfessionalLicense ? (
+                                <a href={profile.linkProfessionalLicense}>
+                                    Visualizar
+                                </a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                     </div>
                 </WhiteContainer>

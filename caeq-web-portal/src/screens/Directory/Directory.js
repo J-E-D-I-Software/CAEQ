@@ -23,8 +23,10 @@ import './directory.scss';
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
-        useState('');
+    const [
+        filterSearchBymunicipalityOfLabor,
+        setFilterSearchBymunicipalityOfLabor,
+    ] = useState('');
     const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
         useState('');
     const [filterGender, setfilterGender] = useState('');
@@ -77,21 +79,24 @@ const Directory = () => {
 
         let filters = '';
 
-        if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
+        if (filterSearchByName)
+            filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
             filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
 
         if (filterGender) filters += `&gender=${filterGender}`;
-        if (filterClassification) filters += `&classification=${filterClassification}`;
+        if (filterClassification)
+            filters += `&classification=${filterClassification}`;
         if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
-        if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
+        if (admisionInitial)
+            filters += `&dateOfAdmission[gte]=${admisionInitial}`;
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
-        if (currentRights) filters += `&annuity=${currentRights}`;
+        if (currentRights) filters += `&currentRights=${currentRights}`;
 
         return filters;
     };
@@ -136,7 +141,9 @@ const Directory = () => {
 
                 setSpecialties(specialties);
 
-                setSpecialtiesName(specialties.map((specialty) => specialty.name));
+                setSpecialtiesName(
+                    specialties.map((specialty) => specialty.name)
+                );
             } catch (error) {}
         })();
     }, []);
@@ -203,12 +210,14 @@ const Directory = () => {
                     mappedObject[headerMappings[key]] = val[key];
 
                     if (
-                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        typeof mappedObject[headerMappings[key]] ===
+                            'boolean' &&
                         mappedObject[headerMappings[key]] === true
                     ) {
                         mappedObject[headerMappings[key]] = 'Si';
                     } else if (
-                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        typeof mappedObject[headerMappings[key]] ===
+                            'boolean' &&
                         mappedObject[headerMappings[key]] === false
                     ) {
                         mappedObject[headerMappings[key]] = 'No';
@@ -244,7 +253,9 @@ const Directory = () => {
 
         setSpecialtyName(specialty);
 
-        const specialtyId = specialties.filter((val) => val.name === specialty)[0]._id;
+        const specialtyId = specialties.filter(
+            (val) => val.name === specialty
+        )[0]._id;
 
         setSpecialty(specialtyId);
     };
@@ -277,7 +288,10 @@ const Directory = () => {
                 <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos
                 </BaseButton>
-                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
+                <BaseButton
+                    onClick={() => handleClearFilters()}
+                    type='secondary'
+                >
                     Limpiar filtros
                 </BaseButton>
             </div>
@@ -313,7 +327,12 @@ const Directory = () => {
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
-                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
+                        options={[
+                            'Expresidente',
+                            'Docente',
+                            'Convenio',
+                            'Ninguno',
+                        ]}
                         placeholder='Clasificación'
                     />
 
@@ -332,7 +351,9 @@ const Directory = () => {
                         />
                         <DropdownInput
                             getVal={specialtyName}
-                            setVal={(specialty) => handleSpecialtyChange(specialty)}
+                            setVal={(specialty) =>
+                                handleSpecialtyChange(specialty)
+                            }
                             options={specialtiesName}
                             placeholder='Especialidad'
                         />
@@ -407,7 +428,9 @@ const Directory = () => {
                         />
                     </div>
                 ) : (
-                    <p className='no-data-message'>No hay colegiados disponibles</p>
+                    <p className='no-data-message'>
+                        No hay colegiados disponibles
+                    </p>
                 )}
             </div>
         </div>

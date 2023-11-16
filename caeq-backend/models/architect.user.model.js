@@ -38,7 +38,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     authorizationToShareInfo: {
         type: Boolean,
         default: false,
-        required: [true, 'Por favor dinos si autorizas compartir tu información'],
+        required: [
+            true,
+            'Por favor dinos si autorizas compartir tu información',
+        ],
     },
     lifeInsurance: {
         type: Boolean,
@@ -76,7 +79,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     },
     emergencyContact: {
         type: String,
-        required: [true, 'Por favor dinos tu contacto de emergencia (nombre y número)!'],
+        required: [
+            true,
+            'Por favor dinos tu contacto de emergencia (nombre y número)!',
+        ],
     },
     mainProfessionalActivity: {
         type: String,
@@ -110,19 +116,23 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [false],
     },
-    linkProfessionalLicense: { // Cedula
+    linkProfessionalLicense: {
+        // Cedula
         type: String,
         required: [false],
     },
-    linkBachelorsDegree: { // Titulo
+    linkBachelorsDegree: {
+        // Titulo
         type: String,
         required: [false],
     },
-    linkAddressCertificate: { // Comprobante de domicilio
+    linkAddressCertificate: {
+        // Comprobante de domicilio
         type: String,
         required: [false],
     },
-    linkBirthCertificate: { // Acta de nacimiento
+    linkBirthCertificate: {
+        // Acta de nacimiento
         type: String,
         required: [false],
     },
@@ -262,7 +272,10 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
 /** This method checks if the password has been changed after the token was issued. */
 ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
-        const changedTimestamp = parseInt(this.changedPassword.getTime() / 1000, 10);
+        const changedTimestamp = parseInt(
+            this.changedPassword.getTime() / 1000,
+            10
+        );
         return JWTTimestamp < changedTimestamp;
     }
 
@@ -276,11 +289,13 @@ ArchitectUserSchema.virtual('currentRights').get(function () {
     const annuity = this.annuity || false;
 
     // Check if capacitationHours are from 40 to beyond and annuity is true
-    if (capacitationHours >= 40 && annuity) {
+    if (capacitationHours >= 40 && annuity == true) {
         return true;
     }
     return false;
 });
+
+ArchitectUserSchema.set('toJSON', { virtuals: true });
 
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
 

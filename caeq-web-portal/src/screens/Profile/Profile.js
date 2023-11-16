@@ -69,7 +69,7 @@ const Profile = (props) => {
 
                 let accreditedHours = await getCourseHours(savedUser._id);
                 accreditedHours = accreditedHours.map((hours) => {
-                    if (hours.startYear === 2023 && hours.endYear === 2024) {
+                    if (hours.startYear == 2023 && hours.endYear == 2024) {
                         hours.value = profile.capacitationHours + hours.value;
                     }
                     return hours;
@@ -207,7 +207,13 @@ const Profile = (props) => {
                         <p>
                             <span>
                                 Derechos vigentes:{' '}
-                                {profile.currentRights ? 'Sí' : 'No'}
+                                {profile.currentRights &&
+                                profile.annuity &&
+                                Object.keys(attendanceByYear)
+                                    .filter((year) => year == currentYear)
+                                    .map((year) => attendanceByYear[year] >= 5)
+                                    ? 'Sí'
+                                    : 'No'}
                             </span>
                             <p>
                                 Anualidad pagada:{' '}
@@ -232,7 +238,7 @@ const Profile = (props) => {
                                     </p>
                                 ))}
                             <p>
-                                Asistencias:
+                                Asistencias en el año:
                                 {Object.keys(attendanceByYear)
                                     .filter((year) => year == currentYear)
                                     .map((year) => (

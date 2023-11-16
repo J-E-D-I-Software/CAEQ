@@ -88,9 +88,6 @@ const Gatherings = (props) => {
     };
     return (
         <div className='gatherings'>
-            <div className='gatherings_title--row'>
-                <h1>Asambleas</h1>
-            </div>
             <div className='create-gathering'>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
@@ -102,14 +99,7 @@ const Gatherings = (props) => {
             </div>
 
             <div className='gathering__section'>
-                <h1>Asambleas Próximas</h1>
-                <div className='filter__section'>
-                    <TextInput
-                        getVal={filterSearchByNameFuture}
-                        setVal={setFilterSearchByNameFuture}
-                        placeholder='Buscar por nombre'
-                    />
-                </div>
+                <h1>Asamblea Próxima</h1>
                 <div className='gathering-row'>
                     {futureGatherings.map((gathering, i) => (
                         <GatheringCard
@@ -119,18 +109,11 @@ const Gatherings = (props) => {
                         />
                     ))}
                 </div>
-                <div className='gathering-pages'>
-                    <BaseButton onClick={handlePreviousPageFuture}>Anterior</BaseButton>
-                    {futureGatherings.length > 0 ? (
-                        <BaseButton onClick={handleNextPageFuture}>Siguiente</BaseButton>
-                    ) : (
-                        <p>Sin asambleas</p>
-                    )}
-                </div>
             </div>
 
+            <RestrictByRole allowedRoles={['caeq']}>
             <div className='gathering__section'>
-                <h1>Asambleas Antiguas</h1>
+                <h1>Asambleas Anteriores</h1>
                 <div className='filter__section'>
                     <TextInput
                         getVal={filterSearchByNamePast}
@@ -156,6 +139,7 @@ const Gatherings = (props) => {
                     )}
                 </div>
             </div>
+            </RestrictByRole>
         </div>
     );
 };

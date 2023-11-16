@@ -1,5 +1,6 @@
-.courses {
+.course {
     padding: 3rem;
+    
 
     .courses--row { 
         display: flex;
@@ -31,6 +32,23 @@
         justify-content: center;
         margin-top: 1.5rem;
     }
+
+    hr {
+        width: 77%;
+        float: left;
+        margin-top: -10px;
+
+        h1 {
+          font-size: 32px;
+          text-align: center;
+          margin-top: 30px;
+      }
+
+        h2 {
+            font-size: 20px;
+            display: inline-block;
+            margin-right: 20px;
+      }
     
     @media only screen and (max-width: 1200px)  {
         .courses__filters{
@@ -62,4 +80,4 @@
         }
     }
 }
-
+};

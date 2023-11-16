@@ -62,7 +62,7 @@ const Profile = (props) => {
                     setAttendanceByYear(attendanceByYear);
                 }
 
-                const accreditedHours = await getCourseHours(SavedUser._id);
+                const accreditedHours = await getCourseHours(savedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
@@ -133,7 +133,10 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>INE: </span>
-                            <a href={profile.linkINE}>Visualizar</a>
+                            {profile.linkINE ?
+                                <a href={profile.linkINE}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
                         </p>
                         <p>
                             <span>CURP: </span>

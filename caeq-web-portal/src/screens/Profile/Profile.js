@@ -62,7 +62,7 @@ const Profile = (props) => {
                     setAttendanceByYear(attendanceByYear);
                 }
 
-                const accreditedHours = await getCourseHours(SavedUser._id);
+                const accreditedHours = await getCourseHours(savedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);

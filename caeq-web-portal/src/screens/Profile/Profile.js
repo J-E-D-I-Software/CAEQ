@@ -118,11 +118,11 @@ const Profile = (props) => {
                     </div>
                     <div className="profile-col">
                         <p>
-                            <span>Número Celular: </span>
+                            <span>Teléfono Celular: </span>
                             {profile.cellphone}
                         </p>
                         <p>
-                            <span>Teléfono de casa: </span>
+                            <span>Teléfono Casa: </span>
                             {profile.homePhone}
                         </p>
                         <p>

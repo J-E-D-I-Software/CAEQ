@@ -25,6 +25,9 @@ const Course = (props) => {
     const [data, setData] = useState({});
     const decide = ['SÍ', 'NO'];
 
+
+    // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
+    // 
     useEffect(() => {
         if (searchParams.id) {
             getCourse(searchParams.id)
@@ -201,7 +204,7 @@ const Course = (props) => {
                             <p className="text-area">{data.temario}</p>
                         </div>
                     </div>
-                    <RestrictByRole allowedRoles={['architect']}>
+                  
 
                     <RestrictByRole allowedRoles={['architect']}>
                         {data.price !== undefined &&
@@ -237,7 +240,7 @@ const Course = (props) => {
                                     </BaseButton>
                                 </>
                             )}
-                         </RestrictByRole> </RestrictByRole>
+                         </RestrictByRole> 
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ const CreateGathering = () => {
     const [data, setData] = useState({
         date: '',
         title: '',
-        meetingLink: '',
+        meetingLink: 'https://zoom.com/',
         meetingTime: '',
         moreInfo: null,
     });
@@ -124,7 +124,7 @@ const CreateGathering = () => {
                         label='Liga de la asamblea'
                         getVal={data.meetingLink}
                         setVal={(value) => updateData('meetingLink', value)}
-                        placeholder='zoom.com'
+                        placeholder='https://zoom.com/'
                     />
                     <TextInput
                         label='Hora de asamblea'

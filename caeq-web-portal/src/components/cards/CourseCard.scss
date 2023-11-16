@@ -1,5 +1,4 @@
-
-.course-card { 
+.course-card {
     min-height: 250px;
     width: 30vw;
     border-radius: 15px;
@@ -8,17 +7,20 @@
     display: flex;
     flex-direction: row;
 
-    p, h4, div { 
+    p,
+    h4,
+    div {
         display: inline;
         margin: 0;
-    } 
+        word-break: break-all;
+    }
 
     h4 {
         overflow-wrap: break-word;
         inline-size: 220px;
     }
 
-    img { 
+    img {
         max-width: 165px;
         border-radius: 10px;
     }
@@ -29,42 +31,42 @@
         margin: 0.25rem 0;
         align-items: center;
     }
-    
+
     .card-col {
         display: flex;
         flex-direction: column;
     }
 
-    .card-icon-text { 
+    .card-icon-text {
         font-size: 0.8rem;
     }
 
-    .button { 
+    .button {
         font-size: 1rem;
         font-weight: 400;
         padding: 0.2rem 0.6rem !important;
     }
 
-    div:first-child { 
+    div:first-child {
         margin-right: 0.5rem;
     }
 
-    .card-price { 
+    .card-price {
         font-weight: bold;
-        color: #136F63;
+        color: #136f63;
     }
 
     .mb-1 {
         margin-bottom: 0.5rem;
     }
 
-    @media only screen and (max-width: 1370px)  {
+    @media only screen and (max-width: 1370px) {
         h4 {
             inline-size: 150px;
         }
     }
-    
-    @media only screen and (max-width: 1070px)  {
+
+    @media only screen and (max-width: 1070px) {
         width: 100%;
         flex-direction: column;
 
@@ -72,7 +74,7 @@
             margin: 0;
         }
 
-        img { 
+        img {
             width: 100%;
             max-width: none;
         }
@@ -83,4 +85,3 @@
         }
     }
 }
-

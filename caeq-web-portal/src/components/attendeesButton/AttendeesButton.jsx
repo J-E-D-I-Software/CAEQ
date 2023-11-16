@@ -20,18 +20,19 @@ function AttendancesComponent({ attendances }) {
     return (
         <div>
             <h1>Asistencias a Asambleas</h1>
-            <div className='Attendees-row'>
+            <div className="Attendees-row">
                 {uniqueYears.length > 0 ? (
                     uniqueYears.map((year) => (
                         <div key={year}>
                             <BaseButton
-                                className='year-button'
-                                type='primary'
-                                onClick={() => handleYearClick(year)}>
+                                className="year-button"
+                                type="primary"
+                                onClick={() => handleYearClick(year)}
+                            >
                                 {year}
                             </BaseButton>
                             {selectedYear === year && (
-                                <div className='list-data'>
+                                <div className="list-data">
                                     {attendances
                                         .filter(
                                             (asistencia) =>
@@ -48,7 +49,10 @@ function AttendancesComponent({ attendances }) {
                                             return (
                                                 <p key={asistencia._id}>
                                                     {date.toLocaleDateString('en-GB')} -
-                                                    Modalidad: {asistencia.modality}
+                                                    Modalidad:{' '}
+                                                    {asistencia.modality === 'Remoto'
+                                                        ? 'En línea'
+                                                        : asistencia.modality}
                                                 </p>
                                             );
                                         })}

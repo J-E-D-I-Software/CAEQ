@@ -1,6 +1,7 @@
 const factory = require('./handlerFactory.controller');
 const Inscription = require('../models/inscription.model');
 const Course = require('../models/course.model');
+const ArchitectUser = require('../models/architect.user.model');
 const Session = require('../models/session.model');
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
@@ -25,43 +26,30 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
 
     if (!courseId) {
         return next(
-            new AppError(
-                'Envía la clave del curso para poder inscribirte.',
-                400
-            )
+            new AppError('Envía la clave del curso para poder inscribirte.', 400)
         );
     }
 
     const course = await Course.findById(courseId);
 
     if (!course) {
-        return next(
-            new AppError('No se encontró ningún curso con esta clave.', 404)
-        );
+        return next(new AppError('No se encontró ningún curso con esta clave.', 404));
     }
 
     if (course.pricing === 'Pagado') {
         return next(
-            new AppError(
-                'Necesitas pagar por este curso para inscribirte.',
-                400
-            )
+            new AppError('Necesitas pagar por este curso para inscribirte.', 400)
         );
     }
 
     if (course.startDate < new Date()) {
         return next(
-            new AppError(
-                'Este curso ya ha iniciado, no puedes inscribirte.',
-                400
-            )
+            new AppError('Este curso ya ha iniciado, no puedes inscribirte.', 400)
         );
     }
 
     if (course.capacity === 0) {
-        return next(
-            new AppError('Ya no hay espacio disponible en este curso.', 400)
-        );
+        return next(new AppError('Ya no hay espacio disponible en este curso.', 400));
     }
 
     const existingInscription = await Inscription.findOne({
@@ -116,18 +104,19 @@ exports.myInscriptions = catchAsync(async (req, res, next) => {
 exports.myCourseHours = catchAsync(async (req, res, next) => {
     const inscriptions = await Inscription.find({
         user: req.params.id,
-    }).populate('course');
+    }).populate('course user');
 
     const dateMap = new DateRange();
 
     inscriptions.forEach((inscription) => {
         if (inscription.accredited == true) {
-            dateMap.add(
-                inscription.course.endDate,
-                inscription.course.numberHours
-            );
+            dateMap.add(inscription.course.endDate, inscription.course.numberHours);
         }
     });
+
+    const user = await ArchitectUser.findById(req.params.id);
+
+    dateMap.add(new Date(2023, 3, 15), user.capacitationHours);
 
     const allYears = dateMap.getYears();
 

@@ -6,7 +6,40 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
-exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
+exports.getAllArchitectUsers = catchAsync(async (req, res) => {
+    let filter = {};
+    let query = ArchitectUser.find(filter);
+    query.populate('specialties');
+
+    console.log(req.query);
+
+    const features = new APIFeatures(query, req.query).filter().sort();
+
+    let documents = await features.query;
+    if (Object.keys(req.query).includes('currentRights')) {
+        documents = await Promise.all(
+            documents.map(async (doc) => {
+                const hasRights = await doc.currentRights;
+                doc.rights = hasRights;
+                console.log(
+                    'current rights',
+                    Boolean(req.query.currentRights),
+                    hasRights
+                );
+                return doc;
+            })
+        );
+        documents = documents.filter(
+            (doc) => doc.rights == Boolean(req.query.currentRights)
+        );
+    }
+
+    res.status(200).json({
+        status: 'success',
+        results: documents.length,
+        data: { documents },
+    });
+});
 exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
     'overwrites',

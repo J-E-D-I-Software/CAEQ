@@ -26,10 +26,8 @@ import './directory.scss';
 const Directory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [
-        filterSearchBymunicipalityOfLabor,
-        setFilterSearchBymunicipalityOfLabor,
-    ] = useState('');
+    const [filterSearchBymunicipalityOfLabor, setFilterSearchBymunicipalityOfLabor] =
+        useState('');
     const [filterSearchBycollegiateNumber, setFilterSearchBycollegiateNumber] =
         useState('');
     const [filterGender, setfilterGender] = useState('');
@@ -83,24 +81,21 @@ const Directory = () => {
 
         let filters = '';
 
-        if (filterSearchByName)
-            filters = `fullName[regex]=${filterSearchByName}`;
+        if (filterSearchByName) filters = `fullName[regex]=${filterSearchByName}`;
         if (filterSearchBymunicipalityOfLabor)
             filters += `&municipalityOfLabor[regex]=${filterSearchBymunicipalityOfLabor}`;
         if (filterSearchBycollegiateNumber)
             filters += `&collegiateNumber=${filterSearchBycollegiateNumber}`;
 
         if (filterGender) filters += `&gender=${filterGender}`;
-        if (filterClassification)
-            filters += `&classification=${filterClassification}`;
+        if (filterClassification) filters += `&classification=${filterClassification}`;
         if (FilterMemberType) filters += `&memberType=${FilterMemberType}`;
-        if (admisionInitial)
-            filters += `&dateOfAdmission[gte]=${admisionInitial}`;
+        if (admisionInitial) filters += `&dateOfAdmission[gte]=${admisionInitial}`;
         if (admisionFinal) filters += `&dateOfAdmission[lte]=${admisionFinal}`;
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
-        if (currentRights) filters += `&annuity=${currentRights}`;
+        if (currentRights) filters += `&currentRights=${currentRights}`;
 
         return filters;
     };
@@ -120,22 +115,32 @@ const Directory = () => {
                 const mostRecentYearAttendances = await Promise.all(
                     architects.map(async (architect) => {
                         const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-                        
-                        const myCourseHours = {}
+                        const recentYears = await getAttendeesMostRecentYears(
+                            architectId
+                        );
+
+                        const myCourseHours = {};
                         const currentYear = new Date().getFullYear();
                         const courseHours = await getCourseHours(architectId);
                         myCourseHours[`cursos${currentYear}`] = 0;
                         myCourseHours[`cursos${currentYear - 1}`] = 0;
                         myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach(courseHour => {
-                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                        courseHours.forEach((courseHour) => {
+                            if (
+                                courseHour.startYear == currentYear ||
+                                courseHour.startYear == currentYear - 1 ||
+                                courseHour.startYear == currentYear - 2
+                            ) {
+                                myCourseHours['cursos' + courseHour.startYear] =
+                                    courseHour.value;
                             }
                         });
 
-                        
-                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
+                        architect = {
+                            ...architect,
+                            ...recentYears.yearCount,
+                            ...myCourseHours,
+                        };
 
                         return architect;
                     })
@@ -169,9 +174,7 @@ const Directory = () => {
 
                 setSpecialties(specialties);
 
-                setSpecialtiesName(
-                    specialties.map((specialty) => specialty.name)
-                );
+                setSpecialtiesName(specialties.map((specialty) => specialty.name));
             } catch (error) {}
         })();
     }, []);
@@ -186,25 +189,36 @@ const Directory = () => {
                     filters,
                     effectiveOrderBy
                 );
-                
+
                 const mostRecentYearAttendances = await Promise.all(
                     architects.map(async (architect) => {
                         const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-                        
-                        const myCourseHours = {}
+                        const recentYears = await getAttendeesMostRecentYears(
+                            architectId
+                        );
+
+                        const myCourseHours = {};
                         const currentYear = new Date().getFullYear();
                         const courseHours = await getCourseHours(architectId);
                         myCourseHours[`cursos${currentYear}`] = 0;
                         myCourseHours[`cursos${currentYear - 1}`] = 0;
                         myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach(courseHour => {
-                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                        courseHours.forEach((courseHour) => {
+                            if (
+                                courseHour.startYear == currentYear ||
+                                courseHour.startYear == currentYear - 1 ||
+                                courseHour.startYear == currentYear - 2
+                            ) {
+                                myCourseHours['cursos' + courseHour.startYear] =
+                                    courseHour.value;
                             }
                         });
-                        
-                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
+
+                        architect = {
+                            ...architect,
+                            ...recentYears.yearCount,
+                            ...myCourseHours,
+                        };
 
                         return architect;
                     })
@@ -252,54 +266,58 @@ const Directory = () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(1, filters, 100000);
 
-        const architectsDownload = await Promise.all(architects.map(async (val) => {
-            const architectId = val._id;
-            const recentYears = await getAttendeesMostRecentYears(architectId);
+        const architectsDownload = await Promise.all(
+            architects.map(async (val) => {
+                const architectId = val._id;
+                const recentYears = await getAttendeesMostRecentYears(architectId);
 
-            const myCourseHours = {}
-            const currentYear = new Date().getFullYear();
-            const courseHours = await getCourseHours(architectId);
-            myCourseHours[`cursos${currentYear}`] = 0;
-            myCourseHours[`cursos${currentYear - 1}`] = 0;
-            myCourseHours[`cursos${currentYear - 2}`] = 0;
-            courseHours.forEach(courseHour => {
-                if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                    myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
-                }
-            });
-                
-            val = {...val, ...recentYears.yearCount, ...myCourseHours};
-             
-            delete val._id;
-
-            // Create a new object with mapped headers
-            const mappedObject = {};
-            for (const key in val) {
-                if (headerMappings[key]) {
-                    mappedObject[headerMappings[key]] = val[key];
-
+                const myCourseHours = {};
+                const currentYear = new Date().getFullYear();
+                const courseHours = await getCourseHours(architectId);
+                myCourseHours[`cursos${currentYear}`] = 0;
+                myCourseHours[`cursos${currentYear - 1}`] = 0;
+                myCourseHours[`cursos${currentYear - 2}`] = 0;
+                courseHours.forEach((courseHour) => {
                     if (
-                        typeof mappedObject[headerMappings[key]] ===
-                            'boolean' &&
-                        mappedObject[headerMappings[key]] === true
+                        courseHour.startYear == currentYear ||
+                        courseHour.startYear == currentYear - 1 ||
+                        courseHour.startYear == currentYear - 2
                     ) {
-                        mappedObject[headerMappings[key]] = 'Si';
-                    } else if (
-                        typeof mappedObject[headerMappings[key]] ===
-                            'boolean' &&
-                        mappedObject[headerMappings[key]] === false
-                    ) {
-                        mappedObject[headerMappings[key]] = 'No';
-                    } else if (key === 'specialties') {
-                        mappedObject[headerMappings[key]] = val[key]
-                            .map((val) => val.name)
-                            .join(', ');
+                        myCourseHours['cursos' + courseHour.startYear] = courseHour.value;
+                    }
+                });
+
+                val = { ...val, ...recentYears.yearCount, ...myCourseHours };
+
+                delete val._id;
+
+                // Create a new object with mapped headers
+                const mappedObject = {};
+                for (const key in val) {
+                    if (headerMappings[key]) {
+                        mappedObject[headerMappings[key]] = val[key];
+
+                        if (
+                            typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                            mappedObject[headerMappings[key]] === true
+                        ) {
+                            mappedObject[headerMappings[key]] = 'Si';
+                        } else if (
+                            typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                            mappedObject[headerMappings[key]] === false
+                        ) {
+                            mappedObject[headerMappings[key]] = 'No';
+                        } else if (key === 'specialties') {
+                            mappedObject[headerMappings[key]] = val[key]
+                                .map((val) => val.name)
+                                .join(', ');
+                        }
                     }
                 }
-            }
 
-            return mappedObject;
-        }));
+                return mappedObject;
+            })
+        );
 
         swal.close();
         FireSucess('La descarga se iniciará en breve.');
@@ -312,7 +330,7 @@ const Directory = () => {
         // You need to replace this with your actual logic
         return architect['some_data'] * number;
     };
-    
+
     const calculateCoursesAssistances = (architect, number) => {
         // Example: Calculate courses assistance based on the architect's data
         // You need to replace this with your actual logic
@@ -334,9 +352,7 @@ const Directory = () => {
 
         setSpecialtyName(specialty);
 
-        const specialtyId = specialties.filter(
-            (val) => val.name === specialty
-        )[0]._id;
+        const specialtyId = specialties.filter((val) => val.name === specialty)[0]._id;
 
         setSpecialty(specialtyId);
     };
@@ -369,10 +385,7 @@ const Directory = () => {
                 <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos
                 </BaseButton>
-                <BaseButton
-                    onClick={() => handleClearFilters()}
-                    type='secondary'
-                >
+                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
                     Limpiar filtros
                 </BaseButton>
             </div>
@@ -408,12 +421,7 @@ const Directory = () => {
                     <DropdownInput
                         getVal={filterClassification}
                         setVal={setfilterClassification}
-                        options={[
-                            'Expresidente',
-                            'Docente',
-                            'Convenio',
-                            'Ninguno',
-                        ]}
+                        options={['Expresidente', 'Docente', 'Convenio', 'Ninguno']}
                         placeholder='Clasificación'
                     />
 
@@ -432,9 +440,7 @@ const Directory = () => {
                         />
                         <DropdownInput
                             getVal={specialtyName}
-                            setVal={(specialty) =>
-                                handleSpecialtyChange(specialty)
-                            }
+                            setVal={(specialty) => handleSpecialtyChange(specialty)}
                             options={specialtiesName}
                             placeholder='Especialidad'
                         />
@@ -509,9 +515,7 @@ const Directory = () => {
                         />
                     </div>
                 ) : (
-                    <p className='no-data-message'>
-                        No hay colegiados disponibles
-                    </p>
+                    <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
             </div>
         </div>

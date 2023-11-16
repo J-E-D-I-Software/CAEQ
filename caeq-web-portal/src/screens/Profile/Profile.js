@@ -20,7 +20,6 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
-    const [attendanceByYear, setAttendanceByYear] = useState({});
     const [courseHours, setCourseHours] = useState([]);
     const [currentRights, setCurrentRights] = useState('');
 
@@ -38,7 +37,10 @@ const Profile = (props) => {
     useEffect(() => {
         if (savedUser._id)
             getArchitectUserById(savedUser._id)
-                .then((response) => setProfile(response))
+                .then((response) => {
+                    setProfile(response);
+                    console.log(response);
+                })
                 .catch((error) => FireError(error.response.data.message));
     }, []);
 
@@ -46,40 +48,13 @@ const Profile = (props) => {
         (async () => {
             try {
                 const architectId = savedUser._id;
-                const attendances = await getAttendancesByArchitect(
-                    architectId
-                );
+                const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
 
-                if (attendances.length > 0) {
-                    // Calculate attendance by year
-                    const attendanceByYear = {};
-                    for (const asistencia of attendances) {
-                        const year = asistencia.idGathering.year;
-                        if (asistencia.attended) {
-                            if (!attendanceByYear[year]) {
-                                attendanceByYear[year] = 1;
-                            } else {
-                                attendanceByYear[year]++;
-                            }
-                        }
-                    }
-                    setAttendanceByYear(attendanceByYear);
-                }
-
                 let accreditedHours = await getCourseHours(savedUser._id);
-                accreditedHours = accreditedHours.map((hours) => {
-                    if (hours.startYear == 2023 && hours.endYear == 2024) {
-                        hours.value = profile.capacitationHours + hours.value;
-                    }
-                    return hours;
-                });
                 setCourseHours(accreditedHours);
             } catch (error) {
-                console.error(
-                    'Error al obtener asistencias por arquitecto',
-                    error
-                );
+                console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
     }, []);
@@ -146,10 +121,11 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>INE: </span>
-                            {profile.linkINE ?
+                            {profile.linkINE ? (
                                 <a href={profile.linkINE}>Visualizar</a>
-                                : 'No hay documento guardado'
-                            }
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                         <p>
                             <span>CURP: </span>
@@ -162,9 +138,7 @@ const Profile = (props) => {
                         <p>
                             <span>Acta de Nacimiento: </span>
                             {profile.linkBirthCertificate ? (
-                                <a href={profile.linkBirthCertificate}>
-                                    Visualizar
-                                </a>
+                                <a href={profile.linkBirthCertificate}>Visualizar</a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -172,9 +146,7 @@ const Profile = (props) => {
                         <p>
                             <span>Comprobante de domicilio: </span>
                             {profile.linkAddressCertificate ? (
-                                <a href={profile.linkAddressCertificate}>
-                                    Visualizar
-                                </a>
+                                <a href={profile.linkAddressCertificate}>Visualizar</a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -208,79 +180,46 @@ const Profile = (props) => {
                             {profile.DRONumber}
                         </p>
                         <p>
-                            <span>
-                                Derechos vigentes:{' '}
-                                {profile.currentRights &&
-                                profile.annuity &&
-                                Object.keys(attendanceByYear)
-                                    .filter((year) => year == currentYear)
-                                    .map((year) => attendanceByYear[year] >= 5)
-                                    ? 'Sí'
-                                    : 'No'}
-                            </span>
+                            <span>Derechos vigentes: {profile.rights ? 'Sí' : 'No'}</span>
+                            <p>Anualidad pagada: {profile.annuity ? 'Sí' : 'No'}</p>
                             <p>
-                                Anualidad pagada:{' '}
-                                {profile.annuity ? 'Sí' : 'No'}
+                                Asistencias a asambleas del último año:{' '}
+                                {profile.totalGatheringAttendees}
                             </p>
-                            {courseHours
-                                .filter(
-                                    (courseHour) =>
-                                        courseHour.startYear === currentYear
-                                )
-                                .sort(
-                                    (prev, next) => next.endYear - prev.endYear
-                                )
-                                .map((courseHour) => (
-                                    <p>
-                                        Horas de capacitación cumplidas en el
-                                        último año:
-                                        {courseHour.value} horas:{' '}
-                                        {courseHour.value >= 40
-                                            ? 'Sí cumple'
-                                            : 'No cumple'}
-                                    </p>
-                                ))}
                             <p>
-                                Asistencias en el año:
-                                {Object.keys(attendanceByYear)
-                                    .filter((year) => year == currentYear)
-                                    .map((year) => (
-                                        <p key={year}>
-                                            {year}:{' '}
-                                            {attendanceByYear[year] || 0}{' '}
-                                            asistencias
-                                        </p>
-                                    ))}
+                                Asistencias presenciales a asambleas del último año:{' '}
+                                {profile.totalGatheringAttendeesPresential}
+                            </p>
+                            <p>
+                                Horas de capacitación {new Date().getFullYear()}:{' '}
+                                {profile.totalHours}
                             </p>
                         </p>
                     </div>
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Horas Acreditadas: </span>
-
                             {courseHours
-                                .sort(
-                                    (prev, next) => next.endYear - prev.endYear
-                                )
-                                .slice(0, 3) // Select only the first three elements
+                                .sort((prev, next) => next.endYear - prev.endYear)
+                                .slice(0, 2) // Select only the first three elements
                                 .map((courseHour) => (
                                     <p>
-                                        {courseHour.startYear} -{' '}
-                                        {courseHour.endYear} :{' '}
+                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
                                         {courseHour.value}
                                     </p>
                                 ))}
                         </p>
                         <p>
                             <span>Asistencias por Año:</span>
-                            {Object.keys(attendanceByYear)
-                                .slice(0, 3)
-                                .map((year) => (
-                                    <p key={year}>
-                                        {year}: {attendanceByYear[year] || 0}{' '}
-                                        asistencias
-                                    </p>
-                                ))}
+                            <p key={currentYear}>
+                                {currentYear}: {profile[currentYear]}
+                            </p>
+                            <p key={currentYear}>
+                                {currentYear - 1}: {profile[currentYear - 1]}
+                            </p>
+                            <p key={currentYear}>
+                                {currentYear - 2}: {profile[currentYear - 2]}
+                            </p>
                         </p>
                         <p>
                             <span>Fecha de Ingreso: </span>
@@ -343,9 +282,7 @@ const Profile = (props) => {
                         <p>
                             <span>Título Universitario: </span>
                             {profile.linkBachelorsDegree ? (
-                                <a href={profile.linkBachelorsDegree}>
-                                    Visualizar
-                                </a>
+                                <a href={profile.linkBachelorsDegree}>Visualizar</a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -353,9 +290,7 @@ const Profile = (props) => {
                         <p>
                             <span>Cédula Profesional: </span>
                             {profile.linkProfessionalLicense ? (
-                                <a href={profile.linkProfessionalLicense}>
-                                    Visualizar
-                                </a>
+                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -367,6 +302,31 @@ const Profile = (props) => {
                 <div>
                     <AttendancesComponent attendances={attendances} />
                 </div>
+            </div>
+            <div>
+                <p>
+                    <h1>Horas Acreditadas</h1>
+                    <div></div>
+                    {courseHours
+                        .sort((prev, next) => next.endYear - prev.endYear)
+                        .map((courseHour) => (
+                            <p className='list-data'>
+                                <span className='list-data-year'>
+                                    {courseHour.startYear} - {courseHour.endYear}
+                                </span>{' '}
+                                : {courseHour.value} horas
+                            </p>
+                        ))}
+                </p>
+                <h3>
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año
+                    siguiente.
+                </h3>
+                <h3>
+                    (i) Para modificar las horas de un colegiado, debe acceder al curso,
+                    completar sus asistencias y terminar el curso para que le sean
+                    sumadas.
+                </h3>
             </div>
         </div>
     );

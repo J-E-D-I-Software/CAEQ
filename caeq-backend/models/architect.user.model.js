@@ -372,6 +372,43 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
     }
 });
 
+/** This method defines a virtual property "totalHours" for the architects user model*/
+ArchitectUserSchema.virtual('totalHours').get(async function () {
+    const capacitationHours = await this.getUserAccreditedHours(this._id);
+
+    const thisYearTotalCapacitationHours = capacitationHours.filter(
+        (capacitationHour) => capacitationHour.startYear == new Date().getFullYear()
+    )[0].value;
+
+    return thisYearTotalCapacitationHours;
+});
+
+/** This method defines a virtual property "totalHours" for the architects user model*/
+ArchitectUserSchema.virtual('lastYearAttendees').get(async function () {
+    // Calculate the date range for the last year
+    const lastYearDate = new Date();
+    lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
+
+    // Find gatherings from the last year
+    const gatherings = await Gatherings.find({
+        date: { $gte: lastYearDate },
+    });
+    const gatheringIds = gatherings.map((gathering) => gathering._id);
+
+    // Find attendee documents for the specific user and gatherings from the last year
+    const lastYearAttended = await Attendees.find({
+        idArchitect: this._id,
+        idGathering: { $in: gatheringIds },
+    });
+
+    const totalGatheringAttendees = lastYearAttended.length;
+    const totalGatheringAttendeesPresential = lastYearAttended.filter(
+        (attendance) => attendance.modality == 'Presencial'
+    ).length;
+
+    return { totalGatheringAttendeesPresential, totalGatheringAttendees };
+});
+
 ArchitectUserSchema.set('toJSON', { virtuals: true });
 
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);

@@ -62,6 +62,40 @@ exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'overwrites',
 ]);
 exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties');
+exports.getArchitectUser = catchAsync(async (req, res, next) => {
+    let query = ArchitectUser.findOne({ _id: req.params.id });
+
+    query.populate('specialties');
+    const document = await query;
+
+    if (!document) {
+        const error = new AppError('No document found with that ID', 404);
+        return next(error);
+    }
+
+    const hasRights = await document.currentRights;
+    const totalHours = await document.totalHours;
+    const { totalGatheringAttendeesPresential, totalGatheringAttendees } =
+        await document.lastYearAttendees;
+
+    document.rights = hasRights;
+    const latestAssemblies = await getUserLatestAssemblies(document._id);
+    const latestHours = await getUserLatestHours(document._id);
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            document: {
+                ...document._doc,
+                ...latestAssemblies,
+                ...latestHours,
+                totalHours,
+                totalGatheringAttendeesPresential,
+                totalGatheringAttendees,
+            },
+        },
+    });
+});
 exports.createArchitectUser = factory.createOne(ArchitectUser);
 exports.updateArchitectUser = factory.updateOne(ArchitectUser);
 exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);

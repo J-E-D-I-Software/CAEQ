@@ -69,16 +69,14 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                let currentSpecialties = architect.specialties.map(
-                    (specialty) => {
-                        return { label: specialty.name, value: specialty._id };
-                    }
-                );
+                let currentSpecialties = architect.specialties.map((specialty) => {
+                    return { label: specialty.name, value: specialty._id };
+                });
+
+                setSelectedSpecialties(currentSpecialties);
 
                 const accreditedHours = await getCourseHours(searchParams.id);
                 setCourseHours(accreditedHours);
-
-                setSelectedSpecialties(currentSpecialties);
             } catch (error) {
                 console.log(error);
             }
@@ -111,15 +109,10 @@ const ArchitectDetail = (props) => {
             (async () => {
                 try {
                     const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(
-                        architectId
-                    );
+                    const attendances = await getAttendancesByArchitect(architectId);
                     setAttendances(attendances);
                 } catch (error) {
-                    console.error(
-                        'Error al obtener asistencias por arquitecto',
-                        error
-                    );
+                    console.error('Error al obtener asistencias por arquitecto', error);
                 }
             })();
         }
@@ -154,8 +147,7 @@ const ArchitectDetail = (props) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
-        editedData.lifeInsurance =
-            editedData.lifeInsurance === 'Si' ? true : false;
+        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
         editedData.annuity = editedData.annuity === 'Si' ? true : false;
 
         if (selectedSpecialties.length > 0) {
@@ -172,10 +164,7 @@ const ArchitectDetail = (props) => {
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
         form.append('classification', editedData.classification);
-        form.append(
-            'mainProfessionalActivity',
-            editedData.mainProfessionalActivity
-        );
+        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
         form.append('dateOfAdmission', editedData.dateOfAdmission);
         form.append('professionalLicense', editedData.professionalLicense);
         form.append('capacitationHours', editedData.capacitationHours);
@@ -183,10 +172,7 @@ const ArchitectDetail = (props) => {
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
         form.append('annuity', editedData.annuity);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
-        form.append(
-            'authorizationToShareInfo',
-            editedData.authorizationToShareInfo
-        );
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
         form.append('file', editedData.linkCV);
         form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
         form.append('linkINE', editedData.linkINE);
@@ -195,10 +181,7 @@ const ArchitectDetail = (props) => {
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(
-                searchParams.id,
-                form
-            );
+            const response = await updateArchitectUserByID(searchParams.id, form);
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
@@ -208,8 +191,16 @@ const ArchitectDetail = (props) => {
             return;
         }
 
-        const filesToUpload = ['linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
-        'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
+        const filesToUpload = [
+            'linkCV',
+            'linkCAEQCard',
+            'linkCURP',
+            'linkProfessionalLicense',
+            'linkBachelorsDegree',
+            'linkAddressCertificate',
+            'linkBirthCertificate',
+        ];
+
         for (const field of filesToUpload) {
             const file = editedData[field];
             if (file) {
@@ -231,7 +222,6 @@ const ArchitectDetail = (props) => {
 
         swal.close();
         FireSucess('Los Cambios se han guardado correctamente');
-
     };
 
     /**
@@ -290,8 +280,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    Modifique la información que sea necesaria. Al terminar, haz
-                    clic en guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz clic en
+                    guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -431,9 +421,10 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <NumberInput
-                        label='Horas de Capacitación'
+                        label='Horas de Capacitación 2023 - 2024'
                         placeholder='Horas Acreditadas'
                         getVal={editedData.capacitationHours}
+                        allowDecimals={false}
                         setVal={(value) =>
                             setEditedData({
                                 ...editedData,
@@ -551,7 +542,10 @@ const ArchitectDetail = (props) => {
                         label='Cédula Profesional'
                         getVal={editedData.linkProfessionalLicense}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkProfessionalLicense: value })
+                            setEditedData({
+                                ...editedData,
+                                linkProfessionalLicense: value,
+                            })
                         }
                         accept='image/*,application/pdf'
                     />
@@ -564,7 +558,9 @@ const ArchitectDetail = (props) => {
                         </p>
                     ) : (
                         <p>
-                            <span>No hay una cédula profesional registrada. ¡Sube una!</span>
+                            <span>
+                                No hay una cédula profesional registrada. ¡Sube una!
+                            </span>
                         </p>
                     )}
                     <FileInput
@@ -591,7 +587,10 @@ const ArchitectDetail = (props) => {
                         label='Comprobante de domicilio (no mayor a 3 meses)'
                         getVal={editedData.linkAddressCertificate}
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkAddressCertificate: value })
+                            setEditedData({
+                                ...editedData,
+                                linkAddressCertificate: value,
+                            })
                         }
                         accept='image/*,application/pdf'
                     />
@@ -604,7 +603,9 @@ const ArchitectDetail = (props) => {
                         </p>
                     ) : (
                         <p>
-                            <span>No hay comprobante de domicilio registrado. ¡Sube uno!</span>
+                            <span>
+                                No hay comprobante de domicilio registrado. ¡Sube uno!
+                            </span>
                         </p>
                     )}
                     <FileInput
@@ -630,11 +631,7 @@ const ArchitectDetail = (props) => {
                 </div>
             </div>
             <div className='architect-row'>
-                <BaseButton
-                    type='primary'
-                    className='button'
-                    onClick={handleSaveChanges}
-                >
+                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
             </div>
@@ -652,21 +649,20 @@ const ArchitectDetail = (props) => {
                         .map((courseHour) => (
                             <p className='list-data'>
                                 <span className='list-data-year'>
-                                    {courseHour.startYear} -{' '}
-                                    {courseHour.endYear}
+                                    {courseHour.startYear} - {courseHour.endYear}
                                 </span>{' '}
                                 : {courseHour.value} horas
                             </p>
                         ))}
                 </p>
                 <h3>
-                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo
-                    del año siguiente.
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año
+                    siguiente.
                 </h3>
                 <h3>
-                    (i) Para modificar las horas de un colegiado, debe acceder
-                    al curso, completar sus asistencias y terminar el curso para
-                    que le sean sumadas.
+                    (i) Para modificar las horas de un colegiado, debe acceder al curso,
+                    completar sus asistencias y terminar el curso para que le sean
+                    sumadas.
                 </h3>
             </div>
         </div>

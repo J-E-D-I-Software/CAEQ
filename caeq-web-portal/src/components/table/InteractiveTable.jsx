@@ -97,10 +97,6 @@ const InteractiveTable = ({ data, onRowClick }) => {
     ];
 
     /**
-     * Render the table header.
-     * [currentYear]: `Asistencias a asambleas ${currentYear}`,
-        [currentYear - 1]: `Asistencias a asambleas ${currentYear - 1}`,
-        [currentYear - 2]: `Asistencias a asambleas ${currentYear - 2}`,
      * @returns {JSX.Element} - A JSX element representing the table header.
      */
     const renderTableHeader = () => (

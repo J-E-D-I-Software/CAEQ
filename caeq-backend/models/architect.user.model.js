@@ -117,22 +117,18 @@ const ArchitectUserSchema = new mongoose.Schema({
         required: [false],
     },
     linkProfessionalLicense: {
-        // Cedula
         type: String,
         required: [false],
     },
     linkBachelorsDegree: {
-        // Titulo
         type: String,
         required: [false],
     },
     linkAddressCertificate: {
-        // Comprobante de domicilio
         type: String,
         required: [false],
     },
     linkBirthCertificate: {
-        // Acta de nacimiento
         type: String,
         required: [false],
     },

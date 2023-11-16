@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { formatDate } from '../../utils/format';
 import {
     FireError,
     FireSucess,
@@ -41,6 +42,7 @@ const CreateOrUpdateCourse = () => {
         _id: 1,
         date: '',
         time: '',
+        notSaved: true,
     });
     const [sessions, setSessions] = useState([{ _id: 1, date: '', time: '' }]);
     const [data, setData] = useState({
@@ -209,7 +211,7 @@ const CreateOrUpdateCourse = () => {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
                 const newSession = await createSession(sessionSelected);
-                setSessionSelected(newSession);
+                setSessionSelected({...newSession, notSaved: false});
                 setSessions([
                     ...sessions.slice(0, sessions.length - 1),
                     newSession,
@@ -242,12 +244,19 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Eliminando...');
         try {
             await deleteSession(sessionSelected._id);
-            setSessions(
-                sessions.filter(
-                    (session) => session._id !== sessionSelected._id
-                )
-            );
-            setSessionSelected(sessions[0]);
+            const sessionsUpdated = sessions.filter(
+                (session) => session._id !== sessionSelected._id
+            )
+            setSessions(sessionsUpdated);
+            if (sessionsUpdated.length > 0)
+                setSessionSelected(sessionsUpdated[sessionsUpdated.length - 1]);
+            else
+                setSessionSelected({
+                    _id: 1,
+                    date: '',
+                    time: '',
+                    notSaved: true,
+                });
             swal.close();
             FireSucess('Sesión eliminada');
         } catch (error) {
@@ -265,30 +274,6 @@ const CreateOrUpdateCourse = () => {
      */
     const onUpdateSession = (key, value) => {
         setSessionSelected({ ...sessionSelected, [key]: value });
-    };
-
-    /**
-     * Formats a date string to a more readable format
-     * @param {string} dateStr - the date string to be formatted
-     * @returns {string} - the formatted date string
-     */
-    const formatDate = (dateStr) => {
-        const [year, month, day] = dateStr.split('-');
-        const formattedMonth = [
-            'Ene',
-            'Feb',
-            'Mar',
-            'Abr',
-            'May',
-            'Jun',
-            'Jul',
-            'Ago',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dic',
-        ][Number(month) - 1];
-        return `${day} ${formattedMonth} ${year}`;
     };
 
     /**
@@ -546,6 +531,7 @@ const CreateOrUpdateCourse = () => {
                     </div>
                     <div className='create-course--col create-course__sessions-table'>
                         <ul className='create-course__sessions-table__header'>
+                            {console.log(sessionSelected)}
                             {sessions.map((session, i) => (
                                 <li
                                     className={
@@ -558,7 +544,7 @@ const CreateOrUpdateCourse = () => {
                                 >
                                     {session.date
                                         ? formatDate(session.date.slice(0, 10))
-                                        : `Sesión ${i + 1} (sin guardar)`}
+                                        : `Sin guardar`}
                                 </li>
                             ))}
                             {sessions.length === 0 && (
@@ -570,12 +556,17 @@ const CreateOrUpdateCourse = () => {
                                 <li
                                     className='create-course__sessions__add'
                                     onClick={() => {
+                                        if (sessions.filter(x => x.notSaved).length > 0) {
+                                            FireError('Solo se puede tener una sesión sin guardar a la vez');
+                                            return;
+                                        }
                                         setSessions([
                                             ...sessions,
                                             {
                                                 _id: sessions.length,
                                                 date: '',
                                                 time: data.schedule,
+                                                notSaved: true,
                                             },
                                         ]);
                                     }}
@@ -602,15 +593,17 @@ const CreateOrUpdateCourse = () => {
                             >
                                 Guardar
                             </BaseButton>
-                            <BaseButton
-                                type='fail'
-                                onClick={onSubmitDeleteSession}
-                            >
-                                Eliminar
-                            </BaseButton>
+                            {!sessionSelected?.notSaved &&
+                                <BaseButton
+                                    type='fail'
+                                    onClick={onSubmitDeleteSession}
+                                >
+                                    Eliminar
+                                </BaseButton>
+                            }
                         </div>
                         <div className='create-course__sessions-table__content'>
-                            {inscriptions.length > 0 ? (
+                            {(!sessionSelected?.notSaved && inscriptions.length > 0) ? (
                                 <table className='styled-table'>
                                     <thead>
                                         <tr>
@@ -640,10 +633,7 @@ const CreateOrUpdateCourse = () => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    {
-                                                        inscription.user
-                                                            .collegiateNumber
-                                                    }
+                                                    {inscription.user.collegiateNumber}
                                                 </td>
                                                 <td>
                                                     {inscription.user.fullName}

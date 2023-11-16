@@ -33,6 +33,7 @@ const InscriptionAsistance = (props) => {
             const data = await getMyInscriptionswithSessions(paginationPage, filters);
             setSession(data.sessions);
             setInscriptions(data.document);
+          
         };
         try {
             fetchData();
@@ -43,9 +44,12 @@ const InscriptionAsistance = (props) => {
 
 return (
         <div className="course"> {/* Cambié "classname" a "className" */}
+                    <div className='inscription-row'>
+                <h1>Asistencias a mis cursos Inscritos</h1>
+            </div>
             {inscriptions.map(inscription => (<div className='box-container'>
-                <div className="course-row">
-                    <CourseAttendee userId={inscription.user} data={session.filter(session => session.course == inscription.course._id)} />
+                <div className="course-row">    
+                    <CourseAttendee hours={inscription.course.numberHours} course={inscription.course.courseName} userId={inscription.user} data={session.filter(session => session.course == inscription.course._id)} />
                 </div>
             </div>))}
         </div>

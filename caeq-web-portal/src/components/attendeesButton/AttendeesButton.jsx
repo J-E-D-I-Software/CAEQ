@@ -20,42 +20,45 @@ function AttendancesComponent({ attendances }) {
     return (
         <div>
             <h1>Asistencias a Asambleas</h1>
-            <div className="Attendees-row">
-                {uniqueYears.map((year) => (
-                    <div key={year}>
-                        <BaseButton
-                            className="year-button"
-                            type="primary"
-                            onClick={() => handleYearClick(year)}
-                        >
-                            {year}
-                        </BaseButton>
-                        {selectedYear === year && (
-                            <div className="list-data">
-                                {attendances
-                                    .filter(
-                                        (asistencia) =>
-                                            asistencia.idGathering.year === year &&
-                                            asistencia.attended
-                                    )
-                                    .map((asistencia) => {
-                                        const date = new Date(
-                                            asistencia.idGathering.date
-                                        );
+            <div className='Attendees-row'>
+                {uniqueYears.length > 0 ? (
+                    uniqueYears.map((year) => (
+                        <div key={year}>
+                            <BaseButton
+                                className='year-button'
+                                type='primary'
+                                onClick={() => handleYearClick(year)}>
+                                {year}
+                            </BaseButton>
+                            {selectedYear === year && (
+                                <div className='list-data'>
+                                    {attendances
+                                        .filter(
+                                            (asistencia) =>
+                                                asistencia.idGathering.year === year &&
+                                                asistencia.attended
+                                        )
+                                        .map((asistencia) => {
+                                            const date = new Date(
+                                                asistencia.idGathering.date
+                                            );
 
-                                        date.setDate(date.getDate() + 1);
+                                            date.setDate(date.getDate() + 1);
 
-                                        return (
-                                            <p key={asistencia._id}>
-                                                {date.toLocaleDateString('en-GB')} -
-                                                Modalidad: {asistencia.modality}
-                                            </p>
-                                        );
-                                    })}
-                            </div>
-                        )}
-                    </div>
-                ))}
+                                            return (
+                                                <p key={asistencia._id}>
+                                                    {date.toLocaleDateString('en-GB')} -
+                                                    Modalidad: {asistencia.modality}
+                                                </p>
+                                            );
+                                        })}
+                                </div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <h2>No hay asistencias registradas</h2>
+                )}
             </div>
         </div>
     );

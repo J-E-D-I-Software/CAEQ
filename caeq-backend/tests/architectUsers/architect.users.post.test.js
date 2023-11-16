@@ -133,8 +133,6 @@ const testRequiredFields = async (field, errorMessage) => {
         positionsInCouncil: '15/12/2021 Vocal',
     };
 
-    console.log(errorMessage);
-
     // Deletes the current required field from the body
     delete requestBody[field];
 

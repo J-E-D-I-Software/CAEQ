@@ -1,5 +1,5 @@
 .course { 
-    padding: 3rem;
+    padding: 20px 30px 0 30px;
 
     .course-row { 
         display: flex;
@@ -65,7 +65,6 @@
 
 @media only screen and (max-width: 700px)  {
     .course {
-        padding: 0 1rem; 
 
         div:first-child {
             flex-direction: column;

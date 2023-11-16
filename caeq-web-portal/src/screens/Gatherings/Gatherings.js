@@ -7,7 +7,6 @@ import './Gatherings.scss';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 
-
 const FilterByName = ({ filterValue, setFilterValue, placeholder }) => {
     return (
         <div className='filter-by-name'>
@@ -96,8 +95,7 @@ const Gatherings = (props) => {
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='primary'
-                        onClick={() => navigate('/Asambleas/Asamblea')}
-                    >
+                        onClick={() => navigate('/Asambleas/Asamblea')}>
                         Crear asamblea
                     </BaseButton>
                 </RestrictByRole>
@@ -123,7 +121,11 @@ const Gatherings = (props) => {
                 </div>
                 <div className='gathering-pages'>
                     <BaseButton onClick={handlePreviousPageFuture}>Anterior</BaseButton>
-                    <BaseButton onClick={handleNextPageFuture}>Siguiente</BaseButton>
+                    {futureGatherings.length > 0 ? (
+                        <BaseButton onClick={handleNextPageFuture}>Siguiente</BaseButton>
+                    ) : (
+                        <p>Sin asambleas</p>
+                    )}
                 </div>
             </div>
 
@@ -147,7 +149,11 @@ const Gatherings = (props) => {
                 </div>
                 <div className='gathering-pages'>
                     <BaseButton onClick={handlePreviousPagePast}>Anterior</BaseButton>
-                    <BaseButton onClick={handleNextPagePast}>Siguiente</BaseButton>
+                    {pastGatherings.length > 0 ? (
+                        <BaseButton onClick={handleNextPagePast}>Siguiente</BaseButton>
+                    ) : (
+                        <p>Sin asambleas</p>
+                    )}
                 </div>
             </div>
         </div>

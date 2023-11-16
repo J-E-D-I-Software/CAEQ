@@ -115,14 +115,14 @@ const AcceptAdmin = () => {
             <div className='instruction'>
                 <img src={AcceptIcon} alt={`Accept Icon`} />
                 <h3>
-                    Da click a para aceptar la petición de otorgar a una cuenta acceso al
+                    De click al botón verde para aceptar la petición de otorgar a una cuenta acceso al
                     portal de administración.
                 </h3>
             </div>
             <div className='instruction'>
                 <img src={RejectIcon} alt={`Reject Icon`} />
                 <h3>
-                    Da click para rechazar la petición de otorgar a una cuenta acceso al
+                    De click al botón rojo para rechazar la petición de otorgar a una cuenta acceso al
                     portal de administración.
                 </h3>
             </div>

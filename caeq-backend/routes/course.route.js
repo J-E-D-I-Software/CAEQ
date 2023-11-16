@@ -14,6 +14,7 @@ const {
 } = require(`${__dirname}/../controllers/auth.controller.js`);
 const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
+const sendEmailNotification = require(`${__dirname}/../controllers/email.controller.js`);
 
 router
     .route('/')
@@ -23,7 +24,7 @@ router
         restrictTo('caeq'),
         fileParser,
         filesController.formatImage,
-        createCourse
+        createCourse,
     );
 
 router

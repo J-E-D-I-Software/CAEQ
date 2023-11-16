@@ -2,13 +2,11 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory.controller');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
+const Course = require('../models/course.model');
 const Architect = require('../models/architect.user.model');
-
-
 
 exports.sendToEveryone = catchAsync(async (req, res, next) => {
     const { subject, message, imageUrl } = req.body; // Asunto, Cuerpo, Imagen
-
     if (!subject || !message) {
         return next(new AppError('Por favor ingresa un asunto y un mensaje.', 400));
     }
@@ -18,16 +16,30 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
             new AppError('El mensaje no puede superar los 10000 caracteres.', 400)
         );
     }
-
+    let addressee;
     try {
-        if (process.env.NODE_ENV === 'test') {
-            const addressee = await Architect.find({
-                email: { $eq: 'cvjj1504@outlook.com' },
+        if (
+            process.env.NODE_ENV === 'development' ||
+            process.env.NODE_ENV === 'testing'
+        ) {
+            addressee = await Architect.find({
+                email: { $eq: 'josh152002@outlook.com' },
             });
+            const email = await Email.sendAnouncementToEveryone(
+                addressee,
+                subject,
+                message,
+                imageUrl
+            );
+        } else {
+            addressee = await Architect.find({ email: { $ne: null } });
+            const email = await Email.sendAnouncementToEveryone(
+                addressee,
+                subject,
+                message,
+                imageUrl
+            );
         }
-
-        const addressee = await Architect.find({ email: { $ne: null } });
-        await Email.sendAnouncementToEveryone(addressee, subject, message, imageUrl);
     } catch (error) {
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
@@ -38,17 +50,23 @@ exports.sendToEveryone = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.sendPaymentAcceptedAlert = catchAsync(async (req, res, next) => {
-    const { user, course } = req.body;
-
+exports.sendEmailNotification = catchAsync(async (req, res, next) => {
     try {
-        const response = await Email.sendPaymentAcceptedAlert(user, course);
+        if (process.env.NODE_ENV === 'dev') {
+            const addressee = await Architect.find({
+                email: { $eq: 'cvjj1504@outlook.com' },
+            });
+        } else {
+            const addressee2 = await Architect.find({ anuuity: { $eq: true } });
+            const course = await Course.find().sort({ createdAt: -1 });
+            const email = await Email.sendNewCourseCreatedEmail(addressee2, req.body);
+        }
     } catch (error) {
-        return new AppError('Hubo un problema al enviar el correo.');
+        return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
 
     res.status(200).json({
         status: 'success',
-        message: 'Correo enviado con éxito.',
+        message: 'Correo enviado a todos los usuarios.',
     });
 });

@@ -1,14 +1,46 @@
 const factory = require('./handlerFactory.controller');
 const catchAsync = require('../utils/catchAsync');
+const dotenv = require('dotenv');
 const Course = require('../models/course.model');
 const Inscription = require('../models/inscription.model');
 const Session = require('../models/session.model');
+const Architect = require('../models/architect.user.model');
+const Email = require('../utils/email');
+
+dotenv.config({ path: '../.env' });
 
 exports.getAllCourses = factory.getAll(Course);
 exports.getCourse = factory.getOne(Course);
-exports.createCourse = factory.createOne(Course);
 exports.updateCourse = factory.updateOne(Course);
 exports.deleteCourse = factory.deleteOne(Course);
+
+exports.createCourse = catchAsync(async (req, res, next) => {
+    let course2;
+
+    try {
+        course2 = await Course.create(req.body);
+
+        if (
+            process.env.NODE_ENV === 'testing' ||
+            process.env.NODE_ENV === 'development'
+        ) {
+            const addressee = await Architect.find({
+                email: { $eq: 'josh152002@outlook.com' },
+            });
+            const email = await Email.sendNewCourseCreatedEmail(addressee, course2);
+        } else {
+            const addressee = await Architect.find({ email: { $ne: null} });
+            const email = await Email.sendNewCourseCreatedEmail(addressee, course2);
+        }
+    } catch (error) {
+        console.log('error', error);
+    }
+
+    res.status(201).json({
+        status: 'success',
+        data: { document: course2 },
+    });
+});
 
 /**
  * A function that calculates accredited inscriptions for courses.

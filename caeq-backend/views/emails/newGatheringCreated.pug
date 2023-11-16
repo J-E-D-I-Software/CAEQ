@@ -1,0 +1,10 @@
+extends baseEmail
+
+block content
+  h2 Hola Arq. #{firstName},
+  hr
+  h3 #{gatheringTitle}
+  p Fecha: #{gatheringDay}/#{gatheringMonth}/#{gatheringYear} | Hora: #{gatheringTime}
+  p Link de Acceso por Zoom: #{gatheringLink}
+
+  h2 <a href="#{gatheringMoreInfo}">Descarga la convocatoría</a>

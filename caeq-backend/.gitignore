@@ -68,3 +68,7 @@ node_modules
 
 # Other files
 *.csv
+
+# Keys folers
+keys/
+

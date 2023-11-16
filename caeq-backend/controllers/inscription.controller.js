@@ -1,16 +1,18 @@
 const factory = require('./handlerFactory.controller');
 const Inscription = require('../models/inscription.model');
 const Course = require('../models/course.model');
+const Session = require('../models/session.model');
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');
+const DateRange = require('../utils/dateRangeMap');
 
 exports.getAllInscriptions = factory.getAll(Inscription, [
     { path: 'user', select: 'email fullName collegiateNumber' }, // You can select the user fields you need
     {
         path: 'course',
         select: 'courseName teachers modality description topics',
-    }, // Include fields from the course model
+    },
 ]);
 
 exports.getInscription = factory.getOne(Inscription, ['user', 'course']);
@@ -108,5 +110,30 @@ exports.myInscriptions = catchAsync(async (req, res, next) => {
         status: 'success',
         results: inscriptions.length,
         data: { document: inscriptions },
+    });
+});
+
+exports.myCourseHours = catchAsync(async (req, res, next) => {
+    const inscriptions = await Inscription.find({
+        user: req.params.id,
+    }).populate('course');
+
+    const dateMap = new DateRange();
+
+    inscriptions.forEach((inscription) => {
+        if (inscription.accredited == true) {
+            dateMap.add(
+                inscription.course.endDate,
+                inscription.course.numberHours
+            );
+        }
+    });
+
+    const allYears = dateMap.getYears();
+
+    res.status(200).json({
+        status: 'success',
+        results: allYears.length,
+        data: { documents: allYears },
     });
 });

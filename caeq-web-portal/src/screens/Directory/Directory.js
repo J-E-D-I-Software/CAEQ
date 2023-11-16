@@ -367,7 +367,7 @@ const Directory = () => {
                 <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos
                 </BaseButton>
-                <BaseButton onClick={() => handleClearFilters()} type='secondary'>
+                <BaseButton onClick={() => handleClearFilters()} type=''>
                     Limpiar filtros
                 </BaseButton>
             </div>

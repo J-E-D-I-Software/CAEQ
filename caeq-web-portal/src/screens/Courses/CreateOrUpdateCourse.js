@@ -84,9 +84,7 @@ const CreateOrUpdateCourse = () => {
 
             getCourseInscriptions(searchParams.id)
                 .then((response) => setInscriptions(response))
-                .catch((error) =>
-                    console.error('Error fetching data: ', error)
-                );
+                .catch((error) => console.error('Error fetching data: ', error));
             getAllSessions(searchParams.id).then((response) => {
                 setSessions(response);
                 if (response.length > 0) setSessionSelected(response[0]);
@@ -115,9 +113,7 @@ const CreateOrUpdateCourse = () => {
         // Validations
         if (data.pricing === 'Gratuito') data.price = 0;
         else if (!data.pricing) {
-            FireError(
-                'Es necesario declarar si el cursos es gratuito o de paga'
-            );
+            FireError('Es necesario declarar si el cursos es gratuito o de paga');
             return;
         }
 
@@ -131,22 +127,23 @@ const CreateOrUpdateCourse = () => {
             return;
         }
 
-        if (data.courseName.length > 70) {
-            FireError(
-                'Se acepta un máximo de 70 caracteres para el nombre del curso'
-            );
-            return;
-        }
-
         if (data.startDate && data.endDate) {
             const startD = new Date(data.startDate);
             const endD = new Date(data.endDate);
             if (endD < startD) {
-                FireError(
-                    'La fecha fin debe de ir después de la fecha de inicio'
-                );
+                FireError('La fecha fin debe de ir después de la fecha de inicio');
                 return;
             }
+        }
+
+        if (!data.startDate) {
+            FireError('Es necesario una fecha de inicio');
+            return;
+        }
+
+        if (!data.endDate) {
+            FireError('Es necesario una fecha de fin');
+            return;
         }
 
         if (data.pricing === 'Gratuito') {
@@ -156,17 +153,14 @@ const CreateOrUpdateCourse = () => {
 
         // Build FormData
         const formData = new FormData();
-        Object.entries(data).forEach((entry) =>
-            formData.append(entry[0], entry[1])
-        );
+        Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
 
         if (image) formData.set('imageUrl', image);
 
         let response = null;
         const swal = FireLoading('Guardando...');
         try {
-            if (searchParams.id)
-                response = await updateCourse(searchParams.id, formData);
+            if (searchParams.id) response = await updateCourse(searchParams.id, formData);
             else response = await createCourse(formData);
 
             if (!response._id) throw 'Error: ' + response;
@@ -204,9 +198,7 @@ const CreateOrUpdateCourse = () => {
         const swal = FireLoading('Guardando...');
         try {
             const courseId = searchParams.id;
-            const mode = Number.isInteger(sessionSelected._id)
-                ? 'create'
-                : 'update';
+            const mode = Number.isInteger(sessionSelected._id) ? 'create' : 'update';
             if (mode === 'create') {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
@@ -363,17 +355,13 @@ const CreateOrUpdateCourse = () => {
                     <div className='create-course--form-group'>
                         <label
                             htmlFor='pricing'
-                            className='create-course__label-input label-input'
-                        >
+                            className='create-course__label-input label-input'>
                             Curso gratuito o pagado
                         </label>
                         <select
                             className='dropdown-input'
-                            onChange={(e) =>
-                                updateData('pricing', e.target.value)
-                            }
-                            value={data.pricing}
-                        >
+                            onChange={(e) => updateData('pricing', e.target.value)}
+                            value={data.pricing}>
                             <option value='Gratuito'>Gratuito</option>
                             <option value='Pagado'>Pagado</option>
                         </select>
@@ -388,9 +376,7 @@ const CreateOrUpdateCourse = () => {
                             <TextInput
                                 label='Datos de pago'
                                 getVal={data.paymentInfo}
-                                setVal={(value) =>
-                                    updateData('paymentInfo', value)
-                                }
+                                setVal={(value) => updateData('paymentInfo', value)}
                                 placeholder='Cuenta a dónde hay que hacer el depósito'
                             />
                         </Fragment>
@@ -425,17 +411,13 @@ const CreateOrUpdateCourse = () => {
                     <div className='create-course--form-group'>
                         <label
                             htmlFor='pricing'
-                            className='create-course__label-input label-input'
-                        >
+                            className='create-course__label-input label-input'>
                             Modalidad
                         </label>
                         <select
                             className='dropdown-input'
-                            onChange={(e) =>
-                                updateData('modality', e.target.value)
-                            }
-                            value={data.modality}
-                        >
+                            onChange={(e) => updateData('modality', e.target.value)}
+                            value={data.modality}>
                             <option value='Presencial'>Presencial</option>
                             <option value='Remoto'>Remoto</option>
                         </select>
@@ -453,10 +435,7 @@ const CreateOrUpdateCourse = () => {
                         allowDecimals={false}
                     />
                     <div className='create-course--form-group'>
-                        <label
-                            htmlFor='startDate'
-                            className='create-course__label-input'
-                        >
+                        <label htmlFor='startDate' className='create-course__label-input'>
                             Fecha de inicio
                         </label>
                         <input
@@ -467,25 +446,25 @@ const CreateOrUpdateCourse = () => {
                             onChange={(e) =>
                                 updateData('startDate', e.target.value)
                             }
+                            required={true}
                         />
                     </div>
-                    <div className='create-course--form-group'>
-                        <label
-                            htmlFor='endDate'
-                            className='create-course__label-input'
-                        >
-                            Fecha de finalización
-                        </label>
-                        <input
-                            name='endDate'
-                            className='date-input'
-                            value={data.endDate}
-                            type='date'
-                            onChange={(e) =>
-                                updateData('endDate', e.target.value)
-                            }
-                        />
-                    </div>
+                    <DateInput
+                        label='Fecha de Inicio'
+                        getVal={data.startDate}
+                        setVal={(value) =>
+                            setData({ ...data, startDate: value })
+                        }
+                        require={true}
+                    />
+                    <DateInput
+                        label='Fecha de fin'
+                        getVal={data.endDate}
+                        setVal={(value) =>
+                            setData({ ...data, endDate: value })
+                        }
+                        require={true}
+                    />
                     <TextInput
                         label='Días de la sesión'
                         getVal={data.daysOfSession}
@@ -511,10 +490,7 @@ const CreateOrUpdateCourse = () => {
                         setVal={setImage}
                     />
 
-                    <BaseButton
-                        type='primary'
-                        onClick={(e) => onSubmitCourse(e)}
-                    >
+                    <BaseButton type='primary' onClick={(e) => onSubmitCourse(e)}>
                         {searchParams.id ? 'Guardar curso' : 'Crear curso'}
                     </BaseButton>
                 </div>
@@ -540,8 +516,7 @@ const CreateOrUpdateCourse = () => {
                                             : ''
                                     }
                                     onClick={() => setSessionSelected(session)}
-                                    key={i}
-                                >
+                                    key={i}>
                                     {session.date
                                         ? formatDate(session.date.slice(0, 10))
                                         : `Sin guardar`}
@@ -569,8 +544,7 @@ const CreateOrUpdateCourse = () => {
                                                 notSaved: true,
                                             },
                                         ]);
-                                    }}
-                                >
+                                    }}>
                                     <div>+</div>
                                 </li>
                             )}
@@ -587,10 +561,7 @@ const CreateOrUpdateCourse = () => {
                                 setVal={(val) => onUpdateSession('time', val)}
                                 placeholder='14:00 hrs'
                             />
-                            <BaseButton
-                                type='primary'
-                                onClick={onSubmitSession}
-                            >
+                            <BaseButton type='primary' onClick={onSubmitSession}>
                                 Guardar
                             </BaseButton>
                             {!sessionSelected?.notSaved &&

@@ -22,7 +22,7 @@ const CreateGathering = () => {
     const [data, setData] = useState({
         date: '',
         title: '',
-        meetingLink: '',
+        meetingLink: 'https://zoom.com/',
         meetingTime: '',
         moreInfo: null,
     });
@@ -112,6 +112,7 @@ const CreateGathering = () => {
                         label='Título de asamblea'
                         getVal={data.title}
                         setVal={(value) => updateData('title', value)}
+                        maxLength={60}
                     />
                     <DateInput
                         label='Día de la semana'
@@ -123,13 +124,14 @@ const CreateGathering = () => {
                         label='Liga de la asamblea'
                         getVal={data.meetingLink}
                         setVal={(value) => updateData('meetingLink', value)}
-                        placeholder='zoom.com'
+                        placeholder='https://zoom.com/'
                     />
                     <TextInput
                         label='Hora de asamblea'
                         getVal={data.meetingTime}
                         setVal={(value) => updateData('meetingTime', value)}
                         placeholder='5:00PM a 6:00pm'
+                        maxLength={30}
                     />
                     <FileInput
                         label='Convocatoria'

@@ -21,8 +21,8 @@ const Services = () => {
         const fetchData = async () => {
             let filters = '';
             if (orderBy) {
-                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
-                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-courseName`;
+                if (orderBy === 'Nombre (A-Z)') filters += `&sort=name`;
+                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-name`;
             }
 
             const data = await getAllRooms(paginationPage, filters);

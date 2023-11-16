@@ -3,6 +3,7 @@ import BaseButton from '../buttons/BaseButton';
 import './AttendeesButton.scss';
 
 function AttendancesComponent({ attendances }) {
+    console.log(attendances);
     const [selectedYear, setSelectedYear] = useState(null);
 
     const handleYearClick = (year) => {
@@ -20,49 +21,47 @@ function AttendancesComponent({ attendances }) {
     return (
         <div>
             <h1>Asistencias a Asambleas</h1>
-            <div className="Attendees-row">
-                {uniqueYears.length > 0 ? (
-                    uniqueYears.map((year) => (
+            <div className='Attendees-row'>
+                {uniqueYears.map((year) => {
+                    const totalAssemblies = attendances.filter(
+                        (asistencia) =>
+                            asistencia.idGathering.year === year && asistencia.attended
+                    ).length;
+
+                    return (
                         <div key={year}>
                             <BaseButton
-                                className="year-button"
-                                type="primary"
-                                onClick={() => handleYearClick(year)}
-                            >
-                                {year}
+                                className='year-button'
+                                type='primary'
+                                onClick={() => handleYearClick(year)}>
+                                {`${year} (${totalAssemblies})`}
                             </BaseButton>
                             {selectedYear === year && (
-                                <div className="list-data">
+                                <div className='list-data'>
                                     {attendances
                                         .filter(
                                             (asistencia) =>
-                                                asistencia.idGathering.year === year &&
-                                                asistencia.attended
+                                                asistencia.idGathering.year === year
                                         )
                                         .map((asistencia) => {
                                             const date = new Date(
                                                 asistencia.idGathering.date
                                             );
 
-                                            date.setDate(date.getDate() + 1);
+                                            date.setDate(date.getDate());
 
                                             return (
                                                 <p key={asistencia._id}>
                                                     {date.toLocaleDateString('en-GB')} -
-                                                    Modalidad:{' '}
-                                                    {asistencia.modality === 'Remoto'
-                                                        ? 'En línea'
-                                                        : asistencia.modality}
+                                                    Modalidad: {asistencia.modality}
                                                 </p>
                                             );
                                         })}
                                 </div>
                             )}
                         </div>
-                    ))
-                ) : (
-                    <h2>No hay asistencias registradas</h2>
-                )}
+                    );
+                })}
             </div>
         </div>
     );

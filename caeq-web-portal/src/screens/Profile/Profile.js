@@ -7,6 +7,7 @@ import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import './Profile.scss';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
@@ -23,6 +24,7 @@ const Profile = (props) => {
     const [attendances, setAttendances] = useState([]);
     const [courseHours, setCourseHours] = useState([]);
     const [currentRights, setCurrentRights] = useState('');
+    const [attendanceByYear, setAttendanceByYear] = useState({});
 
     const date = profile.dateOfBirth
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
@@ -58,9 +60,8 @@ const Profile = (props) => {
                 const architectId = SavedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
-                console.log('Asistencias', attendances);
 
-                let accreditedHours = await getCourseHours(savedUser._id);
+                let accreditedHours = await getCourseHours(SavedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
@@ -184,8 +185,6 @@ const Profile = (props) => {
                             <span>Puesto en Consejo: </span>
                             {profile.positionsInCouncil}
                         </p>
-                    </div>
-                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -195,15 +194,15 @@ const Profile = (props) => {
                             <p>Anualidad pagada: {profile.annuity ? 'Sí' : 'No'}</p>
                             <p>
                                 Asistencias a asambleas del último año:{' '}
-                                {profile.totalGatheringAttendees}
+                                {profile.totalGatheringAttendees}/5
                             </p>
                             <p>
                                 Asistencias presenciales a asambleas del último año:{' '}
-                                {profile.totalGatheringAttendeesPresential}
+                                {profile.totalGatheringAttendeesPresential}/3
                             </p>
                             <p>
-                                Horas de capacitación {new Date().getFullYear()}:{' '}
-                                {profile.totalHours}
+                                Horas de capacitación del último año: {profile.totalHours}
+                                /{profile.specialties?.length > 0 ? '40' : '20'}
                             </p>
                         </p>
                     </div>
@@ -232,7 +231,17 @@ const Profile = (props) => {
                                 {currentYear - 2}: {profile[currentYear - 2]}
                             </p>
                         </p>
-
+                        <p>
+                            <BaseButton
+                                type='primary'
+                                onClick={() =>
+                                    attendeesRef.current.scrollIntoView({
+                                        behavior: 'smooth',
+                                    })
+                                }>
+                                Ver asistencias registradas
+                            </BaseButton>
+                        </p>
                         <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}

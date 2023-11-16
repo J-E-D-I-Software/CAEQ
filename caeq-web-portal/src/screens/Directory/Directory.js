@@ -116,9 +116,9 @@ const Directory = () => {
                         const architectId = architect._id;
                         const recentYears = await getAttendeesMostRecentYears(architectId);
                         
-                        architect = {...architect, ...recentYears.yearCount};
+                        architect = { ...architect, ...recentYears.yearCount };
 
-                        return architect
+                        return architect;
                     })
                 );
 
@@ -155,42 +155,7 @@ const Directory = () => {
                 setSpecialtiesName(specialties.map((specialty) => specialty.name));
             } catch (error) {}
         })();
-    }, []);
-
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Get all architects
-                const architects = await getAllArchitectUsers();
-                
-                // Calculate most recent year attendance for each architect
-                const mostRecentYearAttendances = await Promise.all(
-                    architects.map(async (architect) => {
-                        const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-
-                        const mostRecentYear = Math.max(...recentYears, 0);
-
-                        return {
-                            architectId,
-                            mostRecentYear,
-                        };
-                    })
-                );
-    
-                setMostRecentYearAttendances(mostRecentYearAttendances);
-            } catch (error) {
-                console.error('Error al obtener asistencias por arquitecto', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-    */
-    
-    
-    
+    }, []);    
 
     useEffect(() => {
         (async () => {
@@ -202,7 +167,18 @@ const Directory = () => {
                     filters,
                     effectiveOrderBy
                 );
-                setArchitectUsers(architects);
+                
+                const mostRecentYearAttendances = await Promise.all(
+                    architects.map(async (architect) => {
+                        const architectId = architect._id;
+                        const recentYears = await getAttendeesMostRecentYears(architectId);
+                        
+                        architect = {  ...recentYears.yearCount, ...architect };
+
+                        return architect;
+                    })
+                );
+                setArchitectUsers(mostRecentYearAttendances);
             } catch (error) {
                 // Handle error
             }

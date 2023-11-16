@@ -59,14 +59,50 @@ const InteractiveTable = ({ data, onRowClick }) => {
      * @returns {string} - "Yes" if the value is true, "No" if it's false.
      */
     const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
+    
+    const currentYear = new Date().getFullYear();
+    const headerOrder = [
+        'collegiateNumber',
+        'DRONumber',
+        'fullName',
+        'memberType',
+        'classification',
+        'specialties',
+        'mainProfessionalActivity',
+        'professionalLicense',
+        'dateOfAdmission',
+        'gender',
+        'dateOfBirth',
+        'age',
+        'university',
+        'municipalityOfLabor',
+        'authorizationToShareInfo',
+        'lifeInsurance',
+        'lifeInsureID',
+        'homePhone',
+        'officePhone',
+        'cellphone',
+        'email',
+        'homeAddress',
+        'workAddress',
+        'emergencyContact',
+        'positionsInCouncil',
+        'annuity',
+        currentYear - 2,
+        currentYear - 1,
+        currentYear,
+    ];
 
     /**
      * Render the table header.
+     * [currentYear]: `Asistencias a asambleas ${currentYear}`,
+        [currentYear - 1]: `Asistencias a asambleas ${currentYear - 1}`,
+        [currentYear - 2]: `Asistencias a asambleas ${currentYear - 2}`,
      * @returns {JSX.Element} - A JSX element representing the table header.
      */
     const renderTableHeader = () => (
         <tr>
-            {Object.keys(headerMappings).map((column) =>
+            {headerOrder.map((column) =>
                 columnVisibility[column] && column !== '_id' ? (
                     <th key={column} className='sticky-column'>
                         <div className='header-content'>
@@ -112,7 +148,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
                     }
                 }}
             >
-                {Object.keys(headerMappings).map((column) =>
+                {headerOrder.map((column) =>
                     columnVisibility[column] && column !== '_id' ? (
                         <td
                             key={column}

@@ -1,44 +1,61 @@
 const factory = require('./handlerFactory.controller');
 const ArchitectUser = require('../models/architect.user.model');
+const Attendee = require('../models/attendees.model');
+const Gathering = require('../models/gathering.model');
+const Inscription = require('../models/inscription.model');
 const RegisterRequest = require('../models/regiesterRequests.model');
 const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
+const DateRange = require('../utils/dateRangeMap');
 
 exports.getAllArchitectUsers = catchAsync(async (req, res) => {
-    let filter = {};
-    let query = ArchitectUser.find(filter);
-    query.populate('specialties');
+    try {
+        let filter = {};
+        let query = ArchitectUser.find(filter);
+        query.populate('specialties');
 
-    console.log(req.query);
+        const features = new APIFeatures(query, req.query).filter().sort().limitFields();
 
-    const features = new APIFeatures(query, req.query).filter().sort();
+        let documents = await features.query;
+        if (Object.keys(req.query).includes('rights')) {
+            documents = await Promise.all(
+                documents.map(async (doc) => {
+                    const hasRights = await doc.currentRights;
+                    doc.rights = hasRights;
+                    return doc;
+                })
+            );
+            documents = documents.filter((doc) => {
+                const reqRightsBool = req.query.rights === 'true';
+                return doc.rights === reqRightsBool;
+            });
+        }
 
-    let documents = await features.query;
-    if (Object.keys(req.query).includes('currentRights')) {
+        // Pagination
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+        const skip = (page - 1) * limit;
+
+        documents = documents.slice(skip, skip + limit);
+
         documents = await Promise.all(
             documents.map(async (doc) => {
-                const hasRights = await doc.currentRights;
-                doc.rights = hasRights;
-                console.log(
-                    'current rights',
-                    Boolean(req.query.currentRights),
-                    hasRights
-                );
-                return doc;
+                const latestAssemblies = await getUserLatestAssemblies(doc._id);
+                const latestHours = await getUserLatestHours(doc._id);
+                return { ...doc._doc, ...latestAssemblies, ...latestHours };
             })
         );
-        documents = documents.filter(
-            (doc) => doc.rights == Boolean(req.query.currentRights)
-        );
-    }
 
-    res.status(200).json({
-        status: 'success',
-        results: documents.length,
-        data: { documents },
-    });
+        res.status(200).json({
+            status: 'success',
+            results: documents.length,
+            data: { documents },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 });
 exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
@@ -176,3 +193,67 @@ exports.rejectArchitectUser = catchAsync(async (req, res, next) => {
         message: 'Solicitud eliminada. El usuario no fue aceptado en el portal.',
     });
 });
+
+const getUserLatestAssemblies = async (id) => {
+    const attendees = await Attendee.find({ idArchitect: id }).populate({
+        path: 'idGathering',
+        model: Gathering,
+    });
+
+    const currentYear = new Date().getFullYear();
+    const mostRecentYears = new Map();
+    mostRecentYears.set(currentYear, 0);
+    mostRecentYears.set(currentYear - 1, 0);
+    mostRecentYears.set(currentYear - 2, 0);
+
+    attendees.forEach((attendee) => {
+        const yearToNumber = parseInt(attendee.idGathering.year);
+        if (mostRecentYears.has(yearToNumber)) {
+            mostRecentYears.set(yearToNumber, mostRecentYears.get(yearToNumber) + 1);
+        }
+    });
+
+    const yearCount = {};
+    yearCount[currentYear] = mostRecentYears.get(currentYear);
+    yearCount[currentYear - 1] = mostRecentYears.get(currentYear - 1);
+    yearCount[currentYear - 2] = mostRecentYears.get(currentYear - 2);
+
+    return yearCount;
+};
+
+const getUserLatestHours = async (id) => {
+    const inscriptions = await Inscription.find({
+        user: id,
+    }).populate('course user');
+
+    const dateMap = new DateRange();
+
+    inscriptions.forEach((inscription) => {
+        if (inscription.accredited == true) {
+            dateMap.add(inscription.course.endDate, inscription.course.numberHours);
+        }
+    });
+
+    const user = await ArchitectUser.findById(id);
+
+    dateMap.add(new Date(2023, 3, 15), user.capacitationHours);
+
+    const allYears = dateMap.getYears();
+
+    const myCourseHours = {};
+    const currentYear = new Date().getFullYear();
+    myCourseHours[`cursos${currentYear}`] = 0;
+    myCourseHours[`cursos${currentYear - 1}`] = 0;
+    myCourseHours[`cursos${currentYear - 2}`] = 0;
+    allYears.forEach((courseHour) => {
+        if (
+            courseHour.startYear == currentYear ||
+            courseHour.startYear == currentYear - 1 ||
+            courseHour.startYear == currentYear - 2
+        ) {
+            myCourseHours['cursos' + courseHour.startYear] = courseHour.value;
+        }
+    });
+
+    return myCourseHours;
+};

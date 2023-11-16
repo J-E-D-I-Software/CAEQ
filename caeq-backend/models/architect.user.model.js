@@ -322,7 +322,9 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
         lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
 
         // Find gatherings from the last year
-        const gatherings = await Gatherings.find({ date: { $gte: lastYearDate } });
+        const gatherings = await Gatherings.find({
+            date: { $gte: lastYearDate },
+        });
         const gatheringIds = gatherings.map((gathering) => gathering._id);
 
         // Find attendee documents for the specific user and gatherings from the last year
@@ -343,20 +345,6 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
         )[0].value;
 
         const annuity = this.annuity || false;
-
-        // console.log(
-        //     this.fullName,
-        //     thisYearTotalCapacitationHours,
-        //     totalGatheringAttendees,
-        //     totalGatheringAttendeesPresential,
-        //     annuity
-        // );
-        // console.log(
-        //     thisYearTotalCapacitationHours >= 40 &&
-        //         totalGatheringAttendees >= 5 &&
-        //         totalGatheringAttendeesPresential >= 3 &&
-        //         annuity == true
-        // );
 
         // Check if capacitationHours are from 40 to beyond if there are 5 attendances in the last year
         // and at least 3 of them are presential and if the user is has payed the annuity

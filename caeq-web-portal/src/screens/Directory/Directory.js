@@ -95,7 +95,7 @@ const Directory = () => {
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
-        if (currentRights) filters += `&currentRights=${currentRights}`;
+        if (currentRights) filters += `&rights=${currentRights}`;
 
         return filters;
     };
@@ -112,41 +112,7 @@ const Directory = () => {
                     effectiveOrderBy
                 );
 
-                const mostRecentYearAttendances = await Promise.all(
-                    architects.map(async (architect) => {
-                        const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(
-                            architectId
-                        );
-
-                        const myCourseHours = {};
-                        const currentYear = new Date().getFullYear();
-                        const courseHours = await getCourseHours(architectId);
-                        myCourseHours[`cursos${currentYear}`] = 0;
-                        myCourseHours[`cursos${currentYear - 1}`] = 0;
-                        myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach((courseHour) => {
-                            if (
-                                courseHour.startYear == currentYear ||
-                                courseHour.startYear == currentYear - 1 ||
-                                courseHour.startYear == currentYear - 2
-                            ) {
-                                myCourseHours['cursos' + courseHour.startYear] =
-                                    courseHour.value;
-                            }
-                        });
-
-                        architect = {
-                            ...architect,
-                            ...recentYears.yearCount,
-                            ...myCourseHours,
-                        };
-
-                        return architect;
-                    })
-                );
-
-                setArchitectUsers(mostRecentYearAttendances);
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
@@ -190,41 +156,7 @@ const Directory = () => {
                     effectiveOrderBy
                 );
 
-                const mostRecentYearAttendances = await Promise.all(
-                    architects.map(async (architect) => {
-                        const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(
-                            architectId
-                        );
-
-                        const myCourseHours = {};
-                        const currentYear = new Date().getFullYear();
-                        const courseHours = await getCourseHours(architectId);
-                        myCourseHours[`cursos${currentYear}`] = 0;
-                        myCourseHours[`cursos${currentYear - 1}`] = 0;
-                        myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach((courseHour) => {
-                            if (
-                                courseHour.startYear == currentYear ||
-                                courseHour.startYear == currentYear - 1 ||
-                                courseHour.startYear == currentYear - 2
-                            ) {
-                                myCourseHours['cursos' + courseHour.startYear] =
-                                    courseHour.value;
-                            }
-                        });
-
-                        architect = {
-                            ...architect,
-                            ...recentYears.yearCount,
-                            ...myCourseHours,
-                        };
-
-                        return architect;
-                    })
-                );
-
-                setArchitectUsers(mostRecentYearAttendances);
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
@@ -266,58 +198,35 @@ const Directory = () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(1, filters, 100000);
 
-        const architectsDownload = await Promise.all(
-            architects.map(async (val) => {
-                const architectId = val._id;
-                const recentYears = await getAttendeesMostRecentYears(architectId);
+        const architectsDownload = architects.map((val) => {
+            delete val._id;
 
-                const myCourseHours = {};
-                const currentYear = new Date().getFullYear();
-                const courseHours = await getCourseHours(architectId);
-                myCourseHours[`cursos${currentYear}`] = 0;
-                myCourseHours[`cursos${currentYear - 1}`] = 0;
-                myCourseHours[`cursos${currentYear - 2}`] = 0;
-                courseHours.forEach((courseHour) => {
+            // Create a new object with mapped headers
+            const mappedObject = {};
+            for (const key in val) {
+                if (headerMappings[key]) {
+                    mappedObject[headerMappings[key]] = val[key];
+
                     if (
-                        courseHour.startYear == currentYear ||
-                        courseHour.startYear == currentYear - 1 ||
-                        courseHour.startYear == currentYear - 2
+                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        mappedObject[headerMappings[key]] === true
                     ) {
-                        myCourseHours['cursos' + courseHour.startYear] = courseHour.value;
-                    }
-                });
-
-                val = { ...val, ...recentYears.yearCount, ...myCourseHours };
-
-                delete val._id;
-
-                // Create a new object with mapped headers
-                const mappedObject = {};
-                for (const key in val) {
-                    if (headerMappings[key]) {
-                        mappedObject[headerMappings[key]] = val[key];
-
-                        if (
-                            typeof mappedObject[headerMappings[key]] === 'boolean' &&
-                            mappedObject[headerMappings[key]] === true
-                        ) {
-                            mappedObject[headerMappings[key]] = 'Si';
-                        } else if (
-                            typeof mappedObject[headerMappings[key]] === 'boolean' &&
-                            mappedObject[headerMappings[key]] === false
-                        ) {
-                            mappedObject[headerMappings[key]] = 'No';
-                        } else if (key === 'specialties') {
-                            mappedObject[headerMappings[key]] = val[key]
-                                .map((val) => val.name)
-                                .join(', ');
-                        }
+                        mappedObject[headerMappings[key]] = 'Si';
+                    } else if (
+                        typeof mappedObject[headerMappings[key]] === 'boolean' &&
+                        mappedObject[headerMappings[key]] === false
+                    ) {
+                        mappedObject[headerMappings[key]] = 'No';
+                    } else if (key === 'specialties') {
+                        mappedObject[headerMappings[key]] = val[key]
+                            .map((val) => val.name)
+                            .join(', ');
                     }
                 }
+            }
 
-                return mappedObject;
-            })
-        );
+            return mappedObject;
+        });
 
         swal.close();
         FireSucess('La descarga se iniciará en breve.');

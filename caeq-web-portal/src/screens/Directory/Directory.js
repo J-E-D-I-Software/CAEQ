@@ -129,7 +129,6 @@ const Directory = () => {
                             }
                         });
 
-                        console.log("Mis cursos", myCourseHours)
                         
                         architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
 

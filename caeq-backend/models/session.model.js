@@ -10,7 +10,6 @@ const SessionSchema = new mongoose.Schema({
     },
     time: {
         type: String,
-        maxLength: 32
     },
     course: {
         type: mongoose.Schema.Types.ObjectId, 

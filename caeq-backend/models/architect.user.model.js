@@ -6,7 +6,6 @@ const crypto = require('crypto');
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
     collegiateNumber: {
-        unique: true,
         type: Number,
         required: [true, 'Por favor dinos tu número de colegiado!'],
     },
@@ -110,19 +109,19 @@ const ArchitectUserSchema = new mongoose.Schema({
         type: String,
         required: [false],
     },
-    linkProfessionalLicense: { // Cedula
+    linkProfessionalLicense: {
         type: String,
         required: [false],
     },
-    linkBachelorsDegree: { // Titulo
+    linkBachelorsDegree: {
         type: String,
         required: [false],
     },
-    linkAddressCertificate: { // Comprobante de domicilio
+    linkAddressCertificate: {
         type: String,
         required: [false],
     },
-    linkBirthCertificate: { // Acta de nacimiento
+    linkBirthCertificate: {
         type: String,
         required: [false],
     },
@@ -167,6 +166,9 @@ const ArchitectUserSchema = new mongoose.Schema({
         trim: true,
         validate: [validator.isEmail, 'Necesitas un correo válido.'],
     },
+    newEmail: {
+        type: String,
+    },
     password: {
         type: String,
         required: [true, 'Por favor provee una contraseña.'],
@@ -195,6 +197,10 @@ const ArchitectUserSchema = new mongoose.Schema({
     isOverwritten: {
         type: Boolean,
         default: true,
+    },
+    isRequest: {
+        type: Boolean,
+        default: false,
     },
 });
 

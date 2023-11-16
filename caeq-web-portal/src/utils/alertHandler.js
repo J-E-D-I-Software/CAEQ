@@ -44,9 +44,6 @@ export function FireLoading(message) {
         title: message,
         icon: 'info',
         showConfirmButton: false,
-        onBeforeOpen: () => {
-            Swal.showLoading();
-        },
     });
 }
 

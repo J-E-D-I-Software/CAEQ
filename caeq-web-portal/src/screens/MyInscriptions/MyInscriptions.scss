@@ -1,0 +1,65 @@
+.courses {
+    padding: 3rem;
+
+    .courses--row { 
+        display: flex;
+    }
+
+    .courses__filters { 
+        justify-content: space-between;
+        margin-bottom: 2rem;
+
+        .dropdown-input { 
+            background-color: #eea300;
+            color: white;
+            margin-right: 1rem;
+        }
+    }
+
+    .box-input { 
+        width: 40vw;
+    }
+
+    .courses__courses-section { 
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .courses__courses-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+    
+    @media only screen and (max-width: 1200px)  {
+        .courses__filters{
+            flex-wrap: wrap;
+
+            .courses--row {
+                flex-direction: column;
+            }
+        }
+    }
+    
+    @media only screen and (max-width: 700px)  {
+        padding: 0 1rem !important;
+        
+        .courses__filters {
+            flex-direction: column;
+            
+            .box-input { 
+                width: 100% !important;
+            }
+    
+            .courses--row {
+                flex-direction: column;
+    
+                .dropdown-input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+

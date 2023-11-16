@@ -1,7 +1,6 @@
-import axios from "axios";
-import baseApiEndpoint from "../backendConfig";
-import { getToken } from "../../utils/auth";
-
+import axios from 'axios';
+import baseApiEndpoint from '../backendConfig';
+import { getToken } from '../../utils/auth';
 
 /**
  * Sends a PATCH request to the '/architectusers/resetpassword/:token' endpoint to reset the user's password.
@@ -26,7 +25,6 @@ export async function patchResetPasswordArchitec(token, newPassword, passwordCon
     return response.data;
 }
 
-
 /**
  * Updates an architect user by ID.
  *
@@ -45,8 +43,36 @@ export async function updateArchitectUserByID(id, data) {
     const response = await axios.patch(endpoint, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
         },
     });
+    return response.data;
+}
+
+/**
+ * Accepts an architect user's request to become a member.
+ * @async
+ * @function getArchitectUsers
+ * @returns {Promise<Array>} A promise that resolves to an array of architect user documents.
+ */
+export async function patchAcceptRegistration(id) {
+    let endpoint = `${baseApiEndpoint}/architectusers/accept-architect/${id}`;
+
+    const response = await axios.patch(endpoint);
+
+    return response.data;
+}
+
+/**
+ * Rejects an architect user's request to become a member.
+ * @async
+ * @function getArchitectUsers
+ * @returns {Promise<Array>} A promise that resolves to an array of architect user documents.
+ */
+export async function patchRejectRegistration(id) {
+    let endpoint = `${baseApiEndpoint}/architectusers/reject-architect/${id}`;
+
+    const response = await axios.patch(endpoint);
+
     return response.data;
 }

@@ -62,7 +62,7 @@ const Profile = (props) => {
                     setAttendanceByYear(attendanceByYear);
                 }
 
-                const accreditedHours = await getCourseHours(SavedUser._id);
+                const accreditedHours = await getCourseHours(savedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
@@ -84,13 +84,13 @@ const Profile = (props) => {
 
     return (
         <div className='profile'>
-            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <BaseButton type='primary' onClick={handleRoute}>
-                    Editar Datos Personales
+                    Editar Datos de Perfil
                 </BaseButton>
             </div>
 
+            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <WhiteContainer>
                     <div className='profile-col'>
@@ -133,7 +133,10 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>INE: </span>
-                            <a href={profile.linkINE}>Visualizar</a>
+                            {profile.linkINE ?
+                                <a href={profile.linkINE}>Visualizar</a>
+                                : 'No hay documento guardado'
+                            }
                         </p>
                         <p>
                             <span>CURP: </span>
@@ -253,7 +256,7 @@ const Profile = (props) => {
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Municipio: </span>
-                            list' {profile.municipalityOfLabor}
+                            {profile.municipalityOfLabor}
                         </p>
                         <p>
                             <span>Currículum Vitae (CV): </span>

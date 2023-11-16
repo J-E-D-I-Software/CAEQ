@@ -167,7 +167,7 @@ const Directory = () => {
                 setSpecialtiesName(specialties.map((specialty) => specialty.name));
             } catch (error) {}
         })();
-    }, []);    
+    }, []);
 
     useEffect(() => {
         (async () => {

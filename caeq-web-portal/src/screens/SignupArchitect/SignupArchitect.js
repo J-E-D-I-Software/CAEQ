@@ -13,6 +13,7 @@ import SelectInputComponent from '../../components/inputs/SelectInput/SelectInpu
 
 import { Link, useNavigate } from 'react-router-dom';
 import { postSignupArchitectUsers } from '../../client/ArchitectUser/ArchitectUser.POST';
+import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
 import {
     FireError,
@@ -21,6 +22,7 @@ import {
     FireQuestion,
 } from '../../utils/alertHandler';
 import { setToken, setUserType, setArchitectUserSaved } from '../../utils/auth';
+import { resizeImage } from '../../utils/files';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 
 /**
@@ -58,7 +60,14 @@ const Signup = () => {
     const [municipalityOfLabor, setMunicipalityOfLabor] = useState('');
     const [positionsInCouncil, setPositionsInCouncil] = useState('');
     const [linkCV, setLinkCV] = useState('');
-    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('');
+    const [linkINE, setLinkINE] = useState('');
+    const [linkCAEQCard, setLinkCAEQCard] = useState('');
+    const [linkCURP, setLinkCURP] = useState('');
+    const [linkProfessionalLicense, setlinkProfessionalLicense] = useState('');
+    const [linkBachelorsDegree, setLinkBachelorsDegree] = useState('');
+    const [linkAddressCertificate, setLinkAddressCertificate] = useState('');
+    const [linkBirthCertificate, setLinkBirthCertificate] = useState('');
+    const [authorizationToShareInfo, setAuthorizationToShareInfo] = useState('NO');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setConfirmPassword] = useState(''); // Nuevo estado para la confirmación de contraseña
 
@@ -78,7 +87,6 @@ const Signup = () => {
      * Handles user registration when the form is submitted.
      * @param {Object} e - The form submit event object.
      */
-
     useEffect(() => {
         (async () => {
             try {
@@ -103,20 +111,38 @@ const Signup = () => {
         const dateBirth = new Date(dateOfBirth);
 
         if (dateAdmission > currentDate) {
-            FireError('Tu fecha de admisión no puede estar en el futuro.');
+            FireError('La fecha de admisión es inválida.');
             return;
         }
         if (dateBirth > currentDate) {
-            FireError('Tu fecha de nacimiento no puede estar en el futuro.');
+            FireError('La fecha de nacimiento es inválida.');
             return;
         }
 
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
-            FireError('Por favor ingresa un correo electrónico válido.');
+            FireError('Por favor ingrese un correo electrónico válido.');
             return;
         }
+
+        if (authorizationToShareInfo == null || authorizationToShareInfo === '') {
+            FireError('Por favor indique si autoriza compartir su información.');
+        }
+        const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
+
+        
+        // Reduce file size
+        let fileINE = linkINE;
+        if (!linkINE) {
+            FireError('Por favor adjunte una foto de su INE al derecho y al revés.');
+            return;
+        }
+        if (linkINE.type.includes('image') && 
+            linkINE?.size > 3000000) {
+            fileINE = await resizeImage(linkINE);
+        }   
+
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
             form.append(`specialties[${i}]`, specialty.value);
@@ -141,13 +167,14 @@ const Signup = () => {
         form.append('professionalLicense', professionalLicense);
         form.append('municipalityOfLabor', municipalityOfLabor);
         form.append('positionsInCouncil', positionsInCouncil);
-        form.append('file', linkCV);
-        const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
-        form.append('authorizationToShareInfo', isAuthorized);
-        form.append('password', password);
+        form.append('linkINE', fileINE);
         form.append('passwordConfirm', passwordConfirm);
+        form.append('password', password);
+        form.append('authorizationToShareInfo', isAuthorized);
 
-        // Check if user exists
+        const swal = FireLoading('Registrando arquitecto...');
+
+        //  Check if user exists
         let user = null;
         try {
             user = await getArchitectUserByColegiateNumber(collegiateNumber);
@@ -166,12 +193,11 @@ const Signup = () => {
 
         // Post user
         try {
-            const swal = FireLoading('Registrando arquitecto...');
             const response = await postSignupArchitectUsers(form);
 
             if (response.status === 'success' && response.statusCode === 201) {
                 const token = response.token;
-
+                user = response.data.user;
                 setUserType(token);
                 setToken(token);
                 setArchitectUserSaved(response.data.user);
@@ -185,8 +211,49 @@ const Signup = () => {
                 navigate('/');
             }
         } catch (error) {
-            FireError(error.response.data.message);
+            const message = error.response.data.message || 
+                            error.response.data.error || 
+                            'Error al crear usuario';
+            FireError(message);
+            return;
         }
+
+        // Post files
+        const filesToUpload = {linkCV, linkCURP, linkProfessionalLicense, linkCAEQCard,
+            linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate};
+        const errors = [];
+        for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
+            const fileName = Object.keys(filesToUpload)[i];
+            let file = filesToUpload[fileName];
+            
+            if (file) {
+                // If file size is over 5mb we have to compress it for the backend
+                if (file.type?.includes('image') && file.size > 3000000) {
+                    file = await resizeImage(file);
+                }
+
+                const formFile = new FormData();
+                formFile.append(fileName, file);
+                try {
+                    const response = await updateArchitectUserByID(user._id, formFile);
+                    if (response.status !== 'success')
+                        throw new Error('Error al subir archivo');
+                } catch (error) {
+                    console.error(error);
+                    errors.push(file.name);
+                }
+            }
+        }
+
+        if (errors.length > 0) {
+            FireError('Su cuenta se ha creado. Sin embargo, ' +
+                `ocurrió un error al subir los siguientes archivos:\n${errors.join('\n')}`);
+            return;
+        }
+
+        swal.close();
+        FireSucess('Te has registrado con éxito');
+        navigate('/Principal');
     };
 
     return (
@@ -363,9 +430,53 @@ const Signup = () => {
                                 setVal={setPositionsInCouncil}
                             />
                             <FileInput
-                                label='Suba su curriculum'
+                                require
+                                label='Adjuntar foto del INE (frente y reverso)'
+                                getVal={linkINE}
+                                setVal={setLinkINE}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Credencial CAEQ'
+                                getVal={linkCAEQCard}
+                                setVal={setLinkCAEQCard}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Currículum Vitae'
                                 getVal={linkCV}
                                 setVal={setLinkCV}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar CURP'
+                                getVal={linkCURP}
+                                setVal={setLinkCURP}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Cédula Profesional'
+                                getVal={linkProfessionalLicense}
+                                setVal={setlinkProfessionalLicense}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Título Profesional'
+                                getVal={linkBachelorsDegree}
+                                setVal={setLinkBachelorsDegree}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar comprobante de domicilio (no mayor a 3 meses)'
+                                getVal={linkAddressCertificate}
+                                setVal={setLinkAddressCertificate}
+                                accept='image/*,application/pdf'
+                            />
+                            <FileInput
+                                label='Adjuntar Acta de Nacimiento'
+                                getVal={linkBirthCertificate}
+                                setVal={setLinkBirthCertificate}
+                                accept='image/*,application/pdf'
                             />
                             <DropdownInput
                                 label='¿Autoriza compartir su información?'

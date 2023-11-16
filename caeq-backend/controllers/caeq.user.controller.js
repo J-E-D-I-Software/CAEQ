@@ -47,12 +47,7 @@ exports.acceptCaeqUser = catchAsync(async (req, res, next) => {
     try {
         await new Email(caeqUser).sendAdminAccepted();
     } catch (error) {
-        return next(
-            new AppError(
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido verificado.',
-                500
-            )
-        );
+        console.log(error);
     }
 
     res.status(200).json({
@@ -85,12 +80,7 @@ exports.rejectCaeqUser = catchAsync(async (req, res, next) => {
     try {
         await new Email(caeqUser).sendAdminRejected();
     } catch (error) {
-        return next(
-            new AppError(
-                'Hemos tenido problemas enviando un correo de verificacion. El usuario ha sido eliminado.',
-                500
-            )
-        );
+        console.log(error);
     }
 
     res.status(200).json({

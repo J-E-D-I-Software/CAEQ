@@ -26,7 +26,12 @@ const filesController = require('../controllers/files.controller');
 const fileParser = require('../utils/multipartParser');
 
 router.get('/public', getAllPublicArchitectUsers);
-router.post('/auth/signup', fileParser, filesController.formatCV, signUpArchitectUser);
+router.post(
+    '/auth/signup',
+    fileParser,
+    filesController.formatGenericFile,
+    signUpArchitectUser
+);
 router.post('/auth/login', loginArchitectUser);
 router.post('/forgot-password', forgotPasswordArchitectUser);
 router.patch('/reset-password/:token', resetPasswordArchitectUser);
@@ -46,7 +51,7 @@ router
         protect,
         restrictTo('caeq', 'self'),
         fileParser,
-        filesController.formatCV,
+        filesController.formatGenericFile,
         updateArchitectUser
     )
     .delete(protect, restrictTo('caeq', 'self'), deleteArchitectUser);

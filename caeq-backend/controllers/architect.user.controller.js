@@ -19,7 +19,7 @@ exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);
 /**
  * This is a function that gets all architects with authorizationToShareInfo set to true.
  */
-exports.getAllPublicArchitectUsers = async (req, res) => {
+exports.getAllPublicArchitectUsers = catchAsync(async (req, res) => {
     let query = ArchitectUser.find({
         authorizationToShareInfo: true,
     })

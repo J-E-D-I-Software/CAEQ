@@ -232,7 +232,7 @@ exports.loginArchitectUser = catchAsync(async (req, res, next) => {
     } else if (!(await user.correctPassword(password, user.password))) {
         return next(
             new AppError(
-                'Contraseña incorrecta. Intente de nuevo por favor. Si te registraste recientemente, por favor espera a que un administrador verifique tu perfil.',
+                'Contraseña incorrecta. Intente de nuevo por favor. Si te registraste recientemente, por favor espere a que un administrador verifique su perfil.',
                 401
             )
         );

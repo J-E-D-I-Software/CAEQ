@@ -23,3 +23,20 @@ export async function getSpecialties(collegiateNumber) {
         throw new Error('No se recibieron datos');
     }
 }
+/**
+ * Retrieves annuities information.
+ * @async
+ * @returns {Promise<Array>} - An array of annuities information.
+ * @throws {Error} - If no data is received.
+ */
+export async function getAnnuities() {
+    try {
+        const result = await axios.get(
+            `${baseApiEndpoint}/aggregations/get-annuities`
+        );
+        return result.data.data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('No se recibieron datos de anualidades');
+    }
+}

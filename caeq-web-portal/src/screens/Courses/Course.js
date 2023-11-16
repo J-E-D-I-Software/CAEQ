@@ -5,6 +5,7 @@ import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
 import { FireError, FireSucess, FireLoading, FireQuestion} from '../../utils/alertHandler';
 import { formatDate } from '../../utils/format';
+import { currencyFormat } from '../../utils/reusableFunctions';
 import BaseButton from '../../components/buttons/BaseButton';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import ClassroomIcon from '../../components/icons/Classroom.png';
@@ -108,7 +109,7 @@ const Course = (props) => {
             <div className="course-row">
                 <h1>{data.courseName}</h1>
                 <h2 className='course-price'>
-                    {data.price ? `$${data.price}` : 'Gratuito'}
+                    {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
                 </h2>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
@@ -216,7 +217,7 @@ const Course = (props) => {
                                     <hr></hr>
                                     <h3>Costo del Curso</h3>
                                     <h2 className='course-price'>
-                                        {data.price ? `$${data.price}` : 'Gratuito'}
+                                        {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
                                     </h2>
                                 <DropdownInput
                                     label='¿Requiere factura?'

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { getArchitectUserSaved } from '../../utils/auth';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
-import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import './Profile.scss';
+import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 /**
  * Renders the user's profile information, including personal data, CAEQ information, and professional information.
@@ -16,7 +16,8 @@ import './Profile.scss';
  * @returns {JSX.Element} - The JSX element representing the user's profile.
  */
 const Profile = (props) => {
-    const savedUser = getArchitectUserSaved();
+    const attendeesRef = useRef();
+    const SavedUser = getArchitectUserSaved();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
@@ -27,16 +28,23 @@ const Profile = (props) => {
         ? profile.dateOfBirth.split('T')[0].replace(/-/g, '/')
         : '';
     const normalDate = date.split('/').reverse().join('/');
+    const startDate = new Date(profile.dateOfAdmission);
+
+    const [selectedYear, setSelectedYear] = useState(null);
+
+    const handleYearClick = (year) => {
+        setSelectedYear((prevYear) => (prevYear === year ? null : year));
+    };
 
     const handleRoute = (id) => {
-        navigate(`/Perfil/${savedUser._id}`);
+        navigate(`/Perfil/${SavedUser._id}`);
     };
 
     const currentYear = new Date().getFullYear();
 
     useEffect(() => {
-        if (savedUser._id)
-            getArchitectUserById(savedUser._id)
+        if (SavedUser._id)
+            getArchitectUserById(SavedUser._id)
                 .then((response) => {
                     setProfile(response);
                     console.log(response);
@@ -47,9 +55,10 @@ const Profile = (props) => {
     useEffect(() => {
         (async () => {
             try {
-                const architectId = savedUser._id;
+                const architectId = SavedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
+                console.log('Asistencias', attendances);
 
                 let accreditedHours = await getCourseHours(savedUser._id);
                 setCourseHours(accreditedHours);
@@ -57,7 +66,7 @@ const Profile = (props) => {
                 console.error('Error al obtener asistencias por arquitecto', error);
             }
         })();
-    }, []);
+    }, [SavedUser._id]);
 
     let dobValue = new Date(profile.dateOfBirth);
     const currentDate = new Date();
@@ -72,13 +81,13 @@ const Profile = (props) => {
 
     return (
         <div className='profile'>
+            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <BaseButton type='primary' onClick={handleRoute}>
-                    Editar Datos de Perfil
+                    Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <h1>Datos Personales</h1>
             <div className='profile-row'>
                 <WhiteContainer>
                     <div className='profile-col'>
@@ -101,16 +110,16 @@ const Profile = (props) => {
                             <span>Dirección: </span>
                             {profile.homeAddress}
                         </p>
+                    </div>
+                    <div className='profile-col'>
                         <p>
-                            <span>Número Celular: </span>
+                            <span>Teléfono Celular: </span>
                             {profile.cellphone}
                         </p>
                         <p>
-                            <span>Teléfono de Casa: </span>
+                            <span>Teléfono Casa: </span>
                             {profile.homePhone}
                         </p>
-                    </div>
-                    <div className='profile-col'>
                         <p>
                             <span>Correo Electrónico: </span>
                             {profile.email}
@@ -175,6 +184,8 @@ const Profile = (props) => {
                             <span>Puesto en Consejo: </span>
                             {profile.positionsInCouncil}
                         </p>
+                    </div>
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
@@ -221,6 +232,7 @@ const Profile = (props) => {
                                 {currentYear - 2}: {profile[currentYear - 2]}
                             </p>
                         </p>
+
                         <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}
@@ -254,6 +266,12 @@ const Profile = (props) => {
                             {profile.university}
                         </p>
                         <p>
+                            <span>Link CV: </span>
+                            <a href={profile.linkCV}>Descargar</a>
+                        </p>
+                    </div>
+                    <div className='profile-col semi-col'>
+                        <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
                         </p>
@@ -265,8 +283,6 @@ const Profile = (props) => {
                                       .join(', ')
                                 : 'No especialidades'}
                         </p>
-                    </div>
-                    <div className='profile-col semi-col'>
                         <p>
                             <span>Municipio: </span>
                             {profile.municipalityOfLabor}
@@ -299,7 +315,7 @@ const Profile = (props) => {
                 </WhiteContainer>
             </div>
             <div>
-                <div>
+                <div ref={attendeesRef}>
                     <AttendancesComponent attendances={attendances} />
                 </div>
             </div>

@@ -96,7 +96,7 @@ const Directory = () => {
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
-        if (currentRights) filters += `&currentRights=${currentRights}`;
+        if (currentRights) filters += `&annuity=${currentRights}`;
 
         return filters;
     };

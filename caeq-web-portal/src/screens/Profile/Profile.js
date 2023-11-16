@@ -213,7 +213,6 @@ const Profile = (props) => {
                                 Anualidad pagada:{' '}
                                 {profile.annuity ? 'Sí' : 'No'}
                             </p>
-
                             {courseHours
                                 .filter(
                                     (courseHour) =>
@@ -225,13 +224,25 @@ const Profile = (props) => {
                                 .map((courseHour) => (
                                     <p>
                                         Horas de capacitación cumplidas en el
-                                        último año: {courseHour.value} horas
-                                        (Mín 40 hrs):{' '}
+                                        último año:
+                                        {courseHour.value} horas:{' '}
                                         {courseHour.value >= 40
                                             ? 'Sí cumple'
                                             : 'No cumple'}
                                     </p>
                                 ))}
+                            <p>
+                                Asistencias:
+                                {Object.keys(attendanceByYear)
+                                    .filter((year) => year == currentYear)
+                                    .map((year) => (
+                                        <p key={year}>
+                                            {year}:{' '}
+                                            {attendanceByYear[year] || 0}{' '}
+                                            asistencias
+                                        </p>
+                                    ))}
+                            </p>
                         </p>
                     </div>
                     <div className='profile-col semi-col'>
@@ -253,12 +264,14 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Asistencias por Año:</span>
-                            {Object.keys(attendanceByYear).map((year) => (
-                                <p key={year}>
-                                    {year}: {attendanceByYear[year] || 0}{' '}
-                                    asistencias
-                                </p>
-                            ))}
+                            {Object.keys(attendanceByYear)
+                                .slice(0, 3)
+                                .map((year) => (
+                                    <p key={year}>
+                                        {year}: {attendanceByYear[year] || 0}{' '}
+                                        asistencias
+                                    </p>
+                                ))}
                         </p>
                         <p>
                             <span>Fecha de Ingreso: </span>

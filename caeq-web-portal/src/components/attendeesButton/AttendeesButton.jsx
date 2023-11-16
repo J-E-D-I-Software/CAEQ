@@ -49,7 +49,7 @@ function AttendancesComponent({ attendances }) {
                                                 asistencia.idGathering.date
                                             );
 
-                                            date.setDate(date.getDate() + 1);
+                                        date.setDate(date.getDate() + 1);
 
                                             return (
                                                 <p key={asistencia._id}>

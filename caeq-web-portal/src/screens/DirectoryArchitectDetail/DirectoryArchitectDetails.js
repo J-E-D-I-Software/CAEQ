@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
@@ -13,6 +13,8 @@ import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
+import { resizeImage } from '../../utils/files';
 
 import {
     memberOptions,
@@ -24,7 +26,6 @@ import {
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
-    const navigate = useNavigate();
     const [data, setData] = useState({});
     const [editedData, setEditedData] = useState({});
 
@@ -33,6 +34,7 @@ const ArchitectDetail = (props) => {
     const [selectedSpecialties, setSelectedSpecialties] = useState([]);
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
+    const [courseHours, setCourseHours] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -67,9 +69,14 @@ const ArchitectDetail = (props) => {
 
                 setAvailableSpecialties(specialties);
 
-                let currentSpecialties = architect.specialties.map((specialty) => {
-                    return { label: specialty.name, value: specialty._id };
-                });
+                let currentSpecialties = architect.specialties.map(
+                    (specialty) => {
+                        return { label: specialty.name, value: specialty._id };
+                    }
+                );
+
+                const accreditedHours = await getCourseHours(searchParams.id);
+                setCourseHours(accreditedHours);
 
                 setSelectedSpecialties(currentSpecialties);
             } catch (error) {
@@ -104,10 +111,15 @@ const ArchitectDetail = (props) => {
             (async () => {
                 try {
                     const architectId = searchParams.id;
-                    const attendances = await getAttendancesByArchitect(architectId);
+                    const attendances = await getAttendancesByArchitect(
+                        architectId
+                    );
                     setAttendances(attendances);
                 } catch (error) {
-                    console.error('Error al obtener asistencias por arquitecto', error);
+                    console.error(
+                        'Error al obtener asistencias por arquitecto',
+                        error
+                    );
                 }
             })();
         }
@@ -142,7 +154,8 @@ const ArchitectDetail = (props) => {
         const form = new FormData();
         editedData.authorizationToShareInfo =
             editedData.authorizationToShareInfo === 'Si' ? true : false;
-        editedData.lifeInsurance = editedData.lifeInsurance === 'Si' ? true : false;
+        editedData.lifeInsurance =
+            editedData.lifeInsurance === 'Si' ? true : false;
         editedData.annuity = editedData.annuity === 'Si' ? true : false;
 
         if (selectedSpecialties.length > 0) {
@@ -159,7 +172,10 @@ const ArchitectDetail = (props) => {
         form.append('collegiateNumber', editedData.collegiateNumber);
         form.append('memberType', editedData.memberType);
         form.append('classification', editedData.classification);
-        form.append('mainProfessionalActivity', editedData.mainProfessionalActivity);
+        form.append(
+            'mainProfessionalActivity',
+            editedData.mainProfessionalActivity
+        );
         form.append('dateOfAdmission', editedData.dateOfAdmission);
         form.append('professionalLicense', editedData.professionalLicense);
         form.append('capacitationHours', editedData.capacitationHours);
@@ -167,21 +183,55 @@ const ArchitectDetail = (props) => {
         form.append('municipalityOfLabor', editedData.municipalityOfLabor);
         form.append('annuity', editedData.annuity);
         form.append('positionsInCouncil', editedData.positionsInCouncil);
-        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append(
+            'authorizationToShareInfo',
+            editedData.authorizationToShareInfo
+        );
         form.append('file', editedData.linkCV);
+        form.append('authorizationToShareInfo', editedData.authorizationToShareInfo);
+        form.append('linkINE', editedData.linkINE);
         form.append('lifeInsurance', editedData.lifeInsurance);
         form.append('lifeInsureID', editedData.lifeInsureID);
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(searchParams.id, form);
+            const response = await updateArchitectUserByID(
+                searchParams.id,
+                form
+            );
             setData(response.data);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);
+            return;
         }
+
+        const filesToUpload = ['linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
+        'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
+        for (const field of filesToUpload) {
+            const file = editedData[field];
+            if (file) {
+                // If file size is over 5mb we have to compress it for the backend
+                if (file.type?.includes('image') && file.size > 3000000) {
+                    file = await resizeImage(file);
+                }
+                const formFile = new FormData();
+                formFile.append(field, file);
+                try {
+                    await updateArchitectUserByID(searchParams.id, formFile);
+                } catch (error) {
+                    swal.close();
+                    FireError(`Error al subir el archivo ${field}`);
+                    return;
+                }
+            }
+        }
+
+        swal.close();
+        FireSucess('Los Cambios se han guardado correctamente');
+
     };
 
     /**
@@ -240,8 +290,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    Modifique la información que sea necesaria. Al terminar, haz clic en
-                    guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, haz
+                    clic en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>
@@ -345,9 +395,6 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-                </div>
-
-                <div className='architect-col'>
                     <DropdownInput
                         label='Autorización para compartir información'
                         placeholder={editedData.authorizationToShareInfo}
@@ -406,7 +453,6 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
-
                     <TextInput
                         label='Posiciones en Consejo'
                         placeholder='Posiciones en Consejo'
@@ -418,6 +464,29 @@ const ArchitectDetail = (props) => {
                             })
                         }
                     />
+                </div>
+
+                <div className='architect-col'>
+                    <FileInput
+                        label='INE'
+                        getVal={editedData.linkINE}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkINE: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkINE ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkINE}>
+                                <span>Descargar INE</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un INE registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
                     <FileInput
                         label='Curriculum Vitae'
                         placeholder='CV'
@@ -438,18 +507,167 @@ const ArchitectDetail = (props) => {
                             <span>No hay CV registrado. ¡Sube uno!</span>
                         </p>
                     )}
+                    <FileInput
+                        label='Credencial CAEQ'
+                        getVal={editedData.linkCAEQCard}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCAEQCard: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkCAEQCard ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkCAEQCard}>
+                                <span>Descargar tarjeta de CAEQ</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay una tarjeta de CAEQ registrada. ¡Sube una!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='CURP'
+                        getVal={editedData.linkCURP}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkCURP: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkCURP ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkCURP}>
+                                <span>Descargar CURP</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un CURP registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Cédula Profesional'
+                        getVal={editedData.linkProfessionalLicense}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkProfessionalLicense: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkProfessionalLicense ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkProfessionalLicense}>
+                                <span>Descargar cédula profesional</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay una cédula profesional registrada. ¡Sube una!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Título Profesional'
+                        getVal={editedData.linkBachelorsDegree}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBachelorsDegree: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkBachelorsDegree ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkBachelorsDegree}>
+                                <span>Descargar título profesional</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay un título registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Comprobante de domicilio (no mayor a 3 meses)'
+                        getVal={editedData.linkAddressCertificate}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkAddressCertificate: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkAddressCertificate ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkAddressCertificate}>
+                                <span>Descargar comprobante de domicilio</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay comprobante de domicilio registrado. ¡Sube uno!</span>
+                        </p>
+                    )}
+                    <FileInput
+                        label='Acta de Nacimiento'
+                        getVal={editedData.linkBirthCertificate}
+                        setVal={(value) =>
+                            setEditedData({ ...editedData, linkBirthCertificate: value })
+                        }
+                        accept='image/*,application/pdf'
+                    />
+                    {editedData.linkBirthCertificate ? (
+                        <p>
+                            Archivo Actual:
+                            <a href={editedData.linkBirthCertificate}>
+                                <span>Descargar acta de nacimiento</span>
+                            </a>
+                        </p>
+                    ) : (
+                        <p>
+                            <span>No hay acta de nacimiento registrada. ¡Sube una!</span>
+                        </p>
+                    )}
                 </div>
+            </div>
+            <div className='architect-row'>
+                <BaseButton
+                    type='primary'
+                    className='button'
+                    onClick={handleSaveChanges}
+                >
+                    Guardar Cambios
+                </BaseButton>
             </div>
             <div>
                 <div>
                     <AttendancesComponent attendances={attendances} />
                 </div>
             </div>
-
-            <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
-                    Guardar Cambios
-                </BaseButton>
+            <div>
+                <p>
+                    <h1>Horas Acreditadas</h1>
+                    <div></div>
+                    {courseHours
+                        .sort((prev, next) => next.endYear - prev.endYear)
+                        .map((courseHour) => (
+                            <p className='list-data'>
+                                <span className='list-data-year'>
+                                    {courseHour.startYear} -{' '}
+                                    {courseHour.endYear}
+                                </span>{' '}
+                                : {courseHour.value} horas
+                            </p>
+                        ))}
+                </p>
+                <h3>
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo
+                    del año siguiente.
+                </h3>
+                <h3>
+                    (i) Para modificar las horas de un colegiado, debe acceder
+                    al curso, completar sus asistencias y terminar el curso para
+                    que le sean sumadas.
+                </h3>
             </div>
         </div>
     );

@@ -1,4 +1,5 @@
 var express = require('express');
+const { myCourseHours } = require('../controllers/inscription.controller');
 var router = express.Router();
 
 const {
@@ -14,6 +15,7 @@ const {
     restrictTo,
 } = require(`${__dirname}/../controllers/auth.controller.js`);
 
+router.route('/myCourseHours/:id').get(myCourseHours);
 router.use(protect);
 router.route('/inscribeTo').post(restrictTo('architect'), inscribeTo);
 router.route('/myInscriptions').get(restrictTo('architect'), myInscriptions);

@@ -1,0 +1,48 @@
+.registration-card {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    width: 45%;
+    max-height: 600px;
+    overflow: auto;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 4px 7px 15px 0px rgba(0, 0, 0, 0.35);
+
+    .registration-card-info {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+        }
+
+        .registration-card-details {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            overflow: auto;
+
+            @media screen and (max-width: 768px) {
+                width: 100%;
+            }
+
+            p {
+                align-self: flex-start;
+                margin-left: 15px;
+            }
+        }
+    }
+
+    .admin-card-buttons {
+        align-self: end;
+        height: 57px;
+    }
+
+    img {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+}

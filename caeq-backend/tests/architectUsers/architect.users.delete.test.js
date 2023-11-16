@@ -14,7 +14,7 @@ const testDeleteArchitect = async () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual('Inválido _id: 3454534534');
 
-    let user = User.findOne({ email: 'jcastr@tec.mx' });
+    let user = User.findOne({ email: 'josh152002@outlook.com' });
     user.getFilter();
     user = await user.exec();
     res = await agent.delete(`${endpoint}/${user._id}`).send();

@@ -256,7 +256,7 @@ const Profile = (props) => {
                     <div className='profile-col semi-col'>
                         <p>
                             <span>Municipio: </span>
-                            list' {profile.municipalityOfLabor}
+                            {profile.municipalityOfLabor}
                         </p>
                         <p>
                             <span>Currículum Vitae (CV): </span>

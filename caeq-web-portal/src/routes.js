@@ -154,8 +154,8 @@ const routes = [
         roles: ['caeq'],
     },
     {
-        path: '/Admins',
-        name: 'Admins',
+        path: '/Usuarios',
+        name: 'Usuarios',
         icon: AdminIcon,
         iconWhite: AdminIconWhite,
         Component: AcceptAdmin,

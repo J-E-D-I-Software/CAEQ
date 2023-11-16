@@ -5,6 +5,7 @@ import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
 import { FireError, FireSucess, FireLoading, FireQuestion} from '../../utils/alertHandler';
 import { formatDate } from '../../utils/format';
+import { currencyFormat } from '../../utils/reusableFunctions';
 import BaseButton from '../../components/buttons/BaseButton';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import ClassroomIcon from '../../components/icons/Classroom.png';

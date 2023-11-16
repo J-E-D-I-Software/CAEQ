@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom';
  * // Example usage of AcceptAdmin:
  * <AcceptAdmin />
  */
-const AcceptAdmin = () => {
+const AcceptPayment = () => {
     const [payments, setPayments] = useState([]);
     const navigate = useNavigate();
 
@@ -154,4 +154,4 @@ const AcceptAdmin = () => {
     );
 };
 
-export default AcceptAdmin;
+export default AcceptPayment;

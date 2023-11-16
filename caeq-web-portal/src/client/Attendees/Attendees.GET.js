@@ -11,7 +11,6 @@ export async function getAllAttendees(page = 1, filtersParams = '') {
     let endpoint = `${baseApiEndpoint}/attendees?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
     const response = await axios.get(endpoint);
 
-    console.log('Respuesta de getAllAttendees:', response.data.data.documents);
     return response.data.data.documents;
 }
 
@@ -33,6 +32,14 @@ export async function getAttendee(id) {
 export async function getAttendancesByArchitect(idArchitect) {
     let endpoint = `${baseApiEndpoint}/attendees/architect/${idArchitect}`;
     const response = await axios.get(endpoint);
-    
     return response.data.data.attendees;
 }
+
+
+export async function getAttendeesMostRecentYears(idArchitect) {
+    let endpoint = `${baseApiEndpoint}/attendees/directory/${idArchitect}`;
+    const response = await axios.get(endpoint);
+
+    return response.data.data
+}
+

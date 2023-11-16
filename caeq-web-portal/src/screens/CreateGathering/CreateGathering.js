@@ -112,6 +112,7 @@ const CreateGathering = () => {
                         label='Título de asamblea'
                         getVal={data.title}
                         setVal={(value) => updateData('title', value)}
+                        maxLength={60}
                     />
                     <DateInput
                         label='Día de la semana'
@@ -130,6 +131,7 @@ const CreateGathering = () => {
                         getVal={data.meetingTime}
                         setVal={(value) => updateData('meetingTime', value)}
                         placeholder='5:00PM a 6:00pm'
+                        maxLength={30}
                     />
                     <FileInput
                         label='Convocatoria'

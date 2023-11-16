@@ -1,55 +1,91 @@
-import BaseButton from '../../components/buttons/BaseButton';
-import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
-import TextInput from '../../components/inputs/TextInput/TextInput';
-import InscriptionCard from '../../components/cards/InscriptionCard';
-import PaginationNav from '../../components/pagination/PaginationNav';
-import './MyInscriptions.scss';
-import { FireError } from '../../utils/alertHandler';
-import { useState, useEffect } from 'react';
-import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
-import { getAttendee } from '../../client/Attendee/Attendee.GET';
-import { getAllSessions, getSession } from '../../client/Course/Session.GET';
-import { useNavigate } from 'react-router-dom';
-import CourseAttendee from '../../components/table/courseAttendee';
-import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
-
+import BaseButton from "../../components/buttons/BaseButton";
+import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
+import TextInput from "../../components/inputs/TextInput/TextInput";
+import InscriptionCard from "../../components/cards/InscriptionCard";
+import PaginationNav from "../../components/pagination/PaginationNav";
+import "./MyInscriptions.scss";
+import { FireError } from "../../utils/alertHandler";
+import { useState, useEffect } from "react";
+import { getMyInscriptionswithSessions } from "../../client/Inscription/Inscription.GET";
+import { getAttendee } from "../../client/Attendee/Attendee.GET";
+import { getAllSessions, getSession } from "../../client/Course/Session.GET";
+import { useNavigate } from "react-router-dom";
+import CourseAttendee from "../../components/table/courseAttendee";
+import RestrictByRole from "../../components/restrictAccess/RestrictByRole";
 
 const InscriptionAsistance = (props) => {
-    const [asistance, setAsistance] = useState([]);
-    const [filterModality, setFilterModality] = useState('');
-    const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [paginationPage, setPaginationPage] = useState(1);
-    //const [orderBy, setOrderBy] = useState('modality');
-    const navigate = useNavigate();
+  const [architectUsers, setArchitectUsers] = useState([]);
+  const [session, setSession] = useState([]);
+  const [inscriptions, setInscriptions] = useState([]);
+  const [filterModality, setFilterModality] = useState("");
+  const [filterSearchByName, setFilterSearchByName] = useState("");
+  const [paginationPage, setPaginationPage] = useState(1);
+  const space =
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0" +
+    "\u00A0";
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let filters = '';
-            if (filterSearchByName) filters = `courseName[regex]=${filterSearchByName}`;
-            if (filterModality) filters += `&modality=${filterModality}`;
+  //const [orderBy, setOrderBy] = useState('modality');
+  const navigate = useNavigate();
 
-            const dataInscriptions = await getMyInscriptions(paginationPage, filters);
-            const dataAttendees = await getAttendee(asistance);
-            setAsistance(asistance);
-        };
-        try {
-            fetchData();
-        } catch (error) {
-            FireError(error.response.data.message);
-        }
-    }, [filterSearchByName, filterModality /*orderBy*/]);
+  useEffect(() => {
+    const fetchData = async () => {
+      let filters = "";
+      if (filterSearchByName)
+        filters = `courseName[regex]=${filterSearchByName}`;
+      if (filterModality) filters += `&modality=${filterModality}`;
 
-    return (
-        <div classname="course">
-            <div className="course-row">
-                <div className='box-container'>
-                    <courseAttendee
-                        data={asistance}
-                    />
-                </div>
-            </div>
+      const data = await getMyInscriptionswithSessions(paginationPage, filters);
+      setSession(data.sessions);
+      setInscriptions(data.document);
+    };
+    try {
+      fetchData();
+    } catch (error) {
+      FireError(error.response.data.message);
+    }
+  }, [filterSearchByName, filterModality]);
+
+  return (
+    <div className="course">
+      {" "}
+      {/* Cambié "classname" a "className" */}
+      <div className="inscription-row">
+        <h1>Asistencias a mis cursos Inscritos</h1>
+      </div>
+      {inscriptions.map((inscription) => (
+        <div className="box-container">
+          <div className="course-row">
+            <CourseAttendee
+              hours={inscription.course.numberHours}
+              course={inscription.course.courseName}
+              userId={inscription.user}
+              data={session.filter(
+                (session) => session.course == inscription.course._id
+              )}
+            />
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default InscriptionAsistance;

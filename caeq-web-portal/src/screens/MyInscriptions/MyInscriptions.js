@@ -49,7 +49,7 @@ const MyInscription = (props) => {
             </div>
             <div className="courses--row courses__filters">
                 <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton type="primary" onClick={() => navigate('/MisCursos')}>
+                    <BaseButton type="primary" onClick={() => navigate('/AsistenciasCursos')}>
                         Mis Asistencias a cursos
                     </BaseButton>
                 </RestrictByRole>

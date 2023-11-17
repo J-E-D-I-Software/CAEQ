@@ -6,10 +6,30 @@
     p {
         color: #b67d02;
         font-weight: 600;
+        text-decoration: underline;
     }
 
     p:hover { 
         cursor: pointer;
         color: #543f10;
+    }
+
+    .disabled {
+        color: #a3a3a3;
+        text-decoration: none;
+    }
+    
+    .disabled:hover {
+        color: #a3a3a3;
+        cursor: default;
+    }
+
+    .pagination__curent-page {
+        text-decoration: none;
+    }
+
+    .pagination__curent-page:hover {
+        cursor: default;
+        color: #b67d02;
     }
 }

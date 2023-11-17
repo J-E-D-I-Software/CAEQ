@@ -162,27 +162,27 @@ const Course = (props) => {
                     <img src={SatisfactionIcon} height={40} />
                     <span>
                         <p>Reseña</p>
-                        {data.teacherReview}
+                        <p className='course-review'>
+                            {data.teacherReview}
+                        </p>
                     </span>
                 </div>
                 <div className="course-row course-time">
                     <img src={CalendarIcon} height={40} />
                     {startDate && endDate && (
-                        <>
+                        <p>
                             <p>
-                                <span>
                                     Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
-                                </span>
                             </p> 
                             <p>
-                                <span>
                                     Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
-                                </span>
                             </p>
-                        </>
+                        </p>
                     )}
-                    <span>{data.daysOfSession}</span>
-                    <span>{data.schedule}</span>
+                </div>
+                <div>
+                    <p>{data.daysOfSession}</p>
+                    <p>{data.schedule}</p>
                 </div>
             </div>
             <div></div>

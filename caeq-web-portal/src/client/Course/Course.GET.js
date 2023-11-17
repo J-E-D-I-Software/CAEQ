@@ -1,7 +1,7 @@
 import axios from 'axios';
 import baseApiEndpoint from '../backendConfig';
 
-const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 10;
+const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 12;
 
 /**
  * It makes a GET request to the endpoint `/courses` and returns the response data.

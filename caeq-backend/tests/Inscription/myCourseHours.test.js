@@ -25,9 +25,6 @@ const testGetCourseHours = async () => {
     courses.getFilter();
     courses = await courses.exec();
 
-    const courseId = courses[0]._id; // Replace with the actual course ID
-    const endpoint = `/inscription/myCourseHours/${courseId}`;
-
     // Assuming you have a specific email to find an ArchitectUser
     const userEmail = 'relisib653@mugadget.com';
     const user = await ArchitectUser.findOne({ email: userEmail }).exec();
@@ -36,6 +33,7 @@ const testGetCourseHours = async () => {
     if (!user) {
         throw new Error(`User with email ${userEmail} not found.`);
     }
+    const endpoint = `/inscription/myCourseHours/${user._id}`;
 
     const res = await agent.get(endpoint).send();
 

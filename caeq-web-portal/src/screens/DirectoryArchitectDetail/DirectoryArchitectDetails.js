@@ -181,8 +181,7 @@ const ArchitectDetail = (props) => {
 
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
-            const response = await updateArchitectUserByID(searchParams.id, form);
-            setData(response.data);
+            await updateArchitectUserByID(searchParams.id, form);
             swal.close();
             FireSucess('Los Cambios se han guardado correctamente');
         } catch (error) {
@@ -285,7 +284,7 @@ const ArchitectDetail = (props) => {
                 </h2>
             </div>
             <div className='architect-row'>
-                <h1>{data.fullName}</h1>
+                <h1>{data?.fullName}</h1>
             </div>
 
             <div className='architect-row'>
@@ -646,14 +645,24 @@ const ArchitectDetail = (props) => {
                     <div></div>
                     {courseHours
                         .sort((prev, next) => next.endYear - prev.endYear)
-                        .map((courseHour) => (
-                            <p className='list-data'>
-                                <span className='list-data-year'>
-                                    {courseHour.startYear} - {courseHour.endYear}
-                                </span>{' '}
-                                : {courseHour.value} horas
-                            </p>
-                        ))}
+                        .map((courseHour) =>
+                            courseHour.startYear === 2023 ? (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas ({data.capacitationHours}{' '}
+                                    registradas anteriormente)
+                                </p>
+                            ) : (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas
+                                </p>
+                            )
+                        )}
                 </p>
                 <h3>
                     (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año

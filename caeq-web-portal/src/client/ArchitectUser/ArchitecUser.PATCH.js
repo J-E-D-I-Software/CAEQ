@@ -46,7 +46,7 @@ export async function updateArchitectUserByID(id, data) {
             Authorization: `Bearer ${getToken()}`,
         },
     });
-    return response.data;
+    return response.data.data.document;
 }
 
 /**

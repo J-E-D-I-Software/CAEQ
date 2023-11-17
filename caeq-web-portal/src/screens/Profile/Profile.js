@@ -334,23 +334,28 @@ const Profile = (props) => {
                     <div></div>
                     {courseHours
                         .sort((prev, next) => next.endYear - prev.endYear)
-                        .map((courseHour) => (
-                            <p className='list-data'>
-                                <span className='list-data-year'>
-                                    {courseHour.startYear} - {courseHour.endYear}
-                                </span>{' '}
-                                : {courseHour.value} horas
-                            </p>
-                        ))}
+                        .map((courseHour) =>
+                            courseHour.startYear === 2023 ? (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas (
+                                    {profile.capacitationHours} registradas anteriormente)
+                                </p>
+                            ) : (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas
+                                </p>
+                            )
+                        )}
                 </p>
                 <h3>
                     (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año
                     siguiente.
-                </h3>
-                <h3>
-                    (i) Para modificar las horas de un colegiado, debe acceder al curso,
-                    completar sus asistencias y terminar el curso para que le sean
-                    sumadas.
                 </h3>
             </div>
         </div>

@@ -3,7 +3,6 @@ import BaseButton from '../buttons/BaseButton';
 import './AttendeesButton.scss';
 
 function AttendancesComponent({ attendances }) {
-    console.log(attendances);
     const [selectedYear, setSelectedYear] = useState(null);
 
     const handleYearClick = (year) => {

@@ -16,6 +16,7 @@ const PublicDirectory = () => {
     const [architectUsers, setArchitectUsers] = useState([]);
     const [getArchitect, setArchitect] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
 
     useEffect(() => {
         (async () => {
@@ -39,6 +40,15 @@ const PublicDirectory = () => {
                     filters
                 );
                 setArchitectUsers(architects);
+                if (paginationPage === 1 && architects.length)
+                    setPaginationEnabled([false, true]);
+                else if (paginationPage === 1 && !architects.length)
+                    setPaginationEnabled([false, false]);
+                else if (paginationPage > 1 && !architects.length)
+                    setPaginationEnabled([true, false]);
+                else if (paginationPage > 1 && architects.length)
+                    setPaginationEnabled([true, true]);
+                else setPaginationEnabled([true, true]);
             } catch (error) {}
         })();
     }, [paginationPage]);
@@ -86,6 +96,8 @@ const PublicDirectory = () => {
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
                     page={paginationPage}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]}
                 />
             </div>
         </div>

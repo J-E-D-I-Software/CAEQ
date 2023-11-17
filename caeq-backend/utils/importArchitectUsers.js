@@ -15,8 +15,10 @@ const importArchitectGatheringsData = require('./importArchitectGatherings');
 async function importArchitectData(
     csvFilePath,
     importGatherings = true,
-    saveErrors = false
+    saveErrors = false,
+    importArchitectCapacitationHours = () => {}
 ) {
+    console.log('Loading new users');
     // Define mapping
     const mappingScheme = {
         collegiateNumber: 1,
@@ -183,6 +185,7 @@ async function importArchitectData(
                 }
 
                 if (importGatherings) importArchitectGatheringsData(csvFilePath);
+                if (importArchitectCapacitationHours) importArchitectCapacitationHours();
             });
         });
 }

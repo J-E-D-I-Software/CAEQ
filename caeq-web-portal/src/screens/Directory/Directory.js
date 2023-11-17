@@ -94,7 +94,7 @@ const Directory = () => {
         if (birthInitial) filters += `&dateOfBirth[gte]=${birthInitial}`;
         if (birthFinal) filters += `&dateOfBirth[lte]=${birthFinal}`;
         if (specialty) filters += `&specialties=${specialty}`;
-        if (currentRights) filters += `&annuity=${currentRights}`;
+        if (currentRights) filters += `&rights=${currentRights}`;
 
         return filters;
     };
@@ -111,31 +111,7 @@ const Directory = () => {
                     effectiveOrderBy
                 );
 
-                const mostRecentYearAttendances = await Promise.all(
-                    architects.map(async (architect) => {
-                        const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-                        
-                        const myCourseHours = {}
-                        const currentYear = new Date().getFullYear();
-                        const courseHours = await getCourseHours(architectId);
-                        myCourseHours[`cursos${currentYear}`] = 0;
-                        myCourseHours[`cursos${currentYear - 1}`] = 0;
-                        myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach(courseHour => {
-                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
-                            }
-                        });
-
-                        
-                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
-
-                        return architect;
-                    })
-                );
-
-                setArchitectUsers(mostRecentYearAttendances);
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
@@ -180,7 +156,7 @@ const Directory = () => {
                 );
 
                 if (paginationPage === 1 && architects.length)
-                setPaginationEnabled([false, true]);
+                    setPaginationEnabled([false, true]);
                 else if (paginationPage === 1 && !architects.length)
                     setPaginationEnabled([false, false]);
                 else if (paginationPage > 1 && !architects.length)
@@ -188,31 +164,8 @@ const Directory = () => {
                 else if (paginationPage > 1 && architects.length)
                     setPaginationEnabled([true, true]);
                 else setPaginationEnabled([true, true]);
-                
-                const mostRecentYearAttendances = await Promise.all(
-                    architects.map(async (architect) => {
-                        const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-                        
-                        const myCourseHours = {}
-                        const currentYear = new Date().getFullYear();
-                        const courseHours = await getCourseHours(architectId);
-                        myCourseHours[`cursos${currentYear}`] = 0;
-                        myCourseHours[`cursos${currentYear - 1}`] = 0;
-                        myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach(courseHour => {
-                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
-                            }
-                        });
-                        
-                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
 
-                        return architect;
-                    })
-                );
-
-                setArchitectUsers(mostRecentYearAttendances);
+                setArchitectUsers(architects);
             } catch (error) {
                 // Handle error
             }
@@ -254,24 +207,7 @@ const Directory = () => {
         const filters = calculateFilters();
         const architects = await getAllArchitectUsers(1, filters, 100000);
 
-        const architectsDownload = await Promise.all(architects.map(async (val) => {
-            const architectId = val._id;
-            const recentYears = await getAttendeesMostRecentYears(architectId);
-
-            const myCourseHours = {}
-            const currentYear = new Date().getFullYear();
-            const courseHours = await getCourseHours(architectId);
-            myCourseHours[`cursos${currentYear}`] = 0;
-            myCourseHours[`cursos${currentYear - 1}`] = 0;
-            myCourseHours[`cursos${currentYear - 2}`] = 0;
-            courseHours.forEach(courseHour => {
-                if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                    myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
-                }
-            });
-                
-            val = {...val, ...recentYears.yearCount, ...myCourseHours};
-             
+        const architectsDownload = architects.map((val) => {
             delete val._id;
 
             // Create a new object with mapped headers
@@ -299,7 +235,7 @@ const Directory = () => {
             }
 
             return mappedObject;
-        }));
+        });
 
         swal.close();
         FireSucess('La descarga se iniciará en breve.');
@@ -312,7 +248,7 @@ const Directory = () => {
         // You need to replace this with your actual logic
         return architect['some_data'] * number;
     };
-    
+
     const calculateCoursesAssistances = (architect, number) => {
         // Example: Calculate courses assistance based on the architect's data
         // You need to replace this with your actual logic

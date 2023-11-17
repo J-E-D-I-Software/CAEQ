@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const Attendees = require('./attendees.model');
+const Gatherings = require('./gathering.model');
+const Inscription = require('./inscription.model');
+const DateRange = require('../utils/dateRangeMap');
+const catchAsync = require('../utils/catchAsync');
 
 // UPDATE TEST DATA AFTER UPDATING ARCHITECT MODEL
 const ArchitectUserSchema = new mongoose.Schema({
@@ -147,6 +152,13 @@ const ArchitectUserSchema = new mongoose.Schema({
     capacitationHours: {
         type: Number,
         default: 0,
+        validate: {
+            // we want equal passwords
+            validator: function (value) {
+                return value >= 0;
+            },
+            message: 'Por favor ingresa un número positivo.',
+        },
     },
     annuity: {
         type: Boolean,
@@ -201,6 +213,9 @@ const ArchitectUserSchema = new mongoose.Schema({
     isRequest: {
         type: Boolean,
         default: false,
+    },
+    rights: {
+        type: Boolean,
     },
 });
 
@@ -276,17 +291,132 @@ ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     return false;
 };
 
-/** This method defines a virtual property "annuity" for the architects user model*/
-ArchitectUserSchema.virtual('currentRights').get(function () {
-    const capacitationHours = this.capacitationHours || 0;
-    const annuity = this.annuity || false;
+/**
+ * Retrieves the accredited hours of a user based on their inscriptions and capacitation hours.
+ * @async
+ * @function getUserAccreditedHours
+ * @param {string} id - The ID of the user to retrieve the accredited hours for.
+ * @returns {Array} An array of objects representing the accredited hours for each year.
+ */
+ArchitectUserSchema.methods.getUserAccreditedHours = async (id) => {
+    const inscriptions = await Inscription.find({
+        user: id,
+    }).populate('course user');
 
-    // Check if capacitationHours are from 40 to beyond and annuity is true
-    if (capacitationHours >= 40 && annuity) {
-        return true;
+    const dateMap = new DateRange();
+
+    inscriptions.forEach((inscription) => {
+        if (inscription.accredited == true) {
+            dateMap.add(inscription.course.endDate, inscription.course.numberHours);
+        }
+    });
+
+    const user = await ArchitectUser.findById(id);
+
+    dateMap.add(new Date(2023, 3, 15), user.capacitationHours);
+
+    const allYears = dateMap.getYears();
+    return allYears;
+};
+
+/** This method defines a virtual property "annuity" for the architects user model*/
+ArchitectUserSchema.virtual('currentRights').get(async function () {
+    try {
+        const capacitationHours = await this.getUserAccreditedHours(this._id);
+
+        // Calculate the date range for the last year
+        const lastYearDate = new Date();
+        lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
+
+        // Find gatherings from the last year
+        const gatherings = await Gatherings.find({
+            date: { $gte: lastYearDate },
+        });
+        const gatheringIds = gatherings.map((gathering) => gathering._id);
+
+        // Find attendee documents for the specific user and gatherings from the last year
+        const lastYearAttended = await Attendees.find({
+            idArchitect: this._id,
+            idGathering: { $in: gatheringIds },
+        });
+
+        // console.log('USER', lastYearAttended, capacitationHours);
+
+        const totalGatheringAttendees = lastYearAttended.length;
+        const totalGatheringAttendeesPresential = lastYearAttended.filter(
+            (attendance) => attendance.modality == 'Presencial'
+        ).length;
+
+        const thisYearTotalCapacitationHours = capacitationHours.filter(
+            (capacitationHour) => capacitationHour.startYear == new Date().getFullYear()
+        )[0].value;
+
+        const annuity = this.annuity || false;
+
+        // Check if capacitationHours are from 40 to beyond if there are 5 attendances in the last year
+        // and at least 3 of them are presential and if the user is has payed the annuity
+        if (
+            this.specialties.length > 0 &&
+            thisYearTotalCapacitationHours >= 40 &&
+            totalGatheringAttendees >= 5 &&
+            totalGatheringAttendeesPresential >= 3 &&
+            annuity == true
+        ) {
+            return true;
+        } else if (
+            this.specialties.length == 0 &&
+            thisYearTotalCapacitationHours >= 20 &&
+            totalGatheringAttendees >= 5 &&
+            totalGatheringAttendeesPresential >= 3 &&
+            annuity == true
+        ) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.log(error);
+        return false;
     }
-    return false;
 });
+
+/** This method defines a virtual property "totalHours" for the architects user model*/
+ArchitectUserSchema.virtual('totalHours').get(async function () {
+    const capacitationHours = await this.getUserAccreditedHours(this._id);
+
+    const thisYearTotalCapacitationHours = capacitationHours.filter(
+        (capacitationHour) => capacitationHour.startYear == new Date().getFullYear()
+    )[0].value;
+
+    return thisYearTotalCapacitationHours;
+});
+
+/** This method defines a virtual property "totalHours" for the architects user model*/
+ArchitectUserSchema.virtual('lastYearAttendees').get(async function () {
+    // Calculate the date range for the last year
+    const lastYearDate = new Date();
+    lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
+
+    // Find gatherings from the last year
+    const gatherings = await Gatherings.find({
+        date: { $gte: lastYearDate },
+    });
+    const gatheringIds = gatherings.map((gathering) => gathering._id);
+
+    // Find attendee documents for the specific user and gatherings from the last year
+    const lastYearAttended = await Attendees.find({
+        idArchitect: this._id,
+        idGathering: { $in: gatheringIds },
+    });
+
+    const totalGatheringAttendees = lastYearAttended.length;
+    const totalGatheringAttendeesPresential = lastYearAttended.filter(
+        (attendance) => attendance.modality == 'Presencial'
+    ).length;
+
+    return { totalGatheringAttendeesPresential, totalGatheringAttendees };
+});
+
+ArchitectUserSchema.set('toJSON', { virtuals: true });
 
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
 

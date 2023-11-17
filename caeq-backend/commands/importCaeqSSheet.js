@@ -5,13 +5,17 @@ const importArchitectData = require('../utils/importArchitectUsers');
 dotenv.config({ path: './.env' });
 const saveImportErrors = process.argv.includes('--saveImportErrors') || false;
 const importGatherings = process.argv.includes('--importGatherings') || false;
-const filePath = process.env.ARCHITECTS_DATA_FILEPATH || './models/data/RELACION CAEQ 2022-2023.csv';
+const importHours = process.argv.includes('--importHours') || false;
+const filePath =
+    process.env.ARCHITECTS_DATA_FILEPATH || './models/data/RELACION CAEQ 2022-2023.csv';
+const filePathHours =
+    process.env.ARCHITECTS_HOURS || './models/data/BASE DE DATOS MAY 2023.xlsx';
 
 if (process.env.NODE_ENV !== 'development') {
     let DB = process.env.DATABASE_CONNECTION.replace(
-        '<password>', 
+        '<password>',
         process.env.DATABASE_PASSWORD
-        ).replace('<user>', process.env.DATABASE_USER);
+    ).replace('<user>', process.env.DATABASE_USER);
 
     if (process.env.NODE_ENV === 'production') {
         DB = DB.replace('<database>', process.env.DATABASE_NAME_PROD);

@@ -58,7 +58,7 @@ const architectUserTestData = [
         specialty: 'DUYA',
         positionsInCouncil: 'Presidente',
         capacitationHours: 120,
-        annuity: false,
+        annuity: true,
         email: 'rigigit647@soebing.com',
         password: 'password456',
         passwordConfirm: 'password456',

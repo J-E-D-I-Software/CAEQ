@@ -7,6 +7,7 @@ import { FireError } from '../../utils/alertHandler';
 import WhiteContainer from '../../components/containers/WhiteCard/WhiteCard';
 import BaseButton from '../../components/buttons/BaseButton';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
+import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import './Profile.scss';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
@@ -21,6 +22,8 @@ const Profile = (props) => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({});
     const [attendances, setAttendances] = useState([]);
+    const [courseHours, setCourseHours] = useState([]);
+    const [currentRights, setCurrentRights] = useState('');
     const [attendanceByYear, setAttendanceByYear] = useState({});
 
     const date = profile.dateOfBirth
@@ -39,10 +42,15 @@ const Profile = (props) => {
         navigate(`/Perfil/${SavedUser._id}`);
     };
 
+    const currentYear = new Date().getFullYear();
+
     useEffect(() => {
         if (SavedUser._id)
             getArchitectUserById(SavedUser._id)
-                .then((response) => setProfile(response))
+                .then((response) => {
+                    setProfile(response);
+                    console.log(response);
+                })
                 .catch((error) => FireError(error.response.data.message));
     }, []);
 
@@ -52,21 +60,9 @@ const Profile = (props) => {
                 const architectId = SavedUser._id;
                 const attendances = await getAttendancesByArchitect(architectId);
                 setAttendances(attendances);
-                console.log('Asistencias', attendances);
 
-                // Calculate attendance by year
-                const attendanceByYear = {};
-                for (const asistencia of attendances) {
-                    const year = asistencia.idGathering.year;
-                    if (asistencia.attended) {
-                        if (!attendanceByYear[year]) {
-                            attendanceByYear[year] = 1;
-                        } else {
-                            attendanceByYear[year]++;
-                        }
-                    }
-                }
-                setAttendanceByYear(attendanceByYear);
+                let accreditedHours = await getCourseHours(SavedUser._id);
+                setCourseHours(accreditedHours);
             } catch (error) {
                 console.error('Error al obtener asistencias por arquitecto', error);
             }
@@ -85,17 +81,17 @@ const Profile = (props) => {
     }
 
     return (
-        <div className="profile">
+        <div className='profile'>
             <h1>Datos Personales</h1>
-            <div className="profile-row">
-                <BaseButton type="primary" onClick={handleRoute}>
+            <div className='profile-row'>
+                <BaseButton type='primary' onClick={handleRoute}>
                     Editar Datos Personales
                 </BaseButton>
             </div>
 
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Nombre: </span> {profile.fullName}
                         </p>
@@ -116,7 +112,7 @@ const Profile = (props) => {
                             {profile.homeAddress}
                         </p>
                     </div>
-                    <div className="profile-col">
+                    <div className='profile-col'>
                         <p>
                             <span>Teléfono Celular: </span>
                             {profile.cellphone}
@@ -133,14 +129,46 @@ const Profile = (props) => {
                             <span>Contacto de Emergencia: </span>
                             {profile.emergencyContact}
                         </p>
+                        <p>
+                            <span>INE: </span>
+                            {profile.linkINE ? (
+                                <a href={profile.linkINE}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
+                        <p>
+                            <span>CURP: </span>
+                            {profile.linkCURP ? (
+                                <a href={profile.linkCURP}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
+                        <p>
+                            <span>Acta de Nacimiento: </span>
+                            {profile.linkBirthCertificate ? (
+                                <a href={profile.linkBirthCertificate}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
+                        <p>
+                            <span>Comprobante de domicilio: </span>
+                            {profile.linkAddressCertificate ? (
+                                <a href={profile.linkAddressCertificate}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
                     </div>
                 </WhiteContainer>
             </div>
 
             <h1>Información CAEQ</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Tipo de Miembro: </span>
                             {profile.memberType}
@@ -157,51 +185,83 @@ const Profile = (props) => {
                             <span>Puesto en Consejo: </span>
                             {profile.positionsInCouncil}
                         </p>
-                    </div>
-                    <div className="profile-col semi-col">
                         <p>
                             <span>Número de DRO: </span>
                             {profile.DRONumber}
                         </p>
                         <p>
+                            <span>Derechos vigentes: {profile.rights ? 'Sí' : 'No'}</span>
+                            <p>Anualidad pagada: {profile.annuity ? 'Sí' : 'No'}</p>
+                            <p>
+                                Asistencias a asambleas del último año:{' '}
+                                {profile.totalGatheringAttendees}/5
+                            </p>
+                            <p>
+                                Asistencias presenciales a asambleas del último año:{' '}
+                                {profile.totalGatheringAttendeesPresential}/3
+                            </p>
+                            <p>
+                                Horas de capacitación del último año: {profile.totalHours}
+                                /{profile.specialties?.length > 0 ? '40' : '20'}
+                            </p>
+                        </p>
+                    </div>
+                    <div className='profile-col semi-col'>
+                        <p>
                             <span>Horas Acreditadas: </span>
-                            {profile.capacitationHours}
+                            {courseHours
+                                .sort((prev, next) => next.endYear - prev.endYear)
+                                .slice(0, 2) // Select only the first three elements
+                                .map((courseHour) => (
+                                    <p>
+                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
+                                        {courseHour.value}
+                                    </p>
+                                ))}
                         </p>
                         <p>
                             <span>Asistencias por Año:</span>
-                            {Object.entries(attendanceByYear)
-                                .sort(([yearA], [yearB]) => yearB - yearA)
-                                .slice(0, 3) 
-                                .map(([year, attendanceCount]) => (
-                                    <p key={year}>
-                                        {year}: {attendanceCount || 0} asistencias
-                                    </p>
-                                ))}
+                            <p key={currentYear}>
+                                {currentYear}: {profile[currentYear]}
+                            </p>
+                            <p key={currentYear}>
+                                {currentYear - 1}: {profile[currentYear - 1]}
+                            </p>
+                            <p key={currentYear}>
+                                {currentYear - 2}: {profile[currentYear - 2]}
+                            </p>
+                        </p>
+                        <p>
                             <BaseButton
-                                type="primary"
+                                type='primary'
                                 onClick={() =>
                                     attendeesRef.current.scrollIntoView({
                                         behavior: 'smooth',
                                     })
-                                }
-                            >
+                                }>
                                 Ver asistencias registradas
                             </BaseButton>
                         </p>
-
                         <p>
                             <span>Fecha de Ingreso: </span>
                             {profile.dateOfAdmission}
                         </p>
-                        <p>.</p>
+                        <p>
+                            <span>Credencial CAEQ: </span>
+                            {profile.linkCAEQCard ? (
+                                <a href={profile.linkCAEQCard}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
                     </div>
                 </WhiteContainer>
             </div>
 
             <h1>Información Profesional</h1>
-            <div className="profile-row">
+            <div className='profile-row'>
                 <WhiteContainer>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Dirección de Oficina: </span>
                             {profile.workAddress}
@@ -219,7 +279,7 @@ const Profile = (props) => {
                             <a href={profile.linkCV}>Descargar</a>
                         </p>
                     </div>
-                    <div className="profile-col semi-col">
+                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
@@ -234,7 +294,31 @@ const Profile = (props) => {
                         </p>
                         <p>
                             <span>Municipio: </span>
-                            list' {profile.municipalityOfLabor}
+                            {profile.municipalityOfLabor}
+                        </p>
+                        <p>
+                            <span>Currículum Vitae (CV): </span>
+                            {profile.linkCV ? (
+                                <a href={profile.linkCV}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
+                        <p>
+                            <span>Título Universitario: </span>
+                            {profile.linkBachelorsDegree ? (
+                                <a href={profile.linkBachelorsDegree}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
+                        </p>
+                        <p>
+                            <span>Cédula Profesional: </span>
+                            {profile.linkProfessionalLicense ? (
+                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                     </div>
                 </WhiteContainer>
@@ -243,6 +327,36 @@ const Profile = (props) => {
                 <div ref={attendeesRef}>
                     <AttendancesComponent attendances={attendances} />
                 </div>
+            </div>
+            <div>
+                <p>
+                    <h1>Horas Acreditadas</h1>
+                    <div></div>
+                    {courseHours
+                        .sort((prev, next) => next.endYear - prev.endYear)
+                        .map((courseHour) =>
+                            courseHour.startYear === 2023 ? (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas (
+                                    {profile.capacitationHours} registradas anteriormente)
+                                </p>
+                            ) : (
+                                <p className='list-data'>
+                                    <span className='list-data-year'>
+                                        {courseHour.startYear} - {courseHour.endYear}
+                                    </span>{' '}
+                                    : {courseHour.value} horas
+                                </p>
+                            )
+                        )}
+                </p>
+                <h3>
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año
+                    siguiente.
+                </h3>
             </div>
         </div>
     );

@@ -59,7 +59,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
      * @returns {string} - "Yes" if the value is true, "No" if it's false.
      */
     const formatBooleanValue = (value) => (value ? 'Sí' : 'No');
-    
+
     const currentYear = new Date().getFullYear();
     const headerOrder = [
         'collegiateNumber',
@@ -91,8 +91,6 @@ const InteractiveTable = ({ data, onRowClick }) => {
         currentYear - 2,
         currentYear - 1,
         currentYear,
-        `cursos${currentYear - 2}`,
-        `cursos${currentYear - 1}`,
         `cursos${currentYear}`,
     ];
 
@@ -109,8 +107,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
                             <div className='hide-button-container'>
                                 <button
                                     className='hide-button'
-                                    onClick={() => toggleColumnVisibility(column)}
-                                >
+                                    onClick={() => toggleColumnVisibility(column)}>
                                     <img src={CloseIcon} alt='Icono Ocultar' />
                                 </button>
                             </div>
@@ -145,8 +142,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
                     if (!target.classList.contains('link-cv-column')) {
                         onRowClick(data[rowIndex]._id);
                     }
-                }}
-            >
+                }}>
                 {headerOrder.map((column) =>
                     columnVisibility[column] && column !== '_id' ? (
                         <td
@@ -155,16 +151,14 @@ const InteractiveTable = ({ data, onRowClick }) => {
                                 column === 'linkCV'
                                     ? 'sticky-column link-cv-column'
                                     : 'sticky-column'
-                            }
-                        >
+                            }>
                             {typeof row[column] === 'boolean' ? (
                                 formatBooleanValue(row[column])
                             ) : column === 'linkCV' && row[column] !== '-' ? (
                                 <BaseButton
                                     type='primary'
                                     className='link-cv-column'
-                                    onClick={(e) => handleButtonClick(e, row[column])}
-                                >
+                                    onClick={(e) => handleButtonClick(e, row[column])}>
                                     Descargar CV
                                 </BaseButton>
                             ) : column === 'linkCV' && row[column] == '-' ? (
@@ -200,8 +194,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
             <BaseButton
                 type='primary'
                 className='restablecer-button'
-                onClick={resetColumnVisibility}
-            >
+                onClick={resetColumnVisibility}>
                 Resetear tabla
             </BaseButton>
 

@@ -651,7 +651,23 @@ const ArchitectDetail = (props) => {
                                     <span className='list-data-year'>
                                         {courseHour.startYear} - {courseHour.endYear}
                                     </span>{' '}
-                                    : {courseHour.value} horas ({data.capacitationHours}{' '}
+                                    :{' '}
+                                    {editedData.capacitationHours
+                                        ? editedData.capacitationHours ===
+                                          data.capacitationHours
+                                            ? courseHour.value
+                                            : editedData.capacitationHours >
+                                              data.capacitationHours
+                                            ? courseHour.value +
+                                              editedData.capacitationHours -
+                                              data.capacitationHours
+                                            : courseHour.value -
+                                              data.capacitationHours +
+                                              editedData.capacitationHours
+                                        : courseHour.value}{' '}
+                                    horas (
+                                    {editedData.capacitationHours ||
+                                        data.capacitationHours}{' '}
                                     registradas anteriormente)
                                 </p>
                             ) : (

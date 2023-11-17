@@ -152,6 +152,13 @@ const ArchitectUserSchema = new mongoose.Schema({
     capacitationHours: {
         type: Number,
         default: 0,
+        validate: {
+            // we want equal passwords
+            validator: function (value) {
+                return value >= 0;
+            },
+            message: 'Por favor ingresa un número positivo.',
+        },
     },
     annuity: {
         type: Boolean,

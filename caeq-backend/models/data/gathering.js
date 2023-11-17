@@ -57,7 +57,7 @@ const gathering = [
         moreInfo: 'Reunión de primavera para discutir proyectos futuros.',
         day: 20,
         month: 4,
-        year: '2021',
+        year: '2023',
     },
     {
         isExtraordinary: false,
@@ -67,7 +67,7 @@ const gathering = [
         moreInfo: 'Asamblea de verano para informar sobre actividades estivales.',
         day: 15,
         month: 7,
-        year: '2021',
+        year: '2023',
     },
     {
         isExtraordinary: false,

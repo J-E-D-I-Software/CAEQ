@@ -55,6 +55,8 @@ const NumberInput = ({
             return;
         }
 
+        if (inputValue < 0) return;
+
         // Check if the input value is a valid number
         if (!isNaN(inputValue) && inputValue >= 0) {
             // If maxDigits is specified, check if it exceeds the maximum allowed value
@@ -78,6 +80,7 @@ const NumberInput = ({
                 required={isRequired}
                 onKeyDown={handleKeyPress}
                 onChange={inputChange}
+                min='0'
             />
         </label>
     );

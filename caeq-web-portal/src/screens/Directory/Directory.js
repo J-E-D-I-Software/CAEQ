@@ -156,7 +156,7 @@ const Directory = () => {
                 );
 
                 if (paginationPage === 1 && architects.length)
-                setPaginationEnabled([false, true]);
+                    setPaginationEnabled([false, true]);
                 else if (paginationPage === 1 && !architects.length)
                     setPaginationEnabled([false, false]);
                 else if (paginationPage > 1 && !architects.length)

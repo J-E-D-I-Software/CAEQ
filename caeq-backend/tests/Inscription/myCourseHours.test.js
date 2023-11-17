@@ -4,6 +4,7 @@ const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const Course = require('../../models/course.model');
 const ArchitectUser = require('../../models/architect.user.model');
+const Inscription = require('../../models/inscription.model');
 const { loginUser } = require('../config/authSetUp');
 const agent = request.agent(app);
 const DateRangeMap = require('../../utils/dateRangeMap');
@@ -36,8 +37,24 @@ const testGetCourseHours = async () => {
     const endpoint = `/inscription/myCourseHours/${user._id}`;
 
     const res = await agent.get(endpoint).send();
+    const inscriptions = await Inscription.find({
+        user: user._id,
+    }).populate('course user');
+
+    const dateMap = new DateRangeMap();
+
+    inscriptions.forEach((inscription) => {
+        if (inscription.accredited == true) {
+            dateMap.add(inscription.course.endDate, inscription.course.numberHours);
+        }
+    });
+
+    const year2023 = dateMap.getYears().find((year) => year.startYear === 2023);
 
     expect(res.statusCode).toEqual(200);
+    expect(res.body.data.documents[0].value).toEqual(
+        user.capacitationHours + year2023.value
+    );
 };
 
 describe('Architect gets hours of course', () => {

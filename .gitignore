@@ -1,7 +1,8 @@
 */build
 */node_modules
+*/keys
 */config.env
 */.env
 */.firebase/
 node_modules
-*/keys
+caeq-backend/keys

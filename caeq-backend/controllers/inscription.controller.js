@@ -8,12 +8,14 @@ const Email = require('../utils/email');
 const AppError = require('../utils/appError');
 const DateRange = require('../utils/dateRangeMap');
 
+
 exports.getAllInscriptions = factory.getAll(Inscription, [
-    { path: 'user', select: 'email fullName collegiateNumber' }, // You can select the user fields you need
+    { path: 'user', select: 'email fullName collegiateNumber idArchitect' }, // You can select the user fields you need
+    { path: 'user', select: 'email fullName collegiateNumber idArchitect' }, // You can select the user fields you need
     {
         path: 'course',
-        select: 'courseName teachers modality description topics',
-    },
+        select: 'courseName teachers modality description idCourse ',
+    }, // Include fields from the course model
 ]);
 
 exports.getInscription = factory.getOne(Inscription, ['user', 'course']);
@@ -68,19 +70,8 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         course: courseId,
         user: req.user._id,
     });
-
-    /* try {
-        await new Email(
-            req.user,
-            process.env.LANDING_URL,
-            course
-        ).sendInscriptionAlert();
-    } catch (error) {
-        return next(
-            new AppError('Hemos tenido problemas enviando un correo de confirmación.', 500)
-        );
-    }*/
-
+    
+    
     res.status(200).json({
         status: 'success',
         data: { document: course },
@@ -93,11 +84,16 @@ exports.myInscriptions = catchAsync(async (req, res, next) => {
     })
         .populate('course')
         .sort({ updatedAt: -1 });
-
+    // Obtener los IDs de los cursos a los que se ha inscrito el usuario
+    const courseIds = inscriptions.map((inscription) => inscription.course); 
+    // Buscar las sesiones de los cursos a los que se ha inscrito el usuario, devuelve todos los ids d todos los attendes
+    const sessions = await Session.find({ course: { $in: courseIds } });
+    // Obtener los IDs de los cursos a los que se ha inscrito el usuario
+    
     res.status(200).json({
         status: 'success',
         results: inscriptions.length,
-        data: { document: inscriptions },
+        data: { document: inscriptions, sessions },
     });
 });
 
@@ -126,3 +122,29 @@ exports.myCourseHours = catchAsync(async (req, res, next) => {
         data: { documents: allYears },
     });
 });
+
+exports.myCourseHours = catchAsync(async (req, res, next) => {
+    const inscriptions = await Inscription.find({
+        user: req.params.id,
+    }).populate('course');
+
+    const dateMap = new DateRange();
+
+    inscriptions.forEach((inscription) => {
+        if (inscription.accredited == true) {
+            dateMap.add(
+                inscription.course.endDate,
+                inscription.course.numberHours
+            );
+        }
+    });
+
+    const allYears = dateMap.getYears();
+
+    res.status(200).json({
+        status: 'success',
+        results: allYears.length,
+        data: { documents: allYears },
+    });
+});
+

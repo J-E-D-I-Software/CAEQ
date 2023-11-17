@@ -39,8 +39,6 @@ const Courses = (props) => {
             if (filterDate[1]) filters += `&startDate[lte]=${filterDate[1]}`;
 
             const data = await getAllCourses(paginationPage, filters);
-            console.log(data)
-           
             setCourses(data);
             if (paginationPage === 1 && data.length)
                 setPaginationEnabled([false, true]);

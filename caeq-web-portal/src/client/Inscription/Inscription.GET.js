@@ -11,6 +11,7 @@ export async function getCourseInscriptions(id) {
     let endpoint = `${baseApiEndpoint}/inscription?course=${id}`;
 
     const response = await axios.get(endpoint);
+
     return response.data.data.documents;
 }
 
@@ -30,7 +31,7 @@ export async function getCourseHours(id) {
 
 /**
  * Gets the inscriptions of the currently authenticated architect.
- * 
+ *
  * @returns {Promise} A promise that resolves with the response data when the operation is successful.
  */
 
@@ -41,7 +42,6 @@ export async function getMyInscriptions(page = 1, filtersParams = '') {
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }
-
 
 /**
  * Gets the inscriptions of architects to a course.

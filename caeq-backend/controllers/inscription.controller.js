@@ -2,6 +2,7 @@ const factory = require('./handlerFactory.controller');
 const Inscription = require('../models/inscription.model');
 const Course = require('../models/course.model');
 const Session = require('../models/session.model');
+const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');
@@ -99,17 +100,25 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.myInscriptions = catchAsync(async (req, res, next) => {
-    const inscriptions = await Inscription.find({
+exports.myInscriptions = catchAsync(async (req, res) => {
+    let query = Inscription.find({
         user: req.user._id,
     })
         .populate('course')
         .sort({ updatedAt: -1 });
 
+    const features = new APIFeatures(query, req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+    const documents = await features.query;
+
+
     res.status(200).json({
         status: 'success',
-        results: inscriptions.length,
-        data: { document: inscriptions },
+        results: documents.length,
+        data: { documents },
     });
 });
 

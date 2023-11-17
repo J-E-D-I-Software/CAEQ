@@ -8,6 +8,7 @@ import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
 import { useNavigate } from 'react-router-dom';
+
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 /**
@@ -17,7 +18,7 @@ const MyInscription = (props) => {
     const [courses, setCourses] = useState([]);
     const [filterModality, setFilterModality] = useState('');
     const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [orderBy, setOrderBy] = useState('');
+    const [orderBy, setOrderBy] = useState('Fecha de inicio');
     const [paginationPage, setPaginationPage] = useState(1);
     const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const navigate = useNavigate();
@@ -25,18 +26,21 @@ const MyInscription = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             let filters = '';
-            if (filterSearchByName) filters = `courseName[regex]=${filterSearchByName}`;
+            if (filterSearchByName)
+                filters = `course.courseName[regex]=${filterSearchByName}`;
             if (filterModality) filters += `&modality=${filterModality}`;
             if (orderBy) {
-                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
-                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-courseName`;
-                else if (orderBy === 'Fecha de creación') filters += `&sort=_id`;
+                if (orderBy === 'Nombre (A-Z)') filters += `&sort=course.courseName`;
+                else if (orderBy === 'Nombre (Z-A)')
+                    filters += `&sort=-course.courseName`;
+                else if (orderBy === 'Fecha de inicio')
+                    filters += `&sort=course.startDate`;
             }
 
             const data = await getMyInscriptions(paginationPage, filters);
+
             setCourses(data);
-            if (paginationPage === 1 && data.length)
-                setPaginationEnabled([false, true]);
+            if (paginationPage === 1 && data.length) setPaginationEnabled([false, true]);
             else if (paginationPage === 1 && !data.length)
                 setPaginationEnabled([false, false]);
             else if (paginationPage > 1 && !data.length)
@@ -50,7 +54,7 @@ const MyInscription = (props) => {
         } catch (error) {
             FireError(error.response.data.message);
         }
-    }, [filterSearchByName, filterModality, orderBy]);
+    }, [filterSearchByName, filterModality, orderBy, paginationPage]);
 
     return (
         <div className="courses">
@@ -65,13 +69,15 @@ const MyInscription = (props) => {
                 </RestrictByRole>
 
                 <TextInput
-                    placeholder="Buscar"
+                    label="Buscar"
+                    placeholder="Por nombre"
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
                 <div className="courses--row">
                     <DropdownInput
+                        label="Filtrar"
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
@@ -79,9 +85,10 @@ const MyInscription = (props) => {
                     />
 
                     <DropdownInput
+                        label="Ordenar"
                         getVal={orderBy}
                         setVal={setOrderBy}
-                        options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
+                        options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de inicio']}
                         placeholder="Ordenar"
                     />
                 </div>
@@ -94,8 +101,8 @@ const MyInscription = (props) => {
             </div>
 
             <div className="courses--row courses__courses-pagination">
-                <PaginationNav 
-                    page={paginationPage} 
+                <PaginationNav
+                    page={paginationPage}
                     onClickBefore={() => setPaginationPage(paginationPage - 1)}
                     onClickAfter={() => setPaginationPage(paginationPage + 1)}
                     beforeBtnEnabled={paginationEnabled[0]}

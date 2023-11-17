@@ -70,5 +70,5 @@ node_modules
 *.csv
 
 # Keys folers
-keys/
+keys
 

@@ -656,7 +656,14 @@ const ArchitectDetail = (props) => {
                                         ? editedData.capacitationHours ===
                                           data.capacitationHours
                                             ? courseHour.value
-                                            : editedData.capacitationHours
+                                            : editedData.capacitationHours >
+                                              data.capacitationHours
+                                            ? courseHour.value +
+                                              editedData.capacitationHours -
+                                              data.capacitationHours
+                                            : courseHour.value -
+                                              data.capacitationHours +
+                                              editedData.capacitationHours
                                         : courseHour.value}{' '}
                                     horas (
                                     {editedData.capacitationHours ||

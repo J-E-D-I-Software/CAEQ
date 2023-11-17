@@ -28,6 +28,7 @@ const RegisterAttendees = () => {
     const [getArchitectNumber, setArchitectNumber] = useState('');
     const [getArchitectAttendees, setArchitectAttendees] = useState('');
     const [getArchitectNumberAttendees, setArchitectNumberAttendees] = useState('');
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const [paginationPage, setPaginationPage] = useState(1);
     const [attendeesPage, setAttendeesPage] = useState(1);
     const [data, setData] = useState({
@@ -51,8 +52,17 @@ const RegisterAttendees = () => {
             if (getArchitectNumber) filters += `&collegiateNumber=${getArchitectNumber}`;
 
             let architects = await getAllArchitectUsers(paginationPage, filters, 10);
-
             setArchitectUsers(architects);
+            if (paginationPage === 1 && architects.length)
+                setPaginationEnabled([false, true]);
+            else if (paginationPage === 1 && !architects.length)
+                setPaginationEnabled([false, false]);
+            else if (paginationPage > 1 && !architects.length)
+                setPaginationEnabled([true, false]);
+            else if (paginationPage > 1 && architects.length)
+                setPaginationEnabled([true, true]);
+            else setPaginationEnabled([true, true]);
+
         } catch (error) {}
     };
 
@@ -296,6 +306,8 @@ const RegisterAttendees = () => {
                     onClickBefore={handleAttendeesPreviousPage}
                     onClickAfter={handleAttendeesNextPage}
                     page={attendeesPage}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]}
                 />
             </div>
             <div className='directory-row'>

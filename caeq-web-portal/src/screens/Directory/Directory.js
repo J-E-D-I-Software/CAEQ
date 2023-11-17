@@ -14,7 +14,6 @@ import { exportToExcel } from 'react-json-to-excel';
 import BaseButton from '../../components/buttons/BaseButton';
 import { FireSucess, FireLoading, FireError } from '../../utils/alertHandler';
 import { getAttendeesMostRecentYears } from '../../client/Attendees/Attendees.GET';
-import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import './directory.scss';
 
 /**
@@ -34,6 +33,7 @@ const Directory = () => {
     const [filterClassification, setfilterClassification] = useState('');
     const [FilterMemberType, setFilterMemberType] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const [admisionInitial, setAdmisionInitial] = useState(0);
     const [admisionFinal, setAdmisionFinal] = useState(2024);
     const [birthInitial, setBirthInitial] = useState();
@@ -43,7 +43,6 @@ const Directory = () => {
     const [specialty, setSpecialty] = useState('');
     const [specialtyName, setSpecialtyName] = useState('');
     const [currentRights, setCurrentRights] = useState('');
-    const [mostRecentYearAttendances, setMostRecentYearAttendances] = useState('');
     const [orderBy, setOrderBy] = useState('collegiateNumber');
     const navigate = useNavigate();
     /**
@@ -154,6 +153,39 @@ const Directory = () => {
                     paginationPage,
                     filters,
                     effectiveOrderBy
+                );
+
+                if (paginationPage === 1 && architects.length)
+                setPaginationEnabled([false, true]);
+                else if (paginationPage === 1 && !architects.length)
+                    setPaginationEnabled([false, false]);
+                else if (paginationPage > 1 && !architects.length)
+                    setPaginationEnabled([true, false]);
+                else if (paginationPage > 1 && architects.length)
+                    setPaginationEnabled([true, true]);
+                else setPaginationEnabled([true, true]);
+                
+                const mostRecentYearAttendances = await Promise.all(
+                    architects.map(async (architect) => {
+                        const architectId = architect._id;
+                        const recentYears = await getAttendeesMostRecentYears(architectId);
+                        
+                        const myCourseHours = {}
+                        const currentYear = new Date().getFullYear();
+                        const courseHours = await getCourseHours(architectId);
+                        myCourseHours[`cursos${currentYear}`] = 0;
+                        myCourseHours[`cursos${currentYear - 1}`] = 0;
+                        myCourseHours[`cursos${currentYear - 2}`] = 0;
+                        courseHours.forEach(courseHour => {
+                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
+                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                            }
+                        });
+                        
+                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
+
+                        return architect;
+                    })
                 );
 
                 setArchitectUsers(architects);
@@ -412,6 +444,8 @@ const Directory = () => {
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
                     page={paginationPage}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]}
                 />
             </div>
 

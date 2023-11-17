@@ -6,6 +6,17 @@ import { Navigate } from "react-router-dom";
 import AcceptIcon from "../icons/AcceptIcon.png";
 import RejectIcon from "../icons/RejectIcon.png";
 
+/**
+ * Renders a table displaying the attendance of a course attendee.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.data - The data containing the sessions attended by the user.
+ * @param {string} props.userId - The ID of the user.
+ * @param {string} props.course - The name of the course.
+ * @param {number} props.hours - The total number of hours for the course.
+ * @returns {JSX.Element} The rendered CourseAttendee component.
+ */
 const CourseAttendee = ({ data, userId, course, hours }) => {
   const attendedSessions = data
     .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -15,27 +26,7 @@ const CourseAttendee = ({ data, userId, course, hours }) => {
         session.attendees.includes(userId),
       ];
     });
-  const space =
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0" +
-    "\u00A0";
+
   const totalSessions = attendedSessions.length;
   const attendedCount = attendedSessions.filter(
     ([_, attended]) => attended
@@ -70,7 +61,7 @@ const CourseAttendee = ({ data, userId, course, hours }) => {
   );
 
   return (
-    <div className="tabla-container">
+    <div className="course-attendee-container tabla-container">
       <h1>Nombre del curso: {course}</h1>
 
       <div className="table-wrapper">
@@ -80,10 +71,10 @@ const CourseAttendee = ({ data, userId, course, hours }) => {
         </table>
       </div>
 
-      <h2>
-        Horas totales acreditadas: {hours} {space} Mis asistencias a este curso:{" "}
-        {attendedCount} de {totalSessions}
-      </h2>
+      <div className="course-attendee-container-footer">
+        <h2>Asistencias Totales: {attendedCount} de {totalSessions}</h2>
+        <h2>Horas Acreditadas: {hours}</h2>
+      </div>
     </div>
   );
 };

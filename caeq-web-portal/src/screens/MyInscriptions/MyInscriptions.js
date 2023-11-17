@@ -27,14 +27,14 @@ const MyInscription = (props) => {
         const fetchData = async () => {
             let filters = '';
             if (filterSearchByName)
-                filters = `course.courseName[regex]=${filterSearchByName}`;
+                filters = `courseName[regex]=${filterSearchByName}`;
             if (filterModality) filters += `&modality=${filterModality}`;
             if (orderBy) {
-                if (orderBy === 'Nombre (A-Z)') filters += `&sort=course.courseName`;
+                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
                 else if (orderBy === 'Nombre (Z-A)')
-                    filters += `&sort=-course.courseName`;
+                    filters += `&sort=-courseName`;
                 else if (orderBy === 'Fecha de inicio')
-                    filters += `&sort=course.startDate`;
+                    filters += `&sort=startDate`;
             }
 
             const data = await getMyInscriptions(paginationPage, filters);

@@ -101,25 +101,32 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
 });
 
 exports.myInscriptions = catchAsync(async (req, res) => {
-    let query = Inscription.find({
-        user: req.user._id,
-    })
-        .populate('course')
-        .sort({ updatedAt: -1 });
 
+    
+        let query = Course.find();
     const features = new APIFeatures(query, req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
-    const documents = await features.query;
+    .filter()
+    .limitFields()
+    .paginate();
+const documents = await features.query;
+const courseIds = documents.map(doc => doc._id)
 
 
-    res.status(200).json({
-        status: 'success',
-        results: documents.length,
-        data: { documents },
-    });
+
+let inscriptions = await Inscription.find({
+    user: req.user._id,
+    course: {$in:courseIds},
+})
+    .populate('course')
+    .sort({ updatedAt: -1 });
+
+
+
+res.status(200).json({
+    status: 'success',
+    results: inscriptions.length,
+    data: { documents: inscriptions },
+});
 });
 
 exports.myCourseHours = catchAsync(async (req, res, next) => {

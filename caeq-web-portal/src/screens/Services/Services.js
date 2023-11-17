@@ -12,6 +12,7 @@ import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 const Services = () => {
     const [rooms, setRooms] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const [orderBy, setOrderBy] = useState('');
     const navigate = useNavigate();
 
@@ -20,12 +21,21 @@ const Services = () => {
         const fetchData = async () => {
             let filters = '';
             if (orderBy) {
-                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
-                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-courseName`;
+                if (orderBy === 'Nombre (A-Z)') filters += `&sort=name`;
+                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-name`;
             }
 
             const data = await getAllRooms(paginationPage, filters);
-            setRooms(data)
+            setRooms(data);
+            if (paginationPage === 1 && data.length)
+                setPaginationEnabled([false, true]);
+            else if (paginationPage === 1 && !data.length)
+                setPaginationEnabled([false, false]);
+            else if (paginationPage > 1 && !data.length)
+                setPaginationEnabled([true, false]);
+            else if (paginationPage > 1 && data.length)
+                setPaginationEnabled([true, true]);
+            else setPaginationEnabled([true, true]);
         };
         try {
             fetchData();
@@ -89,7 +99,9 @@ const Services = () => {
                 <PaginationNav 
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
-                    page={paginationPage} 
+                    page={paginationPage}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]} 
                 />
             </div>
         </div>

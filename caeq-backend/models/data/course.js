@@ -4,8 +4,8 @@ const courseData = [
         modality: 'Presencial',
         numberHours: 7,
         pricing: 'Pagado',
-        startDate: '2023-12-03T00:00:00',
-        endDate: '2023-12-31T00:00:00',
+        startDate: '2023-12-01T00:00:00',
+        endDate: '2023-12-02T00:00:00',
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:
@@ -39,8 +39,8 @@ const courseData = [
         modality: 'Remoto',
         numberHours: 7,
         pricing: 'Gratuito',
-        startDate: '2023-12-03T00:00:00',
-        endDate: '2023-12-31T00:00:00',
+        startDate: '2023-12-02T00:00:00',
+        endDate: '2023-12-03T00:00:00',
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:
@@ -75,7 +75,7 @@ const courseData = [
         numberHours: 7,
         pricing: 'Pagado',
         startDate: '2023-12-03T00:00:00',
-        endDate: '2023-12-31T00:00:00',
+        endDate: '2023-12-04T00:00:00',
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:

@@ -7,12 +7,11 @@ import './Gatherings.scss';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 
-
 const FilterByName = ({ filterValue, setFilterValue, placeholder }) => {
     return (
-        <div className='filter-by-name'>
+        <div className="filter-by-name">
             <input
-                type='text'
+                type="text"
                 placeholder={placeholder}
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
@@ -43,7 +42,12 @@ const Gatherings = (props) => {
 
             const currentDate = new Date();
             const futureFilters = `date[gte]=${currentDate}&sort=date`;
-            const pastFilters = `date[lt]=${currentDate}&sort=-date`;
+            
+            const twoYearsAgo = new Date();
+            twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
+            twoYearsAgo.setMonth(1); //Set February as the base month
+            
+            const pastFilters = `date[lt]=${currentDate}&date[gte]=${twoYearsAgo}&sort=-date`;
 
             const futureData = await getAllGatherings(
                 paginationPageFuture,
@@ -68,15 +72,6 @@ const Gatherings = (props) => {
         paginationPagePast,
     ]);
 
-    const handlePreviousPageFuture = () => {
-        if (paginationPageFuture > 1) {
-            setPaginationPageFuture(paginationPageFuture - 1);
-        }
-    };
-
-    const handleNextPageFuture = () => {
-        setPaginationPageFuture(paginationPageFuture + 1);
-    };
 
     const handlePreviousPagePast = () => {
         if (paginationPagePast > 1) {
@@ -87,15 +82,13 @@ const Gatherings = (props) => {
     const handleNextPagePast = () => {
         setPaginationPagePast(paginationPagePast + 1);
     };
+
     return (
-        <div className='gatherings'>
-            <div className='gatherings_title--row'>
-                <h1>Asambleas</h1>
-            </div>
-            <div className='create-gathering'>
+        <div className="gatherings">
+            <div className="create-gathering">
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
-                        type='primary'
+                        type="primary"
                         onClick={() => navigate('/Asambleas/Asamblea')}
                     >
                         Crear asamblea
@@ -103,53 +96,50 @@ const Gatherings = (props) => {
                 </RestrictByRole>
             </div>
 
-            <div className='gathering__section'>
-                <h1>Asambleas Próximas</h1>
-                <div className='filter__section'>
-                    <TextInput
-                        getVal={filterSearchByNameFuture}
-                        setVal={setFilterSearchByNameFuture}
-                        placeholder='Buscar por nombre'
-                    />
-                </div>
-                <div className='gathering-row'>
+            <div className="gathering__section">
+                <h1>Asamblea Próxima</h1>
+                <div className="gathering-row">
                     {futureGatherings.map((gathering, i) => (
                         <GatheringCard
                             key={i}
                             data={gathering}
-                            className='gathering-card'
+                            className="gathering-card"
                         />
                     ))}
-                </div>
-                <div className='gathering-pages'>
-                    <BaseButton onClick={handlePreviousPageFuture}>Anterior</BaseButton>
-                    <BaseButton onClick={handleNextPageFuture}>Siguiente</BaseButton>
                 </div>
             </div>
 
-            <div className='gathering__section'>
-                <h1>Asambleas Antiguas</h1>
-                <div className='filter__section'>
-                    <TextInput
-                        getVal={filterSearchByNamePast}
-                        setVal={setFilterSearchByNamePast}
-                        placeholder='Buscar por nombre'
-                    />
-                </div>
-                <div className='gathering-row'>
-                    {pastGatherings.map((gathering, i) => (
-                        <GatheringCard
-                            key={i}
-                            data={gathering}
-                            className='gathering-card'
+            <RestrictByRole allowedRoles={['caeq']}>
+                <div className="gathering__section">
+                    <h1>Asambleas Anteriores</h1>
+                    <div className="filter__section">
+                        <TextInput
+                            getVal={filterSearchByNamePast}
+                            setVal={setFilterSearchByNamePast}
+                            placeholder="Buscar por nombre"
                         />
-                    ))}
+                    </div>
+                    <div className="gathering-row">
+                        {pastGatherings.map((gathering, i) => (
+                            <GatheringCard
+                                key={i}
+                                data={gathering}
+                                className="gathering-card"
+                            />
+                        ))}
+                    </div>
+                    <div className="gathering-pages">
+                        <BaseButton onClick={handlePreviousPagePast}>Anterior</BaseButton>
+                        {pastGatherings.length > 0 ? (
+                            <BaseButton onClick={handleNextPagePast}>
+                                Siguiente
+                            </BaseButton>
+                        ) : (
+                            <p>Sin asambleas</p>
+                        )}
+                    </div>
                 </div>
-                <div className='gathering-pages'>
-                    <BaseButton onClick={handlePreviousPagePast}>Anterior</BaseButton>
-                    <BaseButton onClick={handleNextPagePast}>Siguiente</BaseButton>
-                </div>
-            </div>
+            </RestrictByRole>
         </div>
     );
 };

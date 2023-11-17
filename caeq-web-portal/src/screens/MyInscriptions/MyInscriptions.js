@@ -19,6 +19,7 @@ const MyInscription = (props) => {
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [orderBy, setOrderBy] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,6 +35,15 @@ const MyInscription = (props) => {
 
             const data = await getMyInscriptions(paginationPage, filters);
             setCourses(data);
+            if (paginationPage === 1 && data.length)
+                setPaginationEnabled([false, true]);
+            else if (paginationPage === 1 && !data.length)
+                setPaginationEnabled([false, false]);
+            else if (paginationPage > 1 && !data.length)
+                setPaginationEnabled([true, false]);
+            else if (paginationPage > 1 && data.length)
+                setPaginationEnabled([true, true]);
+            else setPaginationEnabled([true, true]);
         };
         try {
             fetchData();
@@ -84,7 +94,13 @@ const MyInscription = (props) => {
             </div>
 
             <div className="courses--row courses__courses-pagination">
-                <PaginationNav page={paginationPage} />
+                <PaginationNav 
+                    page={paginationPage} 
+                    onClickBefore={() => setPaginationPage(paginationPage - 1)}
+                    onClickAfter={() => setPaginationPage(paginationPage + 1)}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]}
+                />
             </div>
         </div>
     );

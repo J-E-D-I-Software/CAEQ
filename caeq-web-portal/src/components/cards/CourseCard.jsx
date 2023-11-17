@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
 import RestrictByRole from '../restrictAccess/RestrictByRole';
 import './CourseCard.scss';
+import { currencyFormat } from '../../utils/reusableFunctions';
 
 const CourseCard = ({showMoreBtn=true, ...props}) => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                 </div>
                 <div className='card-row'>
                     <p className='card-price'>
-                        {props.price ? `$${props.price}` : 'Gratuito'}
+                        {props.price ? `${currencyFormat(props.price)}` : 'Gratuito'}
                     </p>
                     <div>
                         {showMoreBtn &&

@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import BaseButton from "../../components/buttons/BaseButton";
 import RoomCard from "../../components/cards/roomCard";
 import DropdownInput from "../../components/inputs/DropdownInput/DropdownInput";
@@ -12,7 +11,7 @@ const AServices = () => {
     const [rooms, setRooms] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
     const [orderBy, setOrderBy] = useState('');
-    const navigate = useNavigate();
+    const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
 
     useEffect(() => {
         
@@ -24,7 +23,16 @@ const AServices = () => {
             }
 
             const data = await getAllRooms(paginationPage, filters);
-            setRooms(data)
+            setRooms(data);
+            if (paginationPage === 1 && data.length)
+                setPaginationEnabled([false, true]);
+            else if (paginationPage === 1 && !data.length)
+                setPaginationEnabled([false, false]);
+            else if (paginationPage > 1 && !data.length)
+                setPaginationEnabled([true, false]);
+            else if (paginationPage > 1 && data.length)
+                setPaginationEnabled([true, true]);
+            else setPaginationEnabled([true, true]);
         };
         try {
             fetchData();
@@ -58,6 +66,7 @@ const AServices = () => {
     const handleDownload = () => {
         const swal = FireLoading('Descargando tabulador de Excel...');
         window.open(`https://firebasestorage.googleapis.com/v0/b/caeq-system.appspot.com/o/TABULADOR-COSTO-BITACORAS.xlsx?alt=media&token=37f9e07b-3077-477f-8acd-7b407345f7c8`, '_blank');
+        swal.close();
     };
 
     return (
@@ -101,6 +110,8 @@ const AServices = () => {
                 <PaginationNav 
                     onClickBefore={handlePreviousPage}
                     onClickAfter={handleNextPage}
+                    beforeBtnEnabled={paginationEnabled[0]}
+                    afterBtnEnabled={paginationEnabled[1]}
                     page={paginationPage} 
                 />
             </div>

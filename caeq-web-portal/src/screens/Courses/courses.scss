@@ -1,23 +1,42 @@
 .courses {
-    padding: 3rem;
+    padding: 20px 30px 0px 30px;
 
     .courses--row { 
         display: flex;
     }
 
-    .courses__filters { 
+    .courses__header{
+        align-items: center;
         justify-content: space-between;
-        margin-bottom: 2rem;
 
-        .dropdown-input { 
-            background-color: #eea300;
-            color: white;
+        button {
             margin-right: 1rem;
         }
     }
 
+    .courses__filters { 
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        align-items: end;
+
+        .date-range-input {
+            margin-right: 1rem;
+        }
+
+        .dropdown- {
+            margin-right: 1rem;
+            display: flex;
+            align-items: end;
+        }
+
+        .dropdown-input { 
+            background-color: #eea300;
+            color: white;
+        }
+    }
+
     .box-input { 
-        width: 40vw;
+        width: 25vw !important;
     }
 
     .courses__courses-section { 
@@ -32,7 +51,7 @@
         margin-top: 1.5rem;
     }
     
-    @media only screen and (max-width: 1200px)  {
+    @media screen and (max-width: 1200px)  {
         .courses__filters{
             flex-wrap: wrap;
 
@@ -41,9 +60,8 @@
             }
         }
     }
-    
-    @media only screen and (max-width: 700px)  {
-        padding: 0 1rem !important;
+
+    @media screen and (max-width: 768px)  {
         
         .courses__filters {
             flex-direction: column;
@@ -57,6 +75,19 @@
     
                 .dropdown-input {
                     width: 100%;
+                }
+            }
+        }
+
+        .courses__header {
+            flex-direction: column;
+
+            div {
+                display: flex;
+                flex-direction: column;
+
+                .button {
+                    margin-bottom: 1rem;
                 }
             }
         }

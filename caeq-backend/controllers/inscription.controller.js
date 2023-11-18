@@ -88,10 +88,13 @@ exports.myInscriptions = catchAsync(async (req, res) => {
     })
         .populate('course')
         .sort({ updatedAt: -1 });
+
     // Obtener los IDs de los cursos a los que se ha inscrito el usuario
-    const courseIds = inscriptions.map((inscription) => inscription.course);
+    const courseIdsFromInscriptions = inscriptions.map(
+        (inscription) => inscription.course
+    );
     // Buscar las sesiones de los cursos a los que se ha inscrito el usuario, devuelve todos los ids d todos los attendes
-    const sessions = await Session.find({ course: { $in: courseIds } });
+    const sessions = await Session.find({ course: { $in: courseIdsFromInscriptions } });
     // Obtener los IDs de los cursos a los que se ha inscrito el usuario
 
     res.status(200).json({

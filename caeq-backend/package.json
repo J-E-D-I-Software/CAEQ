@@ -12,7 +12,8 @@
         "deploy-test": "npm run update-env testing && firebase deploy --only functions:test",
         "deploy": "npm run test && npm run update-env testing && firebase deploy --only functions:test && npm run update-env production && firebase deploy --only functions:prod",
         "update-env": "node ./commands/updateEnv.js",
-        "import-data": "node ./commands/importCaeqSSheet.js --saveImportErrors --importGatherings"
+        "import-data": "node ./commands/importCaeqSSheet.js --saveImportErrors --importGatherings",
+        "import-hours": "node ./commands/importCaeqHours.js"
     },
     "dependencies": {
         "@google-cloud/storage": "^5.8.5",

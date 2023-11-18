@@ -90,7 +90,7 @@ const architectUserTestData = [
         specialty: 'Corresponsable en instalaciones eléctricas',
         positionsInCouncil: 'Tesorera',
         capacitationHours: 75,
-        annuity: false,
+        annuity: true,
         email: 'ana@example.com',
         password: 'password789',
         passwordConfirm: 'password789',

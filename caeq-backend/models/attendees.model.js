@@ -29,7 +29,7 @@ const AttendeeSchema = new mongoose.Schema({
     },
     attended: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 });
 

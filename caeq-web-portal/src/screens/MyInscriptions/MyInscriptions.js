@@ -47,11 +47,12 @@ const MyInscription = (props) => {
             <div className='courses--row'>
                 <h1>Mis Cursos Inscritos</h1>
             </div>
-            <div className='courses--row courses__filters'>
-                <BaseButton type='primary' onClick={() => navigate('/MisCursos')}>
-                    Mis Asistencias a cursos
-                </BaseButton>
-
+            <div className="courses--row courses__filters">
+                <RestrictByRole allowedRoles={['architect']}>
+                    <BaseButton type="primary" onClick={() => navigate('/AsistenciasCursos')}>
+                        Mis Asistencias a cursos
+                    </BaseButton>
+                </RestrictByRole>
                 <TextInput
                     label='Buscar'
                     placeholder='Por nombre'

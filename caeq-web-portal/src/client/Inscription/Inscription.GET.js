@@ -44,6 +44,19 @@ export async function getMyInscriptions(page = 1, filtersParams = '') {
 }
 
 /**
+ * Gets the inscriptions of the currently authenticated architect.
+ * 
+ * @returns {Promise} A promise that resolves with the response data when the operation is successful.
+ */
+
+export async function getMyInscriptionswithSessions(page = 1, filtersParams = '') {
+    let endpoint = `${baseApiEndpoint}/inscription/myInscriptions?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
+
+    const response = await axios.get(endpoint);
+    return response.data.data;
+}
+
+/**
  * Gets the inscriptions of architects to a course.
  *
  * @param {string} id - The ID of the course.

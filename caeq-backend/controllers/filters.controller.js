@@ -52,3 +52,27 @@ exports.getSpecialties = catchAsync(async (req, res) => {
         data: specialtyData,
     });
 });
+
+
+exports.getAnnuities = catchAsync(async (req, res) => {
+    const annuityData = await Arquitect.aggregate([
+        {
+            $group: {
+                _id: '$annuity',
+                totalUsers : { $sum: 1 },
+            },
+        },
+    ]);
+
+    if (annuityData.length === 0) {
+        return res.status(404).json({
+            status: 'error',
+            message: 'No hay información de anualidades disponible'
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: annuityData,
+    });
+});

@@ -164,25 +164,36 @@ const Directory = () => {
                 else if (paginationPage > 1 && architects.length)
                     setPaginationEnabled([true, true]);
                 else setPaginationEnabled([true, true]);
-                
+
                 const mostRecentYearAttendances = await Promise.all(
                     architects.map(async (architect) => {
                         const architectId = architect._id;
-                        const recentYears = await getAttendeesMostRecentYears(architectId);
-                        
-                        const myCourseHours = {}
+                        const recentYears = await getAttendeesMostRecentYears(
+                            architectId
+                        );
+
+                        const myCourseHours = {};
                         const currentYear = new Date().getFullYear();
                         const courseHours = await getCourseHours(architectId);
                         myCourseHours[`cursos${currentYear}`] = 0;
                         myCourseHours[`cursos${currentYear - 1}`] = 0;
                         myCourseHours[`cursos${currentYear - 2}`] = 0;
-                        courseHours.forEach(courseHour => {
-                            if(courseHour.startYear == currentYear || courseHour.startYear == currentYear - 1 || courseHour.startYear == currentYear - 2) {
-                                myCourseHours["cursos" + courseHour.startYear] = courseHour.value;
+                        courseHours.forEach((courseHour) => {
+                            if (
+                                courseHour.startYear == currentYear ||
+                                courseHour.startYear == currentYear - 1 ||
+                                courseHour.startYear == currentYear - 2
+                            ) {
+                                myCourseHours['cursos' + courseHour.startYear] =
+                                    courseHour.value;
                             }
                         });
-                        
-                        architect = { ...architect, ...recentYears.yearCount, ...myCourseHours };
+
+                        architect = {
+                            ...architect,
+                            ...recentYears.yearCount,
+                            ...myCourseHours,
+                        };
 
                         return architect;
                     })
@@ -321,7 +332,7 @@ const Directory = () => {
 
     return (
         <div className='directory'>
-            <div className='directory-header'>
+            <div className='directory-main-header'>
                 <h1 className='directory-title'>Directorio de arquitectos</h1>
                 <BaseButton onClick={() => handleDownload()} type='primary'>
                     Descargar arquitectos

@@ -3,6 +3,7 @@ const Inscription = require('../models/inscription.model');
 const Course = require('../models/course.model');
 const ArchitectUser = require('../models/architect.user.model');
 const Session = require('../models/session.model');
+const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 const AppError = require('../utils/appError');
@@ -75,21 +76,31 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.myInscriptions = catchAsync(async (req, res, next) => {
-    const inscriptions = await Inscription.find({
+exports.myInscriptions = catchAsync(async (req, res) => {
+    let query = Course.find();
+    const features = new APIFeatures(query, req.query).filter().limitFields().paginate();
+    const documents = await features.query;
+    const courseIds = documents.map((doc) => doc._id);
+
+    let inscriptions = await Inscription.find({
         user: req.user._id,
+        course: { $in: courseIds },
     })
         .populate('course')
         .sort({ updatedAt: -1 });
+
     // Obtener los IDs de los cursos a los que se ha inscrito el usuario
-    const courseIds = inscriptions.map((inscription) => inscription.course);
+    const courseIdsFromInscriptions = inscriptions.map(
+        (inscription) => inscription.course
+    );
     // Buscar las sesiones de los cursos a los que se ha inscrito el usuario, devuelve todos los ids d todos los attendes
-    const sessions = await Session.find({ course: { $in: courseIds } });
+    const sessions = await Session.find({ course: { $in: courseIdsFromInscriptions } });
     // Obtener los IDs de los cursos a los que se ha inscrito el usuario
 
     res.status(200).json({
         status: 'success',
         results: inscriptions.length,
+
         data: { document: inscriptions, sessions },
     });
 });

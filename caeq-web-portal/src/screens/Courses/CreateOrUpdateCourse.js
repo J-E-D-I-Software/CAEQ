@@ -434,21 +434,6 @@ const CreateOrUpdateCourse = () => {
                         setVal={(value) => updateData('numberHours', value)}
                         allowDecimals={false}
                     />
-                    <div className='create-course--form-group'>
-                        <label htmlFor='startDate' className='create-course__label-input'>
-                            Fecha de inicio
-                        </label>
-                        <input
-                            name='startDate'
-                            className='date-input'
-                            value={data.startDate}
-                            type='date'
-                            onChange={(e) =>
-                                updateData('startDate', e.target.value)
-                            }
-                            required={true}
-                        />
-                    </div>
                     <DateInput
                         label='Fecha de Inicio'
                         getVal={data.startDate}

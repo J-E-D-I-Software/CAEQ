@@ -418,6 +418,8 @@ ArchitectUserSchema.virtual('lastYearAttendees').get(async function () {
 
 ArchitectUserSchema.set('toJSON', { virtuals: true });
 
+
+
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
 
 module.exports = ArchitectUser;

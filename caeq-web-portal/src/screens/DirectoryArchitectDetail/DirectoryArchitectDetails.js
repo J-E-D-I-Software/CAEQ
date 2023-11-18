@@ -15,6 +15,8 @@ import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET'
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { resizeImage } from '../../utils/files';
+import {patchDeleteArchitect} from '../../client/ArchitectUser/ArchitecUser.PATCH';
+
 
 import {
     memberOptions,
@@ -23,6 +25,8 @@ import {
     lifeInsuranceOptions,
     annuityOptions,
 } from '../../components/DirectoryDetailsOptions/DirectoryArchitectDetailOptions';
+
+
 
 const ArchitectDetail = (props) => {
     const searchParams = useParams();
@@ -223,6 +227,22 @@ const ArchitectDetail = (props) => {
         FireSucess('Los Cambios se han guardado correctamente');
     };
 
+
+    const handleDeleteArchitect = async () => {
+        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar a este arquitecto?');
+    
+        if (confirmed) {
+            try {
+                await patchDeleteArchitect(searchParams.id);
+                FireSucess('Arquitecto eliminado exitósamente');
+              
+            } catch (error) {
+                FireError('Error al eliminar al arquitecto. Inténtalo de nuevo.');
+            }
+        }
+    };
+    
+
     /**
      * Returns an array of member options excluding the currently edited member type.
      *
@@ -276,22 +296,22 @@ const ArchitectDetail = (props) => {
     };
 
     return (
-        <div className='architect-detail'>
-            <div className='architect-row'>
+        <div className="architect-detail">
+            <div className="architect-row">
                 <h2>
                     Modifique la información que sea necesaria. Al terminar, haz clic en
                     guardar cambios.
                 </h2>
             </div>
-            <div className='architect-row'>
+            <div className="architect-row">
                 <h1>{data?.fullName}</h1>
             </div>
 
-            <div className='architect-row'>
-                <div className='architect-col'>
+            <div className="architect-row">
+                <div className="architect-col">
                     <TextInput
-                        label='Número de Colegiado'
-                        placeholder='Número de Colegiado'
+                        label="Número de Colegiado"
+                        placeholder="Número de Colegiado"
                         getVal={editedData.collegiateNumber}
                         setVal={(value) =>
                             setEditedData({
@@ -302,15 +322,15 @@ const ArchitectDetail = (props) => {
                     />
 
                     <TextInput
-                        label='Número de DRO'
-                        placeholder='Número de DRO'
+                        label="Número de DRO"
+                        placeholder="Número de DRO"
                         getVal={editedData.DRONumber}
                         setVal={(value) =>
                             setEditedData({ ...editedData, DRONumber: value })
                         }
                     />
                     <DropdownInput
-                        label='Tipo de Miembro'
+                        label="Tipo de Miembro"
                         placeholder={editedData.memberType}
                         options={getMemberOptions()}
                         getVal={editedData.memberType}
@@ -319,7 +339,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Clasificación'
+                        label="Clasificación"
                         placeholder={editedData.classification}
                         getVal={editedData.classification}
                         options={getClassificationOptions()}
@@ -331,18 +351,18 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <SelectInputComponent
-                        label='Especialidades'
+                        label="Especialidades"
                         isMulti
                         options={availableSpecialties}
                         value={selectedSpecialties}
                         onChange={(selectedOptions) => {
                             setSelectedSpecialties(selectedOptions);
                         }}
-                        placeholder='Selecciona una especialidad'
+                        placeholder="Selecciona una especialidad"
                     />
                     <TextInput
-                        label='Actividad Profesional Principal'
-                        placeholder='Actividad Profesional Principal'
+                        label="Actividad Profesional Principal"
+                        placeholder="Actividad Profesional Principal"
                         getVal={editedData.mainProfessionalActivity}
                         setVal={(value) =>
                             setEditedData({
@@ -352,8 +372,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Cédula Profesional'
-                        placeholder='Cédula Profesional'
+                        label="Cédula Profesional"
+                        placeholder="Cédula Profesional"
                         getVal={editedData.professionalLicense}
                         setVal={(value) =>
                             setEditedData({
@@ -363,8 +383,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Fecha de Ingreso'
-                        placeholder='FechaDeIngreso'
+                        label="Fecha de Ingreso"
+                        placeholder="FechaDeIngreso"
                         getVal={editedData.dateOfAdmission}
                         setVal={(value) =>
                             setEditedData({
@@ -374,8 +394,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Municipio de Trabajo'
-                        placeholder='Municipio de Trabajo'
+                        label="Municipio de Trabajo"
+                        placeholder="Municipio de Trabajo"
                         getVal={editedData.municipalityOfLabor}
                         setVal={(value) =>
                             setEditedData({
@@ -385,7 +405,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Autorización para compartir información'
+                        label="Autorización para compartir información"
                         placeholder={editedData.authorizationToShareInfo}
                         options={getAuthorizationOptions()}
                         getVal={editedData.authorizationToShareInfo}
@@ -397,7 +417,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Seguro de Vida'
+                        label="Seguro de Vida"
                         placeholder={editedData.lifeInsurance}
                         options={getLifeInsuranceOptions()}
                         getVal={editedData.lifeInsurance}
@@ -409,8 +429,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Póliza de Seguro'
-                        placeholder='Póliza de Seguro'
+                        label="Póliza de Seguro"
+                        placeholder="Póliza de Seguro"
                         getVal={editedData.lifeInsureID}
                         setVal={(value) =>
                             setEditedData({
@@ -420,8 +440,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <NumberInput
-                        label='Horas de Capacitación 2023 - 2024'
-                        placeholder='Horas Acreditadas'
+                        label="Horas de Capacitación 2023 - 2024"
+                        placeholder="Horas Acreditadas"
                         getVal={editedData.capacitationHours}
                         allowDecimals={false}
                         setVal={(value) =>
@@ -432,7 +452,7 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <DropdownInput
-                        label='Pago de Anualidad'
+                        label="Pago de Anualidad"
                         placeholder={editedData.annuity}
                         options={getAnnuityOptions()}
                         getVal={editedData.annuity}
@@ -444,8 +464,8 @@ const ArchitectDetail = (props) => {
                         }
                     />
                     <TextInput
-                        label='Posiciones en Consejo'
-                        placeholder='Posiciones en Consejo'
+                        label="Posiciones en Consejo"
+                        placeholder="Posiciones en Consejo"
                         getVal={editedData.positionsInCouncil}
                         setVal={(value) =>
                             setEditedData({
@@ -456,14 +476,14 @@ const ArchitectDetail = (props) => {
                     />
                 </div>
 
-                <div className='architect-col'>
+                <div className="architect-col">
                     <FileInput
-                        label='INE'
+                        label="INE"
                         getVal={editedData.linkINE}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkINE: value })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkINE ? (
                         <p>
@@ -478,8 +498,8 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Curriculum Vitae'
-                        placeholder='CV'
+                        label="Curriculum Vitae"
+                        placeholder="CV"
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -498,12 +518,12 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Credencial CAEQ'
+                        label="Credencial CAEQ"
                         getVal={editedData.linkCAEQCard}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCAEQCard: value })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkCAEQCard ? (
                         <p>
@@ -518,12 +538,12 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='CURP'
+                        label="CURP"
                         getVal={editedData.linkCURP}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCURP: value })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkCURP ? (
                         <p>
@@ -538,7 +558,7 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Cédula Profesional'
+                        label="Cédula Profesional"
                         getVal={editedData.linkProfessionalLicense}
                         setVal={(value) =>
                             setEditedData({
@@ -546,7 +566,7 @@ const ArchitectDetail = (props) => {
                                 linkProfessionalLicense: value,
                             })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkProfessionalLicense ? (
                         <p>
@@ -563,12 +583,12 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Título Profesional'
+                        label="Título Profesional"
                         getVal={editedData.linkBachelorsDegree}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkBachelorsDegree: value })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkBachelorsDegree ? (
                         <p>
@@ -583,7 +603,7 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Comprobante de domicilio (no mayor a 3 meses)'
+                        label="Comprobante de domicilio (no mayor a 3 meses)"
                         getVal={editedData.linkAddressCertificate}
                         setVal={(value) =>
                             setEditedData({
@@ -591,7 +611,7 @@ const ArchitectDetail = (props) => {
                                 linkAddressCertificate: value,
                             })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkAddressCertificate ? (
                         <p>
@@ -608,12 +628,12 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label='Acta de Nacimiento'
+                        label="Acta de Nacimiento"
                         getVal={editedData.linkBirthCertificate}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkBirthCertificate: value })
                         }
-                        accept='image/*,application/pdf'
+                        accept="image/*,application/pdf"
                     />
                     {editedData.linkBirthCertificate ? (
                         <p>
@@ -629,8 +649,11 @@ const ArchitectDetail = (props) => {
                     )}
                 </div>
             </div>
-            <div className='architect-row'>
-                <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
+            <div className="architect-row">
+                <BaseButton type="fail" className="button" onClick={handleDeleteArchitect}>
+                    Eliminar Arquitecto
+                </BaseButton>
+                <BaseButton type="primary" className="button" onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>
             </div>
@@ -647,8 +670,8 @@ const ArchitectDetail = (props) => {
                         .sort((prev, next) => next.endYear - prev.endYear)
                         .map((courseHour) =>
                             courseHour.startYear === 2023 ? (
-                                <p className='list-data'>
-                                    <span className='list-data-year'>
+                                <p className="list-data">
+                                    <span className="list-data-year">
                                         {courseHour.startYear} - {courseHour.endYear}
                                     </span>{' '}
                                     :{' '}
@@ -671,8 +694,8 @@ const ArchitectDetail = (props) => {
                                     registradas anteriormente)
                                 </p>
                             ) : (
-                                <p className='list-data'>
-                                    <span className='list-data-year'>
+                                <p className="list-data">
+                                    <span className="list-data-year">
                                         {courseHour.startYear} - {courseHour.endYear}
                                     </span>{' '}
                                     : {courseHour.value} horas

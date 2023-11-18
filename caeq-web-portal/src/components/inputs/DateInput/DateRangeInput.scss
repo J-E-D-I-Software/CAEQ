@@ -17,3 +17,11 @@
         margin-bottom: 0.5rem;
     }
 }
+
+@media (max-width: 700px) {
+    .date-range-input {
+        div {
+            flex-direction: column;
+        }
+    }
+}

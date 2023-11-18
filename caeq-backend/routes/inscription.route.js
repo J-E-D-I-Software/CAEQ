@@ -18,7 +18,7 @@ const {
 router.route('/myCourseHours/:id').get(myCourseHours);
 router.use(protect);
 router.route('/inscribeTo').post(restrictTo('architect'), inscribeTo);
-router.route('/myInscriptions').get(restrictTo('architect'), myInscriptions);
+router.route('/myInscriptions').get(myInscriptions);
 
 router.use(restrictTo('caeq'));
 router.route('/').get(getAllInscriptions).post(createInscription);

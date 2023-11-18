@@ -9,7 +9,6 @@ const paginationPageLimit = process.env.PAGINATION_PAGE_LIMIT || 12;
  */
 export async function getAllCourses(page = 1, filtersParams = '') {
     let endpoint = `${baseApiEndpoint}/courses?page=${page}&limit=${paginationPageLimit}&${filtersParams}`;
-
     const response = await axios.get(endpoint);
     return response.data.data.documents;
 }

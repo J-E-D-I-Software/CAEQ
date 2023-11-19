@@ -9,7 +9,10 @@ import './DirectoryArchitectDetail.scss';
 import FileInput from '../../components/inputs/FileInput/FileInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import BaseButton from '../../components/buttons/BaseButton';
-import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import {
+    updateArchitectUserByID,
+    updateArchitectUserFileByID,
+} from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET';
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
@@ -182,8 +185,6 @@ const ArchitectDetail = (props) => {
         const swal = FireLoading('Guardando cambios... por favor espere');
         try {
             await updateArchitectUserByID(searchParams.id, form);
-            swal.close();
-            FireSucess('Los Cambios se han guardado correctamente');
         } catch (error) {
             swal.close();
             FireError(error.response.data.message);
@@ -200,9 +201,10 @@ const ArchitectDetail = (props) => {
             'linkBirthCertificate',
         ];
 
+        let uploadedFiles = 0;
         for (const field of filesToUpload) {
             const file = editedData[field];
-            if (file) {
+            if (file && file !== '-' && typeof file !== 'string') {
                 // If file size is over 5mb we have to compress it for the backend
                 if (file.type?.includes('image') && file.size > 3000000) {
                     file = await resizeImage(file);
@@ -210,7 +212,8 @@ const ArchitectDetail = (props) => {
                 const formFile = new FormData();
                 formFile.append(field, file);
                 try {
-                    await updateArchitectUserByID(searchParams.id, formFile);
+                    await updateArchitectUserFileByID(searchParams.id, formFile);
+                    uploadedFiles++;
                 } catch (error) {
                     swal.close();
                     FireError(`Error al subir el archivo ${field}`);
@@ -220,7 +223,11 @@ const ArchitectDetail = (props) => {
         }
 
         swal.close();
-        FireSucess('Los Cambios se han guardado correctamente');
+        if (uploadedFiles !== 0) {
+            FireSucess('Los cambios y nuevos archivos se han guardado correctamente');
+        } else {
+            FireSucess('Los cambios se han guardado correctamente');
+        }
     };
 
     /**

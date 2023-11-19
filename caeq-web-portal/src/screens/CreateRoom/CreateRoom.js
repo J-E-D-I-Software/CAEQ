@@ -8,11 +8,9 @@ import BaseButton from '../../components/buttons/BaseButton';
 import createRoom from '../../client/Services/Services.POST';
 import './createRoom.scss';
 
-
 import { Link, useNavigate } from 'react-router-dom';
 import { getRoom } from '../../client/Services/Services.GET';
 import updateRoom from '../../client/Services/Services.PATCH';
-
 
 const CreateRoomOffer = () => {
     const searchParams = useParams();
@@ -22,16 +20,14 @@ const CreateRoomOffer = () => {
         capacity: '',
         specifications: '',
         imageUrl: null,
-    })
+    });
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
         if (searchParams.id) {
-            getRoom(searchParams.id)
-                .then((response) => {
-                    
-                    setData(response);
-                })
+            getRoom(searchParams.id).then((response) => {
+                setData(response);
+            });
         }
     }, []);
 
@@ -44,7 +40,7 @@ const CreateRoomOffer = () => {
             FireError('El salón debe tener un nombre');
             return;
         }
-        if (!data.cost) {
+        if (!data.cost && data.cost < 0) {
             FireError('El salón debe tener un costo');
             return;
         }
@@ -61,7 +57,7 @@ const CreateRoomOffer = () => {
         const formData = new FormData();
         Object.entries(data).forEach((entry) => formData.append(entry[0], entry[1]));
 
-        if (imageUrl) formData.set('imageUrl', imageUrl)
+        if (imageUrl) formData.set('imageUrl', imageUrl);
 
         let response = null;
         const swal = FireLoading('Guardando...');
@@ -71,20 +67,17 @@ const CreateRoomOffer = () => {
 
             swal.close();
             FireSucess('Oferta de salón guardada');
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error);
             swal.close();
             FireError(error.response.data.message);
-        }       
-        
+        }
     };
 
     return (
         <div className='room-container'>
             <div className='room-title'>
                 <h1>{searchParams.id ? 'Modificar' : 'Crear'} Oferta de salón</h1>
-
             </div>
 
             <div className='room-content'>
@@ -122,22 +115,20 @@ const CreateRoomOffer = () => {
                         label='Foto del salón'
                         getVal={imageUrl}
                         setVal={setImageUrl}
-                        accept= '.jpg, .jpeg'
+                        accept='.jpg, .jpeg'
                     />
-                
                 </div>
                 <div className='room-buttons'>
-                    <BaseButton type= "primary" onClick={(e) => onSubmit(e)}>
-                            {searchParams.id ? 'Guardar salón' : 'Crear salón'}
-                        </BaseButton>
-                        <Link to='/Servicios'>
-                                <BaseButton type='cancel'>Cancelar</BaseButton>
-                        </Link>
+                    <BaseButton type='primary' onClick={(e) => onSubmit(e)}>
+                        {searchParams.id ? 'Guardar salón' : 'Crear salón'}
+                    </BaseButton>
+                    <Link to='/Servicios'>
+                        <BaseButton type='cancel'>Cancelar</BaseButton>
+                    </Link>
                 </div>
             </div>
         </div>
     );
-
 };
 
 export default CreateRoomOffer;

@@ -4,6 +4,7 @@ const headerMappings = {
     collegiateNumber: 'Número de colegiado',
     DRONumber: 'Número de DRO',
     fullName: 'Nombre completo',
+    rights: 'Derechos vigentes',
     memberType: 'Tipo de miembro',
     classification: 'Clasificación',
     specialties: 'Especialidades',

@@ -65,6 +65,7 @@ const InteractiveTable = ({ data, onRowClick }) => {
         'collegiateNumber',
         'DRONumber',
         'fullName',
+        'rights',
         'memberType',
         'classification',
         'specialties',

@@ -311,7 +311,6 @@ const CreateOrUpdateCourse = () => {
 
             swal.close();
             FireSucess('Horas de capacitación actualizadas');
-            console.log(response);
             setInscriptions(response);
         } catch (error) {
             FireError(error.response.data.message);
@@ -323,7 +322,6 @@ const CreateOrUpdateCourse = () => {
             <div className='create-course--row'>
                 <h1>{searchParams.id ? 'Modificar' : 'Crear'} curso</h1>
             </div>
-
             <div className='create-course--row'>
                 <div className='create-course--col create-course--mr-3'>
                     <CourseCard showMoreBtn={false} {...data} />
@@ -468,144 +466,154 @@ const CreateOrUpdateCourse = () => {
                     </BaseButton>
                 </div>
             </div>
-            <div className='calculate-attendees-button'>
-                <BaseButton type='primary' onClick={handleAccredited}>
-                    Calcular colegiados que acreditaron el curso
-                </BaseButton>
-            </div>
-            <div className='create-course--row'>
-                <div className='create-course--col'>
-                    <div className='course--row'>
-                        <h1>Sesiones </h1>
-                    </div>
-                    <div className='create-course--col create-course__sessions-table'>
-                        <ul className='create-course__sessions-table__header'>
-                            {sessions.map((session, i) => (
-                                <li
-                                    className={
-                                        sessionSelected._id === session._id
-                                            ? 'session--selected'
-                                            : ''
-                                    }
-                                    onClick={() => setSessionSelected(session)}
-                                    key={i}>
-                                    {session.date
-                                        ? formatDate(session.date.slice(0, 10))
-                                        : `Sin guardar`}
-                                </li>
-                            ))}
-                            {sessions.length === 0 && (
-                                <li className='session--selected'>
-                                    Sessión 1 (no guardada)
-                                </li>
-                            )}
-                            {sessions.length > 0 && (
-                                <li
-                                    className='create-course__sessions__add'
-                                    onClick={() => {
-                                        if (
-                                            sessions.filter((x) => x.notSaved).length > 0
-                                        ) {
-                                            FireError(
-                                                'Solo se puede tener una sesión sin guardar a la vez'
-                                            );
-                                            return;
-                                        }
-                                        setSessions([
-                                            ...sessions,
-                                            {
-                                                _id: sessions.length,
-                                                date: '',
-                                                time: data.schedule,
-                                                notSaved: true,
-                                            },
-                                        ]);
-                                    }}>
-                                    <div>+</div>
-                                </li>
-                            )}
-                        </ul>
-                        <div className='create-course--row create-course__sessions-table__body'>
-                            <DateInput
-                                label='Fecha de la sesión'
-                                getVal={sessionSelected?.date?.slice(0, 10)}
-                                setVal={(val) => onUpdateSession('date', val)}
-                            />
-                            <TextInput
-                                label='Hora de incio'
-                                getVal={sessionSelected.time}
-                                setVal={(val) => onUpdateSession('time', val)}
-                                placeholder='14:00 hrs'
-                            />
-                            <BaseButton type='primary' onClick={onSubmitSession}>
-                                Guardar
-                            </BaseButton>
-                            {!sessionSelected?.notSaved && (
-                                <BaseButton type='fail' onClick={onSubmitDeleteSession}>
-                                    Eliminar
-                                </BaseButton>
-                            )}
+            {searchParams.id && (
+                <div className='calculate-attendees-button'>
+                    <BaseButton type='primary' onClick={handleAccredited}>
+                        Calcular colegiados que acreditaron el curso
+                    </BaseButton>
+                </div>
+            )}
+            {searchParams.id && (
+                <div className='create-course--row'>
+                    <div className='create-course--col'>
+                        <div className='course--row'>
+                            <h1>Sesiones </h1>
                         </div>
-                        <div className='create-course__sessions-table__content'>
-                            {!sessionSelected?.notSaved && inscriptions.length > 0 ? (
-                                <table className='styled-table'>
-                                    <thead>
-                                        <tr>
-                                            <th>Lista de asistencia</th>
-                                            <th>Número de colegiado</th>
-                                            <th>Nombre completo</th>
-                                            <th>Acreditado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {inscriptions.map((inscription, i) => (
-                                            <tr key={i}>
-                                                <td>
-                                                    <input
-                                                        type='checkbox'
-                                                        checked={didUserAttendedSession(
-                                                            inscription.user,
-                                                            sessionSelected
-                                                        )}
-                                                        onChange={(e) =>
-                                                            onUpdateAttendance(
-                                                                e,
+                        <div className='create-course--col create-course__sessions-table'>
+                            <ul className='create-course__sessions-table__header'>
+                                {sessions.map((session, i) => (
+                                    <li
+                                        className={
+                                            sessionSelected._id === session._id
+                                                ? 'session--selected'
+                                                : ''
+                                        }
+                                        onClick={() => setSessionSelected(session)}
+                                        key={i}>
+                                        {session.date
+                                            ? formatDate(session.date.slice(0, 10))
+                                            : `Sin guardar`}
+                                    </li>
+                                ))}
+                                {sessions.length === 0 && (
+                                    <li className='session--selected'>
+                                        Sessión 1 (no guardada)
+                                    </li>
+                                )}
+                                {sessions.length > 0 && (
+                                    <li
+                                        className='create-course__sessions__add'
+                                        onClick={() => {
+                                            if (
+                                                sessions.filter((x) => x.notSaved)
+                                                    .length > 0
+                                            ) {
+                                                FireError(
+                                                    'Solo se puede tener una sesión sin guardar a la vez'
+                                                );
+                                                return;
+                                            }
+                                            setSessions([
+                                                ...sessions,
+                                                {
+                                                    _id: sessions.length,
+                                                    date: '',
+                                                    time: data.schedule,
+                                                    notSaved: true,
+                                                },
+                                            ]);
+                                        }}>
+                                        <div>+</div>
+                                    </li>
+                                )}
+                            </ul>
+                            <div className='create-course--row create-course__sessions-table__body'>
+                                <DateInput
+                                    label='Fecha de la sesión'
+                                    getVal={sessionSelected?.date?.slice(0, 10)}
+                                    setVal={(val) => onUpdateSession('date', val)}
+                                />
+                                <TextInput
+                                    label='Hora de incio'
+                                    getVal={sessionSelected.time}
+                                    setVal={(val) => onUpdateSession('time', val)}
+                                    placeholder='14:00 hrs'
+                                />
+                                <BaseButton type='primary' onClick={onSubmitSession}>
+                                    Guardar
+                                </BaseButton>
+                                {!sessionSelected?.notSaved && (
+                                    <BaseButton
+                                        type='fail'
+                                        onClick={onSubmitDeleteSession}>
+                                        Eliminar
+                                    </BaseButton>
+                                )}
+                            </div>
+                            <div className='create-course__sessions-table__content'>
+                                {!sessionSelected?.notSaved && inscriptions.length > 0 ? (
+                                    <table className='styled-table'>
+                                        <thead>
+                                            <tr>
+                                                <th>Lista de asistencia</th>
+                                                <th>Número de colegiado</th>
+                                                <th>Nombre completo</th>
+                                                <th>Acreditado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {inscriptions.map((inscription, i) => (
+                                                <tr key={i}>
+                                                    <td>
+                                                        <input
+                                                            type='checkbox'
+                                                            checked={didUserAttendedSession(
                                                                 inscription.user,
                                                                 sessionSelected
-                                                            )
+                                                            )}
+                                                            onChange={(e) =>
+                                                                onUpdateAttendance(
+                                                                    e,
+                                                                    inscription.user,
+                                                                    sessionSelected
+                                                                )
+                                                            }
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            inscription.user
+                                                                .collegiateNumber
                                                         }
-                                                    />
-                                                </td>
-                                                <td>
-                                                    {inscription.user.collegiateNumber}
-                                                </td>
-                                                <td>{inscription.user.fullName}</td>
-                                                <td>
-                                                    {inscription.accredited ? (
-                                                        <img
-                                                            src={AcceptIcon}
-                                                            width={25}
-                                                            alt={`Accept Icon`}
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src={RejectIcon}
-                                                            width={25}
-                                                            alt={`Reject Icon`}
-                                                        />
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <p>No hay colegiados inscritos a este curso.</p>
-                            )}
+                                                    </td>
+                                                    <td>{inscription.user.fullName}</td>
+                                                    <td>
+                                                        {inscription.accredited ? (
+                                                            <img
+                                                                src={AcceptIcon}
+                                                                width={25}
+                                                                alt={`Accept Icon`}
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src={RejectIcon}
+                                                                width={25}
+                                                                alt={`Reject Icon`}
+                                                            />
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p>No hay colegiados inscritos a este curso.</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

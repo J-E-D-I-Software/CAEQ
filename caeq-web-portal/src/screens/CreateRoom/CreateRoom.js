@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import TextInput from '../../components/inputs/TextInput/TextInput';
+import LargeTextInput from '../../components/inputs/TextInput/LargeTextInput';
 import FileInput from '../../components/inputs/FileInput/FileInput';
 import NumberInput from '../../components/inputs/NumberInput/NumberInput';
 import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
@@ -105,7 +106,7 @@ const CreateRoomOffer = () => {
                         setVal={(value) => updateData('capacity', value)}
                         maxDigits={10}
                     />
-                    <TextInput
+                    <LargeTextInput
                         placeholder='Para que el texto este en forma de lista, usa un guión (-)'
                         label='Especificaciones'
                         getVal={data.specifications}
@@ -115,7 +116,7 @@ const CreateRoomOffer = () => {
                         label='Foto del salón'
                         getVal={imageUrl}
                         setVal={setImageUrl}
-                        accept='.jpg, .jpeg'
+                        accept='image/*'
                     />
                 </div>
                 <div className='room-buttons'>

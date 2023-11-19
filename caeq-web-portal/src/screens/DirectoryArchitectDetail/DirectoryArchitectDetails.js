@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
-import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import { FireError, FireLoading, FireQuestion, FireSucess } from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
@@ -15,6 +15,7 @@ import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET'
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { resizeImage } from '../../utils/files';
+import { useNavigate } from 'react-router-dom';
 import {patchDeleteArchitect} from '../../client/ArchitectUser/ArchitecUser.PATCH';
 
 
@@ -39,6 +40,7 @@ const ArchitectDetail = (props) => {
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
     const [courseHours, setCourseHours] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -229,16 +231,23 @@ const ArchitectDetail = (props) => {
 
 
     const handleDeleteArchitect = async () => {
-        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar a este arquitecto?');
-    
-        if (confirmed) {
-            try {
-                await patchDeleteArchitect(searchParams.id);
-                FireSucess('Arquitecto eliminado exitósamente');
-              
-            } catch (error) {
-                FireError('Error al eliminar al arquitecto. Inténtalo de nuevo.');
+        try {
+            const confirmed = await FireQuestion (
+                '¿Estás seguro de que deseas eliminar a este arquitecto?',
+                'Esta acción no se puede deshacer. La información del arquitecto no podra ser recuperada.'
+            );
+
+            if (!confirmed.isConfirmed) {
+                return;
             }
+        
+            const swal = FireLoading('Eliminando arquitecto ', searchParams.name);
+            await patchDeleteArchitect(searchParams.id);
+            swal.close();
+            navigate('/Directorio')
+            FireSucess('Arquitecto eliminado exitósamente');    
+        } catch (error) {
+            FireError('Error al eliminar al arquitecto. Inténtalo de nuevo.');
         }
     };
     

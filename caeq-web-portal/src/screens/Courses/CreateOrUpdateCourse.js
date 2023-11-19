@@ -17,10 +17,7 @@ import DateInput from '../../components/inputs/DateInput/DateInput';
 import BaseButton from '../../components/buttons/BaseButton';
 import { getCourse } from '../../client/Course/Course.GET';
 import createCourse from '../../client/Course/Course.POST';
-import {
-    updateCourse,
-    accreditedHours,
-} from '../../client/Course/Course.PATCH';
+import { updateCourse, accreditedHours } from '../../client/Course/Course.PATCH';
 import { getAllSessions } from '../../client/Course/Session.GET';
 import { createSession } from '../../client/Course/Session.POST';
 import { updateSession } from '../../client/Course/Session.PATCH';
@@ -203,11 +200,8 @@ const CreateOrUpdateCourse = () => {
                 sessionSelected.course = courseId;
                 delete sessionSelected._id;
                 const newSession = await createSession(sessionSelected);
-                setSessionSelected({...newSession, notSaved: false});
-                setSessions([
-                    ...sessions.slice(0, sessions.length - 1),
-                    newSession,
-                ]);
+                setSessionSelected({ ...newSession, notSaved: false });
+                setSessions([...sessions.slice(0, sessions.length - 1), newSession]);
             } else {
                 await updateSession(sessionSelected._id, sessionSelected);
             }
@@ -238,7 +232,7 @@ const CreateOrUpdateCourse = () => {
             await deleteSession(sessionSelected._id);
             const sessionsUpdated = sessions.filter(
                 (session) => session._id !== sessionSelected._id
-            )
+            );
             setSessions(sessionsUpdated);
             if (sessionsUpdated.length > 0)
                 setSessionSelected(sessionsUpdated[sessionsUpdated.length - 1]);
@@ -293,9 +287,7 @@ const CreateOrUpdateCourse = () => {
                 FireNotification('Asistencia actualizada');
             })
             .catch(() =>
-                FireNotification(
-                    'Ocurrió un problema, por favor intente de nuevo'
-                )
+                FireNotification('Ocurrió un problema, por favor intente de nuevo')
             );
     };
 
@@ -306,8 +298,8 @@ const CreateOrUpdateCourse = () => {
     const handleAccredited = async () => {
         try {
             const confirmation = await FireQuestion(
-                '¿Está seguro que desea cerrar el curso?',
-                'Esta acción no se puede deshacer. Las horas del curso se sumarán a los arquitectos que hayan cumplido con el 80% de asistencia.'
+                '¿Está seguro que desea calcular los colegiados que acreditaron el curso? Si ya realizó esta acción anteriormente, las horas se actualizarán con los cmabios en asistencias.',
+                'Esta acción no se puede deshacer. Las horas del curso se sumarán a los arquitectos que hayan cumplido con el 80% de asistencia. Se pueden modificar las asistencias después de realizar esta acción, para calcular las horas de los colegiados de nuevo, por favor seleccione esta opción de nuevo.'
             );
 
             if (!confirmation.isConfirmed) {
@@ -437,17 +429,13 @@ const CreateOrUpdateCourse = () => {
                     <DateInput
                         label='Fecha de Inicio'
                         getVal={data.startDate}
-                        setVal={(value) =>
-                            setData({ ...data, startDate: value })
-                        }
+                        setVal={(value) => setData({ ...data, startDate: value })}
                         require={true}
                     />
                     <DateInput
                         label='Fecha de fin'
                         getVal={data.endDate}
-                        setVal={(value) =>
-                            setData({ ...data, endDate: value })
-                        }
+                        setVal={(value) => setData({ ...data, endDate: value })}
                         require={true}
                     />
                     <TextInput
@@ -480,9 +468,9 @@ const CreateOrUpdateCourse = () => {
                     </BaseButton>
                 </div>
             </div>
-            <div>
+            <div className='calculate-attendees-button'>
                 <BaseButton type='primary' onClick={handleAccredited}>
-                    Terminar curso
+                    Calcular colegiados que acreditaron el curso
                 </BaseButton>
             </div>
             <div className='create-course--row'>
@@ -492,7 +480,6 @@ const CreateOrUpdateCourse = () => {
                     </div>
                     <div className='create-course--col create-course__sessions-table'>
                         <ul className='create-course__sessions-table__header'>
-                            {console.log(sessionSelected)}
                             {sessions.map((session, i) => (
                                 <li
                                     className={
@@ -516,8 +503,12 @@ const CreateOrUpdateCourse = () => {
                                 <li
                                     className='create-course__sessions__add'
                                     onClick={() => {
-                                        if (sessions.filter(x => x.notSaved).length > 0) {
-                                            FireError('Solo se puede tener una sesión sin guardar a la vez');
+                                        if (
+                                            sessions.filter((x) => x.notSaved).length > 0
+                                        ) {
+                                            FireError(
+                                                'Solo se puede tener una sesión sin guardar a la vez'
+                                            );
                                             return;
                                         }
                                         setSessions([
@@ -549,17 +540,14 @@ const CreateOrUpdateCourse = () => {
                             <BaseButton type='primary' onClick={onSubmitSession}>
                                 Guardar
                             </BaseButton>
-                            {!sessionSelected?.notSaved &&
-                                <BaseButton
-                                    type='fail'
-                                    onClick={onSubmitDeleteSession}
-                                >
+                            {!sessionSelected?.notSaved && (
+                                <BaseButton type='fail' onClick={onSubmitDeleteSession}>
                                     Eliminar
                                 </BaseButton>
-                            }
+                            )}
                         </div>
                         <div className='create-course__sessions-table__content'>
-                            {(!sessionSelected?.notSaved && inscriptions.length > 0) ? (
+                            {!sessionSelected?.notSaved && inscriptions.length > 0 ? (
                                 <table className='styled-table'>
                                     <thead>
                                         <tr>
@@ -591,9 +579,7 @@ const CreateOrUpdateCourse = () => {
                                                 <td>
                                                     {inscription.user.collegiateNumber}
                                                 </td>
-                                                <td>
-                                                    {inscription.user.fullName}
-                                                </td>
+                                                <td>{inscription.user.fullName}</td>
                                                 <td>
                                                     {inscription.accredited ? (
                                                         <img

@@ -45,7 +45,7 @@ export async function getMyInscriptions(page = 1, filtersParams = '') {
 
 /**
  * Gets the inscriptions of the currently authenticated architect.
- * 
+ *
  * @returns {Promise} A promise that resolves with the response data when the operation is successful.
  */
 

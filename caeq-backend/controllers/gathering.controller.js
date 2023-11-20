@@ -12,18 +12,23 @@ exports.deleteGathering = factory.deleteOne(Gathering);
 exports.createGathering = catchAsync(async (req, res, next) => {
     let gathering;
 
-    try{
+    try {
         gathering = await Gathering.create(req.body);
 
-        if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
-            const addressee = await Architect.find({email: { $eq: 'josh152002@outlook.com'}});
+        if (
+            process.env.NODE_ENV === 'development' ||
+            process.env.NODE_ENV === 'testing' ||
+            process.env.NODE_ENV === 'test'
+        ) {
+            const addressee = await Architect.find({
+                email: { $eq: 'pablocesarjimenezvilleda@gmail.com' },
+            });
             const email = await Email.sendNewGatheringCreatedEmail(addressee, gathering);
         } else {
             const addressee2 = await Architect.find({ anuuity: { $eq: true } });
             const email = await Email.sendNewGatheringCreatedEmail(addressee2, gathering);
         }
-
-    }catch(error){
+    } catch (error) {
         return next(new AppError('Hubo un error al enviar los correos.', 500));
     }
 

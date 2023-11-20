@@ -123,7 +123,7 @@ const architectUserTestData = [
         positionsInCouncil: 'Vocal',
         capacitationHours: 110,
         annuity: false,
-        email: 'miguel@example.com',
+        email: 'pablocesarjimenezvilleda@gmail.com',
         password: 'passwordabc',
         passwordConfirm: 'passwordabc',
     },

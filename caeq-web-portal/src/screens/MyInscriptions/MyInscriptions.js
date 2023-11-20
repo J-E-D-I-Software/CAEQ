@@ -43,41 +43,40 @@ const MyInscription = (props) => {
     }, [filterSearchByName, filterModality, paginationPage]);
 
     return (
-        <div className='courses'>
-            <div className='courses--row'>
+        <div className="courses">
+            <div className="courses--row">
                 <h1>Mis Cursos Inscritos</h1>
             </div>
             <div className="courses--row courses__filters">
-                <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton type="primary" onClick={() => navigate('/AsistenciasCursos')}>
-                        Mis Asistencias a cursos
-                    </BaseButton>
-                </RestrictByRole>
+                <BaseButton type="primary" onClick={() => navigate('/AsistenciasCursos')}>
+                    Mis Asistencias a cursos
+                </BaseButton>
+
                 <TextInput
-                    label='Buscar'
-                    placeholder='Por nombre'
+                    label="Buscar"
+                    placeholder="Por nombre"
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
-                <div className='courses--row'>
+                <div className="courses--row">
                     <DropdownInput
-                        label='Filtrar'
+                        label="Filtrar"
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
-                        placeholder='Filtrar modalidad'
+                        placeholder="Filtrar modalidad"
                     />
                 </div>
             </div>
 
-            <div className='courses--row courses__courses-section'>
+            <div className="courses--row courses__courses-section">
                 {courses.map((mycourse, i) => (
                     <InscriptionCard key={i} {...mycourse} />
                 ))}
             </div>
 
-            <div className='courses--row courses__courses-pagination'>
+            <div className="courses--row courses__courses-pagination">
                 <PaginationNav
                     page={paginationPage}
                     onClickBefore={() => setPaginationPage(paginationPage - 1)}

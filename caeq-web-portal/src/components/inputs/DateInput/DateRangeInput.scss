@@ -16,4 +16,13 @@
     .label {
         margin-bottom: 0.5rem;
     }
+
+    .date-range {
+        display: flex;
+        flex-direction: row;
+
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+        }
+    }
 }

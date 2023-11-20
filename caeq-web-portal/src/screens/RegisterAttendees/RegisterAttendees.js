@@ -29,6 +29,10 @@ const RegisterAttendees = () => {
     const [getArchitectAttendees, setArchitectAttendees] = useState('');
     const [getArchitectNumberAttendees, setArchitectNumberAttendees] = useState('');
     const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
+    const [paginationEnabledAttendees, setPaginationEnabledAttendees] = useState([
+        true,
+        true,
+    ]);
     const [paginationPage, setPaginationPage] = useState(1);
     const [attendeesPage, setAttendeesPage] = useState(1);
     const [data, setData] = useState({
@@ -46,6 +50,15 @@ const RegisterAttendees = () => {
             );
 
             setAttendees(attendees);
+            if (attendeesPage === 1 && attendees.length)
+                setPaginationEnabledAttendees([false, true]);
+            else if (attendeesPage === 1 && !attendees.length)
+                setPaginationEnabledAttendees([false, false]);
+            else if (attendeesPage > 1 && !attendees.length)
+                setPaginationEnabledAttendees([true, false]);
+            else if (attendeesPage > 1 && attendees.length)
+                setPaginationEnabledAttendees([true, true]);
+            else setPaginationEnabledAttendees([true, true]);
 
             let filters = '';
             filters += `&fullName[regex]=${getArchitect}&fields=fullName,collegiateNumber`;
@@ -62,7 +75,6 @@ const RegisterAttendees = () => {
             else if (paginationPage > 1 && architects.length)
                 setPaginationEnabled([true, true]);
             else setPaginationEnabled([true, true]);
-
         } catch (error) {}
     };
 
@@ -73,7 +85,7 @@ const RegisterAttendees = () => {
      */
     useEffect(() => {
         updateAttendeeData();
-    }, [paginationPage, getArchitect, getArchitectNumber]);
+    }, [paginationPage, attendeesPage, getArchitect, getArchitectNumber]);
 
     /**
      * useEffect to reset pagination page when search parameters change.
@@ -222,37 +234,41 @@ const RegisterAttendees = () => {
 
     return (
         <div className='create-course'>
-            <div className='create-course--row'>
-                <h1>Registrar asistencias a {data.title}</h1>
-            </div>
-            <BaseButton
-                onClick={() =>
-                    attendeesRef.current.scrollIntoView({ behavior: 'smooth' })
-                }>
-                Ver asistencias registradas
-            </BaseButton>
-            <div className='search-inputs'>
-                <label>
-                    <TextInput
-                        getVal={getArchitect}
-                        setVal={setArchitect}
-                        placeholder='Buscar por nombre'
+            <div className='attendee-container'>
+                <div className='create-course--row'>
+                    <h1>Registrar asistencias a {data.title}</h1>
+                </div>
+                <BaseButton
+                    onClick={() =>
+                        attendeesRef.current.scrollIntoView({ behavior: 'smooth' })
+                    }>
+                    Ver asistencias registradas
+                </BaseButton>
+                <div className='search-inputs'>
+                    <label>
+                        <TextInput
+                            getVal={getArchitect}
+                            setVal={setArchitect}
+                            placeholder='Buscar por nombre'
+                        />
+                    </label>
+                    <label>
+                        <TextInput
+                            getVal={getArchitectNumber}
+                            setVal={setArchitectNumber}
+                            placeholder='Buscar por número'
+                        />
+                    </label>
+                </div>
+                <div className='attendee-pagination'>
+                    <PaginationNav
+                        onClickBefore={handlePreviousPage}
+                        onClickAfter={handleNextPage}
+                        page={paginationPage}
+                        beforeBtnEnabled={paginationEnabled[0]}
+                        afterBtnEnabled={paginationEnabled[1]}
                     />
-                </label>
-                <label>
-                    <TextInput
-                        getVal={getArchitectNumber}
-                        setVal={setArchitectNumber}
-                        placeholder='Buscar por número'
-                    />
-                </label>
-            </div>
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handlePreviousPage}
-                    onClickAfter={handleNextPage}
-                    page={paginationPage}
-                />
+                </div>
             </div>
             <div className='directory-row'>
                 {architectUsers.length > 0 ? (
@@ -281,34 +297,35 @@ const RegisterAttendees = () => {
                     <p className='no-data-message'>No hay colegiados disponibles</p>
                 )}
             </div>
-
-            <div className='create-course--row' ref={attendeesRef}>
-                <h1>Asistencias de {data.title}</h1>
-            </div>
-            <div className='search-inputs'>
-                <label>
-                    <TextInput
-                        getVal={getArchitectAttendees}
-                        setVal={setArchitectAttendees}
-                        placeholder='Buscar por nombre'
+            <div className='attendee-container'>
+                <div className='create-course--row' ref={attendeesRef}>
+                    <h1>Asistencias de {data.title}</h1>
+                </div>
+                <div className='search-inputs'>
+                    <label>
+                        <TextInput
+                            getVal={getArchitectAttendees}
+                            setVal={setArchitectAttendees}
+                            placeholder='Buscar por nombre'
+                        />
+                    </label>
+                    <label>
+                        <TextInput
+                            getVal={getArchitectNumberAttendees}
+                            setVal={setArchitectNumberAttendees}
+                            placeholder='Buscar por número'
+                        />
+                    </label>
+                </div>
+                <div className='directory-row directory-pagination'>
+                    <PaginationNav
+                        onClickBefore={handleAttendeesPreviousPage}
+                        onClickAfter={handleAttendeesNextPage}
+                        page={attendeesPage}
+                        beforeBtnEnabled={paginationEnabledAttendees[0]}
+                        afterBtnEnabled={paginationEnabledAttendees[1]}
                     />
-                </label>
-                <label>
-                    <TextInput
-                        getVal={getArchitectNumberAttendees}
-                        setVal={setArchitectNumberAttendees}
-                        placeholder='Buscar por número'
-                    />
-                </label>
-            </div>
-            <div className='directory-row directory-pagination'>
-                <PaginationNav
-                    onClickBefore={handleAttendeesPreviousPage}
-                    onClickAfter={handleAttendeesNextPage}
-                    page={attendeesPage}
-                    beforeBtnEnabled={paginationEnabled[0]}
-                    afterBtnEnabled={paginationEnabled[1]}
-                />
+                </div>
             </div>
             <div className='directory-row'>
                 {attendees.length > 0 ? (

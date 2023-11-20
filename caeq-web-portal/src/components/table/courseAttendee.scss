@@ -1,10 +1,24 @@
 .course-attendee-container {
-
-    h2{
+    h2 {
         position: inline;
     }
-    
-    .table-wrapper{
+
+    img {
+        width: 70px;
+        max-width: 70px;
+        align-self: center;
+    }
+
+    td {
+        padding: 0.5rem;
+
+        img {
+            margin-left: 50%;
+            transform: translate(-50%, 0);
+        }
+    }
+
+    .table-wrapper {
         max-height: 800px;
         overflow: auto;
         .tabla {
@@ -21,13 +35,17 @@
         }
     }
 
-    .course-attendee-container-footer{
+    .course-attendee-container-footer {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        
-        h2{
+
+        h2 {
             display: inline-block;
+        }
+
+        @media screen and (max-width: 700px) {
+            flex-direction: column;
         }
     }
 }

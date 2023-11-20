@@ -7,7 +7,10 @@ import TextInput from '../../components/inputs/TextInput/TextInput';
 import '../DirectoryArchitectDetail/DirectoryArchitectDetail.scss';
 import BaseButton from '../../components/buttons/BaseButton';
 import FileInput from '../../components/inputs/FileInput/FileInput';
-import { updateArchitectUserByID } from '../../client/ArchitectUser/ArchitecUser.PATCH';
+import {
+    updateArchitectUserByID,
+    updateArchitectUserFileByID,
+} from '../../client/ArchitectUser/ArchitecUser.PATCH';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import DateInput from '../../components/inputs/DateInput/DateInput';
 
@@ -47,11 +50,27 @@ const ArchitectPersonalData = (props) => {
         e.preventDefault();
         const swal = FireLoading('Guardando cambios... por favor espere');
 
-        const filesToUpload = ['linkINE', 'linkCV', 'linkCAEQCard', 'linkCURP', 'linkProfessionalLicense', 
-                                'linkBachelorsDegree', 'linkAddressCertificate', 'linkBirthCertificate'];
-        const fieldsToUpdate = ['fullName', 'dateOfBirth', 'gender', 'homeAddress', 'cellphone', 
-                                'homePhone', 'email', 'emergencyContact'];
-        
+        const filesToUpload = [
+            'linkINE',
+            'linkCV',
+            'linkCAEQCard',
+            'linkCURP',
+            'linkProfessionalLicense',
+            'linkBachelorsDegree',
+            'linkAddressCertificate',
+            'linkBirthCertificate',
+        ];
+        const fieldsToUpdate = [
+            'fullName',
+            'dateOfBirth',
+            'gender',
+            'homeAddress',
+            'cellphone',
+            'homePhone',
+            'email',
+            'emergencyContact',
+        ];
+
         // We don't want to update all fields, just the ones available in the form
         const filteredData = {};
         for (const field of Object.keys(editedData)) {
@@ -61,10 +80,17 @@ const ArchitectPersonalData = (props) => {
         }
 
         // Prevent blank values
-        const mapDisplayName = {fullName: 'nombre', dateOfBirth: 'fecha de nacimiento', gender: 'género',
-                                homeAddress: 'dirección', cellphone: 'número celular', homePhone: 'número de casa',
-                                email: 'correo electrónico', emergencyContact: 'contacto de emergencia'};
-        for (let i=0; i<Object.keys(filteredData).length; i++) {
+        const mapDisplayName = {
+            fullName: 'nombre',
+            dateOfBirth: 'fecha de nacimiento',
+            gender: 'género',
+            homeAddress: 'dirección',
+            cellphone: 'número celular',
+            homePhone: 'número de casa',
+            email: 'correo electrónico',
+            emergencyContact: 'contacto de emergencia',
+        };
+        for (let i = 0; i < Object.keys(filteredData).length; i++) {
             const key = Object.keys(filteredData)[i];
             const value = filteredData[key];
             if ((value == null || value === '') && !filesToUpload.includes(key)) {
@@ -106,7 +132,7 @@ const ArchitectPersonalData = (props) => {
         // Update the files
         for (const field of filesToUpload) {
             let file = filteredData[field];
-            if (file) {
+            if (file && file !== '-' && typeof file !== 'string') {
                 // If file size is over 5mb we have to compress it for the backend
                 if (file.type?.includes('image') && file.size > 3000000) {
                     file = await resizeImage(file);
@@ -115,7 +141,10 @@ const ArchitectPersonalData = (props) => {
                 const form = new FormData();
                 form.append(field, file);
                 try {
-                    const response = await updateArchitectUserByID(searchParams.id, form);
+                    const response = await updateArchitectUserFileByID(
+                        searchParams.id,
+                        form
+                    );
                     if (response.status !== 'success')
                         throw new Error('Error al subir archivo');
                 } catch (error) {
@@ -133,11 +162,11 @@ const ArchitectPersonalData = (props) => {
 
     /**
      * Returns an array of member options excluding the currently edited member type.
-    *
-    * @function
-    * @returns {Array} An array of member options.
-    */
-   const getGender = () => {
+     *
+     * @function
+     * @returns {Array} An array of member options.
+     */
+    const getGender = () => {
         const gender = ['Hombre', 'Mujer', 'Prefiero no decirlo'];
         const filteredOptions = gender.filter((option) => option !== editedData.gender);
         return filteredOptions;
@@ -260,7 +289,10 @@ const ArchitectPersonalData = (props) => {
                         label='Adjuntar Cédula Profesional'
                         accept='image/*,application/pdf'
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkProfessionalLicense: value })
+                            setEditedData({
+                                ...editedData,
+                                linkProfessionalLicense: value,
+                            })
                         }
                     />
                     <FileInput
@@ -274,7 +306,10 @@ const ArchitectPersonalData = (props) => {
                         label='Adjuntar comprobante de Domicilio'
                         accept='image/*,application/pdf'
                         setVal={(value) =>
-                            setEditedData({ ...editedData, linkAddressCertificate: value })
+                            setEditedData({
+                                ...editedData,
+                                linkAddressCertificate: value,
+                            })
                         }
                     />
                     <FileInput

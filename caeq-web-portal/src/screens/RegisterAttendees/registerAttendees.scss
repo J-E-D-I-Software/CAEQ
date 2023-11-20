@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    width: 100%;
     gap: 5px;
 
     @media (max-width: 570px) {
@@ -14,5 +15,18 @@
         @media (max-width: 570px) {
             width: 100%;
         }
+    }
+}
+
+.attendee-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    button {
+        max-width: 300px;
+        width: 100%;
     }
 }

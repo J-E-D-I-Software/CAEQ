@@ -40,8 +40,7 @@ const Courses = (props) => {
 
             const data = await getAllCourses(paginationPage, filters);
             setCourses(data);
-            if (paginationPage === 1 && data.length)
-                setPaginationEnabled([false, true]);
+            if (paginationPage === 1 && data.length) setPaginationEnabled([false, true]);
             else if (paginationPage === 1 && !data.length)
                 setPaginationEnabled([false, false]);
             else if (paginationPage > 1 && !data.length)
@@ -58,41 +57,41 @@ const Courses = (props) => {
     }, [filterSearchByName, filterModality, orderBy, filterDate, paginationPage]);
 
     return (
-        <div className="courses">
-            <div className="courses--row courses__header">
+        <div className='courses'>
+            <div className='courses--row courses__header'>
                 <h1>Oferta de cursos</h1>
-                <div className="courses--row">
+                <div className='courses--row'>
                     <RestrictByRole allowedRoles={['caeq']}>
                         <BaseButton
-                            type="primary"
-                            className="accept-payment"
-                            onClick={() => navigate('/AcceptPayment')}
-                        >
+                            type='primary'
+                            className='accept-payment'
+                            onClick={() => navigate('/AcceptPayment')}>
                             Ver solicitudes de pago
                         </BaseButton>
-                        <BaseButton type="primary" onClick={() => navigate('/Cursos/Curso')}>
+                        <BaseButton
+                            type='primary'
+                            onClick={() => navigate('/Cursos/Curso')}>
                             Crear curso
                         </BaseButton>
                     </RestrictByRole>
                 </div>
             </div>
 
-            <div className="courses--row courses__filters">
+            <div className='courses--row courses__filters'>
                 <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton type="secondary" onClick={() => navigate('/MisCursos')}>
+                    <BaseButton type='secondary' onClick={() => navigate('/MisCursos')}>
                         Mis Inscripciones
                     </BaseButton>
                 </RestrictByRole>
                 <TextInput
-                    label="Buscar"
-                    placeholder="Por nombre"
+                    label='Buscar'
+                    placeholder='Por nombre'
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
-
-                <div className="courses--row">
+                <div className='courses--row'>
                     <RestrictByRole allowedRoles={['caeq']}>
-                        <DateRangeInput 
+                        <DateRangeInput
                             label='Rango de fechas'
                             startVal={filterDate[0]}
                             endVal={filterDate[1]}
@@ -102,31 +101,31 @@ const Courses = (props) => {
                     </RestrictByRole>
 
                     <DropdownInput
-                        label="Filtrar"
+                        label='Filtrar'
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
-                        placeholder="Filtrar modalidad"
+                        placeholder='Filtrar modalidad'
                     />
 
                     <DropdownInput
-                        label="Ordenar"
+                        label='Ordenar'
                         getVal={orderBy}
                         setVal={setOrderBy}
                         options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de inicio']}
-                        placeholder="Ordenar"
+                        placeholder='Ordenar'
                     />
                 </div>
             </div>
 
-            <div className="courses--row courses__courses-section">
+            <div className='courses--row courses__courses-section'>
                 {courses.map((course, i) => (
                     <CourseCard key={i} {...course} />
                 ))}
             </div>
 
-            <div className="courses--row courses__courses-pagination">
-                <PaginationNav 
+            <div className='courses--row courses__courses-pagination'>
+                <PaginationNav
                     page={paginationPage}
                     onClickBefore={() => setPaginationPage(paginationPage - 1)}
                     onClickAfter={() => setPaginationPage(paginationPage + 1)}

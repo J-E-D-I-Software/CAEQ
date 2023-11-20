@@ -4,8 +4,8 @@ const courseData = [
         modality: 'Presencial',
         numberHours: 7,
         pricing: 'Pagado',
-        startDate: '2023-12-01T00:00:00',
-        endDate: '2023-12-02T00:00:00',
+        startDate: '2023-11-16T00:00:00',
+        endDate: '2023-11-17T00:00:00',
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:

@@ -11,16 +11,20 @@ import { useState, useEffect } from 'react';
 import { getAllCourses } from '../../client/Course/Course.GET';
 import { useNavigate } from 'react-router-dom';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
+import { getUserType } from '../../utils/auth';
 
 /**
  * Page that displays the courses.
  */
 const Courses = (props) => {
+    let startingDate = getCurrentDate();
+    if (getUserType() === 'architect') startingDate = getCurrentDate(-1); 
+    startingDate = getCurrentDate(-1);
     const [courses, setCourses] = useState([]);
     const [filterModality, setFilterModality] = useState('');
     const [filterSearchByName, setFilterSearchByName] = useState('');
     const [orderBy, setOrderBy] = useState('Fecha de inicio');
-    const [filterDate, setFilterDate] = useState([getCurrentDate(), '']);
+    const [filterDate, setFilterDate] = useState([startingDate, '']);
     const [paginationPage, setPaginationPage] = useState(1);
     const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const navigate = useNavigate();

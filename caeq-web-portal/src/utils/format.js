@@ -22,8 +22,9 @@ export const formatDate = (dateStr) => {
     return `${day} ${formattedMonth} ${year}`;
 };
 
-export const getCurrentDate = () => {
+export const getCurrentDate = (deltaDays=0) => {
     const date = new Date();
+    date.setDate(date.getDate() + deltaDays);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day  = date.getDate();

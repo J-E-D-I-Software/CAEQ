@@ -481,20 +481,24 @@ const CreateOrUpdateCourse = () => {
                         </div>
                         <div className='create-course--col create-course__sessions-table'>
                             <ul className='create-course__sessions-table__header'>
-                                {sessions.map((session, i) => (
-                                    <li
-                                        className={
-                                            sessionSelected._id === session._id
-                                                ? 'session--selected'
-                                                : ''
-                                        }
-                                        onClick={() => setSessionSelected(session)}
-                                        key={i}>
-                                        {session.date
-                                            ? formatDate(session.date.slice(0, 10))
-                                            : `Sin guardar`}
-                                    </li>
-                                ))}
+                                {sessions
+                                    .sort((prev, next) => {
+                                        return new Date(prev.date) - new Date(next.date);
+                                    })
+                                    .map((session, i) => (
+                                        <li
+                                            className={
+                                                sessionSelected._id === session._id
+                                                    ? 'session--selected'
+                                                    : ''
+                                            }
+                                            onClick={() => setSessionSelected(session)}
+                                            key={i}>
+                                            {session.date
+                                                ? formatDate(session.date.slice(0, 10))
+                                                : `Sin guardar`}
+                                        </li>
+                                    ))}
                                 {sessions.length === 0 && (
                                     <li className='session--selected'>
                                         Sessión 1 (no guardada)

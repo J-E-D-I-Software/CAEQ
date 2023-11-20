@@ -45,7 +45,6 @@ module.exports = class Email {
         }
 
         if (gathering != null) {
-            console.log(gathering);
             this.gatheringTitle = gathering.title;
             this.gatheringLink = gathering.meetingLink;
             this.gatheringTime = gathering.meetingTime;

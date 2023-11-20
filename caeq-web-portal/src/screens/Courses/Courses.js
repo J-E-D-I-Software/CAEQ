@@ -18,8 +18,7 @@ import { getUserType } from '../../utils/auth';
  */
 const Courses = (props) => {
     let startingDate = getCurrentDate();
-    if (getUserType() === 'architect') startingDate = getCurrentDate(-1);
-    console.log(startingDate);
+    if (getUserType() === 'architect') startingDate = getCurrentDate(-1); 
     startingDate = getCurrentDate(-1);
     const [courses, setCourses] = useState([]);
     const [filterModality, setFilterModality] = useState('');

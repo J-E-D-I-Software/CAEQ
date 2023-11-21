@@ -110,8 +110,6 @@ const Profile = (props) => {
                             <span>Dirección: </span>
                             {profile.homeAddress}
                         </p>
-                    </div>
-                    <div className='profile-col'>
                         <p>
                             <span>Teléfono Celular: </span>
                             {profile.cellphone}
@@ -120,6 +118,9 @@ const Profile = (props) => {
                             <span>Teléfono Casa: </span>
                             {profile.homePhone}
                         </p>
+                    </div>
+                    <div className='profile-col'>
+                        
                         <p>
                             <span>Correo Electrónico: </span>
                             {profile.email}
@@ -189,19 +190,27 @@ const Profile = (props) => {
                             {profile.DRONumber}
                         </p>
                         <p>
-                            <span>Derechos vigentes: {profile.rights ? 'Sí' : 'No'}</span>
-                            <p>Anualidad pagada: {profile.annuity ? 'Sí' : 'No'}</p>
-                            <p>
-                                Asistencias a asambleas del último año:{' '}
+                            <span>Especialidad: </span>
+                            {profile.specialties
+                                ? profile.specialties
+                                      .map((specialty) => specialty.name)
+                                      .join(', ')
+                                : 'No especialidades'}
+                        </p>
+                        <p>
+                            <span>Derechos vigentes: </span>{profile.rights ? 'Sí' : 'No'}
+                            <p><span>Anualidad pagada:</span> {profile.annuity ? 'Sí' : 'No'}</p>
+                            <p><span>
+                                Asistencias a asambleas del último año:</span>{' '}
                                 {profile.totalGatheringAttendees}/5
                             </p>
-                            <p>
-                                Asistencias presenciales a asambleas del último año:{' '}
+                            <p><span>
+                                Asistencias presenciales a asambleas del último año:</span>{' '}
                                 {profile.totalGatheringAttendeesPresential}
                                 /3
                             </p>
-                            <p>
-                                Horas de capacitación del último año: {profile.totalHours}
+                            <p><span>
+                                Horas de capacitación del último año: </span>{profile.totalHours}
                                 /{profile.specialties?.length > 0 ? '40' : '20'}
                             </p>
                         </p>
@@ -280,14 +289,7 @@ const Profile = (props) => {
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
                         </p>
-                        <p>
-                            <span>Especialidad: </span>
-                            {profile.specialties
-                                ? profile.specialties
-                                      .map((specialty) => specialty.name)
-                                      .join(', ')
-                                : 'No especialidades'}
-                        </p>
+                        
                         <p>
                             <span>Municipio: </span>
                             {profile.municipalityOfLabor}

@@ -132,7 +132,7 @@ const Course = (props) => {
             <div className="course-row course-data">
                 <div className="course-row">
                     <img src={ClassroomIcon} height={40} />
-                    <span>Curso {data.modality}</span>
+                    <span>Curso {data.modality == 'Remoto' ? 'En línea' : data.modality}</span>
                 </div>
                 <div className="course-row">
                     <img src={LocationIcon} height={40} />
@@ -144,8 +144,9 @@ const Course = (props) => {
                 <div className="course-row">
                     <img src={ClockIcon} height={40} />
                     <span>
-                        <p>Podrás acreditar</p>
-                        {data.numberHours} horas
+                        <p>
+                            Horas totales de curso {data.numberHours}
+                        </p>
                     </span>
                 </div>
                 <div className="course-row">
@@ -159,30 +160,25 @@ const Course = (props) => {
 
             <div className="course-row course-data">
                 <div className="course-row">
-                    <img src={SatisfactionIcon} height={40} />
-                    <span>
-                        <p>Reseña</p>
-                        <p className='course-review'>
-                            {data.teacherReview}
-                        </p>
-                    </span>
+                <img src={CalendarIcon} height={40} />
+                    <p>
+                        Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
+                    </p> 
                 </div>
-                <div className="course-row course-time">
+                <div className="course-row">
                     <img src={CalendarIcon} height={40} />
                     {startDate && endDate && (
                         <p>
-                            <p>
-                                    Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
-                            </p> 
                             <p>
                                     Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
                             </p>
                         </p>
                     )}
                 </div>
+                
                 <div>
-                    <p>{data.daysOfSession}</p>
-                    <p>{data.schedule}</p>
+                    <p> Días de Sesión: {data.daysOfSession}</p>
+                    <p>en un horario de {data.schedule}</p>
                 </div>
             </div>
             <div></div>
@@ -191,6 +187,17 @@ const Course = (props) => {
                 <img src={data.imageUrl} />
                 <div className="course-col">
                     <p className="text-area">{data.description}</p>
+                    <div className='course-row'>
+                    <img src={SatisfactionIcon} height={60} />
+                    <div className="course-col courses-extras">
+                        <div className='course-co'>
+                            <p className="text-area">Reseña</p>
+                            <p className="text-area">
+                                {data.teacherReview}
+                            </p>
+                        </div>
+                    </div>
+                    </div>
                     <div className="course-row course-extras">
                         <div className="course-col">
                             <h3>Objetivos</h3>

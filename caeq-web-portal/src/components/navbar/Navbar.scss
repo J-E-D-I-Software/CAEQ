@@ -4,6 +4,12 @@
     flex-direction: column;
 }
 
+.navbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .navbar-center {
     width: 100%;
     display: flex;
@@ -57,5 +63,4 @@
         row-gap: 10px;
         flex-direction: column;
     }
-    
 }

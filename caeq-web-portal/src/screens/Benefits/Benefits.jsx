@@ -29,7 +29,12 @@ const Benefits = (props) => {
             setBenefits(data);
 
             const categoryOptions = data.map((benefit) => benefit.category);
-            setCategoryOptions(categoryOptions);
+
+            const uniqueSet = new Set(categoryOptions);
+
+            const uniqueArray = [...uniqueSet];
+
+            setCategoryOptions(uniqueArray);
         };
         try {
             fetchData();

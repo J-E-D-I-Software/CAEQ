@@ -28,8 +28,8 @@ const benefitsData = [
     },
     {
         name: 'Descuentos en materiales de construcción',
-        location: 'Nacional',
-        contact: 'ventas@materialconstruccion.com',
+        location: 'Nacional de piedad y ciudades principales del estado de queretaro',
+        contact: 'ventas@materialconstruccion.com 738176318736217236',
         website: 'https://www.materialconstruccion.com',
         description:
             'Aprovecha nuestros descuentos exclusivos en una amplia gama de materiales de construcción. Desde cemento hasta azulejos y herramientas, ofrecemos precios preferenciales para nuestros miembros. Compra en línea o visita nuestras sucursales para obtener los mejores precios en materiales de alta calidad.',

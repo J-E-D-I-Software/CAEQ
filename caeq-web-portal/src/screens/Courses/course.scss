@@ -32,6 +32,15 @@
         max-width: 35vw;
     }
 
+    .course-table {
+        width: 100%;
+        table-layout: fixed ;
+
+        td {
+            width: 25%;
+        }
+    }
+
     .course-details { 
         align-items: start;
         justify-content: stretch;

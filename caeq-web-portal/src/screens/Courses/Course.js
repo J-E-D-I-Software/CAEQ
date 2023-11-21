@@ -129,68 +129,69 @@ const Course = (props) => {
                 </RestrictByRole>
             </div>
 
-            <div className="course-row course-data">
-                <div className="course-row">
-                    <img src={ClassroomIcon} height={40} />
-                    <span>Curso {data.modality}</span>
-                </div>
-                <div className="course-row">
-                    <img src={LocationIcon} height={40} />
-                    <span>
-                        <p>Lugar</p>
-                        {data.place}
-                    </span>
-                </div>
-                <div className="course-row">
-                    <img src={ClockIcon} height={40} />
-                    <span>
-                        <p>Podrás acreditar</p>
-                        {data.numberHours} horas
-                    </span>
-                </div>
-                <div className="course-row">
-                    <img src={TeacherIcon} height={40} />
-                    <span>
-                        <p>Impartido por</p>
-                        {data.teacherName} horas
-                    </span>
-                </div>
-            </div>
-
-            <div className="course-row course-data">
-                <div className="course-row">
-                    <img src={SatisfactionIcon} height={40} />
-                    <span>
-                        <p>Reseña</p>
-                        <p className='course-review'>
-                            {data.teacherReview}
-                        </p>
-                    </span>
-                </div>
-                <div className="course-row course-time">
-                    <img src={CalendarIcon} height={40} />
-                    {startDate && endDate && (
-                        <p>
-                            <p>
-                                    Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
-                            </p> 
-                            <p>
-                                    Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
-                            </p>
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <p>{data.daysOfSession}</p>
-                    <p>{data.schedule}</p>
-                </div>
-            </div>
-            <div></div>
+            <table className='course-table'>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src={ClassroomIcon} height={40} />
+                            <span>Curso {data.modality}</span>
+                        </td>
+                        <td>
+                            <img src={LocationIcon} height={40} />
+                            <span>
+                                <p>Lugar</p>
+                                {data.place}
+                            </span>
+                        </td>
+                        <td>
+                            <img src={ClockIcon} height={40} />
+                            <span>
+                                <p>Horario</p>
+                                {data.schedule}
+                            </span>
+                        </td>
+                        <td>
+                            <img src={TeacherIcon} height={40} />
+                            <span>
+                                <p>Impartido por</p>
+                                {data.teacherName}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src={CalendarIcon} height={40} />
+                            {startDate && endDate && (
+                                <p>
+                                    <p>
+                                        Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
+                                    </p> 
+                                    <p>
+                                        Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
+                                    </p>
+                                </p>
+                            )}
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <p>{data.daysOfSession}</p>
+                            <p>{data.schedule}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div className="course-row course-details">
                 <img src={data.imageUrl} />
                 <div className="course-col">
                     <p className="text-area">{data.description}</p>
+                    <span>
+                        <p>Reseña</p>
+                        <p className='course-review'>
+                            "{data.teacherReview}"
+                        </p>
+                    </span>
                     <div className="course-row course-extras">
                         <div className="course-col">
                             <h3>Objetivos</h3>

@@ -303,7 +303,7 @@ const ArchitectPersonalData = (props) => {
                         }
                     />
                     <FileInput
-                        label='Adjuntar comprobante de Domicilio'
+                        label='Adjuntar Comprobante de Domicilio'
                         accept='image/*,application/pdf'
                         setVal={(value) =>
                             setEditedData({

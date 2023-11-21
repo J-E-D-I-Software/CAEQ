@@ -55,7 +55,7 @@ module.exports = class Email {
         }
 
         this.to = user.email;
-        this.firstName = user.fullName.split(' ')[0];
+        this.firstName = user.fullName;
         this.url = url;
         this.subject = subject;
         this.message = message;

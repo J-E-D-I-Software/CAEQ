@@ -72,8 +72,8 @@ const Course = (props) => {
     const handlePaymentStart = async () => {
         try {
             const confirmation = await FireQuestion(
-                '¿Quieres subir el comprobante de pago?',
-                'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá  automaticamente'
+                '¿Quiere subir su comprobante de pago?',
+                'El Área Administrativa revisará su comprobante de pago. De ser aceptado se le inscribirá al curso automáticamente.'
             );
 
             if (!confirmation.isConfirmed) {
@@ -81,7 +81,7 @@ const Course = (props) => {
             }
 
             if (!paymentFile) {
-                FireError('Por favor, selecciona un archivo de comprobante de pago.');
+                FireError('Por favor, seleccione un archivo de comprobante de pago.');
                 return;
             }
 
@@ -108,9 +108,9 @@ const Course = (props) => {
         <div className="course">
             <div className="course-row">
                 <h1>{data.courseName}</h1>
-                <h2 className='course-price'>
+                <h1 className='course-price'>
                     {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
-                </h2>
+                </h1>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='primary'
@@ -166,6 +166,13 @@ const Course = (props) => {
                                     <p>
                                         Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
                                     </p> 
+                                </p>
+                            )}
+                        </td>
+                        <td>
+                            <img src={CalendarIcon} height={40} />
+                            {startDate && endDate && (
+                                <p>
                                     <p>
                                         Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
                                     </p>
@@ -173,10 +180,11 @@ const Course = (props) => {
                             )}
                         </td>
                         <td>
+                            <p><strong>Días de sesión: {data.daysOfSession}</strong></p>
+                            
                         </td>
                         <td>
-                            <p>{data.daysOfSession}</p>
-                            <p>{data.schedule}</p>
+                        <p><strong>Horario: {data.schedule}</strong></p>
                         </td>
                     </tr>
                 </tbody>
@@ -212,12 +220,14 @@ const Course = (props) => {
                         {data.price !== undefined &&
                             data.price !== null &&
                             data.price !== 0 && (
-                                <>
+                                <> {''}
+                                    <p>Para que inicie el proceso de pago debe hacer un depósito o transferencia a la siguiente <u>información de pago.</u></p>
+                                    <p>Posteriormente suba su <u>comprobante de pago</u> en el siguiente formulario:</p>
                                     <h3>Información de Pago</h3>
                                     <span>{data.paymentInfo}</span>
                                     <hr></hr>
                                     <h3>Costo del Curso</h3>
-                                    <h2 className='course-price'>
+                                    <h2 className='course-price-2'>
                                         {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
                                     </h2>
                                 <DropdownInput

@@ -17,7 +17,7 @@ const LandingArchitect = () => {
             <div className='welcome'>
                 <div className='column left-column'>
                     <img src={Logo} alt='Logo' className='logo' />
-                    <div className='titlecaeq'>Bienvenidos al portal del CAEQ</div>
+                    <div className='titlecaeq'>Bienvenidos al portal CAEQ</div>
                     <p className='subtitlecaeq'>
                         Un nuevo espacio de consulta informativa.
                     </p>
@@ -35,7 +35,7 @@ const LandingArchitect = () => {
                 <div className='column right-column'>
                     <div className='adminbutton'>
                         <Link to='/welcomeAdmin'>
-                            <BaseButton type='disabled'>Familia CAEQ</BaseButton>
+                            <BaseButton type='disabled'>Administración CAEQ</BaseButton>
                         </Link>
                     </div>
                     <img src={Image1} alt='Image1' className='image1' />

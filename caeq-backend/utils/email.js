@@ -105,7 +105,7 @@ module.exports = class Email {
                     gatheringTime: this.gatheringTime,
                     gatheringMoreInfo: this.gatheringMoreInfo,
                     gatheringDay: this.gatheringDay,
-                    gatheingMonth: this.gatheringMonth,
+                    gatheringMonth: this.gatheringMonth,
                     gatheringYear: this.gatheringYear,
                 }
             );

@@ -8,16 +8,11 @@ import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
 import { useNavigate } from 'react-router-dom';
-import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
-/**
- * Page that displays MyInscriptions.
- */
 const MyInscription = (props) => {
     const [courses, setCourses] = useState([]);
     const [filterModality, setFilterModality] = useState('');
     const [filterSearchByName, setFilterSearchByName] = useState('');
-    const [orderBy, setOrderBy] = useState('');
     const [paginationPage, setPaginationPage] = useState(1);
     const [paginationEnabled, setPaginationEnabled] = useState([true, true]);
     const navigate = useNavigate();
@@ -27,16 +22,11 @@ const MyInscription = (props) => {
             let filters = '';
             if (filterSearchByName) filters = `courseName[regex]=${filterSearchByName}`;
             if (filterModality) filters += `&modality=${filterModality}`;
-            if (orderBy) {
-                if (orderBy === 'Nombre (A-Z)') filters += `&sort=courseName`;
-                if (orderBy === 'Nombre (Z-A)') filters += `&sort=-courseName`;
-                else if (orderBy === 'Fecha de creación') filters += `&sort=_id`;
-            }
 
             const data = await getMyInscriptions(paginationPage, filters);
+
             setCourses(data);
-            if (paginationPage === 1 && data.length)
-                setPaginationEnabled([false, true]);
+            if (paginationPage === 1 && data.length) setPaginationEnabled([false, true]);
             else if (paginationPage === 1 && !data.length)
                 setPaginationEnabled([false, false]);
             else if (paginationPage > 1 && !data.length)
@@ -50,52 +40,45 @@ const MyInscription = (props) => {
         } catch (error) {
             FireError(error.response.data.message);
         }
-    }, [filterSearchByName, filterModality, orderBy]);
+    }, [filterSearchByName, filterModality, paginationPage]);
 
     return (
-        <div className="courses">
-            <div className="courses--row">
+        <div className='courses'>
+            <div className='courses--row'>
                 <h1>Mis Cursos Inscritos</h1>
             </div>
-            <div className="courses--row courses__filters">
-                <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton type="primary" onClick={() => navigate('/MisCursos')}>
-                        Mis Asistencias a cursos
-                    </BaseButton>
-                </RestrictByRole>
+            <div className='courses--row courses__filters'>
+                <BaseButton type='primary' onClick={() => navigate('/AsistenciasCursos')}>
+                    Mis Asistencias a cursos
+                </BaseButton>
 
                 <TextInput
-                    placeholder="Buscar"
+                    label='Buscar'
+                    placeholder='Por nombre'
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
 
-                <div className="courses--row">
+                <div className='courses--row'>
                     <DropdownInput
+                        label='Filtrar'
                         getVal={filterModality}
                         setVal={setFilterModality}
                         options={['Presencial', 'Remoto']}
-                        placeholder="Filtrar modalidad"
-                    />
-
-                    <DropdownInput
-                        getVal={orderBy}
-                        setVal={setOrderBy}
-                        options={['Nombre (A-Z)', 'Nombre (Z-A)', 'Fecha de creación']}
-                        placeholder="Ordenar"
+                        placeholder='Filtrar modalidad'
                     />
                 </div>
             </div>
 
-            <div className="courses--row courses__courses-section">
+            <div className='courses--row courses__courses-section'>
                 {courses.map((mycourse, i) => (
                     <InscriptionCard key={i} {...mycourse} />
                 ))}
             </div>
 
-            <div className="courses--row courses__courses-pagination">
-                <PaginationNav 
-                    page={paginationPage} 
+            <div className='courses--row courses__courses-pagination'>
+                <PaginationNav
+                    page={paginationPage}
                     onClickBefore={() => setPaginationPage(paginationPage - 1)}
                     onClickAfter={() => setPaginationPage(paginationPage + 1)}
                     beforeBtnEnabled={paginationEnabled[0]}

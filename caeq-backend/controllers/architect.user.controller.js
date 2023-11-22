@@ -19,14 +19,14 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
         const features = new APIFeatures(query, req.query).filter().sort().limitFields();
 
         let documents = await features.query;
+        documents = await Promise.all(
+            documents.map(async (doc) => {
+                const hasRights = await doc.currentRights;
+                doc.rights = hasRights;
+                return doc;
+            })
+        );
         if (Object.keys(req.query).includes('rights')) {
-            documents = await Promise.all(
-                documents.map(async (doc) => {
-                    const hasRights = await doc.currentRights;
-                    doc.rights = hasRights;
-                    return doc;
-                })
-            );
             documents = documents.filter((doc) => {
                 const reqRightsBool = req.query.rights === 'true';
                 return doc.rights === reqRightsBool;

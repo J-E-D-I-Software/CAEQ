@@ -49,11 +49,14 @@ const testGetCourseHours = async () => {
         }
     });
 
-    const year2023 = dateMap.getYears().find((year) => year.startYear === 2023);
+    const currentYear = dateMap.getYears().find((year) => year.startYear === 2023) || {
+        startYear: 2023,
+        value: 0,
+    };
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.data.documents[0].value).toEqual(
-        user.capacitationHours + year2023.value
+    expect(res.body.data.documents.find((year) => year.startYear === 2023).value).toEqual(
+        user.capacitationHours + currentYear.value
     );
 };
 

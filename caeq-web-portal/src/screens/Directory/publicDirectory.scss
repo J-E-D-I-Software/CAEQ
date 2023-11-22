@@ -9,31 +9,32 @@
     label {
         margin-right: 20px;
     }
+    .InputText {
+        max-width: 10px;
+    }
+    
+    .box-container {
+        border-radius: 8px;
+        overflow: auto;
+    }
+    
+    .directory-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+    
+    .directory-header {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .no-data-message {
+        color: red;
+        font-style: bold;
+        font-size: 24px;
+    }
 }
 
-.InputText {
-    max-width: 10px;
-}
 
-.box-container {
-    border-radius: 8px;
-    overflow: auto;
-}
-
-.directory-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.5rem;
-}
-
-.directory-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-}
-
-.no-data-message {
-    color: red;
-    font-style: bold;
-    font-size: 24px;
-}

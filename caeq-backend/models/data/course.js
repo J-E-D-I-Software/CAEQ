@@ -1,11 +1,13 @@
+const today = new Date();
+
 const courseData = [
     {
         courseName: 'Mampostería industrial',
         modality: 'Presencial',
         numberHours: 7,
         pricing: 'Pagado',
-        startDate: '2023-12-01T00:00:00',
-        endDate: '2023-12-02T00:00:00',
+        startDate: new Date(today.getFullYear() + 1, today.getMonth(), today.getDay()),
+        endDate: new Date(today.getFullYear() + 2, today.getMonth(), today.getDay()),
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:
@@ -39,8 +41,8 @@ const courseData = [
         modality: 'Remoto',
         numberHours: 7,
         pricing: 'Gratuito',
-        startDate: '2023-12-02T00:00:00',
-        endDate: '2023-12-03T00:00:00',
+        startDate: new Date(today.getFullYear() + 1, today.getMonth(), today.getDay()),
+        endDate: new Date(today.getFullYear() + 2, today.getMonth(), today.getDay()),
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:
@@ -74,8 +76,12 @@ const courseData = [
         modality: 'Presencial',
         numberHours: 7,
         pricing: 'Pagado',
-        startDate: '2023-12-03T00:00:00',
-        endDate: '2023-12-04T00:00:00',
+        startDate: new Date(
+            today.getFullYear() + 1,
+            today.getMonth(),
+            today.getDay() + 5
+        ),
+        endDate: new Date(today.getFullYear() + 2, today.getMonth(), today.getDay() + 8),
         schedule: '5:00pm - 6:00pm',
         daysOfSession: 'LU-MA-MI',
         description:

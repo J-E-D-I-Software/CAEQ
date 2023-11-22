@@ -55,7 +55,7 @@
             padding-left: 0;
             display: flex;
             overflow-x: scroll;
-            
+
             &::-webkit-scrollbar {
                 height: 15px;
             }
@@ -156,8 +156,13 @@
         }
     }
 
-    @media only screen and (max-width: 700px) {
+    .calculate-attendees-button {
+        margin-top: 20px;
+        margin-left: 50%;
+        transform: translate(-50%, 0);
+    }
 
+    @media only screen and (max-width: 700px) {
         .create-course--row {
             flex-direction: column;
         }

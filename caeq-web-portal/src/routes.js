@@ -20,7 +20,8 @@ import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
 import InscriptionAsistance from './screens/MyInscriptions/InscriptionAsistance';
-
+import Benefits from './screens/Benefits/Benefits.jsx';
+import CreateOrEditBenefit from './screens/Benefits/CreateOrEditBenefit.jsx';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -42,6 +43,8 @@ import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
 import ServicesIcon from '../src/components/icons/ServicesIcon.png';
 import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png';
+import BenefitsIcon from '../src/components/icons/BenefitsIcon.png';
+import BenefitsIconWhite from '../src/components/icons/BenefitsIconWhite.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
@@ -352,13 +355,36 @@ const routes = [
         Component: AcceptPayment,
         isPrivate: true,
         inNavbar: false,
-        roles:['caeq']
+        roles: ['caeq'],
     },
     {
         path: '/Directorio-Publico',
         name: 'Directorio público',
         Component: PublicDirectory,
         isPrivate: false,
+        inNavbar: false,
+    },
+    {
+        path: '/Beneficios',
+        name: 'Beneficios',
+        Component: Benefits,
+        isPrivate: true,
+        inNavbar: true,
+        icon: BenefitsIcon,
+        iconWhite: BenefitsIconWhite,
+    },
+    {
+        path: '/CrearBeneficio',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Beneficio/:id',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
         inNavbar: false,
     },
 ];

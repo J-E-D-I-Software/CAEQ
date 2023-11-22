@@ -18,6 +18,8 @@ const Inscription = require('./inscription.model');
 const Services = require('./roomOffer.model.js');
 const ServicesData = require('./data/services.js');
 const RegisterRequests = require('./regiesterRequests.model');
+const Benefit = require('./benefits.model.js');
+const BenefitData = require('./data/benefits.js');
 
 /**
  * Set up 'CaeqUser' data by populating the database with the provided test data.
@@ -107,6 +109,15 @@ const setUpAttendeesData = catchAsync(async () => {
  */
 const setUpCourseData = catchAsync(async () => {
     await populateDb(Course, CourseData);
+});
+
+/**
+ * Set up 'Benefit' data by populating the database with the provided test data.
+ *
+ * This function is wrapped in 'catchAsync' to handle any asynchronous errors that may occur during execution.
+ */
+const setUpBenefitData = catchAsync(async () => {
+    await populateDb(Benefit, BenefitData);
 });
 
 /**
@@ -218,6 +229,7 @@ exports.setUpDbWithMuckData = catchAsync(async () => {
     await setUpInsciptionData();
     await setUpServicesData();
     await setUpregisterRequests();
+    await setUpBenefitData();
     console.log('Test data uploaded to DB');
 });
 

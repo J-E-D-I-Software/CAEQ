@@ -18,7 +18,6 @@ import LocationIcon from '../../components/icons/Location.png';
 import ClockIcon from '../../components/icons/Clock.png';
 import TeacherIcon from '../../components/icons/Teacher.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
-import SatisfactionIcon from '../../components/icons/Satisfaction.png';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import FileInput from '../../components/inputs/FileInput/FileInput';
 import './course.scss';

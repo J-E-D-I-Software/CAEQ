@@ -8,7 +8,6 @@ import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
 import { useNavigate } from 'react-router-dom';
-import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 
 const MyInscription = (props) => {
     const [courses, setCourses] = useState([]);
@@ -49,13 +48,10 @@ const MyInscription = (props) => {
                 <h1>Mis Cursos Inscritos</h1>
             </div>
             <div className='courses--row courses__filters'>
-                <RestrictByRole allowedRoles={['architect']}>
-                    <BaseButton
-                        type='primary'
-                        onClick={() => navigate('/AsistenciasCursos')}>
-                        Mis Asistencias a cursos
-                    </BaseButton>
-                </RestrictByRole>
+                <BaseButton type='primary' onClick={() => navigate('/AsistenciasCursos')}>
+                    Mis Asistencias a cursos
+                </BaseButton>
+
                 <TextInput
                     label='Buscar'
                     placeholder='Por nombre'

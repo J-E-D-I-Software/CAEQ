@@ -10,7 +10,7 @@ import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import './benefits.scss';
 
 /**
- * Page that displays the courses.
+ * Page that displays the benefits.
  */
 const Benefits = (props) => {
     const [benefits, setBenefits] = useState([]);

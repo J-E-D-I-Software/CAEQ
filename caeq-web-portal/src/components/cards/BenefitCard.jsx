@@ -8,6 +8,21 @@ import LinkIcon from '../icons/LinkIcon.png';
 import Swal from 'sweetalert2';
 import './BenefitCard.scss';
 
+/**
+ * Represents a BenefitCard component.
+ *
+ * @component
+ * @param {Object} props - The properties of the BenefitCard component.
+ * @param {boolean} [props.showMoreBtn=true] - Determines whether to show the "Show More" button.
+ * @param {string} props.name - The name of the benefit.
+ * @param {string} props.category - The category of the benefit.
+ * @param {string} props.description - The description of the benefit.
+ * @param {string} props.contact - The contact information for the benefit.
+ * @param {string} [props.location] - The location of the benefit.
+ * @param {string} [props.website] - The website URL for the benefit.
+ * @param {string} props._id - The unique identifier of the benefit.
+ * @returns {JSX.Element} The rendered BenefitCard component.
+ */
 const BenefitCard = ({ showMoreBtn = true, ...props }) => {
     const navigate = useNavigate();
 

@@ -70,7 +70,7 @@ const Benefits = (props) => {
                             type='primary'
                             className='accept-payment'
                             // Replace with the correct route
-                            onClick={() => navigate('/CreateBenefit')}>
+                            onClick={() => navigate('/CrearBeneficio')}>
                             Crear beneficio
                         </BaseButton>
                     </RestrictByRole>

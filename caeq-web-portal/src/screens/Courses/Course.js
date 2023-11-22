@@ -13,7 +13,6 @@ import LocationIcon from '../../components/icons/Location.png';
 import ClockIcon from '../../components/icons/Clock.png';
 import TeacherIcon from '../../components/icons/Teacher.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
-import SatisfactionIcon from '../../components/icons/Satisfaction.png';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import FileInput from '../../components/inputs/FileInput/FileInput';
 import './course.scss';
@@ -26,9 +25,7 @@ const Course = (props) => {
     const [data, setData] = useState({});
     const decide = ['SÍ', 'NO'];
 
-
     // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
-    // 
     useEffect(() => {
         if (searchParams.id) {
             getCourse(searchParams.id)

@@ -21,6 +21,7 @@ import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
 import InscriptionAsistance from './screens/MyInscriptions/InscriptionAsistance';
 import Benefits from './screens/Benefits/Benefits.jsx';
+import CreateOrEditBenefit from './screens/Benefits/CreateOrEditBenefit.jsx';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -371,6 +372,20 @@ const routes = [
         inNavbar: true,
         icon: BenefitsIcon,
         iconWhite: BenefitsIconWhite,
+    },
+    {
+        path: '/CrearBeneficio',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Beneficio/:id',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
+        inNavbar: false,
     },
 ];
 

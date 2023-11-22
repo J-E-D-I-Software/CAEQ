@@ -136,27 +136,28 @@ const Course = (props) => {
                     <tr>
                         <td>
                             <img src={ClassroomIcon} height={40} />
-                            <span>Curso {data.modality}</span>
+                            <p><span>Curso {data.modality}</span></p>
                         </td>
                         <td>
                             <img src={LocationIcon} height={40} />
                             <span>
                                 <p>Lugar</p>
-                                {data.place}
+                                <p>{data.place}</p>
                             </span>
                         </td>
                         <td>
                             <img src={ClockIcon} height={40} />
                             <span>
-                                <p>Horario</p>
-                                {data.schedule}
+                                <p>Horas totales acreditadas</p> 
+                                <p>{data.numberHours} hrs</p>
+                                
                             </span>
                         </td>
                         <td>
                             <img src={TeacherIcon} height={40} />
                             <span>
                                 <p>Impartido por</p>
-                                {data.teacherName}
+                                <p>{data.teacherName}</p>
                             </span>
                         </td>
                     </tr>
@@ -165,10 +166,10 @@ const Course = (props) => {
                             <img src={CalendarIcon} height={40} />
                             {startDate && endDate && (
                                 <p>
-                                    <p>
-                                        Empieza el{' '}
-                                        {formatDate(startDate.toISOString().slice(0, 10))}
-                                    </p>
+                                    
+                                    Empieza el{' '}
+                                    {formatDate(startDate.toISOString().slice(0, 10))}
+                                    
                                 </p>
                             )}
                         </td>
@@ -176,21 +177,23 @@ const Course = (props) => {
                             <img src={CalendarIcon} height={40} />
                             {startDate && endDate && (
                                 <p>
-                                    <p>
-                                        Finaliza el{' '}
-                                        {formatDate(endDate.toISOString().slice(0, 10))}
-                                    </p>
+                                    
+                                    Finaliza el{' '}
+                                    {formatDate(endDate.toISOString().slice(0, 10))}
+                                
                                 </p>
                             )}
                         </td>
                         <td>
                             <p>
-                                <strong>Días de sesión: {data.daysOfSession}</strong>
+                                <strong>Días de sesión: </strong>
+                                {data.daysOfSession}
                             </p>
                         </td>
                         <td>
                             <p>
-                                <strong>Horario: {data.schedule}</strong>
+                                <strong>Horario: </strong>
+                                {data.schedule}
                             </p>
                         </td>
                     </tr>

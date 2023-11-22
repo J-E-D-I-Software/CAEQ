@@ -350,14 +350,14 @@ const Signup = () => {
                             />
                             <LargeTextInput
                                 label='Domicilio particular'
-                                placeholder='Calle, Número, Colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal, Municipio'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label='Domicilio de trabajo'
-                                placeholder='Calle, Número, Colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal, Municipio'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -425,8 +425,8 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label='Cargos en consejo directivo u organo de gobierno'
-                                placeholder='cargos (año, nombre del cargo) / Ninguno'
+                                label='Cargos en consejo directivo u órgano de gobierno'
+                                placeholder='Cargos (año, nombre del cargo) / Ninguno'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                             />

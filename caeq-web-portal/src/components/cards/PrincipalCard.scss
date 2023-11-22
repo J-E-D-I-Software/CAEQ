@@ -7,6 +7,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     padding: 1rem;
     background: #EFF9F0;
+    transition: transform 0.3s ease;
 
     padding: 10px;
     margin-top: 30px;
@@ -78,7 +79,7 @@
 
 .principal-card:hover{
     background-color: #eea300;
-    transform: translateY(-3px);
+    transform: translateY(-15px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
     color:  #ffffff;
     
@@ -100,11 +101,9 @@
         content: url('../../components/icons/ServicesIconWhite.svg')
     }
     .image-beneficios{
-    }
-    .image-beneficios{
         content: url('../../components/icons/BenefitsIconWhite.png');
         img{
-            width: 80px;
+            width: 100%;
         }
     }
     

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { getAllBenefits } from '../../client/Benefits/Benefit.GET';
 import { useNavigate } from 'react-router-dom';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
-import '../Courses/courses.scss';
+import './benefits.scss';
 
 /**
  * Page that displays the courses.
@@ -61,7 +61,7 @@ const Benefits = (props) => {
     }, [filterSearchByName, category]);
 
     return (
-        <div className='courses'>
+        <div className='benefits'>
             <div className='courses--row courses__header'>
                 <h1>Beneficios CAEQ</h1>
                 <div className='courses--row'>
@@ -84,15 +84,13 @@ const Benefits = (props) => {
                     getVal={filterSearchByName}
                     setVal={setFilterSearchByName}
                 />
-                <div className='courses--row'>
-                    <DropdownInput
-                        label='Filtrar por categoría'
-                        getVal={category}
-                        setVal={setFilterCategory}
-                        options={categoryOptions}
-                        placeholder='Seleccione una categoría'
-                    />
-                </div>
+                <DropdownInput
+                    label='Filtrar por categoría'
+                    getVal={category}
+                    setVal={setFilterCategory}
+                    options={categoryOptions}
+                    placeholder='Seleccione una categoría'
+                />
             </div>
 
             <div className='courses--row courses__courses-section'>

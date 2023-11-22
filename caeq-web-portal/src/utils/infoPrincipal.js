@@ -33,13 +33,13 @@ const info = [
         description: "En esta sección podrá cotizar sus bitácoras de obra y visualizar la oferta de salones en renta.",
         cardType: "servicios"
     },
-    {
-        path: "/Beneficios",
-        title: "Beneficios",
-        icon: BenefitsIcon,
-        description: "En esta sección podrá visualizar la oferta de salones en renta.",
-        cardType: "beneficios"
-    },
+    // {
+    //     path: "/Beneficios",
+    //     title: "Beneficios",
+    //     icon: BenefitsIcon,
+    //     description: "En esta sección podrá visualizar la oferta de salones en renta.",
+    //     cardType: "beneficios"
+    // },
 ]
 
 export default info;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './landingArchitect.scss';
 import Logo from '../../components/images/caeqLogo.png';
-import Image1 from '../../components/images/imageCAEQhome.png';
+import Image1 from '../../components/images/Landing_Image.svg';
 import Image2 from '../../components/images/imageCAEQ2.png';
 import Image3 from '../../components/images/imageCAEQ3.png';
 import { Link } from 'react-router-dom';

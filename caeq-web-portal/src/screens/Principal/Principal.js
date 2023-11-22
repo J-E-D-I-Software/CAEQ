@@ -17,6 +17,7 @@ const Principal = () => {
                           icon={item.icon}
                           description={item.description}
                           path={item.path}
+                          cardType={item.cardType}
                       />
                   );
               })}

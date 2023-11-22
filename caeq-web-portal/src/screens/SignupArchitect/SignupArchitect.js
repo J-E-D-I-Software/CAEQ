@@ -260,7 +260,7 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h1 className='h1-A'>Regístrate para acceder</h1>
+                <h1 className='h1-A'>Favor de Registrarse para acceder</h1>
                 <form onSubmit={handleSignup}>
                     <div className='grid-container'>
                         <div className='column'>

@@ -1,0 +1,39 @@
+.create-benefit {
+    margin: 5em 20vw;
+    text-align: center;
+
+    form {
+        text-align: start;
+
+        input, textarea {
+            margin-bottom: 1.5em;
+        }
+
+        .create-benefit__buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+
+            button {
+                margin: 0 1em;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .create-benefit {
+        margin: 5em 0;
+        display: flex;
+        display: coloum;
+    }
+
+    .create-benefit__buttons {
+        flex-direction: column;
+
+        button {
+            margin: 0.5em 0 !important;
+        }
+    }
+}

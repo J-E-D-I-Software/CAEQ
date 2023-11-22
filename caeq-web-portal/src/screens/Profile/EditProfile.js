@@ -177,7 +177,7 @@ const ArchitectPersonalData = (props) => {
             <div className='architect-row'>
                 <h2>
                     {' '}
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
+                    (i) Favor de modificar la información que sea necesaria. Al terminar, haga clic
                     en guardar cambios.
                 </h2>
             </div>
@@ -224,16 +224,16 @@ const ArchitectPersonalData = (props) => {
                     />
 
                     <TextInput
-                        label='Número celular'
-                        placeholder='Número celular'
+                        label='Teléfono celular'
+                        placeholder='Teléfono celular'
                         getVal={editedData.cellphone}
                         setVal={(value) =>
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
                     <TextInput
-                        label='Número de casa'
-                        placeholder='Número de casa'
+                        label='Teléfono casa'
+                        placeholder='Teléfono casa'
                         getVal={editedData.homePhone}
                         setVal={(value) =>
                             setEditedData({ ...editedData, homePhone: value })
@@ -303,7 +303,7 @@ const ArchitectPersonalData = (props) => {
                         }
                     />
                     <FileInput
-                        label='Adjuntar comprobante de Domicilio'
+                        label='Adjuntar Comprobante de Domicilio'
                         accept='image/*,application/pdf'
                         setVal={(value) =>
                             setEditedData({

@@ -79,7 +79,7 @@ const Signup = () => {
         'Miembro Vitalicio',
         'Miembro Honorario',
     ];
-    const classif = ['Expresidente', 'Docente', 'Convenio', 'Ninguno'];
+    const classif = ['Ninguno', 'Expresidente', 'Docente', 'Convenio'];
     const decide = ['SÍ', 'NO'];
     const navigate = useNavigate();
 
@@ -260,7 +260,7 @@ const Signup = () => {
         <div className='signup-container'>
             <div className='signup-form'>
                 <img src={Logo} alt='Logo' className='Logo' />
-                <h1 className='h1-A'>Regístrate para acceder</h1>
+                <h1 className='h1-A'>Favor de Registrarse para acceder</h1>
                 <form onSubmit={handleSignup}>
                     <div className='grid-container'>
                         <div className='column'>
@@ -301,7 +301,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Número de DRO'
-                                placeholder='Número de DRO (No obligatorio)'
+                                placeholder='Número de DRO'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
                                 require={false}
@@ -350,14 +350,14 @@ const Signup = () => {
                             />
                             <LargeTextInput
                                 label='Domicilio particular'
-                                placeholder='Calle, Número, Colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal, Municipio'
                                 getVal={homeAddress}
                                 setVal={setHomeAdress}
                                 require={true}
                             />
                             <LargeTextInput
                                 label='Domicilio de trabajo'
-                                placeholder='Calle, Número, Colonia, Código postal'
+                                placeholder='Calle, Número, Colonia, Código postal, Municipio'
                                 getVal={workAddress}
                                 setVal={setWorkAddress}
                                 require={true}
@@ -378,6 +378,7 @@ const Signup = () => {
                                 setVal={setMainProfessionalActivity}
                                 require={true}
                             />
+                            <p className='especialties-help-text'>Seleccione una o varias especialidades. Sí no cuenta con especialidades favor de dejarlo en blanco.</p>
                             <SelectInputComponent
                                 label='Especialidades'
                                 isMulti
@@ -417,15 +418,15 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label='Municipio'
-                                placeholder='Municipio de residencia'
+                                label='Municipio Laboral'
+                                placeholder='Municipio donde labora'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}
                             />
                             <TextInput
-                                label='Cargos en consejo directivo (fecha y nombre del cargo) / Ninguno'
-                                placeholder='Cargos en consejo directivo (año y nombre del cargo) / Ninguno'
+                                label='Cargos en consejo directivo u órgano de gobierno'
+                                placeholder='Cargos (año, nombre del cargo) / Ninguno'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                             />
@@ -467,7 +468,7 @@ const Signup = () => {
                                 accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Adjuntar comprobante de domicilio (no mayor a 3 meses)'
+                                label='Adjuntar Comprobante de domicilio (no mayor a 3 meses)'
                                 getVal={linkAddressCertificate}
                                 setVal={setLinkAddressCertificate}
                                 accept='image/*,application/pdf'

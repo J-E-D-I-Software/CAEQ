@@ -59,10 +59,10 @@ const LoginAdmin = () => {
             <br />
             <div className='forgot-register-links'>
                 <Link to='/Forgot-password'>
-                    <p> ¿Olvidó su contraseña?</p>
+                    <p><u>¿Olvidó su contraseña?</u></p>
                 </Link>
                 <Link to='/welcomeAdmin'>
-                    <p>Volver a página de inicio</p>
+                    <p><u>Volver a página de inicio</u></p>
                 </Link>
             </div>
         </div>

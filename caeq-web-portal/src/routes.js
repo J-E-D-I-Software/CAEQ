@@ -21,6 +21,7 @@ import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
 import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
 import InscriptionAsistance from './screens/MyInscriptions/InscriptionAsistance';
 import Benefits from './screens/Benefits/Benefits.jsx';
+import CreateOrEditBenefit from './screens/Benefits/CreateOrEditBenefit.jsx';
 
 import ForgotPasswordAdmin from './screens/ForgotPasswordAdmin/ForgotPasswordAdmin';
 import ResetPasswordAdmin from './screens/ResetPasswordAdmin/ResetPasswordAdmin';
@@ -33,18 +34,20 @@ import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
-import CursosIcon from '../src/components/icons/CursosIcon.png';
-import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
-import ProfileIcon from '../src/components/icons/ProfileIcon.png';
-import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
+import CursosIcon from '../src/components/icons/CourseIcon.svg';
+import CursosIconWhite from '../src/components/icons/CursosIconWhite.svg';
+import ProfileIcon from '../src/components/icons/ProfileIcon.svg';
+import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.svg';
 import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
 import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
-import ServicesIcon from '../src/components/icons/ServicesIcon.png';
-import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png';
+import ServicesIcon from '../src/components/icons/ServicesIcon.svg';
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.svg';
 import BenefitsIcon from '../src/components/icons/BenefitsIcon.png';
 import BenefitsIconWhite from '../src/components/icons/BenefitsIconWhite.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
+import AsambleasIcon from '../src/components/icons/AsambleasIcon.svg';
+import AsambleasIconWhite from '../src/components/icons/AsambleasIconWhite.svg';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
@@ -81,6 +84,63 @@ const routes = [
         iconWhite: PrincipalIconWhite,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Perfil',
+        name: 'Perfil',
+        icon: ProfileIcon,
+        iconWhite: ProfileIconWhite,
+        Component: Profile,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['architect'],
+    },
+    {
+        path: '/Perfil/:id',
+        name: 'Editar perfil',
+        Component: EditProfile,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['architect'],
+    },
+    {
+        path: '/Asambleas',
+        name: 'Asambleas',
+        icon: AsambleasIcon,
+        iconWhite: AsambleasIconWhite,
+        Component: Gatherings,
+        isPrivate: true,
+        inNavbar: true,
+    },
+    {
+        path: '/Asambleas/Asamblea',
+        name: 'Crear Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asamblea/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: CreateGathering,
+        isPrivate: true,
+        inNavbar: false,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Asambleas/Asistencias/:id',
+        name: 'Modificar Asambleas',
+        icon: CursosIcon,
+        iconWhite: CursosIconWhite,
+        Component: RegisterAttendees,
+        isPrivate: true,
+        inNavbar: false,
         roles: ['caeq'],
     },
     {
@@ -144,40 +204,41 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/Asambleas',
-        name: 'Asambleas',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
-        Component: Gatherings,
+        path: '/Servicios',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: Services,
         isPrivate: true,
         inNavbar: true,
+        roles: ['caeq'],
     },
     {
-        path: '/Asambleas/Asamblea',
-        name: 'Crear Asambleas',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
-        Component: CreateGathering,
+        path: '/ServiciosA',
+        name: 'Servicios',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: AServices,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['architect'],
+    },
+    {
+        path: '/Servicios/CrearSalon',
+        name: 'Crear oferta de salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: CreateRoomOffer,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
     },
     {
-        path: '/Asambleas/Asamblea/:id',
-        name: 'Modificar Asambleas',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
-        Component: CreateGathering,
-        isPrivate: true,
-        inNavbar: false,
-        roles: ['caeq'],
-    },
-    {
-        path: '/Asambleas/Asistencias/:id',
-        name: 'Modificar Asambleas',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
-        Component: RegisterAttendees,
+        path: '/Servicios/Salon/:id',
+        name: 'Modificar Salón',
+        icon: ServicesIcon,
+        iconWhite: ServicesIconWhite,
+        Component: CreateRoomOffer,
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
@@ -221,46 +282,6 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/Servicios',
-        name: 'Servicios',
-        icon: ServicesIcon,
-        iconWhite: ServicesIconWhite,
-        Component: Services,
-        isPrivate: true,
-        inNavbar: true,
-        roles: ['caeq'],
-    },
-    {
-        path: '/ServiciosA',
-        name: 'Servicios',
-        icon: ServicesIcon,
-        iconWhite: ServicesIconWhite,
-        Component: AServices,
-        isPrivate: true,
-        inNavbar: true,
-        roles: ['architect'],
-    },
-    {
-        path: '/Servicios/CrearSalon',
-        name: 'Crear oferta de salón',
-        icon: ServicesIcon,
-        iconWhite: ServicesIconWhite,
-        Component: CreateRoomOffer,
-        isPrivate: true,
-        inNavbar: false,
-        roles: ['caeq'],
-    },
-    {
-        path: '/Servicios/Salon/:id',
-        name: 'Modificar Salón',
-        icon: ServicesIcon,
-        iconWhite: ServicesIconWhite,
-        Component: CreateRoomOffer,
-        isPrivate: true,
-        inNavbar: false,
-        roles: ['caeq'],
-    },
-    {
         path: '/Directorio',
         name: 'Directorio',
         icon: DirectorioIcon,
@@ -277,24 +298,6 @@ const routes = [
         isPrivate: true,
         inNavbar: false,
         roles: ['caeq'],
-    },
-    {
-        path: '/Perfil',
-        name: 'Perfil',
-        icon: ProfileIcon,
-        iconWhite: ProfileIconWhite,
-        Component: Profile,
-        isPrivate: true,
-        inNavbar: true,
-        roles: ['architect'],
-    },
-    {
-        path: '/Perfil/:id',
-        name: 'Editar perfil',
-        Component: EditProfile,
-        isPrivate: true,
-        inNavbar: false,
-        roles: ['architect'],
     },
     {
         path: '/Anouncements',
@@ -363,15 +366,29 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-    {
-        path: '/Beneficios',
-        name: 'Beneficios',
-        Component: Benefits,
-        isPrivate: true,
-        inNavbar: true,
-        icon: BenefitsIcon,
-        iconWhite: BenefitsIconWhite,
-    },
+    // {
+    //     path: '/Beneficios',
+    //     name: 'Beneficios',
+    //     Component: Benefits,
+    //     isPrivate: true,
+    //     inNavbar: true,
+    //     icon: BenefitsIcon,
+    //     iconWhite: BenefitsIconWhite,
+    // },
+    // {
+    //     path: '/CrearBeneficio',
+    //     name: 'Beneficios',
+    //     Component: CreateOrEditBenefit,
+    //     isPrivate: true,
+    //     inNavbar: false,
+    // },
+    // {
+    //     path: '/Beneficio/:id',
+    //     name: 'Beneficios',
+    //     Component: CreateOrEditBenefit,
+    //     isPrivate: true,
+    //     inNavbar: false,
+    // },
 ];
 
 export default routes;

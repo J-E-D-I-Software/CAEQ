@@ -43,9 +43,17 @@ exports.inscribeTo = catchAsync(async (req, res, next) => {
         );
     }
 
-    if (course.startDate < new Date()) {
+    const CourseStartDate = course.startDate;
+    const today =  new Date();
+    const diferenciaEnMilisegundos  = today - CourseStartDate;
+    const diferenciaEnDias =  Math.ceil(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+
+    if (diferenciaEnDias >= 3) {
         return next(
-            new AppError('Este curso ya ha iniciado, no puedes inscribirte.', 400)
+            new AppError(
+                'Este curso ya ha superado el período de inscripción',
+                400
+            )
         );
     }
 

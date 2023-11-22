@@ -1,16 +1,29 @@
-import React, { useEffect, useState}  from 'react';
-import '../PrincipalAdmin/PrincipalAdmin.scss'
+import React, { useEffect, useState } from 'react';
+import PrincipalCard from '../../components/cards/PrincipalCard.jsx';
+import info from '../../utils/infoPrincipal.js';
+import './Principal.scss';
 
 const Principal = () => {
     return (
         <div className='principal-container'>
-          <h1>Bienvenido al portal CAEQ</h1>
-          <h3>Cursos</h3>
-          <p>En esta sección podras visualizar los próximos cursos impartidos por el Colegio. Además, tendrás la oportunidad de acceder a los detalles de cada curso, incluyendo información sobre la fecha, ubicación, costos. </p>
-          <h3>Perfil</h3>
-          <p>En esta sección podrás visualizar tus datos personales, tu información del CAEQ y tu información profesional. Además, tendrás la oportunidad de editar tu información personal.</p>
+            <h1>Bienvenido al portal CAEQ</h1>
+
+            <div className='cards-container'>
+              {info.map((item, index) => {
+                  return (
+                      <PrincipalCard
+                          key={index}
+                          title={item.title}
+                          icon={item.icon}
+                          description={item.description}
+                          path={item.path}
+                          cardType={item.cardType}
+                      />
+                  );
+              })}
+            </div>
         </div>
-    )
+    );
 };
 
 export default Principal;

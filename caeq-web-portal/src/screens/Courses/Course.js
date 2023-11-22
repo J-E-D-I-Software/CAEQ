@@ -3,7 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getCourse } from '../../client/Course/Course.GET';
 import { createInscription } from '../../client/Inscription/Inscription.POST';
 import { startPayment } from '../../client/Payment/Payment.POST'; // Importa la función para iniciar el proceso de pago
-import { FireError, FireSucess, FireLoading, FireQuestion} from '../../utils/alertHandler';
+import {
+    FireError,
+    FireSucess,
+    FireLoading,
+    FireQuestion,
+} from '../../utils/alertHandler';
 import { formatDate } from '../../utils/format';
 import { currencyFormat } from '../../utils/reusableFunctions';
 import BaseButton from '../../components/buttons/BaseButton';
@@ -13,7 +18,6 @@ import LocationIcon from '../../components/icons/Location.png';
 import ClockIcon from '../../components/icons/Clock.png';
 import TeacherIcon from '../../components/icons/Teacher.png';
 import CalendarIcon from '../../components/icons/Calendar.png';
-import SatisfactionIcon from '../../components/icons/Satisfaction.png';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import FileInput from '../../components/inputs/FileInput/FileInput';
 import './course.scss';
@@ -26,9 +30,8 @@ const Course = (props) => {
     const [data, setData] = useState({});
     const decide = ['SÍ', 'NO'];
 
-
     // Pedir las inscripciones donde el user._id sea igual a SavedUser._id.
-    // 
+    //
     useEffect(() => {
         if (searchParams.id) {
             getCourse(searchParams.id)
@@ -55,9 +58,7 @@ const Course = (props) => {
                 return;
             }
 
-            const swal = FireLoading(
-                'Inscribiéndote al curso...'
-            );
+            const swal = FireLoading('Inscribiéndote al curso...');
             const response = await createInscription(searchParams.id);
             if (response.status === 'success') {
                 FireSucess('Inscripción exitosa.');
@@ -72,8 +73,8 @@ const Course = (props) => {
     const handlePaymentStart = async () => {
         try {
             const confirmation = await FireQuestion(
-                '¿Quieres subir el comprobante de pago?',
-                'Se te notificará si se aceptó o no el pago. De ser aceptado se te inscribirá  automaticamente'
+                '¿Quiere subir su comprobante de pago?',
+                'El Área Administrativa revisará su comprobante de pago. De ser aceptado se le inscribirá al curso automáticamente.'
             );
 
             if (!confirmation.isConfirmed) {
@@ -81,7 +82,7 @@ const Course = (props) => {
             }
 
             if (!paymentFile) {
-                FireError('Por favor, selecciona un archivo de comprobante de pago.');
+                FireError('Por favor, seleccione un archivo de comprobante de pago.');
                 return;
             }
 
@@ -105,16 +106,17 @@ const Course = (props) => {
     };
 
     return (
-        <div className="course">
-            <div className="course-row">
+        <div className='course'>
+            <div className='course-row'>
                 <h1>{data.courseName}</h1>
-                <h2 className='course-price'>
+                <h1 className='course-price'>
                     {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
-                </h2>
+                </h1>
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='primary'
-                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>
+                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}
+                    >
                         Modificar
                     </BaseButton>
                 </RestrictByRole>
@@ -129,106 +131,133 @@ const Course = (props) => {
                 </RestrictByRole>
             </div>
 
-            <div className="course-row course-data">
-                <div className="course-row">
-                    <img src={ClassroomIcon} height={40} />
-                    <span>Curso {data.modality}</span>
-                </div>
-                <div className="course-row">
-                    <img src={LocationIcon} height={40} />
-                    <span>
-                        <p>Lugar</p>
-                        {data.place}
-                    </span>
-                </div>
-                <div className="course-row">
-                    <img src={ClockIcon} height={40} />
-                    <span>
-                        <p>Podrás acreditar</p>
-                        {data.numberHours} horas
-                    </span>
-                </div>
-                <div className="course-row">
-                    <img src={TeacherIcon} height={40} />
-                    <span>
-                        <p>Impartido por</p>
-                        {data.teacherName} horas
-                    </span>
-                </div>
-            </div>
+            <table className='course-table'>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src={ClassroomIcon} height={40} />
+                            <p><span>Curso {data.modality}</span></p>
+                        </td>
+                        <td>
+                            <img src={LocationIcon} height={40} />
+                            <span>
+                                <p>Lugar</p>
+                                <p>{data.place}</p>
+                            </span>
+                        </td>
+                        <td>
+                            <img src={ClockIcon} height={40} />
+                            <span>
+                                <p>Horas totales acreditadas</p> 
+                                <p>{data.numberHours} hrs</p>
+                                
+                            </span>
+                        </td>
+                        <td>
+                            <img src={TeacherIcon} height={40} />
+                            <span>
+                                <p>Impartido por</p>
+                                <p>{data.teacherName}</p>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src={CalendarIcon} height={40} />
+                            {startDate && endDate && (
+                                <p>
+                                    
+                                    Empieza el{' '}
+                                    {formatDate(startDate.toISOString().slice(0, 10))}
+                                    
+                                </p>
+                            )}
+                        </td>
+                        <td>
+                            <img src={CalendarIcon} height={40} />
+                            {startDate && endDate && (
+                                <p>
+                                    
+                                    Finaliza el{' '}
+                                    {formatDate(endDate.toISOString().slice(0, 10))}
+                                
+                                </p>
+                            )}
+                        </td>
+                        <td>
+                            <p>
+                                <strong>Días de sesión: </strong>
+                                {data.daysOfSession}
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <strong>Horario: </strong>
+                                {data.schedule}
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <div className="course-row course-data">
-                <div className="course-row">
-                    <img src={SatisfactionIcon} height={40} />
+            <div className='course-row course-details'>
+                <img src={data.imageUrl} />
+                <div className='course-col'>
+                    <p className='text-area'>{data.description}</p>
                     <span>
                         <p>Reseña</p>
-                        <p className='course-review'>
-                            {data.teacherReview}
-                        </p>
+                        <p className='course-review'>"{data.teacherReview}"</p>
                     </span>
-                </div>
-                <div className="course-row course-time">
-                    <img src={CalendarIcon} height={40} />
-                    {startDate && endDate && (
-                        <p>
-                            <p>
-                                    Empieza el {formatDate(startDate.toISOString().slice(0, 10))}
-                            </p> 
-                            <p>
-                                    Finaliza el {formatDate(endDate.toISOString().slice(0, 10))}
-                            </p>
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <p>{data.daysOfSession}</p>
-                    <p>{data.schedule}</p>
-                </div>
-            </div>
-            <div></div>
-
-            <div className="course-row course-details">
-                <img src={data.imageUrl} />
-                <div className="course-col">
-                    <p className="text-area">{data.description}</p>
-                    <div className="course-row course-extras">
-                        <div className="course-col">
+                    <div className='course-row course-extras'>
+                        <div className='course-col'>
                             <h3>Objetivos</h3>
-                            <p className="text-area">{data.objective}</p>
+                            <p className='text-area'>{data.objective}</p>
                         </div>
-                        <div className="course-col">
+                        <div className='course-col'>
                             <h3>Incluye</h3>
-                            <p className="text-area">{data.includes}</p>
+                            <p className='text-area'>{data.includes}</p>
                         </div>
-                        <div className="course-col">
+                        <div className='course-col'>
                             <h3>Temario</h3>
-                            <p className="text-area">{data.temario}</p>
+                            <p className='text-area'>{data.temario}</p>
                         </div>
                     </div>
-                  
 
-                    <RestrictByRole allowedRoles={['architect']}>
-                        {data.price !== undefined &&
-                            data.price !== null &&
-                            data.price !== 0 && (
-                                <>
-                                    <h3>Información de Pago</h3>
-                                    <span>{data.paymentInfo}</span>
-                                    <hr></hr>
+                    {data.price !== undefined &&
+                        data.price !== null &&
+                        data.price !== 0 && (
+                            <>
+                                {' '}
+                                {''}
+                                <p>
+                                    Para que inicie el proceso de pago debe hacer un
+                                    depósito o transferencia a la siguiente{' '}
+                                    <u>información de pago.</u>
+                                </p>
+                                <p>
+                                    Posteriormente suba su <u>comprobante de pago</u> en
+                                    el siguiente formulario:
+                                </p>
+                                <h3>Información de Pago</h3>
+                                <span>{data.paymentInfo}</span>
+                                <hr></hr>
+                                <RestrictByRole allowedRoles={['architect']}>
                                     <h3>Costo del Curso</h3>
-                                    <h2 className='course-price'>
-                                        {data.price ? `${currencyFormat(data.price)}` : 'Gratuito'}
+                                    <h2 className='course-price-2'>
+                                        {data.price
+                                            ? `${currencyFormat(data.price)}`
+                                            : 'Gratuito'}
                                     </h2>
-                                <DropdownInput
-                                    label='¿Requiere factura?'
-                                    options={decide}
-                                    getVal={wantsInvoice}
-                                    setVal={setInvoice}
-                                />
+                                    <DropdownInput
+                                        label='¿Requiere factura?'
+                                        options={decide}
+                                        getVal={wantsInvoice}
+                                        setVal={setInvoice}
+                                    />
                                     <hr></hr>
                                     <FileInput
-                                        label="Subir Comprobante"
-                                        accept=".jpg,.jpeg,.png,.pdf"
+                                        label='Subir Comprobante'
+                                        accept='.jpg,.jpeg,.png,.pdf'
                                         getVal={() => paymentFile}
                                         setVal={(file) => setPaymentFile(file)}
                                     />
@@ -236,12 +265,13 @@ const Course = (props) => {
 
                                     <BaseButton
                                         type='primary'
-                                        onClick={(e) => handlePaymentStart(e)}>
+                                        onClick={(e) => handlePaymentStart(e)}
+                                    >
                                         Iniciar Proceso de Inscripción
                                     </BaseButton>
-                                </>
-                            )}
-                         </RestrictByRole> 
+                                </RestrictByRole>
+                            </>
+                        )}
                 </div>
             </div>
         </div>

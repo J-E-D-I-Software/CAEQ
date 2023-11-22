@@ -21,7 +21,7 @@ exports.createGathering = catchAsync(async (req, res, next) => {
             process.env.NODE_ENV === 'test'
         ) {
             const addressee = await Architect.find({
-                email: { $eq: 'pablocesarjimenezvilleda@gmail.com' },
+                email: { $eq: 'josh152002@outlook.com' },
             });
             const email = await Email.sendNewGatheringCreatedEmail(addressee, gathering);
         } else {

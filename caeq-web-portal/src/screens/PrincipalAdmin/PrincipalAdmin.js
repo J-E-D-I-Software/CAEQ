@@ -90,6 +90,7 @@ var pieOptions1 = {
 
 var barOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
         title: {
             display: true,
@@ -99,6 +100,7 @@ var barOptions = {
             },
         },
         legend: {
+            display: false,
             labels: {
                 display: false,
                 boxWidth: 0,
@@ -155,6 +157,13 @@ const PrincipalAdmin = () => {
         fetchSpecialtyDataPie();
     }, []);
 
+    const truncateLabel = (label, maxLength) => {
+        if (label.length > maxLength) {
+            return label.substring(0, maxLength) + '...';
+        }
+        return label;
+    };
+
     useEffect(() => {
         const fetchSpecialtyDataLine = async () => {
             try {
@@ -162,8 +171,24 @@ const PrincipalAdmin = () => {
                 const labels = data.map((specialty) => specialty.name); 
                 const counts = data.map((specialty) => specialty.totalUsers); 
 
+                const truncateLabels = labels.map((label) => truncateLabel(label, 5));
+
+                const customOrder = [
+                    'DRO',
+                    'DUYA',
+                    'Dictaminador estructural',
+                    'Corresponsable en instalaciones',
+                    'Corresponsable en instalaciones eléctricas',
+                    'Corresponsable en seguridad estructural',
+                    'Revisor de bajo riesgo para micronegocios',
+                ];
+
+                const sortedLabels = labels.slice().sort((a, b) => {
+                    return customOrder.indexOf(a) - customOrder.indexOf(b);
+                });
+
                 setSpecialtyChartData2({
-                    labels: labels,
+                    labels: sortedLabels,
                     datasets: [
                         {
                             data: counts,
@@ -171,9 +196,26 @@ const PrincipalAdmin = () => {
                             backgroundColor: customColors,
                             fill: false,
                             lineTension: 1,
+                            fullLabels: labels,
                         },
                     ],
                 });
+
+                if (window.innerWidth <= 600) {
+                    setSpecialtyChartData2({
+                        labels: truncateLabels,
+                        datasets: [
+                            {
+                                data: counts,
+                                label: '',
+                                backgroundColor: customColors,
+                                fill: false,
+                                lineTension: 1,
+                                fullLabels: labels,
+                            },
+                        ],
+                    });
+                }
             } catch (error) {
                 console.error('Error fetching specialty data:', error);
                 // Handle error as needed

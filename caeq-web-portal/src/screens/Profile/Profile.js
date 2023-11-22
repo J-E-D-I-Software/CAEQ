@@ -57,13 +57,18 @@ const Profile = (props) => {
         (async () => {
             try {
                 const architectId = SavedUser._id;
-                const attendances = await getAttendancesByArchitect(architectId);
+                const attendances = await getAttendancesByArchitect(
+                    architectId
+                );
                 setAttendances(attendances);
 
                 let accreditedHours = await getCourseHours(SavedUser._id);
                 setCourseHours(accreditedHours);
             } catch (error) {
-                console.error('Error al obtener asistencias por arquitecto', error);
+                console.error(
+                    'Error al obtener asistencias por arquitecto',
+                    error
+                );
             }
         })();
     }, [SavedUser._id]);
@@ -110,8 +115,6 @@ const Profile = (props) => {
                             <span>Dirección: </span>
                             {profile.homeAddress}
                         </p>
-                    </div>
-                    <div className='profile-col'>
                         <p>
                             <span>Teléfono Celular: </span>
                             {profile.cellphone}
@@ -120,6 +123,9 @@ const Profile = (props) => {
                             <span>Teléfono Casa: </span>
                             {profile.homePhone}
                         </p>
+                    </div>
+                    <div className='profile-col'>
+                        
                         <p>
                             <span>Correo Electrónico: </span>
                             {profile.email}
@@ -147,7 +153,9 @@ const Profile = (props) => {
                         <p>
                             <span>Acta de Nacimiento: </span>
                             {profile.linkBirthCertificate ? (
-                                <a href={profile.linkBirthCertificate}>Visualizar</a>
+                                <a href={profile.linkBirthCertificate}>
+                                    Visualizar
+                                </a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -155,7 +163,9 @@ const Profile = (props) => {
                         <p>
                             <span>Comprobante de domicilio: </span>
                             {profile.linkAddressCertificate ? (
-                                <a href={profile.linkAddressCertificate}>Visualizar</a>
+                                <a href={profile.linkAddressCertificate}>
+                                    Visualizar
+                                </a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -189,33 +199,55 @@ const Profile = (props) => {
                             {profile.DRONumber}
                         </p>
                         <p>
-                            <span>Derechos vigentes: {profile.rights ? 'Sí' : 'No'}</span>
-                            <p>Anualidad pagada: {profile.annuity ? 'Sí' : 'No'}</p>
-                            <p>
-                                Asistencias a asambleas del último año:{' '}
-                                {profile.totalGatheringAttendees}/5
-                            </p>
-                            <p>
-                                Asistencias presenciales a asambleas del último año:{' '}
-                                {profile.totalGatheringAttendeesPresential}
-                                /3
-                            </p>
-                            <p>
-                                Horas de capacitación del último año: {profile.totalHours}
-                                /{profile.specialties?.length > 0 ? '40' : '20'}
-                            </p>
+                            <span>Especialidad: </span>
+                            {profile.specialties
+                                ? profile.specialties
+                                      .map((specialty) => specialty.name)
+                                      .join(', ')
+                                : 'No especialidades'}
+                        </p>
+
+                        <p>
+                            <span>Fecha de Ingreso: </span>
+                            {profile.dateOfAdmission}
+                        </p>
+                        <p>
+                            <span>Credencial CAEQ: </span>
+                            {profile.linkCAEQCard ? (
+                                <a href={profile.linkCAEQCard}>Visualizar</a>
+                            ) : (
+                                'No hay documento guardado'
+                            )}
                         </p>
                     </div>
                     <div className='profile-col semi-col'>
                         <p>
+                            <span className='derechos-vigentes'>
+                                Derechos vigentes:{' '}
+                                {profile.rights ? 'Sí' : 'No'}
+                            </span>
+                        </p>
+                        <p>
+                            <span>
+                                Anualidad pagada:{' '}
+                                {profile.annuity ? 'Sí' : 'No'}
+                            </span>
+                        </p>
+                        <p>
                             <span>Horas Acreditadas: </span>
                             {courseHours
-                                .sort((prev, next) => next.endYear - prev.endYear)
+                                .sort(
+                                    (prev, next) => next.endYear - prev.endYear
+                                )
                                 .slice(0, 2) // Select only the first three elements
                                 .map((courseHour) => (
                                     <p>
-                                        {courseHour.startYear} - {courseHour.endYear} :{' '}
-                                        {courseHour.value}
+                                        {courseHour.startYear} -{' '}
+                                        {courseHour.endYear} :{' '}
+                                        {courseHour.value} /
+                                        {profile.specialties?.length > 0
+                                            ? '40'
+                                            : '20'}
                                     </p>
                                 ))}
                         </p>
@@ -238,21 +270,10 @@ const Profile = (props) => {
                                     attendeesRef.current.scrollIntoView({
                                         behavior: 'smooth',
                                     })
-                                }>
+                                }
+                            >
                                 Ver asistencias registradas
                             </BaseButton>
-                        </p>
-                        <p>
-                            <span>Fecha de Ingreso: </span>
-                            {profile.dateOfAdmission}
-                        </p>
-                        <p>
-                            <span>Credencial CAEQ: </span>
-                            {profile.linkCAEQCard ? (
-                                <a href={profile.linkCAEQCard}>Visualizar</a>
-                            ) : (
-                                'No hay documento guardado'
-                            )}
                         </p>
                     </div>
                 </WhiteContainer>
@@ -274,20 +295,14 @@ const Profile = (props) => {
                             <span>Universidad: </span>
                             {profile.university}
                         </p>
-                    </div>
-                    <div className='profile-col semi-col'>
                         <p>
                             <span>Profesión: </span>
                             {profile.mainProfessionalActivity}
                         </p>
-                        <p>
-                            <span>Especialidad: </span>
-                            {profile.specialties
-                                ? profile.specialties
-                                      .map((specialty) => specialty.name)
-                                      .join(', ')
-                                : 'No especialidades'}
-                        </p>
+                    </div>
+                    <div className='profile-col semi-col'>
+                        
+                        
                         <p>
                             <span>Municipio: </span>
                             {profile.municipalityOfLabor}
@@ -303,7 +318,9 @@ const Profile = (props) => {
                         <p>
                             <span>Título Universitario: </span>
                             {profile.linkBachelorsDegree ? (
-                                <a href={profile.linkBachelorsDegree}>Visualizar</a>
+                                <a href={profile.linkBachelorsDegree}>
+                                    Visualizar
+                                </a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -311,7 +328,9 @@ const Profile = (props) => {
                         <p>
                             <span>Cédula Profesional: </span>
                             {profile.linkProfessionalLicense ? (
-                                <a href={profile.linkProfessionalLicense}>Visualizar</a>
+                                <a href={profile.linkProfessionalLicense}>
+                                    Visualizar
+                                </a>
                             ) : (
                                 'No hay documento guardado'
                             )}
@@ -334,15 +353,18 @@ const Profile = (props) => {
                             courseHour.startYear === 2023 ? (
                                 <p className='list-data'>
                                     <span className='list-data-year'>
-                                        {courseHour.startYear} - {courseHour.endYear}
+                                        {courseHour.startYear} -{' '}
+                                        {courseHour.endYear}
                                     </span>{' '}
                                     : {courseHour.value} horas (
-                                    {profile.capacitationHours} registradas anteriormente)
+                                    {profile.capacitationHours} registradas
+                                    anteriormente)
                                 </p>
                             ) : (
                                 <p className='list-data'>
                                     <span className='list-data-year'>
-                                        {courseHour.startYear} - {courseHour.endYear}
+                                        {courseHour.startYear} -{' '}
+                                        {courseHour.endYear}
                                     </span>{' '}
                                     : {courseHour.value} horas
                                 </p>
@@ -350,8 +372,8 @@ const Profile = (props) => {
                         )}
                 </p>
                 <h3>
-                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo del año
-                    siguiente.
+                    (i) Las horas calculadas son del 15 de marzo al 14 de marzo
+                    del año siguiente.
                 </h3>
             </div>
         </div>

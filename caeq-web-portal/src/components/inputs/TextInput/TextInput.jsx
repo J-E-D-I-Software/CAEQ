@@ -23,16 +23,21 @@ import './TextInput.scss';
  *   require={true}
  * />
  */
-const TextInput = ({ label, getVal, setVal, placeholder,require = false, maxLength}) => {
+const TextInput = ({
+    label,
+    getVal,
+    setVal,
+    placeholder,
+    require = false,
+    maxLength,
+}) => {
     const isRequired = require;
 
     return (
-        <label data-testid='txtInput'>
+        <label data-testid='txtInput' className='text-input'>
             <div className='label-input'>
                 {label}
-                {isRequired && (
-                    <span className='obligatorio'>*obligatorio</span>
-                )}
+                {isRequired && <span className='obligatorio'>*obligatorio</span>}
             </div>
             <div className='input-eye'>
                 <input

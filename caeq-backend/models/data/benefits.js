@@ -1,8 +1,9 @@
 const benefitsData = [
     {
-        name: 'Convenio con Gomez Morin',
+        name: 'Convenio con Gomez Morin AC CV en materia de construcción y diseño de interiores',
         location: 'Ciudad de México',
-        contact: 'correo@gomezmorin.com',
+        contact:
+            'correo@gomezmorin.com 83719731876817614873364872648726482764287648726 Gomez de la Sierra',
         website: 'https://www.gomezmorin.com',
         description:
             'Tenemos el placer de anunciar nuestra alianza estratégica con Gomez Morin, una empresa líder en servicios de construcción y diseño de interiores. Este convenio brinda a nuestros miembros la oportunidad de acceder a descuentos exclusivos en materiales de construcción, asesoramiento en diseño y mucho más.',

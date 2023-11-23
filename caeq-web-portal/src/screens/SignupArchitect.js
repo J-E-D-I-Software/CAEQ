@@ -29,7 +29,7 @@ const Signup = () => {
                 setArchitectUserSaved(response.data.user);
             }
 
-            FireSucess('Te has registrado con éxito');
+            FireSucess('Ha iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
             FireError(error.message);
@@ -42,7 +42,11 @@ const Signup = () => {
             <h2>Registro</h2>
             <form onSubmit={handleSignup}>
                 <h3>Nombre</h3>
-                <TextInput placeholder='Nombre Completo' getVal={fullName} setVal={setfullName} />
+                <TextInput
+                    placeholder='Nombre Completo'
+                    getVal={fullName}
+                    setVal={setfullName}
+                />
                 <h3>Correo Electrónico</h3>
                 <TextInput
                     placeholder='Correo Electrónico'

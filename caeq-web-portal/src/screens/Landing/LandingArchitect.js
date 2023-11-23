@@ -29,7 +29,7 @@ const LandingArchitect = () => {
                         <Link to='/SignupUser'>
                             <BaseButton type='primary'>Registrarse</BaseButton>
                         </Link>
-                        <div className="solid"/>
+                        <div className='solid' />
                     </div>
                 </div>
                 <div className='column right-column'>
@@ -39,38 +39,6 @@ const LandingArchitect = () => {
                         </Link>
                     </div>
                     <img src={Image1} alt='Image1' className='image1' />
-                </div>
-            </div>
-            <div className='infocaeq'>
-                <div className='column left-column'>
-                    <img src={Image3} alt='Image3' className='image3' />
-                </div>
-                <div className='column right-column'>
-                    <div className='titleOne'>C A E Q</div>
-                    <div className='descOne'>
-                        Espacio de expresión, opinión, colaboración y capacitación para
-                        promover e impulsar el mejoramiento arquitectónico y urbano de
-                        Querétaro.
-                    </div>
-                </div>
-            </div>
-            <div className='infocaeq'>
-                <div className='column left-column'>
-                    <div className='titleTwo'>Objetivos</div>
-                    <div className='descTwo'>
-                        Integrar a los profesionistas de la arquitectura, promoviendo, la
-                        participación dentro del gremio.
-                    </div>
-                </div>
-                <div className='column right-column'>
-                    <img src={Image2} alt='Image2' className='image2' />
-                </div>
-            </div>
-
-            <div className='values'>
-                <div className='titleThree'>Valores</div>
-                <div className='descThree'>
-                    HONESTIDAD | LEALTAD | TRANSPARENCIA | PROFESIONALISMO
                 </div>
             </div>
         </div>

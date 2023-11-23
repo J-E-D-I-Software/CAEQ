@@ -22,7 +22,7 @@ const Signup = () => {
             await postSignupCaeqUsers(data);
 
             FireSucess(
-                'Te has registrado con éxito. Un administrador actualizará tu perfil'
+                'Se ha registrado con éxito. Un administrador actualizará tu perfil'
             );
             navigate('/');
         } catch (error) {

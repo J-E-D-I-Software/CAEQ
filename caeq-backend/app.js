@@ -99,13 +99,12 @@ const limiter = rateLimit({
     handler: function (req, res, next) {
         return next(
             new AppError(
-                'Has enviado demasiadas peticiones, espera un tiempo antes de continuar.',
+                'Ha enviado demasiadas peticiones, por favor espere un tiempo antes de continuar.',
                 429
             )
         );
     },
 });
-
 
 app.use(limiter);
 
@@ -127,10 +126,7 @@ app.use('/benefits', benefitRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-    const error = new AppError(
-        `Can´t find ${req.originalUrl} on this server`,
-        404
-    );
+    const error = new AppError(`Can´t find ${req.originalUrl} on this server`, 404);
 
     next(error);
 });

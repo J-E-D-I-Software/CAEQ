@@ -468,7 +468,7 @@ const Signup = () => {
                                 accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Adjuntar comprobante de domicilio (no mayor a 3 meses)'
+                                label='Adjuntar Comprobante de domicilio (no mayor a 3 meses)'
                                 getVal={linkAddressCertificate}
                                 setVal={setLinkAddressCertificate}
                                 accept='image/*,application/pdf'

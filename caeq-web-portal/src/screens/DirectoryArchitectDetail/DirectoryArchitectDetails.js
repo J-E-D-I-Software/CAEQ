@@ -514,8 +514,9 @@ const ArchitectDetail = (props) => {
                         </p>
                     )}
                     <FileInput
-                        label="Curriculum Vitae"
-                        placeholder="CV"
+                        label='Curriculum Vitae'
+                        placeholder='CV'
+                        accept='image/*,application/pdf'
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -545,12 +546,12 @@ const ArchitectDetail = (props) => {
                         <p>
                             Archivo Actual:
                             <a href={editedData.linkCAEQCard}>
-                                <span>Descargar tarjeta de CAEQ</span>
+                                <span>Descargar Tarjeta de CAEQ</span>
                             </a>
                         </p>
                     ) : (
                         <p>
-                            <span>No hay una tarjeta de CAEQ registrada. ¡Sube una!</span>
+                            <span>No hay una Tarjeta de CAEQ registrada. ¡Sube una!</span>
                         </p>
                     )}
                     <FileInput
@@ -588,13 +589,13 @@ const ArchitectDetail = (props) => {
                         <p>
                             Archivo Actual:
                             <a href={editedData.linkProfessionalLicense}>
-                                <span>Descargar cédula profesional</span>
+                                <span>Descargar Cédula profesional</span>
                             </a>
                         </p>
                     ) : (
                         <p>
                             <span>
-                                No hay una cédula profesional registrada. ¡Sube una!
+                                No hay una Cédula profesional registrada. ¡Sube una!
                             </span>
                         </p>
                     )}
@@ -610,12 +611,12 @@ const ArchitectDetail = (props) => {
                         <p>
                             Archivo Actual:
                             <a href={editedData.linkBachelorsDegree}>
-                                <span>Descargar título profesional</span>
+                                <span>Descargar Título profesional</span>
                             </a>
                         </p>
                     ) : (
                         <p>
-                            <span>No hay un título registrado. ¡Sube uno!</span>
+                            <span>No hay un Título registrado. ¡Sube uno!</span>
                         </p>
                     )}
                     <FileInput
@@ -633,13 +634,13 @@ const ArchitectDetail = (props) => {
                         <p>
                             Archivo Actual:
                             <a href={editedData.linkAddressCertificate}>
-                                <span>Descargar comprobante de domicilio</span>
+                                <span>Descargar Comprobante de domicilio</span>
                             </a>
                         </p>
                     ) : (
                         <p>
                             <span>
-                                No hay comprobante de domicilio registrado. ¡Sube uno!
+                                No hay Comprobante de domicilio registrado. ¡Sube uno!
                             </span>
                         </p>
                     )}
@@ -655,12 +656,12 @@ const ArchitectDetail = (props) => {
                         <p>
                             Archivo Actual:
                             <a href={editedData.linkBirthCertificate}>
-                                <span>Descargar acta de nacimiento</span>
+                                <span>Descargar Acta de nacimiento</span>
                             </a>
                         </p>
                     ) : (
                         <p>
-                            <span>No hay acta de nacimiento registrada. ¡Sube una!</span>
+                            <span>No hay Acta de nacimiento registrada. ¡Sube una!</span>
                         </p>
                     )}
                 </div>

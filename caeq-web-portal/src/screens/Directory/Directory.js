@@ -43,7 +43,6 @@ const Directory = () => {
     const [specialty, setSpecialty] = useState('');
     const [specialtyName, setSpecialtyName] = useState('');
     const [currentRights, setCurrentRights] = useState('');
-    const [orderBy, setOrderBy] = useState('collegiateNumber');
     const navigate = useNavigate();
     /**
      * Handle a row click event by navigating to a directory page with the specified ID.
@@ -102,14 +101,9 @@ const Directory = () => {
     useEffect(() => {
         (async () => {
             setPaginationPage(1);
-            const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
                 const filters = calculateFilters();
-                const architects = await getAllArchitectUsers(
-                    1,
-                    filters,
-                    effectiveOrderBy
-                );
+                const architects = await getAllArchitectUsers(1, filters, 10);
 
                 setArchitectUsers(architects);
             } catch (error) {
@@ -129,7 +123,6 @@ const Directory = () => {
         birthInitial,
         specialty,
         currentRights,
-        orderBy,
     ]);
 
     useEffect(() => {
@@ -146,13 +139,12 @@ const Directory = () => {
 
     useEffect(() => {
         (async () => {
-            const effectiveOrderBy = orderBy || 'collegiateNumber';
             try {
                 const filters = calculateFilters();
                 const architects = await getAllArchitectUsers(
                     paginationPage,
                     filters,
-                    effectiveOrderBy
+                    10
                 );
 
                 if (paginationPage === 1 && architects.length)
@@ -202,12 +194,30 @@ const Directory = () => {
      * @returns {Promise<void>} A Promise that resolves when the download is complete.
      */
     const handleDownload = async () => {
-        const swal = FireLoading('Generando archivo de Excel...');
-
         const filters = calculateFilters();
-        const architects = await getAllArchitectUsers(1, filters, 100000);
+        let architectArr = [];
+        let currentPage = 1;
+        let architectPackageSize = 100;
+        let latestArchitectSize = 100;
 
-        const architectsDownload = architects.map((val) => {
+        if (currentRights) {
+            architectPackageSize = 10;
+            latestArchitectSize = 10;
+        }
+
+        while (latestArchitectSize === architectPackageSize) {
+            FireSucess(`Descargando grupo ${currentPage} de arquitectos...`);
+            const architects = await getAllArchitectUsers(
+                currentPage,
+                filters,
+                architectPackageSize
+            );
+            latestArchitectSize = architects.length;
+            architectArr = architectArr.concat(architects);
+            currentPage++;
+        }
+
+        const architectsDownload = architectArr.map((val) => {
             delete val._id;
 
             // Create a new object with mapped headers
@@ -237,7 +247,6 @@ const Directory = () => {
             return mappedObject;
         });
 
-        swal.close();
         FireSucess('La descarga se iniciará en breve.');
 
         exportToExcel(architectsDownload, 'seleccion-arquitectos', false);
@@ -288,7 +297,6 @@ const Directory = () => {
         setBirthFinal('');
         setSpecialty('');
         setSpecialtyName('');
-        setOrderBy('collegiateNumber');
     };
 
     const handleClearFilters = () => {

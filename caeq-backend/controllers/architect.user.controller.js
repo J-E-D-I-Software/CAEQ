@@ -10,20 +10,72 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 const DateRange = require('../utils/dateRangeMap');
 
+// exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
 exports.getAllArchitectUsers = catchAsync(async (req, res) => {
     try {
+        // Pagination
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+        const skip = (page - 1) * limit;
+
         let filter = {};
         let query = ArchitectUser.find(filter);
         query.populate('specialties');
+        const requiresRights = Object.keys(req.query).includes('rights');
+        const rightFiltering = req.query.rights === 'true';
 
-        const features = new APIFeatures(query, req.query)
-            .filter()
-            .sort()
-            .limitFields()
-            .paginate();
+        // filter
+        const queryObj = { ...req.query };
+        const excludeFields = [
+            'page',
+            'sort',
+            'limit',
+            'fields',
+            'currentRights',
+            'rights',
+        ];
 
-        let documents = await features.query;
-        console.log('Initial documents', documents);
+        excludeFields.forEach((el) => delete queryObj[el]);
+
+        // ADVANCED FILTERING
+        let queryString = JSON.stringify(queryObj);
+        queryString = queryString.replace(
+            // To allow more mongoose commands add the name of the command to the regular expression
+            /\b(gte|gt|lte|lt|regex|np|in )\b/g,
+            (match) => `$${match}`
+        );
+        queryString = queryString.replace(
+            /"\$regex":"([^"]*)"/g,
+            '"$regex": "$1", "$options": "i"'
+        );
+        let filteredQuery = JSON.parse(queryString);
+
+        query.find(filteredQuery);
+
+        // SORTING
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query.sort(sortBy);
+        } else {
+            query.sort('-createdAt _id');
+        }
+
+        // FIELD LIMITING
+        if (req.query.fields) {
+            const fields = req.query.fields
+                .split(',')
+                .filter((val) => val !== 'password' && val !== 'passwordConfirm')
+                .join(' ');
+            query.select(fields);
+        }
+
+        // PAGINATION IF NO RIGHTS FILTERING
+        if (!requiresRights) {
+            query.skip(skip).limit(limit);
+        }
+
+        // EXECUTE QUERY
+        let documents = await query;
         documents = await Promise.all(
             documents.map(async (doc) => {
                 const hasRights = await doc.currentRights;
@@ -31,12 +83,14 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return doc;
             })
         );
-        console.log('documents after right', documents);
-        if (Object.keys(req.query).includes('rights')) {
+        if (requiresRights) {
             documents = documents.filter((doc) => {
-                const reqRightsBool = req.query.rights === 'true';
-                return doc.rights === reqRightsBool;
+                return doc.rights === rightFiltering;
             });
+        }
+
+        if (requiresRights) {
+            documents = documents.slice(skip, skip + limit);
         }
 
         documents = await Promise.all(
@@ -46,7 +100,6 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return { ...doc._doc, ...latestAssemblies, ...latestHours };
             })
         );
-        console.log(documents.length);
 
         res.status(200).json({
             status: 'success',
@@ -57,6 +110,7 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
         console.log(error);
     }
 });
+
 exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
     'overwrites',

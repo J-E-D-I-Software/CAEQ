@@ -11,7 +11,7 @@ export async function getAllArchitectUsers(
     filtersParams = '',
     pageLimit = 100
 ) {
-    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${10}&isRequest=false&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${pageLimit}&isRequest=false&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;
@@ -42,7 +42,7 @@ export async function getArchitectUserById(id) {
  * @returns An object.
  */
 export async function getArchitectUserByColegiateNumber(collegiateNumber) {
-    let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}&isRequest=false`;
 
     const response = await axios.get(endpoint);
     if (response.data.data.documents.length === 1) return response.data.data.documents[0];

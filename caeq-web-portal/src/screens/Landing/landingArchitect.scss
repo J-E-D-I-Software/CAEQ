@@ -4,16 +4,15 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        background: url('../../components/images/backgroundCaeq.png')
-            center/cover no-repeat fixed;
+        background: url('../../components/images/backgroundCaeq.png') center/cover
+            no-repeat fixed;
         padding: 20px;
         min-height: 100vh;
         color: #000000;
         position: relative;
-        
-        .button{
-            width: 200px;
 
+        .button {
+            width: 200px;
         }
 
         @media (max-width: 768px) {
@@ -68,7 +67,7 @@
         flex-shrink: 0;
         text-align: center;
         font-size: 24px;
-        line-height: normal;;
+        line-height: normal;
         @media (max-width: 768px) {
             font-size: 1rem;
             text-align: center;
@@ -86,10 +85,13 @@
         align-items: center;
         justify-content: center;
 
-
         @media (max-width: 768px) {
             padding: 10px;
             text-align: center;
+        }
+
+        img {
+            align-self: flex-start;
         }
     }
 
@@ -109,7 +111,7 @@
             margin-top: 2rem;
             margin-inline: 3rem;
         }
-        
+
         div.solid {
             width: 100%;
             @media screen and (max-width: 768px) {

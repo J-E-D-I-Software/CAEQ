@@ -14,6 +14,7 @@ import BaseButton from '../../components/buttons/BaseButton';
 const LandingArchitect = () => {
     return (
         <div className='containercaeq'>
+            <div className='imagen-oscura'></div>
             <div className='welcome'>
                 <div className='column left-column'>
                     <img src={Logo} alt='Logo' className='logo' />

@@ -136,7 +136,12 @@ const Course = (props) => {
                         <div>
                             <img src={ClassroomIcon} height={40} />
                             <p>
-                                <span>Curso {data.modality}</span>
+                                <span>
+                                    Curso{' '}
+                                    {data.modality === 'Remoto'
+                                        ? 'En línea'
+                                        : data.modality}
+                                </span>
                             </p>
                         </div>
                     )}
@@ -213,13 +218,8 @@ const Course = (props) => {
             <div className='course-row course-details'>
                 <img src={data.imageUrl} />
                 <div className='course-col'>
-                    {data.description && <p className='text-area'>{data.description}</p>}
-                    {data.teacherReview && (
-                        <span>
-                            <p>Reseña</p>
-                            <p className='course-review'>"{data.teacherReview}"</p>
-                        </span>
-                    )}
+                    {data.description && <h3>Descripción</h3>}
+                    {data.description && <p>{data.description}</p>}
                     {data.objective || data.includes || data.temario ? (
                         <div className='course-row course-extras'>
                             {data.objective && (
@@ -243,6 +243,12 @@ const Course = (props) => {
                         </div>
                     ) : (
                         <></>
+                    )}
+                    {data.teacherReview && (
+                        <span>
+                            <h3>Reseña</h3>
+                            <p className='course-review'>"{data.teacherReview}"</p>
+                        </span>
                     )}
                     {data.price !== undefined &&
                         data.price !== null &&

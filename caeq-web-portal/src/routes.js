@@ -34,18 +34,20 @@ import CreateRoomOffer from './screens/CreateRoom/CreateRoom';
 
 import DirectorioIcon from './components/icons/DirectorioIcon.png';
 import DirectorioIconWhite from './components/icons/DirectorioIconWhite.png';
-import CursosIcon from '../src/components/icons/CursosIcon.png';
-import CursosIconWhite from '../src/components/icons/CursosIconWhite.png';
-import ProfileIcon from '../src/components/icons/ProfileIcon.png';
-import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.png';
+import CursosIcon from '../src/components/icons/CourseIcon.svg';
+import CursosIconWhite from '../src/components/icons/CursosIconWhite.svg';
+import ProfileIcon from '../src/components/icons/ProfileIcon.svg';
+import ProfileIconWhite from '../src/components/icons/ProfileIconWhite.svg';
 import AnouncementIcon from '../src/components/icons/AnuncioIcon.png';
 import AnouncementIconWhite from '../src/components/icons/AnuncioWhite.png';
 import PrincipalIcon from '../src/components/icons/PrincipalIcon.png';
-import ServicesIcon from '../src/components/icons/ServicesIcon.png';
-import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.png';
+import ServicesIcon from '../src/components/icons/ServicesIcon.svg';
+import ServicesIconWhite from '../src/components/icons/ServicesIconWhite.svg';
 import BenefitsIcon from '../src/components/icons/BenefitsIcon.png';
 import BenefitsIconWhite from '../src/components/icons/BenefitsIconWhite.png';
 import RestrictByRole from './components/restrictAccess/RestrictByRole.jsx';
+import AsambleasIcon from '../src/components/icons/AsambleasIcon.svg';
+import AsambleasIconWhite from '../src/components/icons/AsambleasIconWhite.svg';
 
 import PrincipalIconWhite from '../src/components/icons/PrincipalIconWHite.png';
 import AdminIcon from '../src/components/icons/AdminIcon.png';
@@ -105,8 +107,8 @@ const routes = [
     {
         path: '/Asambleas',
         name: 'Asambleas',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
+        icon: AsambleasIcon,
+        iconWhite: AsambleasIconWhite,
         Component: Gatherings,
         isPrivate: true,
         inNavbar: true,

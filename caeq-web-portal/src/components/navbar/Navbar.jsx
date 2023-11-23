@@ -6,7 +6,7 @@ import routes from '../../routes';
 import { useNavigate } from 'react-router-dom';
 import RestrictByRole from '../restrictAccess/RestrictByRole';
 import { logOut } from '../../utils/auth';
-
+import Navlogo from '../images/nav-logo-caeq.png';
 /**
  * Navbar component for navigation and user actions.
  * @component
@@ -28,11 +28,15 @@ const Navbar = () => {
     return (
         <div className='navbar'>
             <BurgerMenu />
-            <div className='navbar-button'>
-                <BaseButton type='fail' onClick={handleLogout}>
-                    Cerrar sesión
-                </BaseButton>
+            <div className='navbar-top'>
+                <img src={Navlogo} height={120} alt='Logo caeq' />
+                <div className='navbar-button'>
+                    <BaseButton type='fail' onClick={handleLogout}>
+                        Cerrar sesión
+                    </BaseButton>
+                </div>
             </div>
+
             <div className='navbar-center'>
                 {routes
                     .filter((route) => route.inNavbar)
@@ -43,7 +47,8 @@ const Navbar = () => {
                                 route.roles !== undefined
                                     ? route.roles
                                     : ['architect', 'caeq']
-                            }>
+                            }
+                        >
                             <NavbarButton
                                 label={route.name}
                                 key={route.path}

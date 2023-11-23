@@ -177,7 +177,7 @@ const ArchitectPersonalData = (props) => {
             <div className='architect-row'>
                 <h2>
                     {' '}
-                    (i) Modifica la información que sea necesaria. Al terminar, haz clic
+                    (i) Favor de modificar la información que sea necesaria. Al terminar, haga clic
                     en guardar cambios.
                 </h2>
             </div>

@@ -8,7 +8,7 @@ import { updateBenefit } from '../../client/Benefits/Benefit.PATCH';
 import { deleteBenefit } from '../../client/Benefits/Benefit.DELETE';
 import { useEffect, useState } from 'react';
 import BaseButton from '../../components/buttons/BaseButton';
-import { FireSucess, FireError } from '../../utils/alertHandler';
+import { FireSucess, FireError, FireQuestion } from '../../utils/alertHandler';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const CreateOrEditBenefit = () => {
@@ -89,6 +89,9 @@ const CreateOrEditBenefit = () => {
     };
 
     const onDelete = async () => {
+        const response = await FireQuestion('¿Está seguro que desea eliminar este beneficio?', 'Esta acción no se puede deshacer');
+        if (!response.isConfirmed) return;
+
         try {
             await deleteBenefit(searchParams.id);
             FireSucess('Beneficio eliminado exitosamente');

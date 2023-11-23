@@ -1,83 +1,96 @@
-.courses {
-    padding: 3rem;
-    
+.inscription {
+    padding: 20px 30px 0px 30px;
 
-    .courses--row { 
+    .inscription--row {
         display: flex;
     }
 
-    .courses__filters { 
+    .inscription__header {
+        align-items: center;
         justify-content: space-between;
-        margin-bottom: 2rem;
 
-        .dropdown-input { 
-            background-color: #eea300;
-            color: white;
+        button {
             margin-right: 1rem;
         }
     }
 
-    .box-input { 
-        width: 40vw;
+    .inscription__filters {
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        align-items: end;
+
+        .date-range-input {
+            margin-right: 1rem;
+        }
+
+        .dropdown- {
+            margin-right: 1rem;
+            display: flex;
+            align-items: end;
+        }
+
+        .dropdown-input {
+            background-color: #eea300;
+            color: white;
+        }
     }
 
-    .courses__courses-section { 
-        display: flex;
+    .box-input {
+        width: 25vw !important;
+    }
+
+    .inscription__inscription-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         flex-wrap: wrap;
         gap: 1rem;
     }
 
-    .courses__courses-pagination {
+    .inscription__inscription-pagination {
         display: flex;
         justify-content: center;
         margin-top: 1.5rem;
     }
 
-    hr {
-        width: 77%;
-        float: left;
-        margin-top: -10px;
-
-        h1 {
-          font-size: 32px;
-          text-align: center;
-          margin-top: 30px;
-      }
-
-        h2 {
-            font-size: 20px;
-            display: inline-block;
-            margin-right: 20px;
-      }
-    
-    @media only screen and (max-width: 1200px)  {
-        .courses__filters{
+    @media screen and (max-width: 1200px) {
+        .inscription__filters {
             flex-wrap: wrap;
+            align-items: start;
 
-            .courses--row {
+            .inscription--row {
                 flex-direction: column;
             }
         }
     }
-    
-    @media only screen and (max-width: 700px)  {
-        padding: 0 1rem !important;
-        
-        .courses__filters {
+
+    @media screen and (max-width: 768px) {
+        .inscription__filters {
             flex-direction: column;
-            
-            .box-input { 
+
+            .box-input {
                 width: 100% !important;
             }
-    
-            .courses--row {
+
+            .inscription--row {
                 flex-direction: column;
-    
+
                 .dropdown-input {
                     width: 100%;
                 }
             }
         }
+
+        .inscription__header {
+            flex-direction: column;
+
+            div {
+                display: flex;
+                flex-direction: column;
+
+                .button {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
     }
 }
-};

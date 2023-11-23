@@ -7,6 +7,7 @@ import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';
 import { getMyInscriptions } from '../../client/Inscription/Inscription.GET';
 import { useNavigate } from 'react-router-dom';
+import "./MyInscriptions.scss";
 
 const MyInscription = (props) => {
     const [courses, setCourses] = useState([]);
@@ -42,11 +43,11 @@ const MyInscription = (props) => {
     }, [filterSearchByName, filterModality, paginationPage]);
 
     return (
-        <div className='courses'>
-            <div className='courses--row'>
+        <div className='inscription'>
+            <div className='inscription--row'>
                 <h1>Mis Cursos Inscritos</h1>
             </div>
-            <div className='courses--row courses__filters'>
+            <div className='inscription--row inscription__filters'>
                 <BaseButton type='primary' onClick={() => navigate('/AsistenciasCursos')}>
                     Mis Asistencias a cursos
                 </BaseButton>
@@ -58,7 +59,7 @@ const MyInscription = (props) => {
                     setVal={setFilterSearchByName}
                 />
 
-                <div className='courses--row'>
+                <div className='inscription--row'>
                     <DropdownInput
                         label='Filtrar'
                         getVal={filterModality}
@@ -69,13 +70,13 @@ const MyInscription = (props) => {
                 </div>
             </div>
 
-            <div className='courses--row courses__courses-section'>
+            <div className='inscription--row inscription__inscription-section'>
                 {courses.map((mycourse, i) => (
                     <InscriptionCard key={i} {...mycourse} />
                 ))}
             </div>
 
-            <div className='courses--row courses__courses-pagination'>
+            <div className='inscription--row inscription__inscription-pagination'>
                 <PaginationNav
                     page={paginationPage}
                     onClickBefore={() => setPaginationPage(paginationPage - 1)}

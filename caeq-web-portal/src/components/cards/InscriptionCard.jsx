@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
+import "./InscriptionCard.scss";
 
 const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
     const navigate = useNavigate();
-    // Accede a las propiedades dentro de la propiedad 'mycourse'
     let description = props.course.description.slice(0, 130);
     if (props.course.description.length > 130)
         description += '...';
@@ -11,7 +11,7 @@ const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
     const date = new Date(props.course.startDate);
 
     return (
-        <div className='course-card'>
+        <div className='inscription-card'>
             <div className='card-col'>
                 <img src={props.course.imageUrl} alt={props.course.courseName} />
             </div>
@@ -49,7 +49,7 @@ const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
                             <BaseButton
                                 className='mb-1'
                                 type='primary'
-                                onClick={() => navigate(`/MisCursos/${props.course._id}`)}                                
+                                onClick={() => navigate(`/Curso/${props.course._id}`)}                                
                             >
                                 Ver más
                             </BaseButton>

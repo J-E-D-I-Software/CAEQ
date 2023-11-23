@@ -18,7 +18,6 @@ import LandingArchitect from './screens/Landing/LandingArchitect';
 import Principal from './screens/Principal/Principal';
 import AcceptPayment from './screens/AcceptPayment/AcceptPayment';
 import MyInscription from './screens/MyInscriptions/MyInscriptions.js';
-import Inscriptiondetail from './screens/MyInscriptions/Inscriptiondetail.js';
 import InscriptionAsistance from './screens/MyInscriptions/InscriptionAsistance';
 
 
@@ -107,15 +106,6 @@ const routes = [
         inNavbar: false,
     },
     {
-        path: '/MisCursos/:id',
-        name: 'MiCurso',
-        icon: CursosIcon,
-        iconWhite: CursosIconWhite,
-        Component: Inscriptiondetail,
-        isPrivate: true,
-        inNavbar: false,
-    },
-    {
         path: '/Curso/:id',
         name: 'Curso',
         icon: CursosIcon,
@@ -140,6 +130,7 @@ const routes = [
         Component: CreateOrUpdateCourse,
         isPrivate: true,
         inNavbar: false,
+        roles: ['caeq'],
     },
     {
         path: '/Asambleas',

@@ -2,6 +2,7 @@ import { FireError } from "../../utils/alertHandler";
 import { useState, useEffect } from "react";
 import { getMyInscriptionswithSessions } from "../../client/Inscription/Inscription.GET";
 import CourseAttendee from "../../components/table/courseAttendee";
+import "./MyInscriptions.scss";
 
 /**
  * Renders the InscriptionAsistance component.
@@ -36,7 +37,7 @@ const InscriptionAsistance = (props) => {
   }, [filterSearchByName, filterModality]);
 
   return (
-    <div className="course">
+    <div className="inscription">
       {" "}
       {/* Cambié "classname" a "className" */}
       <div className="inscription-row">
@@ -44,7 +45,7 @@ const InscriptionAsistance = (props) => {
       </div>
       {inscriptions.map((inscription) => (
         <div className="box-container">
-          <div className="course-row">
+          <div className="inscription-row">
             <CourseAttendee
               hours={inscription.course.numberHours}
               course={inscription.course.courseName}

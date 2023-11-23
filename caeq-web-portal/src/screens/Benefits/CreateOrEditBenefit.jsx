@@ -21,16 +21,16 @@ const CreateOrEditBenefit = () => {
         location: '',
         contact: '',
         website: '',
-        category: ''
+        category: '',
     });
 
     const parseCategoriesFromBenefits = (benefits) => {
         const parsedCategories = [];
-        benefits.forEach(benefit => {
+        benefits.forEach((benefit) => {
             if (!categories.includes(benefit.category)) {
-                parsedCategories.push({ 
-                    value: benefit.category, 
-                    label: benefit.category
+                parsedCategories.push({
+                    value: benefit.category,
+                    label: benefit.category,
                 });
             }
         });
@@ -38,8 +38,7 @@ const CreateOrEditBenefit = () => {
     };
 
     useEffect(() => {
-        getAllBenefits()
-        .then(data => {
+        getAllBenefits().then((data) => {
             const categoryOptions = parseCategoriesFromBenefits(data);
             setCategories(categoryOptions);
         });
@@ -47,10 +46,10 @@ const CreateOrEditBenefit = () => {
 
     useEffect(() => {
         if (searchParams.id) {
-            getBenefit(searchParams.id)
-            .then(benefit => {
-                setData({ ...benefit,
-                    category: { value: benefit.category, label: benefit.category }
+            getBenefit(searchParams.id).then((benefit) => {
+                setData({
+                    ...benefit,
+                    category: { value: benefit.category, label: benefit.category },
                 });
             });
         }
@@ -69,8 +68,7 @@ const CreateOrEditBenefit = () => {
                 delete data._id;
                 await updateBenefit(searchParams.id, data);
                 FireSucess('Beneficio modificado exitosamente');
-            }
-            else {
+            } else {
                 const newBenefit = await createBenefitInAPI(data);
                 FireSucess('Beneficio creado exitosamente');
                 navigate(`/Beneficio/${newBenefit._id}`);
@@ -79,8 +77,7 @@ const CreateOrEditBenefit = () => {
             if (error.response && error.response.status === 400) {
                 if (error.response.data.message.includes('duplicado'))
                     FireError('Ya existe un beneficio con ese nombre');
-                else
-                    FireError(error.response.data.message);
+                else FireError(error.response.data.message);
                 return;
             } else {
                 FireError(error);
@@ -89,7 +86,10 @@ const CreateOrEditBenefit = () => {
     };
 
     const onDelete = async () => {
-        const response = await FireQuestion('¿Está seguro que desea eliminar este beneficio?', 'Esta acción no se puede deshacer');
+        const response = await FireQuestion(
+            '¿Está seguro que desea eliminar este beneficio?',
+            'Esta acción no se puede deshacer'
+        );
         if (!response.isConfirmed) return;
 
         try {
@@ -104,47 +104,51 @@ const CreateOrEditBenefit = () => {
     const onInputChange = (key, value) => {
         setData({
             ...data,
-            [key]: value
+            [key]: value,
         });
     };
 
     return (
-        <div className='create-benefit'> 
+        <div className='create-benefit'>
             <div className='create-benefit__delete'>
                 <h1>{searchParams.id ? 'Modificar' : 'Crear'} Beneficio</h1>
-                <BaseButton type="cancel" onClick={onDelete}>Eliminar beneficio</BaseButton>
+                {searchParams.id && (
+                    <BaseButton type='cancel' onClick={onDelete}>
+                        Eliminar beneficio
+                    </BaseButton>
+                )}
             </div>
 
             <form>
-                <TextInput 
-                    label="Nombre del beneficio"
+                <TextInput
+                    label='Nombre del beneficio'
                     getVal={data.name}
                     setVal={(value) => onInputChange('name', value)}
                     require
                 />
-                <LargeTextInput 
-                    label="Descripción general del beneficio"
+                <LargeTextInput
+                    label='Descripción general del beneficio'
                     getVal={data.description}
                     setVal={(value) => onInputChange('description', value)}
                     require
                 />
-                <TextInput 
-                    label="Ubicación"
+                <TextInput
+                    label='Ubicación'
                     getVal={data.location}
                     setVal={(value) => onInputChange('location', value)}
                 />
-                <TextInput 
-                    label="Contacto"
+                <TextInput
+                    label='Contacto'
                     getVal={data.contact}
                     setVal={(value) => onInputChange('contact', value)}
                 />
-                <TextInput 
-                    label="Sitio web"
+                <TextInput
+                    label='Sitio web'
                     getVal={data.website}
                     setVal={(value) => onInputChange('website', value)}
                 />
-                <CreatableSelectComponent 
-                    label="Categoría"
+                <CreatableSelectComponent
+                    label='Categoría'
                     value={data.category}
                     onChange={(value) => onInputChange('category', value)}
                     options={categories}
@@ -152,9 +156,13 @@ const CreateOrEditBenefit = () => {
                     require
                 />
 
-                <div className="create-benefit__buttons">
-                    <BaseButton type="primary" onClick={onSubmit}>Guardar</BaseButton>
-                    <BaseButton>Cancelar</BaseButton>
+                <div className='create-benefit__buttons'>
+                    <BaseButton type='primary' onClick={onSubmit}>
+                        Guardar
+                    </BaseButton>
+                    <BaseButton onClick={() => navigate('/Beneficios')}>
+                        Cancelar
+                    </BaseButton>
                 </div>
             </form>
         </div>

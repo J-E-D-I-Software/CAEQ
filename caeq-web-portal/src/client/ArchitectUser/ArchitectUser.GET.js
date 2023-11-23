@@ -11,7 +11,7 @@ export async function getAllArchitectUsers(
     filtersParams = '',
     pageLimit = 100
 ) {
-    let endpoint = `${baseApiEndpoint}/architectusers?page=${20}&limit=${pageLimit}&isRequest=false&${filtersParams}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?page=${page}&limit=${10}&isRequest=false&${filtersParams}`;
 
     const response = await axios.get(endpoint);
     return response.data.data.documents;

@@ -76,7 +76,7 @@ const testPendingProfileNoLogin = async () => {
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body).toBeTruthy();
     expect(resTest1.body.message).toEqual(
-        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
+        'Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
     );
 
     const resLoginTest = await agent.post('/architectusers/auth/login').send({
@@ -129,7 +129,7 @@ const testAcceptedProfileLogin = async () => {
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body).toBeTruthy();
     expect(resTest1.body.message).toEqual(
-        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
+        'Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
     );
 
     await loginAdmin(agent, 'john@example.com', 'password123');

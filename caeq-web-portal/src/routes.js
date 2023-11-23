@@ -56,7 +56,26 @@ import LandingCAEQ from './screens/Landing/LandingCAEQ';
 import PublicDirectory from './screens/Directory/PublicDirectory';
 import Anouncements from './screens/Anouncements/Anouncements';
 const routes = [
-    // TO-DO: CORREGIR ESTAS RUTAS
+    {
+        path: '/Directorio',
+        name: 'Directorio',
+        icon: DirectorioIcon,
+        iconWhite: DirectorioIconWhite,
+        Component: Directory,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
+    },
+    {
+        path: '/Usuarios',
+        name: 'Usuarios',
+        icon: AdminIcon,
+        iconWhite: AdminIconWhite,
+        Component: AcceptAdmin,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
+    },
     {
         path: '/',
         name: 'Principal',
@@ -78,7 +97,7 @@ const routes = [
     },
     {
         path: '/PrincipalAdmin',
-        name: 'Principal',
+        name: 'Estadísticas',
         Component: PrincipalAdmin,
         icon: PrincipalIcon,
         iconWhite: PrincipalIconWhite,
@@ -244,16 +263,6 @@ const routes = [
         roles: ['caeq'],
     },
     {
-        path: '/Usuarios',
-        name: 'Usuarios',
-        icon: AdminIcon,
-        iconWhite: AdminIconWhite,
-        Component: AcceptAdmin,
-        isPrivate: true,
-        inNavbar: true,
-        roles: ['caeq'],
-    },
-    {
         path: '/LoginAdmin',
         name: 'LoginAdmin',
         Component: LoginAdmin,
@@ -281,32 +290,13 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-    {
-        path: '/Directorio',
-        name: 'Directorio',
-        icon: DirectorioIcon,
-        iconWhite: DirectorioIconWhite,
-        Component: Directory,
-        isPrivate: true,
-        inNavbar: true,
-        roles: ['caeq'],
-    },
+
     {
         path: '/Directorio/:id',
         name: 'Detalles de arquitecto',
         Component: DirectoryArchitectDetails,
         isPrivate: true,
         inNavbar: false,
-        roles: ['caeq'],
-    },
-    {
-        path: '/Anouncements',
-        name: 'Anuncios',
-        icon: AnouncementIcon,
-        iconWhite: AnouncementIconWhite,
-        Component: Anouncements,
-        isPrivate: true,
-        inNavbar: true,
         roles: ['caeq'],
     },
     {
@@ -388,6 +378,16 @@ const routes = [
         Component: CreateOrEditBenefit,
         isPrivate: true,
         inNavbar: false,
+    },
+    {
+        path: '/Anouncements',
+        name: 'Anuncios',
+        icon: AnouncementIcon,
+        iconWhite: AnouncementIconWhite,
+        Component: Anouncements,
+        isPrivate: true,
+        inNavbar: true,
+        roles: ['caeq'],
     },
 ];
 

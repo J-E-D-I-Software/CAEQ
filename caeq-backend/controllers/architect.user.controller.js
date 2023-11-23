@@ -23,7 +23,7 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
             .paginate();
 
         let documents = await features.query;
-        console.log('Initial documents', documents.length);
+        console.log('Initial documents', documents);
         documents = await Promise.all(
             documents.map(async (doc) => {
                 const hasRights = await doc.currentRights;
@@ -31,7 +31,7 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return doc;
             })
         );
-        console.log('documents after right', documents.length);
+        console.log('documents after right', documents);
         if (Object.keys(req.query).includes('rights')) {
             documents = documents.filter((doc) => {
                 const reqRightsBool = req.query.rights === 'true';

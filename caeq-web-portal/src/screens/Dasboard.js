@@ -1,6 +1,4 @@
 import BaseButton from '../components/buttons/BaseButton';
-import NavbarButton from '../components/buttons/NavbarButton';
-import Navbar from '../components/navbar/Navbar';
 import WhiteContainer from '../components/containers/WhiteCard/WhiteCard';
 import TextInput from '../components/inputs/TextInput/TextInput';
 import LargeTextInput from '../components/inputs/TextInput/LargeTextInput';

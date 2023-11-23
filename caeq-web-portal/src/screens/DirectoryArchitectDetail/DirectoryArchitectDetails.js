@@ -286,8 +286,8 @@ const ArchitectDetail = (props) => {
         <div className='architect-detail'>
             <div className='architect-row'>
                 <h2>
-                    Modifique la información que sea necesaria. Al terminar, haz clic en
-                    guardar cambios.
+                    Modifique la información que sea necesaria. Al terminar, favor de dar
+                    click en guardar cambios.
                 </h2>
             </div>
             <div className='architect-row'>

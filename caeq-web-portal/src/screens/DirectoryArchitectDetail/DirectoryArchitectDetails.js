@@ -516,6 +516,7 @@ const ArchitectDetail = (props) => {
                     <FileInput
                         label='Curriculum Vitae'
                         placeholder='CV'
+                        accept='image/*,application/pdf'
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })

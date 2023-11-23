@@ -356,7 +356,7 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
         // Check if capacitationHours are from 40 to beyond if there are 5 attendances in the last year
         // and at least 3 of them are presential and if the user is has payed the annuity
         if (
-            this.specialties.length > 0 &&
+            this.specialties?.length > 0 &&
             thisYearTotalCapacitationHours >= 40 &&
             totalGatheringAttendees >= 5 &&
             totalGatheringAttendeesPresential >= 3 &&
@@ -364,7 +364,7 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
         ) {
             return true;
         } else if (
-            this.specialties.length == 0 &&
+            this.specialties?.length == 0 &&
             thisYearTotalCapacitationHours >= 20 &&
             totalGatheringAttendees >= 5 &&
             totalGatheringAttendeesPresential >= 3 &&

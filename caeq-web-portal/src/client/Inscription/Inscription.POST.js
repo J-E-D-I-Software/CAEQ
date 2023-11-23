@@ -31,7 +31,7 @@ export async function createInscription(courseId) {
  * @throws {Error} If an error occurs during the inscribe operation.
  */
 export async function createInscriptionArchitect(courseId, userId) {
-    const endpoint = `${baseApiEndpoint}/inscription/inscribeTo`;
+    const endpoint = `${baseApiEndpoint}/inscription`;
     const requestData = {
         course: courseId,
         user: userId,

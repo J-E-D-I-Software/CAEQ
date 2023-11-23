@@ -16,9 +16,14 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
         let query = ArchitectUser.find(filter);
         query.populate('specialties');
 
-        const features = new APIFeatures(query, req.query).filter().sort().limitFields();
+        const features = new APIFeatures(query, req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
 
         let documents = await features.query;
+        console.log('Initial documents', documents.length);
         documents = await Promise.all(
             documents.map(async (doc) => {
                 const hasRights = await doc.currentRights;
@@ -26,19 +31,13 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return doc;
             })
         );
+        console.log('documents after right', documents.length);
         if (Object.keys(req.query).includes('rights')) {
             documents = documents.filter((doc) => {
                 const reqRightsBool = req.query.rights === 'true';
                 return doc.rights === reqRightsBool;
             });
         }
-
-        // Pagination
-        const page = req.query.page * 1 || 1;
-        const limit = req.query.limit * 1 || 100;
-        const skip = (page - 1) * limit;
-
-        documents = documents.slice(skip, skip + limit);
 
         documents = await Promise.all(
             documents.map(async (doc) => {
@@ -47,6 +46,7 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return { ...doc._doc, ...latestAssemblies, ...latestHours };
             })
         );
+        console.log(documents.length);
 
         res.status(200).json({
             status: 'success',

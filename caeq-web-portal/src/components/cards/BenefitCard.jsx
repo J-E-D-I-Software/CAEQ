@@ -66,7 +66,7 @@ const BenefitCard = ({ showMoreBtn = true, ...props }) => {
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='delete'
-                        onClick={() => navigate(`/Beneficios/${props._id}`)}>
+                        onClick={() => navigate(`/Beneficio/${props._id}`)}>
                         <p>Editar</p>
                     </BaseButton>
                 </RestrictByRole>

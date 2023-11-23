@@ -5,6 +5,7 @@ import CreatableSelectComponent from '../../components/inputs/CreatableSelect/Cr
 import { getAllBenefits, getBenefit } from '../../client/Benefits/Benefit.GET';
 import { createBenefit as createBenefitInAPI } from '../../client/Benefits/Benefit.POST';
 import { updateBenefit } from '../../client/Benefits/Benefit.PATCH';
+import { deleteBenefit } from '../../client/Benefits/Benefit.DELETE';
 import { useEffect, useState } from 'react';
 import BaseButton from '../../components/buttons/BaseButton';
 import { FireSucess, FireError } from '../../utils/alertHandler';
@@ -55,7 +56,7 @@ const CreateOrEditBenefit = () => {
         }
     }, [searchParams.id]);
 
-    const onSubmit = async(event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
 
         if (!data.name || !data.description || !data.category) {
@@ -87,6 +88,16 @@ const CreateOrEditBenefit = () => {
         }
     };
 
+    const onDelete = async () => {
+        try {
+            await deleteBenefit(searchParams.id);
+            FireSucess('Beneficio eliminado exitosamente');
+            navigate('/Beneficios');
+        } catch (error) {
+            FireError(error);
+        }
+    };
+
     const onInputChange = (key, value) => {
         setData({
             ...data,
@@ -96,7 +107,10 @@ const CreateOrEditBenefit = () => {
 
     return (
         <div className='create-benefit'> 
-            <h1>{searchParams.id ? 'Modificar' : 'Crear'} Beneficio</h1>
+            <div className='create-benefit__delete'>
+                <h1>{searchParams.id ? 'Modificar' : 'Crear'} Beneficio</h1>
+                <BaseButton type="cancel" onClick={onDelete}>Eliminar beneficio</BaseButton>
+            </div>
 
             <form>
                 <TextInput 

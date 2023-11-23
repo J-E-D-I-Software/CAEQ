@@ -1,0 +1,61 @@
+.create-benefit {
+    margin: 5em 20vw;
+    text-align: center;
+
+    .create-benefit__delete {
+        display: flex;
+        justify-content: space-between;
+        margin: 2.5rem 0;
+
+        h1 {
+            margin: 0;
+            margin-right: 2em;
+        }
+    }
+
+    form {
+        text-align: start;
+
+        input, textarea {
+            margin-bottom: 1.5em;
+        }
+
+        .create-benefit__buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+
+            button {
+                margin: 0 1em;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .create-benefit {
+        margin: 5em 30px;
+        display: flex;
+        flex-direction: column;
+
+        .create-benefit__delete {
+            margin: 0;
+            margin-bottom: 2.5rem;
+            flex-direction: column;
+
+            h1 {
+                margin: 0;
+                margin-bottom: 1em;
+            }
+        }
+    }
+
+    .create-benefit__buttons {
+        flex-direction: column;
+
+        button {
+            margin: 0.5em 0 !important;
+        }
+    }
+}

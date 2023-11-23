@@ -224,16 +224,16 @@ const ArchitectPersonalData = (props) => {
                     />
 
                     <TextInput
-                        label='Número celular'
-                        placeholder='Número celular'
+                        label='Teléfono celular'
+                        placeholder='Teléfono celular'
                         getVal={editedData.cellphone}
                         setVal={(value) =>
                             setEditedData({ ...editedData, cellphone: value })
                         }
                     />
                     <TextInput
-                        label='Número de casa'
-                        placeholder='Número de casa'
+                        label='Teléfono casa'
+                        placeholder='Teléfono casa'
                         getVal={editedData.homePhone}
                         setVal={(value) =>
                             setEditedData({ ...editedData, homePhone: value })

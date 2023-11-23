@@ -107,8 +107,8 @@ const Courses = (props) => {
                     <DropdownInput
                         label='Filtrar'
                         getVal={filterModality}
-                        setVal={setFilterModality}
-                        options={['Presencial', 'Remoto']}
+                        setVal={(val) => setFilterModality(val === 'En línea' ? 'Remoto' : val)}
+                        options={['Presencial', 'En línea']}
                         placeholder='Filtrar modalidad'
                     />
 

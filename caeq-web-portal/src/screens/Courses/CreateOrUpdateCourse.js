@@ -409,7 +409,7 @@ const CreateOrUpdateCourse = () => {
                             onChange={(e) => updateData('modality', e.target.value)}
                             value={data.modality}>
                             <option value='Presencial'>Presencial</option>
-                            <option value='Remoto'>Remoto</option>
+                            <option value='Remoto'>En línea</option>
                         </select>
                     </div>
                     <TextInput

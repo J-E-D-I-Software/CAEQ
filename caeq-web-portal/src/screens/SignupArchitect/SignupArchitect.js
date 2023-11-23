@@ -231,6 +231,7 @@ const Signup = () => {
         for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
             const fileName = Object.keys(filesToUpload)[i];
             let file = filesToUpload[fileName];
+            console.log(file, fileName);
 
             if (file) {
                 // If file size is over 5mb we have to compress it for the backend

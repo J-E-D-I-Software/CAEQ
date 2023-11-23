@@ -44,7 +44,7 @@ const testCaeqSignUp = async () => {
 
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body.message).toEqual(
-        'Se ha registrado con éxito, espera a que un ***istrador verifique tu perfil.'
+        'Se ha registrado con éxito, espera a que un administrador verifique tu perfil.'
     );
 
     const resTest2 = await agent.post('/caequsers/auth/signup').send({

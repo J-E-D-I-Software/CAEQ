@@ -233,7 +233,7 @@ const ArchitectDetail = (props) => {
     const handleDeleteArchitect = async () => {
         try {
             const confirmed = await FireQuestion (
-                '¿Estás seguro de que deseas eliminar a este arquitecto?',
+                '¿Esta seguro de que desea eliminar a este arquitecto?',
                 'Esta acción no se puede deshacer. La información del arquitecto no podra ser recuperada.'
             );
 
@@ -247,7 +247,7 @@ const ArchitectDetail = (props) => {
             navigate('/Directorio')
             FireSucess('Arquitecto eliminado exitósamente');    
         } catch (error) {
-            FireError('Error al eliminar al arquitecto. Inténtalo de nuevo.');
+            FireError('Error al eliminar al arquitecto. Inténtelo de nuevo.');
         }
     };
     

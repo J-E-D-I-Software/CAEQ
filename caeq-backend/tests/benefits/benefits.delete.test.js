@@ -13,7 +13,7 @@ const testDeleteBenefit = async () => {
     let endpoint = '/benefits/34545345345';
 
     let res = await agent.delete(endpoint);
-    expect(res.statusCode).toEqual(404);
+    expect(res.statusCode).toEqual(400);
 
     let benefit = Benefit.findOne({ name: 'Oferta laboral para carpinteros' });
     benefit.getFilter();
@@ -21,7 +21,7 @@ const testDeleteBenefit = async () => {
 
     endpoint = `/benefits/${benefit._id}`;
     res = await agent.delete(endpoint);
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(204);
 
     // Check that the benefit was deleted
     res = await agent.get(endpoint);

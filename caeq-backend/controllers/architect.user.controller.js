@@ -3,6 +3,8 @@ const ArchitectUser = require('../models/architect.user.model');
 const Attendee = require('../models/attendees.model');
 const Gathering = require('../models/gathering.model');
 const Inscription = require('../models/inscription.model');
+const Payment = require('../models/payment.model');
+
 const RegisterRequest = require('../models/regiesterRequests.model');
 const APIFeatures = require(`../utils/apiFeatures`);
 const catchAsync = require('../utils/catchAsync');
@@ -10,7 +12,6 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 const DateRange = require('../utils/dateRangeMap');
 
-// exports.getAllArchitectUsers = factory.getAll(ArchitectUser, 'specialties');
 exports.getAllArchitectUsers = catchAsync(async (req, res) => {
     try {
         // Pagination
@@ -152,7 +153,19 @@ exports.getArchitectUser = catchAsync(async (req, res, next) => {
 });
 exports.createArchitectUser = factory.createOne(ArchitectUser);
 exports.updateArchitectUser = factory.updateOne(ArchitectUser);
-exports.deleteArchitectUser = factory.deleteOne(ArchitectUser);
+exports.deleteArchitectUser = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+
+    await ArchitectUser.findByIdAndDelete(id);
+    await Attendee.deleteMany({ idArchitect: id });
+    await Inscription.deleteMany({ user: id });
+    await Payment.deleteMany({ user: id });
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Usuario arquitecto y relaciones eliminados con éxito.',
+    });
+});
 
 /**
  * This is a function that gets all architects with authorizationToShareInfo set to true.

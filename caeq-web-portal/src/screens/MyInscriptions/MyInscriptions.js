@@ -3,6 +3,7 @@ import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import InscriptionCard from '../../components/cards/InscriptionCard';
 import PaginationNav from '../../components/pagination/PaginationNav';
+import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import './MyInscriptions.scss';
 import { FireError } from '../../utils/alertHandler';
 import { useState, useEffect } from 'react';

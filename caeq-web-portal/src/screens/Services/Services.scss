@@ -9,14 +9,14 @@
     .services-content {
         font-size: 16px;
 
-        .services-subtitle{
+        .services-subtitle {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
         }
 
-        .services-message{
+        .services-message {
             font-size: 25px;
             display: flex;
             flex-direction: row;
@@ -28,7 +28,7 @@
         }
     }
 
-    .services-row{
+    .services-row {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -39,34 +39,26 @@
     }
 
     .services-cards {
+        width: 100%;
         padding-top: 20px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 40px;
-
     }
 
     @media (max-width: 768px) {
-
         .services-cards {
             display: inline-block;
-    
         }
-    
     }
-
 
     .services-pagination {
         margin-top: 20px;
         display: flex;
         justify-content: center;
-
     }
 
     @media screen and (max-width: 435px) {
-
-        
-
         .services-content {
             .services-subtitle {
                 flex-direction: column;
@@ -77,13 +69,9 @@
                 }
             }
         }
-    
 
         .services-cards {
             display: inline-block;
         }
-    
-    
     }
 }
-

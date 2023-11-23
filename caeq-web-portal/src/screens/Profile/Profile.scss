@@ -41,13 +41,14 @@
     .container-white {
         background-color: #fff;
         border-radius: 10px;
-        padding: 20px;
         margin-top: 10px;
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        text-align: center;
+        text-align: left;
+        padding-right: 220px;
+        padding-left: 220px;
     }
 }
 

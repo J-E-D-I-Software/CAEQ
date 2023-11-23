@@ -4,15 +4,14 @@ import RestrictByRole from '../restrictAccess/RestrictByRole';
 import './CourseCard.scss';
 import { currencyFormat } from '../../utils/reusableFunctions';
 
-const CourseCard = ({showMoreBtn=true, ...props}) => {
+const CourseCard = ({ showMoreBtn = true, ...props }) => {
     const navigate = useNavigate();
 
     let description = props.description.slice(0, 130);
-    if (props.description.length > 130)
-        description += '...';
+    if (props.description.length > 130) description += '...';
 
     const date = new Date(props.startDate);
-    
+
     return (
         <div className='course-card'>
             <div className='card-col'>
@@ -27,11 +26,12 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                     <div className='card-icon-text'>
                         {/* <i>I</i> */}
                         <p>{date.toLocaleDateString()}</p>
-                    </div>
-                    <div className='card-col card-icon-text'>
-                        <p>{props.daysOfSession}</p>
+                        {' - '}
                         <p>{props.schedule}</p>
                     </div>
+                </div>
+                <div className='card-row'>
+                    <p>{props.daysOfSession}</p>
                 </div>
                 <div className='card-row'>
                     <p>{description}</p>
@@ -39,7 +39,7 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                 <div className='card-row'>
                     <div className='card-row'>
                         {/* <i>I</i> */}
-                        <p>{props.modality =='Remoto' ? 'En línea' : props.modality}</p>
+                        <p>{props.modality == 'Remoto' ? 'En línea' : props.modality}</p>
                     </div>
                     <div className='card-row'>
                         {/* <i>I</i> */}
@@ -51,24 +51,30 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                         {props.price ? `${currencyFormat(props.price)}` : 'Gratuito'}
                     </p>
                     <div>
-                        {showMoreBtn &&
-                            <BaseButton className="mb-1" type="primary" onClick={()=> navigate(`/Curso/${props._id}`)}>
+                        {showMoreBtn && (
+                            <BaseButton
+                                className='mb-1'
+                                type='primary'
+                                onClick={() => navigate(`/Curso/${props._id}`)}>
                                 Ver más
                             </BaseButton>
-                        }
-                        {showMoreBtn &&
+                        )}
+                        {showMoreBtn && (
                             <RestrictByRole allowedRoles={['caeq']}>
-                                <BaseButton type="primary" onClick={()=> navigate(`/Cursos/Curso/${props._id}`)}>
+                                <BaseButton
+                                    type='primary'
+                                    onClick={() =>
+                                        navigate(`/Cursos/Curso/${props._id}`)
+                                    }>
                                     Modificar
                                 </BaseButton>
                             </RestrictByRole>
-                        }
-
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default CourseCard;

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getArchitectUserById } from '../../client/ArchitectUser/ArchitectUser.GET';
-import { FireError, FireLoading, FireSucess } from '../../utils/alertHandler';
+import {
+    FireError,
+    FireLoading,
+    FireQuestion,
+    FireSucess,
+} from '../../utils/alertHandler';
 import { getAllSpecialties } from '../../client/Specialties/Specialties.GET';
 import SelectInputComponent from '../../components/inputs/SelectInput/SelectInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
@@ -18,6 +23,8 @@ import { getAttendancesByArchitect } from '../../client/Attendees/Attendees.GET'
 import AttendancesComponent from '../../components/attendeesButton/AttendeesButton';
 import { getCourseHours } from '../../client/Inscription/Inscription.GET';
 import { resizeImage } from '../../utils/files';
+import { useNavigate } from 'react-router-dom';
+import { patchDeleteArchitect } from '../../client/ArchitectUser/ArchitecUser.PATCH';
 
 import {
     memberOptions,
@@ -38,6 +45,7 @@ const ArchitectDetail = (props) => {
     const [availableSpecialties, setAvailableSpecialties] = useState([]);
     const [attendances, setAttendances] = useState([]);
     const [courseHours, setCourseHours] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -227,6 +235,27 @@ const ArchitectDetail = (props) => {
             FireSucess('Los cambios y nuevos archivos se han guardado correctamente');
         } else {
             FireSucess('Los cambios se han guardado correctamente');
+        }
+    };
+
+    const handleDeleteArchitect = async () => {
+        try {
+            const confirmed = await FireQuestion(
+                '¿Esta seguro de que desea eliminar a este arquitecto?',
+                'Esta acción no se puede deshacer. La información del arquitecto no podra ser recuperada.'
+            );
+
+            if (!confirmed.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Eliminando arquitecto ', searchParams.name);
+            await patchDeleteArchitect(searchParams.id);
+            swal.close();
+            navigate('/Directorio');
+            FireSucess('Arquitecto eliminado exitósamente');
+        } catch (error) {
+            FireError('Error al eliminar al arquitecto. Inténtelo de nuevo.');
         }
     };
 
@@ -487,7 +516,6 @@ const ArchitectDetail = (props) => {
                     <FileInput
                         label='Curriculum Vitae'
                         placeholder='CV'
-                        accept='image/*,application/pdf'
                         getVal={editedData.linkCV}
                         setVal={(value) =>
                             setEditedData({ ...editedData, linkCV: value })
@@ -638,6 +666,12 @@ const ArchitectDetail = (props) => {
                 </div>
             </div>
             <div className='architect-row'>
+                <BaseButton
+                    type='fail'
+                    className='button'
+                    onClick={handleDeleteArchitect}>
+                    Eliminar Arquitecto
+                </BaseButton>
                 <BaseButton type='primary' className='button' onClick={handleSaveChanges}>
                     Guardar Cambios
                 </BaseButton>

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import BaseButton from '../buttons/BaseButton';
-import './InscriptionCard.scss';
 
 const InscriptionCard = ({ showMoreBtn = true, ...props }) => {
     const navigate = useNavigate();

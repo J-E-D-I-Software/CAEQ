@@ -4,7 +4,6 @@ import TextInput from '../../components/inputs/TextInput/TextInput';
 import CourseCard from '../../components/cards/CourseCard';
 import DateRangeInput from '../../components/inputs/DateInput/DateRangeInput';
 import PaginationNav from '../../components/pagination/PaginationNav';
-import './courses.scss';
 import { FireError } from '../../utils/alertHandler';
 import { getCurrentDate } from '../../utils/format';
 import { useState, useEffect } from 'react';
@@ -12,6 +11,7 @@ import { getAllCourses } from '../../client/Course/Course.GET';
 import { useNavigate } from 'react-router-dom';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import { getUserType } from '../../utils/auth';
+import './courses.scss';
 
 /**
  * Page that displays the courses.

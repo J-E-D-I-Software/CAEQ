@@ -1,4 +1,3 @@
-import "./MyInscriptions.scss";
 import { FireError } from "../../utils/alertHandler";
 import { useState, useEffect } from "react";
 import { getMyInscriptionswithSessions } from "../../client/Inscription/Inscription.GET";

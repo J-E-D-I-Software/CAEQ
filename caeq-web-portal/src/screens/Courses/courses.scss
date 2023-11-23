@@ -40,7 +40,8 @@
     }
 
     .courses__courses-section {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         flex-wrap: wrap;
         gap: 1rem;
     }

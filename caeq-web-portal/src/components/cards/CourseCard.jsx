@@ -23,26 +23,25 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                 <div className='card-row m-1'>
                     <h4>{props.courseName}</h4>
                 </div>
-                <div className='card-row'>
+                <div className='card-col'>
                     <div className='card-icon-text'>
-                        {/* <i>I</i> */}
                         <p>{date.toLocaleDateString()}</p>
                     </div>
+                    <br />
                     <div className='card-col card-icon-text'>
                         <p>{props.daysOfSession}</p>
                         <p>{props.schedule}</p>
                     </div>
                 </div>
+                <br />
                 <div className='card-row'>
                     <p>{description}</p>
                 </div>
                 <div className='card-row'>
                     <div className='card-row'>
-                        {/* <i>I</i> */}
                         <p>{props.modality}</p>
                     </div>
                     <div className='card-row'>
-                        {/* <i>I</i> */}
                         <p>{props.numberHours} horas</p>
                     </div>
                 </div>

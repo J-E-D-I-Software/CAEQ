@@ -366,29 +366,29 @@ const routes = [
         isPrivate: false,
         inNavbar: false,
     },
-    // {
-    //     path: '/Beneficios',
-    //     name: 'Beneficios',
-    //     Component: Benefits,
-    //     isPrivate: true,
-    //     inNavbar: true,
-    //     icon: BenefitsIcon,
-    //     iconWhite: BenefitsIconWhite,
-    // },
-    // {
-    //     path: '/CrearBeneficio',
-    //     name: 'Beneficios',
-    //     Component: CreateOrEditBenefit,
-    //     isPrivate: true,
-    //     inNavbar: false,
-    // },
-    // {
-    //     path: '/Beneficio/:id',
-    //     name: 'Beneficios',
-    //     Component: CreateOrEditBenefit,
-    //     isPrivate: true,
-    //     inNavbar: false,
-    // },
+    {
+        path: '/Beneficios',
+        name: 'Beneficios',
+        Component: Benefits,
+        isPrivate: true,
+        inNavbar: true,
+        icon: BenefitsIcon,
+        iconWhite: BenefitsIconWhite,
+    },
+    {
+        path: '/CrearBeneficio',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
+        inNavbar: false,
+    },
+    {
+        path: '/Beneficio/:id',
+        name: 'Beneficios',
+        Component: CreateOrEditBenefit,
+        isPrivate: true,
+        inNavbar: false,
+    },
 ];
 
 export default routes;

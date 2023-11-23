@@ -1,0 +1,80 @@
+.benefit-card {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: 600px;
+    width: 30vw;
+    min-width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+
+    .gathering-card--title {
+        width: 100%;
+        font-size: 20px;
+        font-weight: 800;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .gathering-card--title--secondary {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 800;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .gathering-card--row--icon {
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        width: 100%;
+        margin-bottom: 20px;
+
+        p {
+            display: block;
+            margin-left: 5px;
+            margin-top: 3px;
+            width: 90%;
+        }
+    }
+
+    .gathering-card--row--buttons {
+        margin-top: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 4px;
+        width: 100%;
+        font-size: 12px;
+
+        button {
+            height: 30px;
+        }
+
+        p {
+            height: 20px;
+            font-size: 12px;
+        }
+    }
+
+    .gathering-card--row--data {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        width: 80%;
+    }
+}

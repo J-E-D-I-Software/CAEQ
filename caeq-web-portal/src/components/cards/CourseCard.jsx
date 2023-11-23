@@ -39,7 +39,7 @@ const CourseCard = ({showMoreBtn=true, ...props}) => {
                 <div className='card-row'>
                     <div className='card-row'>
                         {/* <i>I</i> */}
-                        <p>{props.modality}</p>
+                        <p>{props.modality =='Remoto' ? 'En línea' : props.modality}</p>
                     </div>
                     <div className='card-row'>
                         {/* <i>I</i> */}

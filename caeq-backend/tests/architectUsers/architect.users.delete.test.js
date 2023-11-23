@@ -18,12 +18,12 @@ const testDeleteArchitect = async () => {
     user.getFilter();
     user = await user.exec();
     res = await agent.delete(`${endpoint}/${user._id}`).send();
-    expect(res.statusCode).toEqual(204);
+    expect(res.statusCode).toEqual(200);
 };
 
 beforeAll(async () => {
     await connectDB();
-    await setUpDbWithMuckData();
+    await setUpDbWithMuckData();  
 });
 
 describe('Architect User Delete', () => {

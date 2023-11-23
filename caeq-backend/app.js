@@ -2,7 +2,6 @@ const origin = require('./utils/domain.js');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const cors = require('cors');
 
 const dotenv = require('dotenv');
@@ -11,7 +10,6 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const morgan = require('morgan');
-const Email = require('./utils/email');
 
 // Read env variables and save them
 dotenv.config({ path: './.env' });
@@ -34,6 +32,7 @@ const attendeesRouter = require('./routes/attendees.route');
 const servicesRouter = require('./routes/services.routes');
 const inscriptionRouter = require('./routes/inscription.route');
 const paymentRouter = require('./routes/payment.route');
+const benefitRouter = require('./routes/benefits.route');
 
 const app = express();
 
@@ -107,14 +106,13 @@ const limiter = rateLimit({
     },
 });
 
-// Unlimited Routes
-app.use('/attendees', attendeesRouter);
-app.use('/inscription', inscriptionRouter);
-app.use('/specialties', specialtyRouter);
 
 app.use(limiter);
 
 // Routes
+app.use('/attendees', attendeesRouter);
+app.use('/inscription', inscriptionRouter);
+app.use('/specialties', specialtyRouter);
 app.use('/filetest', fileTestRouter);
 app.use('/caequsers', caeqRouter);
 app.use('/architectusers', architectRouter);
@@ -125,6 +123,7 @@ app.use('/sessions', sessionRouter);
 app.use('/gatherings', gatheringRouter);
 app.use('/services', servicesRouter);
 app.use('/payment', paymentRouter);
+app.use('/benefits', benefitRouter);
 
 // ERROR HANDLER FOR UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

@@ -79,7 +79,7 @@ const Signup = () => {
         'Miembro Vitalicio',
         'Miembro Honorario',
     ];
-    const classif = ['Expresidente', 'Docente', 'Convenio', 'Ninguno'];
+    const classif = ['Ninguno', 'Expresidente', 'Docente', 'Convenio'];
     const decide = ['SÍ', 'NO'];
     const navigate = useNavigate();
 
@@ -301,7 +301,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label='Número de DRO'
-                                placeholder='Número de DRO (No obligatorio)'
+                                placeholder='Número de DRO'
                                 getVal={DRONumber}
                                 setVal={setDRONumber}
                                 require={false}
@@ -378,6 +378,7 @@ const Signup = () => {
                                 setVal={setMainProfessionalActivity}
                                 require={true}
                             />
+                            <p className='especialties-help-text'>Seleccione una o varias especialidades. Sí no cuenta con especialidades favor de dejarlo en blanco.</p>
                             <SelectInputComponent
                                 label='Especialidades'
                                 isMulti
@@ -417,15 +418,15 @@ const Signup = () => {
                                 require={true}
                             />
                             <TextInput
-                                label='Municipio'
-                                placeholder='Municipio de residencia'
+                                label='Municipio Laboral'
+                                placeholder='Municipio donde labora'
                                 getVal={municipalityOfLabor}
                                 setVal={setMunicipalityOfLabor}
                                 require={true}
                             />
                             <TextInput
-                                label='Cargos en consejo directivo (fecha y nombre del cargo) / Ninguno'
-                                placeholder='Cargos en consejo directivo (año y nombre del cargo) / Ninguno'
+                                label='Cargos en consejo directivo u organo de gobierno'
+                                placeholder='cargos (año, nombre del cargo) / Ninguno'
                                 getVal={positionsInCouncil}
                                 setVal={setPositionsInCouncil}
                             />

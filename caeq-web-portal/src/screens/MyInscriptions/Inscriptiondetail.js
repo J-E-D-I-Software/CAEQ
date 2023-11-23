@@ -32,7 +32,7 @@ const Inscriptiondetail = (props) => {
     }
 
     return (
-        <div className="course">
+        <div className="course-myinscriptions">
             <div className="course-row">
                 <h1>{data.courseName}</h1>
                 <h2 className="course-price">

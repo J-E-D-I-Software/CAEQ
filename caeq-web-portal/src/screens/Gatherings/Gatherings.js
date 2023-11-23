@@ -99,13 +99,17 @@ const Gatherings = (props) => {
             <div className="gathering__section">
                 <h1>Asamblea Próxima</h1>
                 <div className="gathering-row">
-                    {futureGatherings.map((gathering, i) => (
+                    {
+                    (futureGatherings.length === 0) ? <h1>Aún no se publica la próxima asamblea.  </h1> : (
+                    futureGatherings.map((gathering, i) => (
                         <GatheringCard
                             key={i}
                             data={gathering}
                             className="gathering-card"
                         />
-                    ))}
+                    ))
+                    
+                    )}
                 </div>
             </div>
 

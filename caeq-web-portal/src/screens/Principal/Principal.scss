@@ -1,0 +1,23 @@
+.principal-container{
+    display: flex;
+    flex-direction: column;
+
+
+    .cards-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+  
+
+        @media screen and (max-width: 767px) {
+            // Media query for screens smaller than 768px (phones)
+            flex-direction: column;
+            row-gap: 20px;
+            
+        }
+
+    }
+    
+}

@@ -124,6 +124,9 @@ async function createRegistrationRequest(req, existingUser, res) {
     res.status(200).json({
         status: 'success',
         message: `Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado ${updatedArchitect.collegiateNumber} y te de acceso al portal.`,
+        data: {
+            user: updatedArchitect,
+        },
     });
 
     return;

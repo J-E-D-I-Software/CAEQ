@@ -192,21 +192,12 @@ const Signup = () => {
         // Post user
         try {
             const response = await postSignupArchitectUsers(form);
-
-            if (response.status === 'success' && response.statusCode === 201) {
+            user = response.data.user;
+            setArchitectUserSaved(user);
+            if (response.token) {
                 const token = response.token;
-                user = response.data.user;
                 setUserType(token);
                 setToken(token);
-                setArchitectUserSaved(response.data.user);
-
-                swal.close();
-                FireSucess('Se ha registrado con éxito');
-                navigate('/Principal');
-            } else {
-                swal.close();
-                FireSucess(response.message);
-                navigate('/');
             }
         } catch (error) {
             const message =
@@ -231,7 +222,6 @@ const Signup = () => {
         for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
             const fileName = Object.keys(filesToUpload)[i];
             let file = filesToUpload[fileName];
-            console.log(file, fileName);
 
             if (file) {
                 // If file size is over 5mb we have to compress it for the backend
@@ -242,9 +232,7 @@ const Signup = () => {
                 const formFile = new FormData();
                 formFile.append(fileName, file);
                 try {
-                    const response = await updateArchitectUserByID(user._id, formFile);
-                    if (response.status !== 'success')
-                        throw new Error('Error al subir archivo');
+                    await updateArchitectUserByID(user._id, formFile);
                 } catch (error) {
                     console.error(error);
                     errors.push(file.name);

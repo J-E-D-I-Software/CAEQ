@@ -170,7 +170,7 @@ const Signup = () => {
         form.append('password', password);
         form.append('authorizationToShareInfo', isAuthorized);
 
-        const swal = FireLoading('Registrando arquitecto...');
+        let swal = FireLoading('Registrando arquitecto...');
 
         //  Check if user exists
         let user = null;
@@ -187,11 +187,14 @@ const Signup = () => {
                 ¿Desea continuar y actualizar con la información proporcionada? Presione aceptar. Un administrador revisará sus datos y le dará acceso a la plataforma en breve.`
             );
             if (!continueSignUp.isConfirmed) return;
-        }
 
+            swal = FireLoading('Registrando arquitecto...');
+        }
+        let responseMessage = 'Registro exitoso.';
         // Post user
         try {
             const response = await postSignupArchitectUsers(form);
+            responseMessage = response.message;
             user = response.data.user;
             setArchitectUserSaved(user);
             if (response.token) {
@@ -251,7 +254,7 @@ const Signup = () => {
         }
 
         swal.close();
-        FireSucess('Se ha registrado con éxito');
+        FireSucess(responseMessage || 'Se ha registrado con éxito');
         navigate('/Principal');
     };
 

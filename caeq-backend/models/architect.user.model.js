@@ -55,7 +55,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     age: {
         type: Number,
         min: [0, 'Debes ser mayor de 0 años  para registrarte.'],
-        max: [100, 'Debes ser menor de 100 años para registrarte.'],
         required: [false],
     },
     gender: {
@@ -89,7 +88,6 @@ const ArchitectUserSchema = new mongoose.Schema({
     dateOfAdmission: {
         type: Number,
         minlength: [4, 'Deben ser cuatro digitos.'],
-        required: [true, 'Por favor dinos tu fecha de admisión!'],
     },
     dateOfBirth: {
         type: Date,
@@ -246,14 +244,6 @@ ArchitectUserSchema.pre('save', async function (next) {
 
 // INSTANCE METHODS
 // Instance methods will be available in all document instances.
-
-ArchitectUserSchema.pre('validate', function (next) {
-    if (this.age < 0 || this.age > 100) {
-        throw new AppError('La edad debe estar entre 0 y 100', 400);
-    }
-    return next();
-});
-
 /** This is a method that compares the candidate password with the user password. */
 ArchitectUserSchema.methods.correctPassword = async function (
     candidatePassword,
@@ -417,8 +407,6 @@ ArchitectUserSchema.virtual('lastYearAttendees').get(async function () {
 });
 
 ArchitectUserSchema.set('toJSON', { virtuals: true });
-
-
 
 const ArchitectUser = mongoose.model('architect.user', ArchitectUserSchema);
 

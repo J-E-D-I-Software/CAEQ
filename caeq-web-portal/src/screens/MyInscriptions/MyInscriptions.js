@@ -2,6 +2,7 @@ import BaseButton from '../../components/buttons/BaseButton';
 import DropdownInput from '../../components/inputs/DropdownInput/DropdownInput';
 import TextInput from '../../components/inputs/TextInput/TextInput';
 import InscriptionCard from '../../components/cards/InscriptionCard';
+import CourseCard from '../../components/cards/CourseCard';
 import PaginationNav from '../../components/pagination/PaginationNav';
 import RestrictByRole from '../../components/restrictAccess/RestrictByRole';
 import './MyInscriptions.scss';
@@ -25,6 +26,7 @@ const MyInscription = (props) => {
             if (filterModality) filters += `&modality=${filterModality}`;
 
             const data = await getMyInscriptions(paginationPage, filters);
+            console.log(data);
 
             setCourses(data);
             if (paginationPage === 1 && data.length) setPaginationEnabled([false, true]);
@@ -73,7 +75,7 @@ const MyInscription = (props) => {
 
             <div className='courses--row courses__courses-section'>
                 {courses.map((mycourse, i) => (
-                    <InscriptionCard key={i} {...mycourse} />
+                    <CourseCard key={i} {...mycourse.course} />
                 ))}
             </div>
 

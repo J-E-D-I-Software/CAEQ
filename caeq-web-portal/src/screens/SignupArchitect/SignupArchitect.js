@@ -122,26 +122,24 @@ const Signup = () => {
         const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
-            FireError('Por favor ingrese un correo electrónico válido.');
+            FireError('Favor de ingresar un correo electrónico válido.');
             return;
         }
 
         if (authorizationToShareInfo == null || authorizationToShareInfo === '') {
-            FireError('Por favor indique si autoriza compartir su información.');
+            FireError('Favor de indicar si autoriza compartir su información.');
         }
         const isAuthorized = authorizationToShareInfo === 'SÍ' ? true : false;
 
-        
         // Reduce file size
         let fileINE = linkINE;
         if (!linkINE) {
-            FireError('Por favor adjunte una foto de su INE al derecho y al revés.');
+            FireError('Favor de adjuntar una foto de su INE al derecho y al revés.');
             return;
         }
-        if (linkINE.type.includes('image') && 
-            linkINE?.size > 3000000) {
+        if (linkINE.type.includes('image') && linkINE?.size > 3000000) {
             fileINE = await resizeImage(linkINE);
-        }   
+        }
 
         const form = new FormData();
         selectedSpecialties.forEach((specialty, i) => {
@@ -172,7 +170,7 @@ const Signup = () => {
         form.append('password', password);
         form.append('authorizationToShareInfo', isAuthorized);
 
-        const swal = FireLoading('Registrando arquitecto...');
+        let swal = FireLoading('Registrando arquitecto...');
 
         //  Check if user exists
         let user = null;
@@ -189,43 +187,45 @@ const Signup = () => {
                 ¿Desea continuar y actualizar con la información proporcionada? Presione aceptar. Un administrador revisará sus datos y le dará acceso a la plataforma en breve.`
             );
             if (!continueSignUp.isConfirmed) return;
-        }
 
+            swal = FireLoading('Registrando arquitecto...');
+        }
+        let responseMessage = 'Registro exitoso.';
         // Post user
         try {
             const response = await postSignupArchitectUsers(form);
-
-            if (response.status === 'success' && response.statusCode === 201) {
+            responseMessage = response.message;
+            user = response.data.user;
+            setArchitectUserSaved(user);
+            if (response.token) {
                 const token = response.token;
-                user = response.data.user;
                 setUserType(token);
                 setToken(token);
-                setArchitectUserSaved(response.data.user);
-
-                swal.close();
-                FireSucess('Te has registrado con éxito');
-                navigate('/Principal');
-            } else {
-                swal.close();
-                FireSucess(response.message);
-                navigate('/');
             }
         } catch (error) {
-            const message = error.response.data.message || 
-                            error.response.data.error || 
-                            'Error al crear usuario';
+            const message =
+                error.response.data.message ||
+                error.response.data.error ||
+                'Error al crear usuario';
             FireError(message);
             return;
         }
 
         // Post files
-        const filesToUpload = {linkCV, linkCURP, linkProfessionalLicense, linkCAEQCard,
-            linkBachelorsDegree, linkAddressCertificate, linkBirthCertificate};
+        const filesToUpload = {
+            linkCV,
+            linkCURP,
+            linkProfessionalLicense,
+            linkCAEQCard,
+            linkBachelorsDegree,
+            linkAddressCertificate,
+            linkBirthCertificate,
+        };
         const errors = [];
         for (let i = 0; i < Object.keys(filesToUpload).length; i++) {
             const fileName = Object.keys(filesToUpload)[i];
             let file = filesToUpload[fileName];
-            
+
             if (file) {
                 // If file size is over 5mb we have to compress it for the backend
                 if (file.type?.includes('image') && file.size > 3000000) {
@@ -235,9 +235,7 @@ const Signup = () => {
                 const formFile = new FormData();
                 formFile.append(fileName, file);
                 try {
-                    const response = await updateArchitectUserByID(user._id, formFile);
-                    if (response.status !== 'success')
-                        throw new Error('Error al subir archivo');
+                    await updateArchitectUserByID(user._id, formFile);
                 } catch (error) {
                     console.error(error);
                     errors.push(file.name);
@@ -246,13 +244,17 @@ const Signup = () => {
         }
 
         if (errors.length > 0) {
-            FireError('Su cuenta se ha creado. Sin embargo, ' +
-                `ocurrió un error al subir los siguientes archivos:\n${errors.join('\n')}`);
+            FireError(
+                'Su cuenta se ha creado. Sin embargo, ' +
+                    `ocurrió un error al subir los siguientes archivos:\n${errors.join(
+                        '\n'
+                    )}`
+            );
             return;
         }
 
         swal.close();
-        FireSucess('Te has registrado con éxito');
+        FireSucess(responseMessage || 'Se ha registrado con éxito');
         navigate('/Principal');
     };
 
@@ -378,7 +380,10 @@ const Signup = () => {
                                 setVal={setMainProfessionalActivity}
                                 require={true}
                             />
-                            <p className='especialties-help-text'>Seleccione una o varias especialidades. Sí no cuenta con especialidades favor de dejarlo en blanco.</p>
+                            <p className='especialties-help-text'>
+                                Seleccione una o varias especialidades. Sí no cuenta con
+                                especialidades favor de dejarlo en blanco.
+                            </p>
                             <SelectInputComponent
                                 label='Especialidades'
                                 isMulti
@@ -468,7 +473,7 @@ const Signup = () => {
                                 accept='image/*,application/pdf'
                             />
                             <FileInput
-                                label='Adjuntar Comprobante de domicilio (no mayor a 3 meses)'
+                                label='Adjuntar Comprobante de Domicilio (no mayor a 3 meses)'
                                 getVal={linkAddressCertificate}
                                 setVal={setLinkAddressCertificate}
                                 accept='image/*,application/pdf'

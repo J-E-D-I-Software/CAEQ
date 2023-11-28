@@ -105,7 +105,7 @@ const testArchitectSignUp = async () => {
 
     expect(resTest2.statusCode).toEqual(200);
     expect(resTest2.body.message).toEqual(
-        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
+        'Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
     );
 
     const resTest3 = await agent
@@ -141,7 +141,7 @@ const testArchitectSignUp = async () => {
         .field('capacitationHours', 90);
 
     expect(resTest3.statusCode).toEqual(400);
-    expect(resTest3.body.message).toEqual('Tus contraseñas deben coincidir.');
+    expect(resTest3.body.message).toEqual('Sus contraseñas deben coincidir.');
 };
 
 const testArchitectSignUpNew = async () => {
@@ -229,7 +229,7 @@ const testRegistrationCreation = async () => {
     expect(resTest1.statusCode).toEqual(200);
     expect(resTest1.body).toBeTruthy();
     expect(resTest1.body.message).toEqual(
-        'Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
+        'Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado 45672 y te de acceso al portal.'
     );
 
     const resLoginTest = await agent.post('/architectusers/auth/login').send({

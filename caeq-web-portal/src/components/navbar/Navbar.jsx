@@ -28,8 +28,9 @@ const Navbar = () => {
     return (
         <div className='navbar'>
             <BurgerMenu />
+            <div className='padding-nav'></div>
             <div className='navbar-top'>
-                <img src={Navlogo} height={120} alt='Logo caeq' />
+                <img src={Navlogo} alt='Logo caeq' />
                 <div className='navbar-button'>
                     <BaseButton type='fail' onClick={handleLogout}>
                         Cerrar sesión
@@ -47,8 +48,7 @@ const Navbar = () => {
                                 route.roles !== undefined
                                     ? route.roles
                                     : ['architect', 'caeq']
-                            }
-                        >
+                            }>
                             <NavbarButton
                                 label={route.name}
                                 key={route.path}

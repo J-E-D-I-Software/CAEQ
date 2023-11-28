@@ -12,16 +12,71 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 const DateRange = require('../utils/dateRangeMap');
 
-
 exports.getAllArchitectUsers = catchAsync(async (req, res) => {
     try {
+        // Pagination
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+        const skip = (page - 1) * limit;
+
         let filter = {};
         let query = ArchitectUser.find(filter);
         query.populate('specialties');
+        const requiresRights = Object.keys(req.query).includes('rights');
+        const rightFiltering = req.query.rights === 'true';
 
-        const features = new APIFeatures(query, req.query).filter().sort().limitFields();
+        // filter
+        const queryObj = { ...req.query };
+        const excludeFields = [
+            'page',
+            'sort',
+            'limit',
+            'fields',
+            'currentRights',
+            'rights',
+        ];
 
-        let documents = await features.query;
+        excludeFields.forEach((el) => delete queryObj[el]);
+
+        // ADVANCED FILTERING
+        let queryString = JSON.stringify(queryObj);
+        queryString = queryString.replace(
+            // To allow more mongoose commands add the name of the command to the regular expression
+            /\b(gte|gt|lte|lt|regex|np|in )\b/g,
+            (match) => `$${match}`
+        );
+        queryString = queryString.replace(
+            /"\$regex":"([^"]*)"/g,
+            '"$regex": "$1", "$options": "i"'
+        );
+        let filteredQuery = JSON.parse(queryString);
+
+        query.find(filteredQuery);
+
+        // SORTING
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query.sort(sortBy);
+        } else {
+            query.sort('-createdAt _id');
+        }
+
+        // FIELD LIMITING
+        if (req.query.fields) {
+            const fields = req.query.fields
+                .split(',')
+                .filter((val) => val !== 'password' && val !== 'passwordConfirm')
+                .join(' ');
+            query.select(fields);
+        }
+
+        // PAGINATION IF NO RIGHTS FILTERING
+        if (!requiresRights) {
+            query.skip(skip).limit(limit);
+        }
+
+        // EXECUTE QUERY
+        let documents = await query;
         documents = await Promise.all(
             documents.map(async (doc) => {
                 const hasRights = await doc.currentRights;
@@ -29,19 +84,15 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
                 return doc;
             })
         );
-        if (Object.keys(req.query).includes('rights')) {
+        if (requiresRights) {
             documents = documents.filter((doc) => {
-                const reqRightsBool = req.query.rights === 'true';
-                return doc.rights === reqRightsBool;
+                return doc.rights === rightFiltering;
             });
         }
 
-        // Pagination
-        const page = req.query.page * 1 || 1;
-        const limit = req.query.limit * 1 || 100;
-        const skip = (page - 1) * limit;
-
-        documents = documents.slice(skip, skip + limit);
+        if (requiresRights) {
+            documents = documents.slice(skip, skip + limit);
+        }
 
         documents = await Promise.all(
             documents.map(async (doc) => {
@@ -60,6 +111,7 @@ exports.getAllArchitectUsers = catchAsync(async (req, res) => {
         console.log(error);
     }
 });
+
 exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
     'overwrites',
@@ -104,19 +156,16 @@ exports.updateArchitectUser = factory.updateOne(ArchitectUser);
 exports.deleteArchitectUser = catchAsync(async (req, res, next) => {
     const { id } = req.params;
 
-
     await ArchitectUser.findByIdAndDelete(id);
     await Attendee.deleteMany({ idArchitect: id });
     await Inscription.deleteMany({ user: id });
     await Payment.deleteMany({ user: id });
-
 
     res.status(200).json({
         status: 'success',
         message: 'Usuario arquitecto y relaciones eliminados con éxito.',
     });
 });
-
 
 /**
  * This is a function that gets all architects with authorizationToShareInfo set to true.

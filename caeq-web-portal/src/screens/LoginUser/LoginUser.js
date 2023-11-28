@@ -27,7 +27,7 @@ const LoginUser = () => {
                 setArchitectUserSaved(response.data.user);
             }
             swal.close();
-            FireSucess('Has iniciado sesión con éxito');
+            FireSucess('Ha iniciado sesión con éxito');
             navigate('/Principal');
         } catch (error) {
             FireError(error.response.data.message);
@@ -59,10 +59,14 @@ const LoginUser = () => {
             <br />
             <div className='forgot-register-links'>
                 <Link to='/User-ForgotPassword'>
-                    <p><u>¿Olvidó su contraseña?</u></p>
+                    <p>
+                        <u>¿Olvidó su contraseña?</u>
+                    </p>
                 </Link>
 
-                <Link to='/'><u>Volver a página de inicio</u></Link>
+                <Link to='/'>
+                    <u>Volver a página de inicio</u>
+                </Link>
             </div>
         </div>
     );

@@ -97,13 +97,20 @@ async function importArchitectData(
     let rowNumber = 0;
     fs.createReadStream(csvFilePath)
         .pipe(csv({ headers: false }))
-        .on('data', (row) => {
+        .on('data', async (row) => {
             rowNumber++;
             const mappedData = {};
             let error = '';
 
             if (rowNumber === 1) return; // Skip the first row
             if (row[1] === '') return; // Skip empty rows
+
+            // Check if architect already exists
+            const collegiateNumber = parseInt(row[mappingScheme.collegiateNumber]);
+            const architect = currentUsers.find(
+                (x) => x.collegiateNumber === collegiateNumber
+            );
+            if (architect) return;
 
             // Set all initial string values to '-'
             Object.keys(ArchitectUser.schema.paths).forEach((key) => {

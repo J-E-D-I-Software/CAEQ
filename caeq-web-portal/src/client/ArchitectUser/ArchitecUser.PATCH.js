@@ -43,7 +43,6 @@ export async function updateArchitectUserByID(id, data) {
     const response = await axios.patch(endpoint, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${getToken()}`,
         },
     });
     return response.data.data.document;
@@ -67,7 +66,6 @@ export async function updateArchitectUserFileByID(id, data) {
     const response = await axios.patch(endpoint, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${getToken()}`,
         },
     });
     return response.data;
@@ -119,7 +117,7 @@ export async function patchRejectRegistration(id) {
 export async function patchDeleteArchitect(id) {
     try {
         let endpoint = `${baseApiEndpoint}/architectusers/${id}`;
-        console.log(patchDeleteArchitect)
+        console.log(patchDeleteArchitect);
 
         const response = await axios.delete(endpoint, {
             headers: {
@@ -133,5 +131,3 @@ export async function patchDeleteArchitect(id) {
         throw new Error(`Error al eliminar el arquitecto${id}: ${error.message}`);
     }
 }
-
-

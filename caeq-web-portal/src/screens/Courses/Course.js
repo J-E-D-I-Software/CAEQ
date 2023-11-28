@@ -115,8 +115,7 @@ const Course = (props) => {
                 <RestrictByRole allowedRoles={['caeq']}>
                     <BaseButton
                         type='primary'
-                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}
-                    >
+                        onClick={() => navigate(`/Cursos/Curso/${searchParams.id}`)}>
                         Modificar
                     </BaseButton>
                 </RestrictByRole>
@@ -131,98 +130,126 @@ const Course = (props) => {
                 </RestrictByRole>
             </div>
 
-            <table className='course-table'>
-                <tbody>
-                    <tr>
-                        <td>
+            <div className='course-details-header'>
+                <div className='course-details-row'>
+                    {data.modality && (
+                        <div>
                             <img src={ClassroomIcon} height={40} />
-                            <p><span>Curso {data.modality}</span></p>
-                        </td>
-                        <td>
+                            <p>
+                                <span>
+                                    Curso{' '}
+                                    {data.modality === 'Remoto'
+                                        ? 'En línea'
+                                        : data.modality}
+                                </span>
+                            </p>
+                        </div>
+                    )}
+                    {data.place && (
+                        <div>
                             <img src={LocationIcon} height={40} />
                             <span>
                                 <p>Lugar</p>
                                 <p>{data.place}</p>
                             </span>
-                        </td>
-                        <td>
+                        </div>
+                    )}
+                    {data.numberHours && (
+                        <div>
                             <img src={ClockIcon} height={40} />
                             <span>
-                                <p>Horas totales acreditadas</p> 
+                                <p>Horas totales acreditadas</p>
                                 <p>{data.numberHours} hrs</p>
-                                
                             </span>
-                        </td>
-                        <td>
+                        </div>
+                    )}
+                    {data.teacherName && (
+                        <div>
                             <img src={TeacherIcon} height={40} />
                             <span>
                                 <p>Impartido por</p>
                                 <p>{data.teacherName}</p>
                             </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </div>
+                    )}
+                </div>
+                <div className='course-details-row'>
+                    {startDate && endDate && (
+                        <div>
                             <img src={CalendarIcon} height={40} />
                             {startDate && endDate && (
                                 <p>
-                                    
                                     Empieza el{' '}
                                     {formatDate(startDate.toISOString().slice(0, 10))}
-                                    
                                 </p>
                             )}
-                        </td>
-                        <td>
+                        </div>
+                    )}
+                    {startDate && endDate && (
+                        <div>
                             <img src={CalendarIcon} height={40} />
                             {startDate && endDate && (
                                 <p>
-                                    
                                     Finaliza el{' '}
                                     {formatDate(endDate.toISOString().slice(0, 10))}
-                                
                                 </p>
                             )}
-                        </td>
-                        <td>
+                        </div>
+                    )}
+                    {data.daysOfSession && (
+                        <div>
                             <p>
                                 <strong>Días de sesión: </strong>
                                 {data.daysOfSession}
                             </p>
-                        </td>
-                        <td>
+                        </div>
+                    )}
+                    {data.schedule && (
+                        <div>
                             <p>
                                 <strong>Horario: </strong>
                                 {data.schedule}
                             </p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    )}
+                </div>
+            </div>
 
             <div className='course-row course-details'>
                 <img src={data.imageUrl} />
                 <div className='course-col'>
-                    <p className='text-area'>{data.description}</p>
-                    <span>
-                        <p>Reseña</p>
-                        <p className='course-review'>"{data.teacherReview}"</p>
-                    </span>
-                    <div className='course-row course-extras'>
-                        <div className='course-col'>
-                            <h3>Objetivos</h3>
-                            <p className='text-area'>{data.objective}</p>
+                    {data.description && <h3>Descripción</h3>}
+                    {data.description && <p>{data.description}</p>}
+                    {data.objective || data.includes || data.temario ? (
+                        <div className='course-row course-extras'>
+                            {data.objective && (
+                                <div className='course-col'>
+                                    <h3>Objetivos</h3>
+                                    <p className='text-area'>{data.objective}</p>
+                                </div>
+                            )}
+                            {data.includes && (
+                                <div className='course-col'>
+                                    <h3>Incluye</h3>
+                                    <p className='text-area'>{data.includes}</p>
+                                </div>
+                            )}
+                            {data.temario && (
+                                <div className='course-col'>
+                                    <h3>Temario</h3>
+                                    <p className='text-area'>{data.temario}</p>
+                                </div>
+                            )}
                         </div>
-                        <div className='course-col'>
-                            <h3>Incluye</h3>
-                            <p className='text-area'>{data.includes}</p>
-                        </div>
-                        <div className='course-col'>
-                            <h3>Temario</h3>
-                            <p className='text-area'>{data.temario}</p>
-                        </div>
-                    </div>
-
+                    ) : (
+                        <></>
+                    )}
+                    {data.teacherReview && (
+                        <span>
+                            <h3>Reseña</h3>
+                            <p className='course-review'>"{data.teacherReview}"</p>
+                        </span>
+                    )}
                     {data.price !== undefined &&
                         data.price !== null &&
                         data.price !== 0 && (
@@ -265,8 +292,7 @@ const Course = (props) => {
 
                                     <BaseButton
                                         type='primary'
-                                        onClick={(e) => handlePaymentStart(e)}
-                                    >
+                                        onClick={(e) => handlePaymentStart(e)}>
                                         Iniciar Proceso de Inscripción
                                     </BaseButton>
                                 </RestrictByRole>

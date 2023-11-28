@@ -81,7 +81,7 @@ exports.signUpCaeqUser = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         message:
-            'Te has registrado con éxito, espera a que un administrador verifique tu perfil.',
+            'Se ha registrado con éxito, espera a que un administrador verifique tu perfil.',
     });
 });
 
@@ -123,7 +123,10 @@ async function createRegistrationRequest(req, existingUser, res) {
 
     res.status(200).json({
         status: 'success',
-        message: `Te has registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado ${updatedArchitect.collegiateNumber} y te de acceso al portal.`,
+        message: `Se ha registrado con éxito, espera a que un administrador verifique que eres el arquitecto con el número de colegiado ${updatedArchitect.collegiateNumber} y te de acceso al portal.`,
+        data: {
+            user: updatedArchitect,
+        },
     });
 
     return;
@@ -142,7 +145,7 @@ exports.signUpArchitectUser = catchAsync(async (req, res, next) => {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password !== passwordConfirm) {
-        return next(new AppError('Tus contraseñas deben coincidir.', 400));
+        return next(new AppError('Sus contraseñas deben coincidir.', 400));
     }
 
     // Check if user already exists
@@ -269,7 +272,7 @@ exports.loginCaeqUser = catchAsync(async (req, res, next) => {
     if (!user.verified) {
         return next(
             new AppError(
-                'No has sido verificado, espera a que un administrador verifique tu perfil.',
+                'No ha sido verificado, espera a que un administrador verifique tu perfil.',
                 401
             )
         );
@@ -297,7 +300,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (!token) {
         return next(
             new AppError(
-                'No has iniciado sesión, por favor inicia sesión para obtener acceso.',
+                'No ha iniciado sesión, por favor inicia sesión para obtener acceso.',
                 401
             )
         );
@@ -317,7 +320,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     if (!user) {
         return next(
-            new AppError('El usuario con el que intentas ingresar ya no existe.', 401)
+            new AppError('El usuario con el que intenta ingresar ya no existe.', 401)
         );
     }
 
@@ -326,7 +329,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         // iat - issued at
         return next(
             new AppError(
-                'Has cambiado recientemente tu contraseña. Inicia sesión de nuevo.',
+                'Ha cambiado recientemente tu contraseña. Inicia sesión de nuevo.',
                 401
             )
         );

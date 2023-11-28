@@ -41,20 +41,16 @@
     .container-white {
         background-color: #fff;
         border-radius: 10px;
-        padding: 20px;
         margin-top: 10px;
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         text-align: left;
-        text-indent: 40px;
+        padding-right: 220px;
+        padding-left: 220px;
     }
-    
-
 }
-
-
 
 @media only screen and (max-width: 1200px) {
     .profile {
@@ -67,11 +63,10 @@
 
 @media only screen and (max-width: 700px) {
     .profile {
-
         .profile-row {
             flex-direction: column;
             text-indent: 30%;
-            
+
             button {
                 width: 100%;
             }
@@ -90,5 +85,16 @@
                 font-size: 1.7em;
             }
         }
+    }
+}
+
+.profile-personal {
+    p {
+        font-size: 18px;
+        font-weight: 400;
+    }
+    span {
+        font-size: 20px;
+        font-weight: 400;
     }
 }

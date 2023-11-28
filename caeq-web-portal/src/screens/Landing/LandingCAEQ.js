@@ -24,14 +24,7 @@ const LandingCAEQ = () => {
                 </div>
             </div>
 
-            <div className='column right-column'>
-                Si usted pertenece a la gerencia de la administración actual
-                favor de ingresar con sus credenciales para acceder al sistema.
-                <br />
-                <br />
-                En caso de que sea un nuevo empleado de la gerencia favor de
-                registrarse.
-            </div>
+            <div className='column right-column'></div>
         </div>
     );
 };

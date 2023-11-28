@@ -29,7 +29,7 @@ const BenefitCard = ({ showMoreBtn = true, ...props }) => {
     let description = props.description.slice(0, 350);
     if (props.description.length > 350)
         description += '... Favor de dar click en ver detalles para más información.';
-
+    console.log(description);
     return (
         <div className='benefit-card'>
             <div className='gathering-card--title'>{props.name}</div>
@@ -75,9 +75,9 @@ const BenefitCard = ({ showMoreBtn = true, ...props }) => {
                     onClick={() =>
                         Swal.fire({
                             title: props.name,
-                            html: `<b>Descripción: </b>${
+                            html: `<b>Descripción: </b><p className="line-component" style="white-space: pre-line;">${
                                 props.description
-                            }<br><br><b>Contacto: </b>${props.contact}<br><br>${
+                            }</p><br><br><b>Contacto: </b>${props.contact}<br><br>${
                                 props.location
                                     ? `<b>Ubicación: </b>${props.location}<br>`
                                     : ''

@@ -24,6 +24,8 @@ import { updateSession } from '../../client/Course/Session.PATCH';
 import { deleteSession } from '../../client/Course/Session.DELETE';
 import './createCourse.scss';
 import { getCourseInscriptions } from '../../client/Inscription/Inscription.GET';
+import { createInscriptionArchitect } from '../../client/Inscription/Inscription.POST';
+import { getArchitectUserByColegiateNumber } from '../../client/ArchitectUser/ArchitectUser.GET';
 import AcceptIcon from '../../components/icons/AcceptIcon.png';
 import RejectIcon from '../../components/icons/RejectIcon.png';
 
@@ -64,6 +66,7 @@ const CreateOrUpdateCourse = () => {
         imageUrl: '',
     });
     const [inscriptions, setInscriptions] = useState([]);
+    const [architectNumber, setArchitectNumber] = useState('');
 
     useEffect(() => {
         if (searchParams.id) {
@@ -80,7 +83,13 @@ const CreateOrUpdateCourse = () => {
                 .catch(() => navigate('/404'));
 
             getCourseInscriptions(searchParams.id)
-                .then((response) => setInscriptions(response))
+                .then((response) =>
+                    setInscriptions(
+                        response.sort(
+                            (a, b) => a.user.collegiateNumber - b.user.collegiateNumber
+                        )
+                    )
+                )
                 .catch((error) => console.error('Error fetching data: ', error));
             getAllSessions(searchParams.id).then((response) => {
                 setSessions(response);
@@ -311,8 +320,60 @@ const CreateOrUpdateCourse = () => {
 
             swal.close();
             FireSucess('Horas de capacitación actualizadas');
-            setInscriptions(response);
+            setInscriptions(
+                response.sort((a, b) => a.user.collegiateNumber - b.user.collegiateNumber)
+            );
         } catch (error) {
+            FireError(error.response.data.message);
+        }
+    };
+
+    /**
+     * Handles the process of inscribing an architect to a course.
+     *
+     * @async
+     * @function handleInscribeArchitect
+     * @throws {Error} If an error occurs during the process.
+     * @returns {Promise<void>} A promise that resolves when the architect is successfully inscribed to the course.
+     */
+    const handleInscribeArchitect = async () => {
+        try {
+            const user = await getArchitectUserByColegiateNumber(architectNumber);
+
+            if (user === null) {
+                FireError('No se encontró ningún arquitecto con ese número');
+                return;
+            }
+
+            if (inscriptions.find((x) => x.user._id === user._id)) {
+                FireError('Este usuario ya fue inscrito al curso');
+                return;
+            }
+
+            const confirmation = await FireQuestion(
+                `¿Está seguro que desea inscribir a ${user.fullName} al curso?`,
+                'Esta acción no se puede deshacer. El curso aparecerá en las inscripciones del colegiado.'
+            );
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            const swal = FireLoading('Inscribiendo usuario...');
+            await createInscriptionArchitect(searchParams.id, user._id);
+
+            swal.close();
+            FireSucess('Arquitecto inscrito al curso con éxito');
+
+            const newInscription = await getCourseInscriptions(searchParams.id);
+
+            setInscriptions(
+                newInscription.sort(
+                    (a, b) => a.user.collegiateNumber - b.user.collegiateNumber
+                )
+            );
+        } catch (error) {
+            console.log(error);
             FireError(error.response.data.message);
         }
     };
@@ -616,6 +677,21 @@ const CreateOrUpdateCourse = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+            {searchParams.id && (
+                <div className='create-course--row create-inscription'>
+                    <NumberInput
+                        label='Inscribir arquitecto al curso'
+                        getVal={architectNumber}
+                        setVal={(value) => setArchitectNumber(value)}
+                        placeholder='Ingrese el número del arquitecto que desea inscribir y presione Agregar inscripción'
+                    />
+                    <BaseButton
+                        type='primary'
+                        onClick={(e) => handleInscribeArchitect(e)}>
+                        Agregar Inscripción
+                    </BaseButton>
                 </div>
             )}
         </div>

@@ -27,8 +27,8 @@ const LoginAdmin = () => {
                 setCaeqUserSaved(response.data.user);
             }
             swal.close();
-            FireSucess('Has iniciado sesión con éxito');
-            navigate('/PrincipalAdmin');
+            FireSucess('Ha iniciado sesión con éxito');
+            navigate('/Directorio');
         } catch (error) {
             console.error(error);
             FireError(error.response.data.message);
@@ -59,10 +59,14 @@ const LoginAdmin = () => {
             <br />
             <div className='forgot-register-links'>
                 <Link to='/Forgot-password'>
-                    <p><u>¿Olvidó su contraseña?</u></p>
+                    <p>
+                        <u>¿Olvidó su contraseña?</u>
+                    </p>
                 </Link>
                 <Link to='/welcomeAdmin'>
-                    <p><u>Volver a página de inicio</u></p>
+                    <p>
+                        <u>Volver a página de inicio</u>
+                    </p>
                 </Link>
             </div>
         </div>

@@ -42,7 +42,7 @@ export async function getArchitectUserById(id) {
  * @returns An object.
  */
 export async function getArchitectUserByColegiateNumber(collegiateNumber) {
-    let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}`;
+    let endpoint = `${baseApiEndpoint}/architectusers?collegiateNumber=${collegiateNumber}&isRequest=false`;
 
     const response = await axios.get(endpoint);
     if (response.data.data.documents.length === 1) return response.data.data.documents[0];

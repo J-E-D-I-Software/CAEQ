@@ -88,7 +88,7 @@ async function importArchitectData(
     const currentUsers = await query.exec();
     const uniqueFieldsMap = {};
     uniqueFields.forEach((key) => {
-        uniqueFieldsMap[key] = currentUsers.map((x) => x[key]);
+        uniqueFieldsMap[key] = currentUsers.map((x) => x[key].toUpperCase());
     });
 
     // Parse CSV file
@@ -104,6 +104,7 @@ async function importArchitectData(
 
             if (rowNumber === 1) return; // Skip the first row
             if (row[1] === '') return; // Skip empty rows
+            // if (rowNumber !== 470 && rowNumber !== 471) return;
 
             // Check if architect already exists
             const collegiateNumber = parseInt(row[mappingScheme.collegiateNumber]);
@@ -142,10 +143,12 @@ async function importArchitectData(
                     error += `${fieldName} es un campo requerido.\n`;
                 else mappedData[fieldName] = value;
             });
+
             // Check for unique fields
             uniqueFields.forEach((fieldName) => {
-                if (uniqueFieldsMap[fieldName].includes(mappedData[fieldName])) {
-                    error += `El campo ${fieldName} con valor ${mappedData[fieldName]} ya existe en la base de datos.\n`;
+                const value = mappedData[fieldName].toUpperCase();
+                if (uniqueFieldsMap[fieldName].includes(value)) {
+                    error += `El campo ${fieldName} con valor ${value} ya existe en la base de datos.\n`;
                 }
             });
 
@@ -178,22 +181,23 @@ async function importArchitectData(
         })
         .on('end', () => {
             // Save the mapped data to the MongoDB collection
-            ArchitectUser.insertMany(results).then((res) => {
-                console.log(
-                    `${res.length} architect entries added successfully, ${errors.length} rows errored.`
-                );
+            console.log(results.filter(x => x.email === 'arquicamposv@gmail.com'));
+            // ArchitectUser.insertMany(results).then((res) => {
+            //     console.log(
+            //         `${res.length} architect entries added successfully, ${errors.length} rows errored.`
+            //     );
 
-                if (saveErrors) {
-                    const errorCsv = errors.join('\n');
-                    fs.writeFile('./models/data/importErrors.csv', errorCsv, (err) => {
-                        if (err) throw err;
-                        console.log('Errors saved to ./models/data/importErrors.csv');
-                    });
-                }
+            //     if (saveErrors) {
+            //         const errorCsv = errors.join('\n');
+            //         fs.writeFile('./models/data/importErrors.csv', errorCsv, (err) => {
+            //             if (err) throw err;
+            //             console.log('Errors saved to ./models/data/importErrors.csv');
+            //         });
+            //     }
 
-                if (importGatherings) importArchitectGatheringsData(csvFilePath);
-                if (importArchitectCapacitationHours) importArchitectCapacitationHours();
-            });
+            //     if (importGatherings) importArchitectGatheringsData(csvFilePath);
+            //     if (importArchitectCapacitationHours) importArchitectCapacitationHours();
+            // });
         });
 }
 

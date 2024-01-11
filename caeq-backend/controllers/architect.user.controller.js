@@ -116,7 +116,11 @@ exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
     'overwrites',
 ]);
-exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties');
+
+// No se necesitan las horas y asistencias
+//exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties'); 
+
+// Se necesitan las horas y asistencias
 exports.getArchitectUser = catchAsync(async (req, res, next) => {
     let query = ArchitectUser.findOne({ _id: req.params.id });
 
@@ -128,6 +132,7 @@ exports.getArchitectUser = catchAsync(async (req, res, next) => {
         return next(error);
     }
 
+    console.log("Document antes", document);
     const hasRights = await document.currentRights;
     const totalHours = await document.totalHours;
     const { totalGatheringAttendeesPresential, totalGatheringAttendees } =
@@ -136,6 +141,7 @@ exports.getArchitectUser = catchAsync(async (req, res, next) => {
     document.rights = hasRights;
     const latestAssemblies = await getUserLatestAssemblies(document._id);
     const latestHours = await getUserLatestHours(document._id);
+    console.log("Document despues", document)
 
     res.status(200).json({
         status: 'success',

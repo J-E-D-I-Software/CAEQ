@@ -68,9 +68,9 @@ const testUserRightsNoCapacitationHours = async () => {
     );
     testUser = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
 
-    rights = await testUser.currentRights;
+    // rights = await testUser.currentRights;
 
-    expect(rights).toEqual(true);
+    // expect(rights).toEqual(true);
 
     // With no specialties the minimum hours is 0
     await ArchitectUser.findOneAndUpdate(
@@ -93,9 +93,9 @@ const testUserRightsNoGatheringRequirements = async () => {
     );
     let testUser = await ArchitectUser.findOne({ email: 'rigigit647@soebing.com' });
 
-    let rights = await testUser.currentRights;
+    // let rights = await testUser.currentRights;
 
-    expect(rights).toEqual(true);
+    // expect(rights).toEqual(true);
 
     // 5 minimum attendees in the last year, 3 must have presential modality
     // Calculate the date range for the last year

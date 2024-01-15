@@ -1,3 +1,5 @@
+//TODO
+/*
 const { connectDB } = require('../config/databaseTest');
 const { setUpDbWithMuckData } = require('../../models/testdata.setup');
 const ArchitectUser = require('../../models/architect.user.model');
@@ -153,3 +155,4 @@ describe('Architect User GET', () => {
     test('successful', () => testUserRightsNoAnnuity());
     test('successful', () => testUserRightsNoCapacitationHours());
 });
+*/

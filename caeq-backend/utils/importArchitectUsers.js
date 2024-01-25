@@ -15,7 +15,7 @@ const importArchitectGatheringsData = require('./importArchitectGatherings');
 async function importArchitectData(
     csvFilePath,
     importGatherings = true,
-    saveErrors = false,
+    saveErrors = true,
     importArchitectCapacitationHours = () => {}
 ) {
     console.log('Loading new users');

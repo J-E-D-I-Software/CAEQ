@@ -272,14 +272,15 @@ ArchitectUserSchema.methods.createPasswordResetToken = function () {
 
 /** This method checks if the password has been changed after the token was issued. */
 ArchitectUserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-    if (this.passwordChangedAt) {
-        const changedTimestamp = parseInt(this.changedPassword.getTime() / 1000, 10);
+    if (this.changedPasswordAt) {
+        const changedTimestamp = parseInt(this.changedPasswordAt.getTime() / 1000, 10);
         return JWTTimestamp < changedTimestamp;
     }
 
     // false means the password did not change
     return false;
 };
+
 
 /**
  * Retrieves the accredited hours of a user based on their inscriptions and capacitation hours.
@@ -373,12 +374,17 @@ ArchitectUserSchema.virtual('currentRights').get(async function () {
 ArchitectUserSchema.virtual('totalHours').get(async function () {
     const capacitationHours = await this.getUserAccreditedHours(this._id);
 
-    const thisYearTotalCapacitationHours = capacitationHours.filter(
+    const thisYearTotalCapacitationHoursArray = capacitationHours.filter(
         (capacitationHour) => capacitationHour.startYear == new Date().getFullYear()
-    )[0].value;
+    );
+
+    const thisYearTotalCapacitationHours = thisYearTotalCapacitationHoursArray.length > 0
+        ? thisYearTotalCapacitationHoursArray[0].value
+        : 0;
 
     return thisYearTotalCapacitationHours;
 });
+
 
 /** This method defines a virtual property "totalHours" for the architects user model*/
 ArchitectUserSchema.virtual('lastYearAttendees').get(async function () {

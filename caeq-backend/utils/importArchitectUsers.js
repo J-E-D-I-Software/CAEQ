@@ -15,7 +15,7 @@ const importArchitectGatheringsData = require('./importArchitectGatherings');
 async function importArchitectData(
     csvFilePath,
     importGatherings = true,
-    saveErrors = false,
+    saveErrors = true,
     importArchitectCapacitationHours = () => {}
 ) {
     console.log('Loading new users');
@@ -88,7 +88,7 @@ async function importArchitectData(
     const currentUsers = await query.exec();
     const uniqueFieldsMap = {};
     uniqueFields.forEach((key) => {
-        uniqueFieldsMap[key] = currentUsers.map((x) => x[key]);
+        uniqueFieldsMap[key] = currentUsers.map((x) => x[key].toUpperCase());
     });
 
     // Parse CSV file
@@ -104,6 +104,7 @@ async function importArchitectData(
 
             if (rowNumber === 1) return; // Skip the first row
             if (row[1] === '') return; // Skip empty rows
+            //if (rowNumber !== 485 && rowNumber !== 486) return;
 
             // Check if architect already exists
             const collegiateNumber = parseInt(row[mappingScheme.collegiateNumber]);
@@ -142,11 +143,17 @@ async function importArchitectData(
                     error += `${fieldName} es un campo requerido.\n`;
                 else mappedData[fieldName] = value;
             });
+
             // Check for unique fields
             uniqueFields.forEach((fieldName) => {
-                if (uniqueFieldsMap[fieldName].includes(mappedData[fieldName])) {
-                    error += `El campo ${fieldName} con valor ${mappedData[fieldName]} ya existe en la base de datos.\n`;
+                const value = mappedData[fieldName].toUpperCase();
+
+                //console.log(fieldName, uniqueFieldsMap[fieldName], value)
+
+                if (uniqueFieldsMap[fieldName].includes(value)) {
+                    error += `El campo ${fieldName} con valor ${value} ya existe en la base de datos.\n`;
                 }
+                
             });
 
             // Check if there are errors, if so, push to errors array and continue to nex row
@@ -157,7 +164,8 @@ async function importArchitectData(
 
             // Update the unique fields map
             Object.keys(uniqueFieldsMap).forEach((key) => {
-                uniqueFieldsMap[key].push(mappedData[key]);
+                uniqueFieldsMap[key].push(mappedData[key].toUpperCase());
+                console.log(key, mappedData[key].toUpperCase());
             });
 
             // Generate a random password
@@ -178,6 +186,7 @@ async function importArchitectData(
         })
         .on('end', () => {
             // Save the mapped data to the MongoDB collection
+            
             ArchitectUser.insertMany(results).then((res) => {
                 console.log(
                     `${res.length} architect entries added successfully, ${errors.length} rows errored.`

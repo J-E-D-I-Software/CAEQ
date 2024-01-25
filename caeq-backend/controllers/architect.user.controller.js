@@ -116,7 +116,11 @@ exports.getAllRegistrationRequests = factory.getAll(RegisterRequest, [
     'newInfo',
     'overwrites',
 ]);
-exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties');
+
+// No se necesitan las horas y asistencias
+//exports.getArchitectUser = factory.getOne(ArchitectUser, 'specialties'); 
+
+// Se necesitan las horas y asistencias
 exports.getArchitectUser = catchAsync(async (req, res, next) => {
     let query = ArchitectUser.findOne({ _id: req.params.id });
 

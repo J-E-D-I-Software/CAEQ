@@ -59,13 +59,13 @@ if (process.env.NODE_ENV === 'development') {
         .then(async (con) => {
             console.log(`Connection to ${process.env.NODE_ENV} DB successful`);
 
-            if (process.env.NODE_ENV === 'testing') {
-                try {
-                    await setUpDbWithMuckData();
-                } catch (error) {
-                    console.log(error);
-                }
-            }
+            // if (process.env.NODE_ENV === 'testing') {
+            //     try {
+            //         await setUpDbWithMuckData();
+            //     } catch (error) {
+            //         console.log(error);
+            //     }
+            // }
         })
         .catch((err) => console.log('Connection to DB rejected', err));
 }
